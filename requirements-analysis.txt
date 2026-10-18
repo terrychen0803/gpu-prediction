@@ -1,0 +1,3 @@
+# GPU execution additionally requires a CUDA-compatible torch + torchvision pair.
+# Install that pair with the official selector / GB10-supported distribution first.
+matplotlib>=3.9,<4

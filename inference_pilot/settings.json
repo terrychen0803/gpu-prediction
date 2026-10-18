@@ -1,0 +1,14 @@
+{
+  "seed": 42,
+  "cpu_threads": 1,
+  "warmup_min": 50,
+  "warmup_window": 20,
+  "warmup_max": 500,
+  "stability_threshold": 0.05,
+  "min_iterations": 100,
+  "min_seconds": 1.0,
+  "max_seconds": 30.0,
+  "transition_iterations": 5,
+  "rtol": 0.01,
+  "atol": 0.001
+}
