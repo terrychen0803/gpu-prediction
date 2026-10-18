@@ -179,7 +179,9 @@ trace.nsys-rep       原始 trace，只有 P0／P1 有
 trace.sqlite         匯出的活動資料，只有 P0／P1 有
 features.csv         每次推論的 trace 特徵
 phase_mapping.csv    P1 的 NVTX／API／kernel 關聯與 unassigned 原因
-quality.json         正確性、穩定性、完整性及事件遺失檢查
+quality.json         Worker 正確性、warm-up 與量測完成狀態
+trace_quality.json   Parser 邊界／對應檢查與人工審查需求
+trace_diagnostics.json 事件遺失／警告診斷線索，需配合原始 report 審查
 ```
 
 另外產生一份跨設備 `summary.csv`，每列為 device × config × mode × run。先對每個 run 求中位數，再彙整 run 間分布。

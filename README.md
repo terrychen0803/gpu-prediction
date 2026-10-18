@@ -1,6 +1,10 @@
 # ResNet50 第一步實驗程式
 
-這套程式實作四種量測模式、六個 forward 階段標記、穩態檢查、Nsight SQLite 解析、跨設備統計與診斷圖。所有真正的時間標籤都來自 CUDA 裝置；缺少 GPU 或必要工具時會停止，不使用 CPU 或模擬數字代替實測。
+文件入口：[第一步實驗計畫](第一步實驗_ResNet50量測與Trace對應驗證.md) · [後續實驗與建模計畫](docs/NEXT_EXPERIMENTS.md) · [分析節點 Codex 交接報告](docs/CODEX_HANDOFF.md) · [分析報告範本](docs/ANALYSIS_REPORT_TEMPLATE.md)。
+
+另一台電腦接手時，先讀交接報告並使用其中的啟動任務。現在可執行的是 ResNet50 資料流程；其他任務、硬體 microbenchmark、校正與跨設備學習模型為後續計畫。
+
+這套程式實作四種量測模式、六個 forward 階段標記、穩態檢查、Nsight SQLite 解析、跨設備統計與診斷圖。研究用時間標籤需來自真實 CUDA 推論；主指標以 host timer 量測 forward 到 GPU 完成的服務時間，GPU trace 統計另外保存。缺少 GPU 或必要工具時會停止，不使用 CPU 推論或模擬數字代替實測。
 
 目前已用合成 SQLite 資料驗證解析與統計邏輯。此開發環境沒有可用的 PyTorch／Nsight Systems，因此還沒有在 GB10、4090 或 5090 完成硬體驗證；第一次執行應先使用 batch 1。
 

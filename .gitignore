@@ -4,3 +4,4 @@ __pycache__/
 assets/
 results/
 pilot_validation/
+analysis_runs/
