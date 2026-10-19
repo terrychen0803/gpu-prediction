@@ -2,7 +2,7 @@
 
 接手先讀 README.md、docs/CODEX_HANDOFF.md、docs/NEXT_EXPERIMENTS.md 與 inference_pilot/VALIDATION.md。使用繁體中文報告結果。使用者最新指示優先於舊方案。
 
-- 研究設備為 GB10、RTX 4090、RTX 5090；四任務均為 inference，LLM 為 Qwen3-0.6B。現有程式僅支援 ResNet50 第一階段；不要把計畫中的功能描述成已實作。
+- 研究設備為 GB10、RTX 3090、RTX 4090、RTX 5090；四任務均為 inference，LLM 為 Qwen3-0.6B。現有程式僅支援 ResNet50 第一階段；不要把計畫中的功能描述成已實作。
 - GPU 實測、合成 fixture、CLI planned_only 必須區分。缺資料時列出缺項，不產生假 latency、counter 或成功結果。
 - 保存原始 session 與失敗資料。重新 parse 會寫入衍生檔，應使用副本；分析輸出用新的 analysis_runs/ 子目錄，保留來源 checksum 與分析 commit。
 - Nsight parser 通過不代表無事件遺失。保留 manual review 狀態並核對 log／report；未知 schema 先調查，不以猜測 join 或補零繞過檢查。

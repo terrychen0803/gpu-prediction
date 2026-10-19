@@ -1,6 +1,6 @@
 # 後續實驗計畫：從可信量測到跨設備推論時間預測
 
-更新：2026-10-18。狀態：待執行計畫。研究設備為 GB10、RTX 4090、RTX 5090；場景為 AI RAN 平台的 Near-RT RIC／edge 應用。本文提出的數字是事前起始設定，不是實測結果或精度保證。
+更新：2026-10-20。狀態：後續計畫，GB10 的 E1 首輪量測已有資料。正式研究設備為 GB10、RTX 3090、RTX 4090、RTX 5090；場景為 AI RAN 平台的 Near-RT RIC／edge 應用。本文提出的候選設定不是實測結果或精度保證。
 
 目前可執行的功能請以 [README](../README.md)、[第一步實驗](../第一步實驗_ResNet50量測與Trace對應驗證.md) 與程式為準。本文的 microbenchmark、其他模型、校正器、學習模型與排程器均尚未實作。不要把本文件中的候選網格當成目前 CLI 已支援的參數。
 
@@ -18,7 +18,7 @@
 
 | 設定 | 預測時可讀 | 不可讀 | 能支持的主張 |
 |---|---|---|---|
-| 主實驗：已校正設備、新工作配置 | 測試工作的來源 P0 trace、來源／目標設備描述、訓練資料學到的參數 | 該測試工作的目標 G 時間與目標 trace | 三台已知設備間的新配置預測 |
+| 主實驗：已校正設備、新工作配置 | 測試工作的來源 P0 trace、來源／目標設備描述、訓練資料學到的參數 | 該測試工作的目標 G 時間與目標 trace | 四台已知設備間的新配置預測 |
 | 進階：留一目標設備 | 已見來源設備的測試 trace、留出設備的一次性 microbenchmark 與規格 | 留出設備全部 AI trace／時間，包括把它當訓練 source | 硬體已表徵、AI 工作未量測的設備轉移 |
 | 延伸：只有目標公開規格 | 來源 trace、目標公開規格 | 目標 microbenchmark 與 AI 時間／trace | 更嚴格的硬體外推；先不承諾效果 |
 
@@ -30,18 +30,18 @@
 
 | 階段 | 工作 | 產物與通過條件 | 程式狀態 |
 |---|---|---|---|
-| E1 | ResNet50 量測與標記稽核 | 正確性、穩定性、trace 對應與四模式成本報告 | 已有 harness，待 GPU 實測 |
-| E2 | Compute／Memory／Launch／Host 校正 | 三設備有效效能曲線、重複量測與版本紀錄 | 待實作 |
+| E1 | ResNet50 量測與標記稽核 | 正確性、穩定性、trace 對應與四模式成本報告 | GB10 已完成 36 run 自動檢查；trace 警告待審，3090／4090／5090 待量測 |
+| E2 | Compute／Memory／Launch／Host 校正 | 四設備有效效能曲線、重複量測與版本紀錄 | 待實作 |
 | E3 | 單設備來源時間校正 | 用 P0 trace 預測同設備 G，保留配置測試 | 待實作 |
 | E4 | 第一個跨設備模型 | 固定倍率、硬體倍率、trace 模型的公平比較 | 待實作 |
 | E5 | 四任務、序列與短 dry run | 未見配置／任務／設備結果、error–coverage 與總成本 | 待實作 |
 | E6 | 排程效用 | 相同到達序列下的 deadline miss、goodput 與 oracle 差距 | 待實作 |
 
-先完成 E1 的一台 batch 1，再展開三台。E2 可以在 E1 流程穩定後進行。E3 與 E4 先使用 ResNet50 批次／解析度網格；資料量不足時以小型正則化模型為主。E5 才檢查對更多任務的泛化；E6 使用已凍結的預測器。
+先完成 E1 的一台 batch 1，再展開四台。E2 可以在 E1 流程穩定後進行。E3 與 E4 先使用 ResNet50 批次／解析度網格；資料量不足時以小型正則化模型為主。E5 才檢查對更多任務的泛化；E6 使用已凍結的預測器。
 
 ## 4. E1：確認現有資料能用
 
-依 README 先執行 G、P1 的 batch 1 試跑，再執行四模式 G／A／P0／P1 各三個獨立程序。確認後擴為 batch={1,8,32}，三設備合計 108 runs／session。已有相同協定且品質合格的 runs 可以納入，但須保存是否重用，不把同一資料複製成新樣本。
+依 README 先執行 G、P1 的 batch 1 試跑，再執行四模式 G／A／P0／P1 各三個獨立程序。確認後擴為 batch={1,8,32}，四設備合計 144 runs／session。已有相同協定且品質合格的 runs 可以納入，但須保存是否重用，不把同一資料複製成新樣本。
 
 固定驗收：輸出正確；每組三個 G run 中位數的 `(max-min)/median <= 5%`；P1 kernel 數與 duration 的 phase 覆蓋率皆至少 99%；同步／iteration 計數一致；人工確認沒有未處理的事件遺失警告。未通過先排查或重收，不能調寬門檻後沿用同一批結果宣稱通過。
 
@@ -94,7 +94,7 @@ ResNet50 先擴成 B={1,4,8,32} × resolution={160,224,320} 共 12 配置。此�
 
 ## 7. E4：跨設備數學模型
 
-先使用相同 workload configuration 的來源、目標 G 標籤建立 supervision；來源 P0 建特徵。測試時只能取得來源 trace 與硬體描述。對三設備的六個有向方向各自報告結果。
+先使用相同 workload configuration 的來源、目標 G 標籤建立 supervision；來源 P0 建特徵。測試時只能取得來源 trace 與硬體描述。對四設備的十二個有向方向各自報告結果。
 
 | 模型 | 定義 | 想確認的問題 |
 |---|---|---|
@@ -125,7 +125,7 @@ g_theta = a + beta(z_source)^T [uC, uB, uL, uH]
 beta(z_source) = b + W * z_small
 ```
 
-C、B 是有效吞吐，越大越快；L、H 是固定政策下的成本，越大越慢，因此比值方向不同。z_small 先取 3～5 個事前決定的 trace 特徵，與普通 ridge 模型比較；三設備不足以穩定辨識大型 W。係數是經驗縮放敏感度，不能稱為真實 compute／memory 時間比例。不要把 Compute、Memory、Launch 三個估計直接相加，因為提交、運算與記憶體存取可能重疊。
+C、B 是有效吞吐，越大越快；L、H 是固定政策下的成本，越大越慢，因此比值方向不同。z_small 先取 3～5 個事前決定的 trace 特徵，與普通 ridge 模型比較；四設備不足以穩定辨識大型 W。係數是經驗縮放敏感度，不能稱為真實 compute／memory 時間比例。不要把 Compute、Memory、Launch 三個估計直接相加，因為提交、運算與記憶體存取可能重疊。
 
 為保持校正與跨設備訓練的輸入品質一致：在外層訓練資料內，以配置群組做內層 cross-fitting，得到來源時間的 out-of-fold 預測 `T_source_OOF`。跨設備訓練標籤使用 `log(T_target_G / T_source_OOF)`；外層測試再使用只在外層訓練資料擬合的校正器。M1 保留 G/G 訓練倍率作直觀基線，也可另列以 OOF 來源錨點擬合的固定倍率版本，名稱分開。不能訓練時用完美來源 G、部署時才換成帶誤差的來源估計，卻忽略此差異。
 
@@ -146,9 +146,9 @@ Receiver 候選設計為 2 Rx 的實／虛訊號加噪聲特徵共 5 通道、12
 
 Qwen 每請求重置 KV cache、關閉 prefix cache，tokenization 在範圍外，固定 decoding/sampling 規則與輸出長度；不讓 EOS 改變工作量。模型載入不計入，cache 初始化／重置是否在 S0 內要明確紀錄並保持一致。先預測完整固定長度請求，再做 prefill 與逐 token decode。首 token 通常由 prefill 產生，N 個輸出 token 的後續 decode 次數需按實作核對。未知的未來輸出長度不能只靠一次短 trace 保證推知。
 
-正式候選網格：ResNet50 12 配置；YOLO26n B={1,2,4}×resolution={320,480,640} 共 9；Receiver B={1,8,32}×FFT={128,256,512} 共 9；Qwen B={1,2,4}×prompt={128,1024,2048}×output={32,128} 共 18。總共 48 種工作配置、144 個配置—設備單元。
+正式候選網格：ResNet50 12 配置；YOLO26n B={1,2,4}×resolution={320,480,640} 共 9；Receiver B={1,8,32}×FFT={128,256,512} 共 9；Qwen B={1,2,4}×prompt={128,1024,2048}×output={32,128} 共 18。總共 48 種工作配置、192 個配置—設備單元。
 
-主資料每單元 G×3 + P0×3，共 864 runs／session；若做三個時段／日期共 2592 runs。四任務三錨點的完整四模式稽核是 12×3×4×3=432 runs／session。兩種設計有交集，可以重用同協定且合格的 runs，實際去重後另報總量。不要把這些數字直接相加當最低必要量。48 配置仍是小型資料集；六方向產生的 288 個配置配對並不等於 288 個獨立 workload。
+主資料每單元 G×3 + P0×3，共 1152 runs／session；若做三個時段／日期共 3456 runs。四任務三錨點的完整四模式稽核是 12×4×4×3=576 runs／session。兩種設計有交集，可以重用同協定且合格的 runs，實際去重後另報總量。不要把這些數字直接相加當最低必要量。48 配置仍是小型資料集；十二方向產生的 576 個配置配對並不等於 576 個獨立 workload。
 
 OOM 或不支援的 cell 保存為 infeasible，不在個別設備默默改 batch／精度。主精度分析使用共同可行子集，另報不可行率。正式測試配置應在調參前保留；若 48 配置全用於探索，再宣稱確認性成果前需另收未看過的配置。
 
@@ -163,12 +163,12 @@ OOM 或不支援的 cell 保存為 infeasible，不在個別設備默默改 batc
 1. 主切分以 workload configuration 分組；同配置所有設備、日期、run、方向與裁切一起進同一外層 fold。來源測試 trace 是合法測試輸入；目標標籤只能在輸出預測後交給 evaluator。
 2. 另做整個最大 batch／解析度／context 留出；內插與外插分開報。
 3. 四任務 leave-one-task-out：整個任務的資料不參與校正、字典建立或調參。
-4. 三設備 leave-one-device-out：留出設備不能當訓練 target 或 source；硬體校正資料是否允許，在設定名稱標清楚。
+4. 四設備 leave-one-device-out：留出設備不能當訓練 target 或 source；硬體校正資料是否允許，在設定名稱標清楚。
 5. 跨 session 穩健性另列；同配置跨日期留出代表時間漂移測試，不冒充未見配置泛化。
 
 在每個外層 fold 內完成校正、特徵處理、模型選擇與不確定度門檻。保存 split manifest、訓練配置 ID、原始資料 checksum、程式 commit、seed、特徵清單與預測檔。不要將 target 路徑或可推回 target 時間的欄位交給 predictor。
 
-報 MdAPE、MAPE、P90 APE、MAE(ms)、coverage 與失敗數；P90 APE 不是服務延遲 p90。先對配置／方向彙整再 macro-average，並列六方向、四任務及最差配置。bootstrap 以配置為抽樣群組；只有少數群組時直接承認估計不穩定，不用 iteration 數量製造狹窄信賴區間。
+報 MdAPE、MAPE、P90 APE、MAE(ms)、coverage 與失敗數；P90 APE 不是服務延遲 p90。先對配置／方向彙整再 macro-average，並列十二方向、四任務及最差配置。bootstrap 以配置為抽樣群組；只有少數群組時直接承認估計不穩定，不用 iteration 數量製造狹窄信賴區間。
 
 探索目標可先用 MdAPE≤10%、P90 APE≤25%，但是否足夠需由排程 deadline slack 決定；不能達標就自動宣稱可部署。序列與硬體曲線需在相同切分、模型容量／調參預算下持續改善，才支持增加複雜度。所有失敗與 abstention 都要計入覆蓋率分母。
 
@@ -188,7 +188,7 @@ S0 不含傳輸、模型載入或排隊。若擴到端到端回應時間，使�
 
 - [Habitat，USENIX ATC 2021](https://www.usenix.org/conference/atc21/presentation/yu)：按 operation 使用 wave scaling 或 MLP 預測跨 GPU 訓練時間。借鏡來源執行錨點與分解預測；本研究改問缺少 operator semantics 時，trace 與硬體校正能保留多少預測能力。上述 C/M 模型是本研究提案，並非 Habitat 原式或其完整重現。
 - [NeuSight，Forecasting GPU Performance for Deep Learning Training and Inference](https://arxiv.org/abs/2407.13853)：參考 tile 層級與效能約束的建模觀點。只拿到 Nsys 軌跡時，不能假定已知道其所需的工作量與硬體利用資訊。
-- [Nsight Systems User Guide](https://docs.nvidia.com/nsight-systems/UserGuide/index.html)：CUDA trace、NVTX 與 GPU Metrics 的工具依據。Metrics 是取樣資訊；本計畫沒有宣稱三設備已有共同 per-kernel counter 表，實際支援需在節點盤點。
+- [Nsight Systems User Guide](https://docs.nvidia.com/nsight-systems/UserGuide/index.html)：CUDA trace、NVTX 與 GPU Metrics 的工具依據。Metrics 是取樣資訊；本計畫沒有宣稱四設備已有共同 per-kernel counter 表，實際支援需在節點盤點。
 - [Clockwork，OSDI 2020](https://www.usenix.org/conference/osdi20/presentation/gujarati)：參考受控執行條件下，以時間可預測性支援 serving 的系統設計。
 - [Vidur，MLSys 2024](https://proceedings.mlsys.org/paper_files/paper/2024/hash/b74a8de47d2b3c928360e0a011f48351-Abstract-Conference.html)：作為後續 LLM 請求、prefill/decode 與模擬的參考。
 

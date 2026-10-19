@@ -1,18 +1,18 @@
 # ResNet50 第一步實驗程式
 
-文件入口：[第一步實驗計畫](第一步實驗_ResNet50量測與Trace對應驗證.md) · [後續實驗與建模計畫](docs/NEXT_EXPERIMENTS.md) · [分析節點 Codex 交接報告](docs/CODEX_HANDOFF.md) · [分析報告範本](docs/ANALYSIS_REPORT_TEMPLATE.md)。
+文件入口：[第一步實驗計畫](第一步實驗_ResNet50量測與Trace對應驗證.md) · [後續實驗與建模計畫](docs/NEXT_EXPERIMENTS.md) · [3090 節點操作](docs/RTX3090_NODE.md) · [GB10 現況摘要](docs/GB10_E1_STATUS_20261020.md) · [分析節點 Codex 交接報告](docs/CODEX_HANDOFF.md) · [分析報告範本](docs/ANALYSIS_REPORT_TEMPLATE.md)。
 
 另一台電腦接手時，先讀交接報告並使用其中的啟動任務。現在可執行的是 ResNet50 資料流程；其他任務、硬體 microbenchmark、校正與跨設備學習模型為後續計畫。
 
 這套程式實作四種量測模式、六個 forward 階段標記、穩態檢查、Nsight SQLite 解析、跨設備統計與診斷圖。研究用時間標籤需來自真實 CUDA 推論；主指標以 host timer 量測 forward 到 GPU 完成的服務時間，GPU trace 統計另外保存。缺少 GPU 或必要工具時會停止，不使用 CPU 推論或模擬數字代替實測。
 
-目前已用合成 SQLite 資料驗證解析與統計邏輯。此開發環境沒有可用的 PyTorch／Nsight Systems，因此還沒有在 GB10、4090 或 5090 完成硬體驗證；第一次執行應先使用 batch 1。
+合成 SQLite 資料已驗證解析與統計邏輯。另於 2026-10-18 在 GB10 完成 B1/8/32、四模式各三次，共 36 個實測 run；自動品質檢查全數通過，但 Nsight 的事件完整性警告仍標記待審。該次量測使用本版已納入的 GB10 修正與 `cuda-sw` trace 後端；原始資料保留在量測節點，詳見 [現況摘要](docs/GB10_E1_STATUS_20261020.md)。3090、4090、5090 尚未實測。新設備第一次執行仍應先使用 batch 1。
 
 ## 1　安裝環境
 
 需要 Python 3.10 以上，以及支援該設備的 CUDA 版 PyTorch、對應版本的 TorchVision、Nsight Systems CLI。
 
-先依 [PyTorch 官方安裝頁](https://pytorch.org/get-started/locally/) 或 GB10 平台支援的發行方式安裝框架。RTX 5090／GB10 的架構支援需要合適的 CUDA 與框架 build，不能只依賴 `pip install torch` 成功。三台設備盡量使用相同框架與 CUDA／cuDNN 版本，並保留實際版本資訊；本程式會將不同軟體設定分組，避免直接混合比較。
+先依 [PyTorch 官方安裝頁](https://pytorch.org/get-started/locally/) 或 GB10 平台支援的發行方式安裝框架。各設備都需要與驅動、CUDA 架構相容的框架 build，不能只依賴 `pip install torch` 成功。四台設備盡量使用相同框架與 CUDA／cuDNN 版本，並保留實際版本資訊；本程式會將不同軟體設定分組，避免直接混合比較。
 
 以下指令都在包含 `inference_pilot` 資料夾的專案根目錄執行。在 Linux 使用你的環境中的 `python` 或 `python3`；Windows 使用已安裝 CUDA 版 PyTorch 的 Python。
 
@@ -83,7 +83,15 @@ python -m inference_pilot suite --label rtx4090 --expect-gpu 4090 --batches 1 --
 
 所有模式使用同一段 six-phase forward 程式；與 TorchVision 原始 forward 的輸出對照在計時外完成。G 的時間因此是這個研究 harness 下的服務時間，包含該 forward 分組程式的小量 Python 成本。
 
-## 5　擴到兩台與三台設備
+## 5　擴到四台設備
+
+3090 的安裝、權重校驗及 batch 1 試跑順序請先看 [3090 節點操作](docs/RTX3090_NODE.md)。
+
+3090：
+
+```sh
+python -m inference_pilot suite --label rtx3090 --expect-gpu 3090 --out results/3090_session02
+```
 
 4090：
 
@@ -103,7 +111,7 @@ GB10：
 python -m inference_pilot suite --label gb10 --out results/gb10_session02
 ```
 
-預設 batches 為 1、8、32，每台 36 runs。權重檔位置不同時，加 `--weights /absolute/path/to/resnet50_imagenet1k_v2.pth`。工具不在 PATH 時，加 `--nsys /absolute/path/to/nsys`。
+預設 batches 為 1、8、32，每台 36 runs；四設備正式矩陣共 144 runs。權重檔位置不同時，加 `--weights /absolute/path/to/resnet50_imagenet1k_v2.pth`。工具不在 PATH 時，加 `--nsys /absolute/path/to/nsys`。GB10 使用 `--nsys-cuda-trace cuda-sw`；其他節點先依當地 Nsight 支援與 smoke test 決定後端，並在比較 trace 前核對後端差異。
 
 每個 session 使用新目錄。程式拒絕覆寫已有 run；尚未實作自動 resume。某個 run 失敗後可使用 `run` 指令與新目錄重做，並保留原失敗記錄。
 
@@ -187,7 +195,7 @@ python -m inference_pilot plot results/4090_session02 results/5090_session02 --o
 python -m unittest discover -s tests -v
 ```
 
-合成 trace 測試涵蓋非同步 NVTX 對應、跨程序 correlation 衝突、GPU 區間重疊、同步／NVTX 缺失、未知 schema、選填欄位缺少、排程不覆寫，以及保留配置的目標倍率不洩漏到預測輸入。這些測試不代表已在三台 GPU 上量測。
+合成 trace 測試涵蓋非同步 NVTX 對應、跨程序 correlation 衝突、GPU 區間重疊、同步／NVTX 缺失、未知 schema、選填欄位缺少、排程不覆寫，以及保留配置的目標倍率不洩漏到預測輸入。這些測試不代表已在四台 GPU 上量測。
 
 | 模組 | 作用 |
 |---|---|

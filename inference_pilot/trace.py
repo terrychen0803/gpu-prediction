@@ -15,6 +15,10 @@ from .common import PHASES, quantile, read_json, union_length, write_csv, write_
 
 ITERATION = re.compile(r"^pilot\.iter/(transition|measure)/(\d+)$")
 MASK = (1 << 24) - 1
+# Nsight 2026.4.1 on GB10 recorded some GPU kernel starts up to 2.625 us
+# before the correlated CUDA API start. Allow a bounded clock offset while
+# still requiring matching process, correlation ID, context, and iteration.
+API_GPU_CLOCK_SKEW_NS = 5000
 
 
 class TraceError(ValueError):
@@ -64,7 +68,7 @@ def correlate(event, api_index):
     if event.get("correlationId") is None:
         return None, "missing_correlation_id"
     key = (process_id(event["globalPid"]), event["correlationId"])
-    candidates = [a for a in api_index.get(key, []) if a["start"] <= event["start"] and
+    candidates = [a for a in api_index.get(key, []) if a["start"] <= event["start"] + API_GPU_CLOCK_SKEW_NS and
                   (a.get("contextId") is None or event.get("contextId") is None or a["contextId"] == event["contextId"])]
     # Runtime and nested driver records can both exist; prefer the runtime source.
     for kind in ("runtime", "driver"):
@@ -109,6 +113,15 @@ def parse_trace(run_dir, sqlite_path=None):
             raise TraceError("Only P0 and P1 have GPU trace data")
         export = Export(sqlite_path or out / "trace.sqlite")
         write_json(out / "trace_schema.json", export.schema)
+        if "DIAGNOSTIC_EVENT" in export.schema:
+            diagnostics = export.rows("DIAGNOSTIC_EVENT")
+            quality["profiler_diagnostic_warnings"] = [r.get("text", "") for r in diagnostics
+                                                       if r.get("severity", 0) >= 2]
+            for row in diagnostics:
+                message = row.get("text") or ""
+                dropped = re.search(r"Number of incomplete CUPTI events dropped:\s*(\d+)", message)
+                if dropped and int(dropped.group(1)):
+                    raise TraceError(message)
         pid, tid = environment["pid"], environment["native_thread_id"]
         expected = manifest["measurement_count"]
         transition = manifest["transition_count"]

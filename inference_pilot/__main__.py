@@ -30,6 +30,8 @@ def main(argv=None):
         p.add_argument("--label", required=True, help="Platform identifier; stored alongside actual detected hardware")
         p.add_argument("--expect-gpu", help="Require this substring in the detected GPU name, e.g. 4090")
         p.add_argument("--nsys", default="nsys")
+        p.add_argument("--nsys-cuda-trace", choices=("cuda", "cuda-sw"), default="cuda",
+                       help="Nsight CUDA tracing backend; cuda-sw is a fallback for incomplete hardware traces")
         p.add_argument("--dry-run", action="store_true", help="Write commands/schedule only; no model execution or download")
         if command == "run":
             p.add_argument("--mode", choices=MODES, required=True)
@@ -69,7 +71,8 @@ def main(argv=None):
             if args.command == "run":
                 request = {"out": args.out, "weights": args.weights, "settings": load_settings(args.settings),
                            "device": args.device, "label": args.label, "expect_gpu": args.expect_gpu,
-                           "mode": args.mode, "batch": args.batch, "repeat": 1}
+                           "mode": args.mode, "batch": args.batch, "repeat": 1,
+                           "nsys_cuda_trace": args.nsys_cuda_trace}
                 return 0 if run_one(request, args.dry_run, args.nsys) else 1
             requests = make_suite(args)
             failed = 0

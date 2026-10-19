@@ -1,8 +1,8 @@
 # 給分析節點 Codex 的研究交接報告
 
-更新：2026-10-18。倉庫：https://github.com/terrychen0803/gpu-prediction 。既有程式基準提交：`7e2e715238e5595ffe0c68ad94c7db8c4b76a5bd`。後續文件以目前 checkout 的 commit 為準，開始工作時請記錄 `git rev-parse HEAD`。
+更新：2026-10-20。倉庫：https://github.com/terrychen0803/gpu-prediction 。既有程式基準提交：`7e2e715238e5595ffe0c68ad94c7db8c4b76a5bd`。後續文件以目前 checkout 的 commit 為準，開始工作時請記錄 `git rev-parse HEAD`。
 
-這份報告整理使用者已確認的研究方向與目前進度，讓另一台電腦的本地 Codex 可以接手資料檢查、分析與後續實作。它不表示任何 GPU 結果已完成。
+這份報告整理使用者已確認的研究方向與目前進度，讓另一台電腦的本地 Codex 可以接手資料檢查、分析與後續實作。GB10 已有首輪真實量測，但原始資料不在 Git，trace 完整性仍待審；本文件中的後續模型仍是計畫。
 
 ## 1. 可直接貼給另一台 Codex 的任務
 
@@ -11,13 +11,13 @@
 先讀 AGENTS.md、README.md、docs/CODEX_HANDOFF.md、docs/NEXT_EXPERIMENTS.md，
 再核對 inference_pilot/VALIDATION.md 與目前程式。
 
-研究是 GB10／RTX 4090／RTX 5090 的跨設備 inference 服務時間預測。
+研究是 GB10／RTX 3090／RTX 4090／RTX 5090 的跨設備 inference 服務時間預測。
 四類任務為 ResNet50、YOLO26、Neural Receiver CNN、Qwen3-0.6B。
 主方法只在來源設備做短 dry run，使用 Nsys trace 與事前硬體描述預測目標時間。
 目前只實作 ResNet50 第一階段量測／解析／彙整，後續模型是計畫，尚未完成。
 
 請先檢查 checkout 狀態、程式版本、現有 session 資料及環境。
-若 results/ 下已有資料，先盤點與品質審查，再對有效資料執行 summarize／plot；
+若已收到 session（可能放在 results/ 或外部 artifacts/runs/），先盤點與品質審查，再對有效資料執行 summarize／plot；
 將輸出放到新的 analysis_runs/ 子目錄，不覆寫原始量測。
 需要重新 parse 時，在工作副本執行並保留原始檔與 checksum。
 以 docs/ANALYSIS_REPORT_TEMPLATE.md 建立本次分析報告，逐項標記通過、失敗或未測。
@@ -38,7 +38,7 @@
 |---|---|---|
 | 目的 | 預測跨設備推論服務時間，協助 AI RAN edge 任務安排 | 排程效用尚未實測 |
 | 場景 | Near-RT RIC／edge 應用 | 不宣稱已滿足 PHY 硬即時需求 |
-| 設備 | GB10、RTX 4090、RTX 5090 | 舊貼文提到的 3090 不屬目前設備矩陣 |
+| 設備 | GB10、RTX 3090、RTX 4090、RTX 5090 | 2026-10-20 使用者將 3090 納入正式矩陣；3090 尚未實測 |
 | 執行種類 | 四任務全為 inference | 先前 training step、全參數微調的回答已被修正 |
 | LLM | Qwen3-0.6B | 原始「Qwen 3.5 0.6B」已更正 |
 | Receiver | 沒有指定原始論文／模型實作 | 需凍結可重現代理架構，不宣稱通訊效能 |
@@ -52,7 +52,7 @@ YOLO26n、四任務三組配置、Receiver 通道數等是目前研究提案中�
 
 最初希望對三設備建立完整 counters 與 Compute／Memory／Launch 數學模型。參考 Habitat 後，關注它對不同 operation 的跨設備預測。接著把問題收斂為：能否減少對 PyTorch operator 參數的依賴，直接使用 GPU 執行行為表示工作負載。
 
-因此目前主線是 Nsys trace。GPU Metrics 是可選增強資料；Nsight Compute 或其他 per-kernel counters 是另一個資訊條件的比較組。尚未確認三設備共同的 metrics 清單，不能從舊討論抄一張 counter 表就當成實際可取得欄位。
+因此目前主線是 Nsys trace。GPU Metrics 是可選增強資料；Nsight Compute 或其他 per-kernel counters 是另一個資訊條件的比較組。尚未確認四設備共同的 metrics 清單，不能從舊討論抄一張 counter 表就當成實際可取得欄位。
 
 Wrapper 與這條主線相容：它先建立研究用 reference，確認 host phase 提交了哪些 kernel。部署模型的輸入再排除 phase 名稱、operator 類型與 shape，讓實驗回答「移除框架語意後會損失多少精度」。六個 ResNet50 phase 並非六個 operators，也不能從模型名稱推 kernel 數。
 
@@ -62,19 +62,19 @@ Habitat 的 operation 縮放提供方法啟發，但目前沒有重現其完整 
 
 | 功能 | 狀態 | 證據／入口 |
 |---|---|---|
-| ResNet50 FP16 eager，B1/8/32，224² | 已實作；尚未目標 GPU 驗證 | benchmark.py |
+| ResNet50 FP16 eager，B1/8/32，224² | 已實作；GB10 已實測，3090／4090／5090 未測 | benchmark.py；GB10 原始 session 須另交接 |
 | G／A／P0／P1，六 phase，獨立程序、順序隨機化 | 已實作 | runner.py、__main__.py |
 | Warm-up、正確性、checksum、環境與計時保存 | 已實作 | benchmark.py、common.py |
-| Nsight profile／SQLite export／保守解析 | 已實作；未知真實 schema 待驗證 | trace.py |
+| Nsight profile／SQLite export／保守解析 | 已實作；GB10 的 Nsight 2026.4.1 schema 已用本版修正解析，事件完整性待審 | trace.py；本版程式 hash 見 GB10 現況摘要 |
 | CSV 彙整、四模式成本、設備倍率、五類診斷圖 | 已實作 | report.py、plots.py |
-| 合成 SQLite／防洩漏／圖表測試 | 16 項已在本機通過 | tests/、VALIDATION.md |
+| 合成 SQLite／防洩漏／圖表測試 | 原始提交 16 項；GB10 本機修正後 18 項通過 | tests/、VALIDATION.md |
 | CLI 僅列計畫 | 已驗證 12 個唯一 run | suite --dry-run |
-| GB10／4090／5090 實測 | 本次交接未取得結果 | 不可填入推測數字 |
+| GB10／3090／4090／5090 實測 | GB10 有 B1/8/32 共 36 個完成 run；3090／4090／5090 未測 | [GB10 現況摘要](GB10_E1_STATUS_20261020.md)；原始 session 不在 Git |
 | Compute／Memory／Launch microbenchmark | 待實作 | NEXT_EXPERIMENTS.md E2 |
 | 單設備校正、跨設備學習、盲週期切分 | 待實作 | E3～E5 |
 | YOLO、Receiver、Qwen harness／排程器 | 待實作 | E5～E6 |
 
-本地驗證環境是 Windows、Python 3.12；該 Python 缺 PyTorch／Nsight Systems。本機偵測到的 RTX 3060 Laptop 不是研究設備。16 項通過是合成資料與軟體邏輯驗證，不能當成真實 CUDA 或 Linux 相容性證明。
+原始程式的軟體驗證環境是 Windows、Python 3.12；該 Python 缺 PyTorch／Nsight Systems，本機偵測到的 RTX 3060 Laptop 不是研究設備。其 16 項測試只證明合成資料與軟體邏輯。後續 GB10 實測使用 Linux aarch64、PyTorch 2.13.0+cu130、TorchVision 0.28.0+cu130、Nsight 2026.4.1 與本機 GB10 修正。18 個 trace 的 parser 通過，但均有「Not all CUDA events might have been collected」警告；9 個 P1 另有 NVTX 同類警告，故 E1 trace 完整性仍待審。請保留兩種證據的區別。
 
 ## 5. 檔案導覽與文件優先順序
 
@@ -99,11 +99,11 @@ python -m pip install -r requirements-analysis.txt
 python -m unittest discover -s tests -v
 ```
 
-若已有 checkout，先檢查未提交修改再 `git pull --ff-only`；不要用 reset 清掉別人的工作。只做 SQLite 解析／統計／畫圖的電腦不需要 GPU 或 PyTorch；標準函式庫可做解析／統計，Matplotlib 提供圖表。安裝畫圖依賴後，16 項測試應全執行；缺依賴造成 skip 時要如實記錄。
+若已有 checkout，先檢查未提交修改再 `git pull --ff-only`；不要用 reset 清掉別人的工作。只做 SQLite 解析／統計／畫圖的電腦不需要 GPU 或 PyTorch；標準函式庫可做解析／統計，Matplotlib 提供圖表。執行目前 checkout 的全部測試並記錄通過、失敗與 skip 數；原始提交有 16 項，GB10 本機修正後為 18 項。
 
 量測節點才需要 CUDA 相容的 PyTorch／TorchVision 與 Nsight Systems；依 README 先 doctor、prepare，再跑 batch 1 G／P1。doctor 在沒有 Nsight 時可能非零，即使 G/A 可用；純分析機不以 doctor 的 GPU ready 當分析准入條件。
 
-完整 session 建議手動放在 `results/` 下，保持原 device/batch/mode/run 目錄。不要只搬 summary.csv；重新驗證需要 manifest、environment、quality、execution、latency、warmup，profile run 還需要 trace 與 parser 輸出、log。結果與原始 trace 不納入 Git。
+完整 session 建議手動放在 `results/` 下，保持原 device/batch/mode/run 目錄。GB10 首輪資料目前在量測節點的外部 `artifacts/runs/`，不會隨 Git clone 出現；交接者必須另外提供實際 session 根目錄、SHA-256 清單、量測程式 hash／commit 與分析報告。本版已納入 GB10 量測修正，但仍須用原 manifest 的 `code_sha256` 核對。不要只搬 summary.csv；重新驗證需要 manifest、environment、quality、execution、latency、warmup，profile run 還需要 trace 與 parser 輸出、log。結果與原始 trace 不納入 Git。
 
 ```sh
 python -m inference_pilot summarize results/4090_session02 results/5090_session02 --out analysis_runs/session02_review

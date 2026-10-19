@@ -9,7 +9,7 @@ from pathlib import Path
 from inference_pilot.common import DEFAULTS, PHASES, load_settings, read_csv, read_json, union_length, write_csv, write_json
 from inference_pilot.report import summarize
 from inference_pilot.runner import build_command, make_suite, run_one
-from inference_pilot.trace import parse_trace
+from inference_pilot.trace import API_GPU_CLOCK_SKEW_NS, correlate, parse_trace
 
 
 @contextlib.contextmanager
@@ -86,6 +86,24 @@ class TraceTests(unittest.TestCase):
         self.assertNotIn("phase", rows[0])
         self.assertNotIn("batch", rows[0])
 
+    def test_bounded_api_gpu_clock_skew(self):
+        api = {"start": 10000, "source": "runtime", "contextId": 1}
+        index = {(23, 11): [api]}
+        event = {"globalPid": (1 << 56) | (23 << 24), "correlationId": 11,
+                 "contextId": 1, "start": 10000 - API_GPU_CLOCK_SKEW_NS}
+        self.assertEqual(correlate(event, index), (api, "matched"))
+        event["start"] -= 1
+        self.assertEqual(correlate(event, index), (None, "no_correlated_api"))
+
+    def test_explicit_dropped_cupti_events_rejected(self):
+        fixture(self.root / "p1")
+        with edit_db(self.root / "p1" / "trace.sqlite") as db:
+            db.execute("CREATE TABLE DIAGNOSTIC_EVENT(severity INTEGER, text TEXT)")
+            db.execute("INSERT INTO DIAGNOSTIC_EVENT VALUES(2, 'Number of incomplete CUPTI events dropped: 3.')")
+        result = parse_trace(self.root / "p1")
+        self.assertEqual(result["status"], "failed")
+        self.assertIn("dropped: 3", result["errors"][0])
+
     def test_p0_sync_segmentation_excludes_transition(self):
         fixture(self.root / "p0", mode="P0")
         with edit_db(self.root / "p0" / "trace.sqlite") as db:
@@ -158,6 +176,8 @@ class PlanningTests(unittest.TestCase):
         self.assertIn("--capture-range-end=stop", command)
         self.assertIn("/a folder/request.json", command)
         self.assertNotIn("shell=True", command)
+        fallback = build_command({"mode": "P1", "out": "/results", "nsys_cuda_trace": "cuda-sw"}, "/results/request.json")
+        self.assertIn("--trace=cuda-sw,nvtx", fallback)
 
     def test_plan_has_12_unique_runs_and_cannot_overwrite(self):
         with tempfile.TemporaryDirectory() as temp:

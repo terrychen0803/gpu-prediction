@@ -201,6 +201,10 @@ def worker(request_path):
                 elapsed += row["latency_us"] / 1e6
                 count += 1
             if capturing:
+                # On GB10, stopping immediately after the final synchronize can
+                # discard GPU timestamps still being drained by Nsight. This wait
+                # is outside the measured iterations and their latency records.
+                time.sleep(1.0)
                 torch.cuda.profiler.stop()
                 capturing = False
             manifest.update({"measurement_count": count, "transition_count": cfg["transition_iterations"],

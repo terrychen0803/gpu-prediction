@@ -37,7 +37,10 @@ def doctor(out=None):
 def build_command(request, request_path, nsys="nsys"):
     command = [sys.executable, "-m", "inference_pilot", "_worker", "--request", str(request_path)]
     if request["mode"] in ("P0", "P1"):
-        trace = "cuda,nvtx" if request["mode"] == "P1" else "cuda"
+        backend = request.get("nsys_cuda_trace", "cuda")
+        if backend not in ("cuda", "cuda-sw"):
+            raise ValueError(f"Unsupported Nsight CUDA trace backend: {backend}")
+        trace = f"{backend},nvtx" if request["mode"] == "P1" else backend
         command = [nsys, "profile", f"--trace={trace}", "--sample=none", "--cpuctxsw=none",
                    "--capture-range=cudaProfilerApi", "--capture-range-end=stop",
                    "--output=" + str(Path(request["out"]) / "trace"), *command]
@@ -115,6 +118,7 @@ def make_suite(args):
         for batch, mode in jobs:
             requests.append({"mode": mode, "batch": batch, "device": args.device, "label": args.label,
                              "expect_gpu": args.expect_gpu, "weights": str(Path(args.weights).resolve()), "settings": settings,
+                             "nsys_cuda_trace": getattr(args, "nsys_cuda_trace", "cuda"),
                              "repeat": repeat + 1, "order_index": len(requests),
                              "out": str(root / args.label / f"b{batch:02d}" / mode / f"run{repeat + 1:02d}")})
     root.mkdir(parents=True, exist_ok=True)
