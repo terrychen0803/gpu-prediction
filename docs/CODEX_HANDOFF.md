@@ -2,7 +2,7 @@
 
 更新：2026-10-20。倉庫：https://github.com/terrychen0803/gpu-prediction 。既有程式基準提交：`7e2e715238e5595ffe0c68ad94c7db8c4b76a5bd`。後續文件以目前 checkout 的 commit 為準，開始工作時請記錄 `git rev-parse HEAD`。
 
-這份報告整理使用者已確認的研究方向與目前進度，讓另一台電腦的本地 Codex 可以接手資料檢查、分析與後續實作。GB10 已用本倉庫的 [固定輸入](../inputs/README.md)完成 36 個 E1 run；3090／4090 的既有 session 輸入不同，須重測後才能嚴格比較。原始量測不在 Git，GB10 trace 完整性仍待審；本文件中的後續模型仍是計畫。
+這份報告整理使用者已確認的研究方向與目前進度，讓另一台電腦的本地 Codex 可以接手資料檢查、分析與後續實作。GB10／3090／4090 已用本倉庫的 [固定輸入](../inputs/README.md)各完成 36 個 E1 run，本機整合報告位於 `analysis_runs/three_gpu_fixed_input_e1_20261020/REPORT.md`。原始量測不在 Git，54 份 trace 的事件完整性仍待審；E2 工具已新增，後續預測模型仍是計畫。
 
 ## 1. 可直接貼給另一台 Codex 的任務
 
@@ -14,7 +14,7 @@
 研究是 GB10／RTX 3090／RTX 4090／RTX 5090 的跨設備 inference 服務時間預測。
 四類任務為 ResNet50、YOLO26、Neural Receiver CNN、Qwen3-0.6B。
 主方法只在來源設備做短 dry run，使用 Nsys trace 與事前硬體描述預測目標時間。
-目前只實作 ResNet50 第一階段量測／解析／彙整，後續模型是計畫，尚未完成。
+目前已實作 ResNet50 第一階段量測／解析／彙整與 E2 硬體校正工具；後續預測模型尚未完成。
 
 請先檢查 checkout 狀態、程式版本、現有 session 資料及環境。
 若已收到 session（可能放在 results/ 或外部 artifacts/runs/），先盤點與品質審查，再對有效資料執行 summarize／plot；
@@ -38,7 +38,7 @@
 |---|---|---|
 | 目的 | 預測跨設備推論服務時間，協助 AI RAN edge 任務安排 | 排程效用尚未實測 |
 | 場景 | Near-RT RIC／edge 應用 | 不宣稱已滿足 PHY 硬即時需求 |
-| 設備 | GB10、RTX 3090、RTX 4090、RTX 5090 | 3090／4090 已有舊輸入 session，新版固定輸入待重測；5090 暫不可用 |
+| 設備 | GB10、RTX 3090、RTX 4090、RTX 5090 | 前三台已有新版固定輸入 E1；5090 暫不可用 |
 | 執行種類 | 四任務全為 inference | 先前 training step、全參數微調的回答已被修正 |
 | LLM | Qwen3-0.6B | 原始「Qwen 3.5 0.6B」已更正 |
 | Receiver | 沒有指定原始論文／模型實作 | 需凍結可重現代理架構，不宣稱通訊效能 |
@@ -62,15 +62,15 @@ Habitat 的 operation 縮放提供方法啟發，但目前沒有重現其完整 
 
 | 功能 | 狀態 | 證據／入口 |
 |---|---|---|
-| ResNet50 FP16 eager，B1/8/32，224² | 已實作；GB10 固定輸入 36 run，3090／4090 既有輸入不同，5090 未測 | benchmark.py；GB10 原始 session 須另交接 |
+| ResNet50 FP16 eager，B1/8/32，224² | 已實作；前三台固定輸入各 36 run，5090 未測 | benchmark.py；原始 session 須另交接 |
 | G／A／P0／P1，六 phase，獨立程序、順序隨機化 | 已實作 | runner.py、__main__.py |
 | Warm-up、正確性、checksum、環境與計時保存 | 已實作 | benchmark.py、common.py |
 | Nsight profile／SQLite export／保守解析 | 已實作；GB10 的 Nsight 2026.4.1 schema 可解析，事件完整性待審 | trace.py；本版程式 hash 見 GB10 固定輸入摘要 |
 | CSV 彙整、四模式成本、設備倍率、五類診斷圖 | 已實作 | report.py、plots.py |
 | 合成 SQLite／防洩漏／圖表／固定輸入測試 | 目前 20 項通過 | tests/、VALIDATION.md |
 | CLI 僅列計畫 | 已驗證 12 個唯一 run | suite --dry-run |
-| GB10／3090／4090／5090 實測 | GB10 固定輸入 36 run；3090／4090 各 36 個舊輸入 run；5090 未測 | [GB10 固定輸入摘要](GB10_E1_FIXED_INPUT_20261020.md)；原始 session 不在 Git |
-| Compute／Memory／Launch microbenchmark | 待實作 | NEXT_EXPERIMENTS.md E2 |
+| GB10／3090／4090／5090 實測 | 前三台固定輸入各 36 run；5090 未測 | [GB10 固定輸入摘要](GB10_E1_FIXED_INPUT_20261020.md)；三設備整合在本機 analysis_runs；原始 session 不在 Git |
+| Compute／Memory／Launch／Host microbenchmark | [E2 工具](../e2_calibration/README.md)已實作；GB10 100 cell 已收、兩格 memory write 已另做診斷補測；3090／4090／5090 待收 | NEXT_EXPERIMENTS.md E2 |
 | 單設備校正、跨設備學習、盲週期切分 | 待實作 | E3～E5 |
 | YOLO、Receiver、Qwen harness／排程器 | 待實作 | E5～E6 |
 

@@ -1,12 +1,12 @@
 # ResNet50 第一步實驗程式
 
-文件入口：[第一步實驗計畫](第一步實驗_ResNet50量測與Trace對應驗證.md) · [共用輸入與 checksum](inputs/README.md) · [GB10 固定輸入 E1 現況](docs/GB10_E1_FIXED_INPUT_20261020.md) · [後續實驗與建模計畫](docs/NEXT_EXPERIMENTS.md) · [3090 節點操作](docs/RTX3090_NODE.md) · [分析節點 Codex 交接報告](docs/CODEX_HANDOFF.md) · [分析報告範本](docs/ANALYSIS_REPORT_TEMPLATE.md)。
+文件入口：[第一步實驗計畫](第一步實驗_ResNet50量測與Trace對應驗證.md) · [共用輸入與 checksum](inputs/README.md) · [三設備 E1／E2 現況](docs/E1_E2_STATUS_20261020.md) · [GB10 固定輸入 E1](docs/GB10_E1_FIXED_INPUT_20261020.md) · [後續實驗與建模計畫](docs/NEXT_EXPERIMENTS.md) · [3090 節點操作](docs/RTX3090_NODE.md) · [分析節點 Codex 交接報告](docs/CODEX_HANDOFF.md) · [分析報告範本](docs/ANALYSIS_REPORT_TEMPLATE.md)。
 
-另一台電腦接手時，先讀交接報告並使用其中的啟動任務。現在可執行的是 ResNet50 資料流程；其他任務、硬體 microbenchmark、校正與跨設備學習模型為後續計畫。
+另一台電腦接手時，先讀交接報告並使用其中的啟動任務。現在可執行的是 ResNet50 E1 資料流程與 [E2 硬體校正工具](e2_calibration/README.md)；其他任務與跨設備學習模型仍是後續計畫。
 
 這套程式實作四種量測模式、六個 forward 階段標記、穩態檢查、Nsight SQLite 解析、跨設備統計與診斷圖。研究用時間標籤需來自真實 CUDA 推論；主指標以 host timer 量測 forward 到 GPU 完成的服務時間，GPU trace 統計另外保存。缺少 GPU 或必要工具時會停止，不使用 CPU 推論或模擬數字代替實測。
 
-合成 SQLite 資料已驗證解析與統計邏輯。GB10 已用本倉庫的固定 FP16 輸入完成 B1/8/32、四模式各三次，共 36 個正式 run；18 份 trace 的事件完整性警告仍待審。已收到的 3090／4090 舊 session 各 36 run 使用不同輸入 bytes，須用本倉庫的固定輸入重新量測後才能與 GB10 嚴格比較。原始資料與本機分析位於 `/home/good_egg/RTchen/`，不在 Git；5090 暫不可用。新設備第一次執行仍應先使用 batch 1。
+合成 SQLite 資料已驗證解析與統計邏輯。GB10、3090、4090 已各用同一固定 FP16 輸入完成 B1/8/32、四模式各三次，共 108 個正式 run；本機整合見 `/home/good_egg/RTchen/gpu-prediction/analysis_runs/three_gpu_fixed_input_e1_20261020/REPORT.md`。54 份 trace 的事件完整性警告仍待審；5090 暫不可用。原始資料與本機分析位於 `/home/good_egg/RTchen/`，不在 Git。新設備第一次執行仍應先使用 batch 1。
 
 ## 1　安裝環境
 
@@ -216,4 +216,4 @@ python -m unittest discover -s tests -v
 | inference_pilot/plots.py | 診斷圖 |
 | inference_pilot/__main__.py | CLI 入口 |
 
-本版完成第一步資料流程；Compute／Memory／Launch 校正資料集與學習式預測模型是後續工作。
+本版完成第一步資料流程，另有 [E2 Compute／Memory／Launch／Host 校正工具](e2_calibration/README.md)；學習式預測模型仍是後續工作。

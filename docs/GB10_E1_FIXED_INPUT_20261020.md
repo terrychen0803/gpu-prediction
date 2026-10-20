@@ -12,4 +12,4 @@
 
 輸入載入在計時前；每個 iteration 量測 host forward 到 GPU 最後同步，數字是整個 batch，不除以影像數。詳細本機稽核位於 `/home/good_egg/RTchen/gpu-prediction/analysis_runs/gb10_fixed_input_e1_20261020/REPORT.md`，原始 session 位於 `/home/good_egg/RTchen/artifacts/runs/gpu_prediction_gb10_fixed_input_full_20261020/`。
 
-既有 3090／4090 的舊 session 使用不同的輸入 bytes，不能與此 GB10 session 作嚴格同輸入倍率。兩台需要用本倉庫的固定輸入檔和相同 `inference_pilot/*.py` 版本重新量測；先核對 manifest 的 `input_sha256`、`code_sha256`、權重 hash 與框架版本。5090 暫不可用，E1 四設備矩陣尚未完成。
+3090／4090 已重新以本倉庫固定輸入收集各 36 個 run；本機整合結果見 `analysis_runs/three_gpu_fixed_input_e1_20261020/REPORT.md`。舊 session 使用不同輸入，不納入新版倍率。5090 暫不可用，E1 四設備矩陣尚未完成。
