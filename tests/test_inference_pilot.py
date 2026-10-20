@@ -8,7 +8,8 @@ import unittest
 from pathlib import Path
 
 from inference_pilot.common import DEFAULTS, PHASES, load_settings, read_csv, read_json, union_length, write_csv, write_json
-from inference_pilot.input_data import BYTES_PER_IMAGE, FORMAT, read_fixed_input, sidecar_path
+from inference_pilot.input_data import (BYTES_PER_IMAGE, FORMAT, GRID_FORMAT, prepare_grid_input,
+                                        prepare_grid_set, read_fixed_input, sidecar_path)
 from inference_pilot.report import summarize
 from inference_pilot.runner import build_command, make_suite, run_one
 from inference_pilot.trace import API_GPU_CLOCK_SKEW_NS, correlate, parse_trace
@@ -187,6 +188,43 @@ class PlanningTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "SHA-256 mismatch"):
                 read_fixed_input(path, 1)
 
+    def test_e3_grid_input_is_reproducible_and_resolution_bound(self):
+        with tempfile.TemporaryDirectory() as temp:
+            a, b = Path(temp)/"a.bin", Path(temp)/"b.bin"
+            one = prepare_grid_input(a, 32, max_batch=2, seed=42)
+            two = prepare_grid_input(b, 32, max_batch=2, seed=42)
+            self.assertEqual(one["format"], GRID_FORMAT)
+            self.assertEqual(one["file_sha256"], two["file_sha256"])
+            self.assertEqual(a.read_bytes(), b.read_bytes())
+            prefix, provenance = read_fixed_input(a, 1, resolution=32)
+            self.assertEqual(hashlib.sha256(prefix).hexdigest(), provenance["input_prefix_sha256"])
+            self.assertEqual(len(prefix), 3 * 32 * 32 * 2)
+            with self.assertRaisesRegex(ValueError, "metadata or batch"):
+                read_fixed_input(a, 1, resolution=64)
+            with self.assertRaises(FileExistsError):
+                prepare_grid_input(a, 32, max_batch=2, seed=42)
+
+    def test_grid_set_detects_different_bytes_even_with_valid_sidecar(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            first = root / 'first.bin'
+            reference = prepare_grid_input(first, 32, max_batch=2, seed=42)
+            manifest = root / 'manifest.json'
+            write_json(manifest, {'protocol': 'e3_grid_input_v1', 'generator_format': GRID_FORMAT,
+                                  'max_batch': 2, 'seed': 42, 'resolutions': [{
+                                      'resolution': 32, 'file_name': 'grid.bin',
+                                      'file_sha256': reference['file_sha256'],
+                                      'bytes_per_image': reference['bytes_per_image'],
+                                      'prefix_sha256': {'1': reference['prefix_sha256']['1'],
+                                                        '2': reference['prefix_sha256']['2']}}]})
+            generated = prepare_grid_set(root / 'generated', manifest)
+            self.assertEqual(generated[0]['sha256'], reference['file_sha256'])
+            self.assertEqual(prepare_grid_set(root / 'generated', manifest), generated)
+            wrong = root / 'generated' / 'grid.bin'
+            wrong.write_bytes(wrong.read_bytes()[:-1] + b'x')
+            with self.assertRaisesRegex(ValueError, 'hash mismatch'):
+                prepare_grid_set(root / 'generated', manifest)
+
     def test_invalid_warmup_budget(self):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / "settings.json"
@@ -217,6 +255,21 @@ class PlanningTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 make_suite(args)
 
+    def test_resolution_grid_keeps_distinct_runs_and_rejects_one_file_for_two_resolutions(self):
+        with tempfile.TemporaryDirectory() as temp:
+            args = argparse.Namespace(out=str(Path(temp)/"grid"), label="gb10", settings=None,
+                                      order_seed=2026, repeats=3, batches=[1, 4], resolutions=[160, 224],
+                                      modes=["G", "P0"], device="cuda:0", expect_gpu="GB10",
+                                      weights="missing.pth", input_file=None, dry_run=True)
+            plan = make_suite(args)
+            self.assertEqual(len(plan), 24)
+            self.assertEqual(len({r['out'] for r in plan}), 24)
+            self.assertEqual({r['resolution'] for r in plan}, {160, 224})
+            args.out = str(Path(temp)/"bad")
+            args.input_file = "one_resolution.bin"
+            with self.assertRaisesRegex(ValueError, "one resolution"):
+                make_suite(args)
+
 
 def fake_result(path, label, batch, value, repeat, version="test-only"):
     path.mkdir(parents=True, exist_ok=True)
@@ -234,6 +287,23 @@ def fake_result(path, label, batch, value, repeat, version="test-only"):
 
 
 class SummaryTests(unittest.TestCase):
+    def test_summary_does_not_mix_resolutions(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            for label in ('source', 'target'):
+                for resolution in (160, 224):
+                    for repeat in range(3):
+                        p = root/'runs'/f'{label}_{resolution}_{repeat}'
+                        fake_result(p, label, 1, 100 if resolution == 160 else 200, repeat)
+                        manifest = read_json(p/'manifest.json')
+                        manifest['resolution'] = resolution
+                        write_json(p/'manifest.json', manifest)
+            summarize([root/'runs'], root/'report')
+            rows = read_csv(root/'report'/'aggregate.csv')
+            self.assertEqual(len(rows), 4)
+            self.assertEqual({int(r['resolution']) for r in rows}, {160, 224})
+            self.assertEqual(len(read_csv(root/'report'/'device_ratios.csv')), 4)
+
     def test_held_out_target_does_not_enter_multiplier(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

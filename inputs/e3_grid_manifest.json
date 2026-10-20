@@ -1,0 +1,47 @@
+{
+  "protocol": "e3_grid_input_v1",
+  "generator_format": "e3_shake256_lut_fp16_le_nchw_v1",
+  "seed": 42,
+  "max_batch": 32,
+  "dtype": "float16",
+  "layout": "NCHW_contiguous",
+  "resolutions": [
+    {
+      "resolution": 160,
+      "file_name": "resnet50_fp16_b32_r160_seed42.bin",
+      "file_sha256": "5bd2e54bc60cdb718ba82b6fd39acffc2ad6dbef8778047bce2c5e98c2382af1",
+      "prefix_sha256": {
+        "1": "ed82a6d2118c6455514c71940d4ffe93b05c173b797c47f54dd912a84cd2e0d4",
+        "4": "b224bd2aa4f54f6b9930bef3ca01138812326b34db5d3c68365942225453e695",
+        "8": "98ba01c493dcc45c44c7d6ad9f1874d7ea47d06500c31190a93667acdc776071",
+        "32": "5bd2e54bc60cdb718ba82b6fd39acffc2ad6dbef8778047bce2c5e98c2382af1"
+      },
+      "bytes_per_image": 153600
+    },
+    {
+      "resolution": 224,
+      "file_name": "resnet50_fp16_b32_r224_seed42.bin",
+      "file_sha256": "2f10ae79f0fc26dbb51349c60dff8951ea462bba2f1fdaee6e2184eb09c7c64a",
+      "prefix_sha256": {
+        "1": "422f8a215b48f59f34c6d606dba34162af8d1dd93692676942e83c10302b83db",
+        "4": "37d956350fb1826a9e38e7e5c875cfb854a2b3bdf3131dfd4a86e25d777ad918",
+        "8": "8a4d610aa0e57151de8380ceffbdee52c8bbcf410c62e90d673b368e66447030",
+        "32": "2f10ae79f0fc26dbb51349c60dff8951ea462bba2f1fdaee6e2184eb09c7c64a"
+      },
+      "bytes_per_image": 301056
+    },
+    {
+      "resolution": 320,
+      "file_name": "resnet50_fp16_b32_r320_seed42.bin",
+      "file_sha256": "9326162bd95cca3253f57bac2836d9d41f3cb0a65be4e1eb74774aff256bbbc8",
+      "prefix_sha256": {
+        "1": "74da57eecb9392b67e2e1ce2803148bf1b2e5bf5e56b0f49b0621b30488cf422",
+        "4": "86d569ada12a142f8efe22648442f7e06f50839489eb325596e03ad69df4a997",
+        "8": "d851be443cf06b4834b8d095db00b67242baa0238a358d906a218011b04ff0c7",
+        "32": "9326162bd95cca3253f57bac2836d9d41f3cb0a65be4e1eb74774aff256bbbc8"
+      },
+      "bytes_per_image": 614400
+    }
+  ],
+  "note": "Generate locally with inference_pilot prepare-grid-input; same bytes on all nodes. Do not mix with E1 torch.randn input."
+}

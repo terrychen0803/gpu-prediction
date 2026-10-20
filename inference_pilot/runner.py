@@ -68,7 +68,7 @@ def run_one(request, dry_run=False, nsys="nsys"):
             raise FileNotFoundError("Missing weights metadata sidecar; copy both prepared files")
         if request.get("input_file"):
             from .input_data import read_fixed_input
-            read_fixed_input(request["input_file"], request["batch"])
+            read_fixed_input(request["input_file"], request["batch"], request.get("resolution", 224))
         if importlib.util.find_spec("torch") is None or importlib.util.find_spec("torchvision") is None:
             raise RuntimeError("Install the GPU-compatible PyTorch and TorchVision pair in this Python environment")
         if request["mode"] in ("P0", "P1") and not shutil.which(nsys):
@@ -112,21 +112,26 @@ def make_suite(args):
         raise FileExistsError("Use a new session output directory; results are never silently overwritten")
     if not args.label or Path(args.label).name != args.label or any(c in args.label for c in '/\\:') or args.label in ('.', '..'):
         raise ValueError("label must be a simple directory name, for example rtx4090")
-    if len(set(args.modes)) != len(args.modes) or len(set(args.batches)) != len(args.batches):
-        raise ValueError("Duplicate modes/batches are not allowed")
+    resolutions = getattr(args, "resolutions", [224])
+    if (len(set(args.modes)) != len(args.modes) or len(set(args.batches)) != len(args.batches) or
+            len(set(resolutions)) != len(resolutions)):
+        raise ValueError("Duplicate modes/batches/resolutions are not allowed")
+    if len(resolutions) > 1 and getattr(args, "input_file", None):
+        raise ValueError("One fixed input file has one resolution; run a separate suite per resolution")
     settings = load_settings(args.settings)
     rng = random.Random(args.order_seed)
     requests = []
     for repeat in range(args.repeats):
-        jobs = [(b, m) for b in args.batches for m in args.modes]
+        jobs = [(res, b, m) for res in resolutions for b in args.batches for m in args.modes]
         rng.shuffle(jobs)
-        for batch, mode in jobs:
-            requests.append({"mode": mode, "batch": batch, "device": args.device, "label": args.label,
+        for resolution, batch, mode in jobs:
+            requests.append({"mode": mode, "batch": batch, "resolution": resolution,
+                             "device": args.device, "label": args.label,
                              "expect_gpu": args.expect_gpu, "weights": str(Path(args.weights).resolve()), "settings": settings,
                              "input_file": getattr(args, "input_file", None),
                              "nsys_cuda_trace": getattr(args, "nsys_cuda_trace", "cuda"),
                              "repeat": repeat + 1, "order_index": len(requests),
-                             "out": str(root / args.label / f"b{batch:02d}" / mode / f"run{repeat + 1:02d}")})
+                             "out": str(root / args.label / f"r{resolution:03d}" / f"b{batch:02d}" / mode / f"run{repeat + 1:02d}")})
     root.mkdir(parents=True, exist_ok=True)
     write_json(root / "schedule.json", {"order_seed": args.order_seed, "dry_run": args.dry_run, "requests": requests})
     return requests

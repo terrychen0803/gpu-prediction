@@ -2,7 +2,7 @@
 
 更新：2026-10-20。倉庫：https://github.com/terrychen0803/gpu-prediction 。既有程式基準提交：`7e2e715238e5595ffe0c68ad94c7db8c4b76a5bd`。後續文件以目前 checkout 的 commit 為準，開始工作時請記錄 `git rev-parse HEAD`。
 
-這份報告整理使用者已確認的研究方向與目前進度，讓另一台電腦的本地 Codex 可以接手資料檢查、分析與後續實作。GB10／3090／4090 已用本倉庫的 [固定輸入](../inputs/README.md)各完成 36 個 E1 run，本機整合報告位於 `analysis_runs/three_gpu_fixed_input_e1_20261020/REPORT.md`。原始量測不在 Git，54 份 trace 的事件完整性仍待審；E2 工具已新增，後續預測模型仍是計畫。
+這份報告整理使用者已確認的研究方向與目前進度，讓另一台電腦的本地 Codex 可以接手資料檢查、分析與後續實作。GB10／3090／4090 已用本倉庫的 [固定輸入](../inputs/README.md)各完成 36 個 E1 run，並各完成 E2 的 100 cell。原始量測不在 Git；E1 的 54 份 trace 事件完整性仍待審。E3 的新配置量測與 C0/C1 pilot 已實作，節點命令以 [E3 手冊](E3_NODE_RUNBOOK.md)為準；跨設備預測模型仍是計畫。
 
 ## 1. 可直接貼給另一台 Codex 的任務
 
@@ -14,7 +14,7 @@
 研究是 GB10／RTX 3090／RTX 4090／RTX 5090 的跨設備 inference 服務時間預測。
 四類任務為 ResNet50、YOLO26、Neural Receiver CNN、Qwen3-0.6B。
 主方法只在來源設備做短 dry run，使用 Nsys trace 與事前硬體描述預測目標時間。
-目前已實作 ResNet50 第一階段量測／解析／彙整與 E2 硬體校正工具；後續預測模型尚未完成。
+目前已實作 ResNet50 E1 量測／解析／彙整、E2 硬體校正工具、E3 新配置入口與 C0/C1 pilot；跨設備預測模型尚未完成。
 
 請先檢查 checkout 狀態、程式版本、現有 session 資料及環境。
 若已收到 session（可能放在 results/ 或外部 artifacts/runs/），先盤點與品質審查，再對有效資料執行 summarize／plot；
@@ -67,11 +67,12 @@ Habitat 的 operation 縮放提供方法啟發，但目前沒有重現其完整 
 | Warm-up、正確性、checksum、環境與計時保存 | 已實作 | benchmark.py、common.py |
 | Nsight profile／SQLite export／保守解析 | 已實作；GB10 的 Nsight 2026.4.1 schema 可解析，事件完整性待審 | trace.py；本版程式 hash 見 GB10 固定輸入摘要 |
 | CSV 彙整、四模式成本、設備倍率、五類診斷圖 | 已實作 | report.py、plots.py |
-| 合成 SQLite／防洩漏／圖表／固定輸入測試 | 目前 20 項通過 | tests/、VALIDATION.md |
+| 合成 SQLite／防洩漏／圖表／固定輸入測試 | 目前 26 項通過、1 項可選圖表測試跳過 | tests/、VALIDATION.md |
 | CLI 僅列計畫 | 已驗證 12 個唯一 run | suite --dry-run |
 | GB10／3090／4090／5090 實測 | 前三台固定輸入各 36 run；5090 未測 | [GB10 固定輸入摘要](GB10_E1_FIXED_INPUT_20261020.md)；三設備整合在本機 analysis_runs；原始 session 不在 Git |
-| Compute／Memory／Launch／Host microbenchmark | [E2 工具](../e2_calibration/README.md)已實作；GB10 100 cell 已收、兩格 memory write 已另做診斷補測；3090／4090／5090 待收 | NEXT_EXPERIMENTS.md E2 |
-| 單設備校正、跨設備學習、盲週期切分 | 待實作 | E3～E5 |
+| Compute／Memory／Launch／Host microbenchmark | [E2 工具](../e2_calibration/README.md)已實作；GB10／3090／4090 各 100 cell 已收、品質與工具鏈差異見本機整合報告；5090 待收 | NEXT_EXPERIMENTS.md E2 |
+| E3 單設備校正 pilot | [E3 工具](../e3_calibration/README.md)與 [節點手冊](E3_NODE_RUNBOOK.md)已實作；舊三配置只供流程檢查，新 12 配置矩陣待收齊／審查 | NEXT_EXPERIMENTS.md E3 |
+| 跨設備學習、盲週期切分 | 待實作 | E4～E5 |
 | YOLO、Receiver、Qwen harness／排程器 | 待實作 | E5～E6 |
 
 GB10 固定輸入實測使用 Linux aarch64、PyTorch 2.13.0+cu130、TorchVision 0.28.0+cu130、Nsight 2026.4.1。18 個 trace 的 parser 通過，但均有「Not all CUDA events might have been collected」警告；9 個 P1 另有 NVTX 同類警告，故 E1 trace 完整性仍待審。請保留結構檢查與事件完整性兩種證據的區別。
@@ -159,7 +160,7 @@ schema_version=1 是現有 manifest 版本，不等於 Nsight SQLite 固定版�
 
 ## 9. 建模與分析的交付要求
 
-先以 [分析範本](ANALYSIS_REPORT_TEMPLATE.md) 交付 E1 結果。若資料只有 B1/8/32，不直接報正式泛化能力；下一步是補 E2 與 ResNet50 配置網格。新分析程式可放 `analysis/`，但此資料夾與相關 CLI 尚未建立。
+先以 [分析範本](ANALYSIS_REPORT_TEMPLATE.md) 交付 E1 結果。若資料只有 B1/8/32，不直接報正式泛化能力；E2 三設備已收，下一步是依 [E3 手冊](E3_NODE_RUNBOOK.md)補 ResNet50 配置網格、審查 trace 品質，再以 [E3 pilot](../e3_calibration/README.md)驗證校正流程。C2 與跨設備模型尚未實作。
 
 新增建模時至少保存：`dataset_manifest`、`split_manifest`、特徵 allowlist、校正器／模型設定、seed、資料／程式 hash、逐配置方向的 predictions、排除表、總結報告。這些是後續交付規格，不是目前命令已輸出的檔案。
 

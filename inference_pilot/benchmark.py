@@ -96,6 +96,9 @@ def worker(request_path):
         if request.get("expect_gpu") and request["expect_gpu"].lower() not in props.name.lower():
             raise RuntimeError(f"GPU name {props.name!r} does not match --expect-gpu {request['expect_gpu']!r}")
         cfg = request["settings"]
+        resolution = request.get("resolution", 224)
+        if not isinstance(resolution, int) or resolution < 32 or resolution % 32:
+            raise ValueError("resolution must be a multiple of 32 and at least 32")
         torch.set_num_threads(cfg["cpu_threads"])
         torch.set_num_interop_threads(1)
         torch.manual_seed(cfg["seed"])
@@ -110,12 +113,12 @@ def worker(request_path):
         model.eval().to(device=device, dtype=torch.float16)
         if request.get("input_file"):
             from .input_data import read_fixed_input
-            raw_input, input_metadata = read_fixed_input(request["input_file"], request["batch"])
+            raw_input, input_metadata = read_fixed_input(request["input_file"], request["batch"], resolution)
             cpu_input = torch.frombuffer(bytearray(raw_input), dtype=torch.float16).reshape(
-                request["batch"], 3, 224, 224).clone().contiguous()
+                request["batch"], 3, resolution, resolution).clone().contiguous()
         else:
             generator = torch.Generator(device="cpu").manual_seed(cfg["seed"])
-            cpu_input = torch.randn(request["batch"], 3, 224, 224, generator=generator).to(torch.float16).contiguous()
+            cpu_input = torch.randn(request["batch"], 3, resolution, resolution, generator=generator).to(torch.float16).contiguous()
             input_metadata = {"input_scheme": "legacy_cpu_torch_randn"}
         input_checksum = hashlib.sha256(cpu_input.numpy().tobytes()).hexdigest()
         if request.get("input_file") and input_checksum != input_metadata["input_prefix_sha256"]:
@@ -134,7 +137,8 @@ def worker(request_path):
         }
         write_json(out / "environment.json", environment)
         manifest = dict(request)
-        manifest.update({"schema_version": 1, "model": "torchvision.resnet50", "weights_name": "IMAGENET1K_V2",
+        manifest.update({"schema_version": 2, "model": "torchvision.resnet50", "weights_name": "IMAGENET1K_V2",
+                         "resolution": resolution,
                          "weights_sha256": checksum, "input_sha256": input_checksum, "shape": list(x.shape),
                          **input_metadata,
                          "dtype": "float16", "layout": "NCHW_contiguous", "code_sha256": code_hash(),

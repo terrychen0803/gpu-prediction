@@ -50,7 +50,9 @@ def collect(roots):
             if len(samples) != manifest["measurement_count"] or not samples:
                 raise ValueError("latency count mismatch")
             row = {"run_dir": str(directory), "label": manifest["label"], "gpu_name": env["gpu_name"],
-                   "gpu_uuid": env.get("gpu_uuid", "unavailable"), "batch": manifest["batch"], "mode": manifest["mode"],
+                   "gpu_uuid": env.get("gpu_uuid", "unavailable"), "batch": manifest["batch"],
+                   "resolution": manifest.get("resolution", manifest.get("shape", [None, None, 224])[2]),
+                   "mode": manifest["mode"],
                    "repeat": manifest["repeat"], "protocol": protocol(manifest, env), "input_sha256": manifest["input_sha256"],
                    "count": len(samples), "stability_threshold": manifest["settings"]["stability_threshold"],
                    "manual_trace_review_required": manifest["mode"].startswith("P"),
@@ -79,55 +81,61 @@ def summarize(roots, out):
         raise ValueError("No completed, valid GPU runs; planned/synthetic outputs are not experiment results")
     buckets = collections.defaultdict(list)
     for row in rows:
-        buckets[(row["protocol"], row["label"], row["batch"], row["mode"])].append(row)
+        buckets[(row["protocol"], row["label"], row["resolution"], row["batch"], row["mode"])].append(row)
     aggregates = []
-    for (signature, label, batch, mode), group in sorted(buckets.items()):
+    for (signature, label, resolution, batch, mode), group in sorted(buckets.items()):
         medians = [r["median_us"] for r in group]
         median = statistics.median(medians)
         stable = (max(medians) - min(medians)) / median <= group[0]["stability_threshold"]
         compatible = len({r["input_sha256"] for r in group}) == 1 and len({r["gpu_name"] for r in group}) == 1 and len({r["gpu_uuid"] for r in group}) == 1
-        aggregates.append({"protocol": signature, "label": label, "batch": batch, "mode": mode,
+        aggregates.append({"protocol": signature, "label": label, "resolution": resolution,
+                           "batch": batch, "mode": mode,
                            "runs": len(group), "median_of_run_medians_us": median,
                            "run_median_spread_fraction": (max(medians) - min(medians)) / median,
                            "stable": stable, "compatible": compatible, "at_least_3_runs": len(group) >= 3,
                            "input_sha256": group[0]["input_sha256"]})
     write_csv(out / "aggregate.csv", aggregates)
     eligible = [a for a in aggregates if a["compatible"] and a["at_least_3_runs"]]
-    by_mode = {(a["protocol"], a["label"], a["batch"], a["mode"]): a for a in eligible}
+    by_mode = {(a["protocol"], a["label"], a["resolution"], a["batch"], a["mode"]): a for a in eligible}
     overheads = []
     for a in eligible:
         if a["mode"] != "G" or not a["stable"]:
             continue
-        base_key = (a["protocol"], a["label"], a["batch"])
+        base_key = (a["protocol"], a["label"], a["resolution"], a["batch"])
         for name, numerator, denominator in (("annotation", "A", "G"), ("profiling_unmarked", "P0", "G"),
                                               ("profiling_marked", "P1", "A"), ("total_marked_profile", "P1", "G")):
             n, d = by_mode.get((*base_key, numerator)), by_mode.get((*base_key, denominator))
             if n and d and n["input_sha256"] == d["input_sha256"]:
                 nt, dt = n["median_of_run_medians_us"], d["median_of_run_medians_us"]
-                overheads.append({"protocol": a["protocol"], "label": a["label"], "batch": a["batch"],
+                overheads.append({"protocol": a["protocol"], "label": a["label"],
+                                  "resolution": a["resolution"], "batch": a["batch"],
                                   "comparison": name, "fraction": nt / dt - 1, "difference_us": nt - dt,
                                   "both_groups_stable": n["stable"] and d["stable"]})
     write_csv(out / "overheads.csv", overheads)
     gt = [a for a in eligible if a["mode"] == "G" and a["stable"]]
     ratios = []
     for source, target in itertools.permutations(gt, 2):
-        if source["label"] == target["label"] or source["protocol"] != target["protocol"] or source["batch"] != target["batch"]:
+        if (source["label"] == target["label"] or source["protocol"] != target["protocol"] or
+                source["resolution"] != target["resolution"] or source["batch"] != target["batch"]):
             continue
         if source["input_sha256"] != target["input_sha256"]:
             continue
         st, tt = source["median_of_run_medians_us"], target["median_of_run_medians_us"]
         ratios.append({"protocol": source["protocol"], "source": source["label"], "target": target["label"],
-                       "batch": source["batch"], "source_us": st, "target_us": tt, "target_over_source": tt / st})
+                       "resolution": source["resolution"], "batch": source["batch"],
+                       "source_us": st, "target_us": tt, "target_over_source": tt / st})
     write_csv(out / "device_ratios.csv", ratios)
     sanity = []
     for held in ratios:
         training = [r for r in ratios if r["protocol"] == held["protocol"] and r["source"] == held["source"] and
-                    r["target"] == held["target"] and r["batch"] != held["batch"]]
+                    r["target"] == held["target"] and r["resolution"] == held["resolution"] and
+                    r["batch"] != held["batch"]]
         if len(training) >= 2:
             factor = statistics.median(r["target_over_source"] for r in training)
             prediction = held["source_us"] * factor
             sanity.append({"protocol": held["protocol"], "source": held["source"], "target": held["target"],
-                           "held_out_batch": held["batch"], "training_batches": ",".join(str(r["batch"]) for r in training),
+                           "resolution": held["resolution"], "held_out_batch": held["batch"],
+                           "training_batches": ",".join(str(r["batch"]) for r in training),
                            "estimated_ratio": factor, "prediction_us": prediction, "actual_us": held["target_us"],
                            "absolute_relative_error": abs(prediction / held["target_us"] - 1)})
     write_csv(out / "leave_one_batch_out_sanity.csv", sanity)

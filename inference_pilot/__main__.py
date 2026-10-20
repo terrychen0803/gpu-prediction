@@ -25,6 +25,14 @@ def main(argv=None):
     p.add_argument("--out", required=True)
     p.add_argument("--max-batch", type=positive_int, default=32)
     p.add_argument("--seed", type=int, default=42)
+    p = subs.add_parser("prepare-grid-set", help="Generate/verify all E3 fixed inputs from the committed manifest")
+    p.add_argument("--root", default="inputs/e3_grid_v1")
+    p.add_argument("--manifest", default="inputs/e3_grid_manifest.json")
+    p = subs.add_parser("prepare-grid-input", help="Create architecture-independent FP16 input for E3 resolution grid")
+    p.add_argument("--out", required=True)
+    p.add_argument("--resolution", type=positive_int, required=True)
+    p.add_argument("--max-batch", type=positive_int, default=32)
+    p.add_argument("--seed", type=int, default=42)
     for command in ("run", "suite"):
         p = subs.add_parser(command)
         p.add_argument("--out", required=True)
@@ -41,9 +49,11 @@ def main(argv=None):
         if command == "run":
             p.add_argument("--mode", choices=MODES, required=True)
             p.add_argument("--batch", type=positive_int, default=1)
+            p.add_argument("--resolution", type=positive_int, default=224)
         else:
             p.add_argument("--modes", choices=MODES, nargs="+", default=list(MODES))
             p.add_argument("--batches", type=positive_int, nargs="+", default=[1, 8, 32])
+            p.add_argument("--resolutions", type=positive_int, nargs="+", default=[224])
             p.add_argument("--repeats", type=positive_int, default=3)
             p.add_argument("--order-seed", type=int, default=2026)
             p.add_argument("--keep-going", action="store_true", help="Continue other scheduled runs after a failed run")
@@ -72,6 +82,14 @@ def main(argv=None):
             from .input_data import prepare_input
             info = prepare_input(args.out, args.max_batch, args.seed)
             print(json.dumps(info, ensure_ascii=False, indent=2))
+        elif args.command == "prepare-grid-input":
+            from .input_data import prepare_grid_input
+            info = prepare_grid_input(args.out, args.resolution, args.max_batch, args.seed)
+            print(json.dumps(info, ensure_ascii=False, indent=2))
+        elif args.command == "prepare-grid-set":
+            from .input_data import prepare_grid_set
+            info = prepare_grid_set(args.root, args.manifest)
+            print(json.dumps(info, ensure_ascii=False, indent=2))
         elif args.command == "_worker":
             from .benchmark import worker
             return worker(args.request)
@@ -81,13 +99,14 @@ def main(argv=None):
                 request = {"out": args.out, "weights": args.weights, "settings": load_settings(args.settings),
                            "device": args.device, "label": args.label, "expect_gpu": args.expect_gpu,
                            "mode": args.mode, "batch": args.batch, "repeat": 1,
+                           "resolution": args.resolution,
                            "input_file": args.input_file,
                            "nsys_cuda_trace": args.nsys_cuda_trace}
                 return 0 if run_one(request, args.dry_run, args.nsys) else 1
             requests = make_suite(args)
             failed = 0
             for i, request in enumerate(requests, 1):
-                print(f"[{i}/{len(requests)}] {request['label']} B{request['batch']} {request['mode']} run{request['repeat']}", flush=True)
+                print(f"[{i}/{len(requests)}] {request['label']} R{request['resolution']} B{request['batch']} {request['mode']} run{request['repeat']}", flush=True)
                 if not run_one(request, args.dry_run, args.nsys):
                     failed += 1
                     if not args.keep_going:

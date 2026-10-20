@@ -1,8 +1,8 @@
 # 後續實驗計畫：從可信量測到跨設備推論時間預測
 
-更新：2026-10-20。狀態：GB10／3090／4090 的固定輸入 E1 各有 36 個正式 run，三設備整合已完成；E2 工具已實作並在 GB10 收集資料，3090／4090 的 E2 待節點執行，5090 暫不可用。正式研究設備為 GB10、RTX 3090、RTX 4090、RTX 5090；場景為 AI RAN 平台的 Near-RT RIC／edge 應用。本文提出的候選設定不是實測結果或精度保證。
+更新：2026-10-20。狀態：GB10／3090／4090 的固定輸入 E1 各有 36 個正式 run；三設備 E2 各完成 100 cell／1,500 群，品質與限制見本機 `analysis_runs/three_gpu_e2_20261020/REPORT.md`。E3 的跨解析度固定輸入、量測入口與 C0/C1 pilot 已實作，三設備新配置待收齊；5090 暫不可用。正式研究設備為 GB10、RTX 3090、RTX 4090、RTX 5090；場景為 AI RAN 平台的 Near-RT RIC／edge 應用。本文提出的候選設定不是實測結果或精度保證。
 
-目前可執行的功能請以 [README](../README.md)、[第一步實驗](../第一步實驗_ResNet50量測與Trace對應驗證.md) 與程式為準。E2 microbenchmark 已有 [獨立工具](../e2_calibration/README.md)；其他模型、校正器、學習模型與排程器尚未實作。不要把本文件中的候選網格當成 E1 CLI 已支援的參數。
+目前可執行的功能請以 [README](../README.md)、[E3 節點手冊](E3_NODE_RUNBOOK.md)與程式為準。E2 microbenchmark 與 E3 C0/C1 pilot 已有工具；C2 多特徵模型、E4 跨設備模型、其他任務與排程器尚未實作。新 E3 resolution grid 已由 `inference_pilot` 支援，舊 E1 session 不會回填為新協定。
 
 ## 1. 研究要回答什麼
 
@@ -31,8 +31,8 @@
 | 階段 | 工作 | 產物與通過條件 | 程式狀態 |
 |---|---|---|---|
 | E1 | ResNet50 量測與標記稽核 | 正確性、穩定性、trace 對應與四模式成本報告 | GB10／3090／4090 固定輸入各 36 run 自動檢查通過，trace 警告待審；5090 待設備可用 |
-| E2 | Compute／Memory／Launch／Host 校正 | 四設備有效效能曲線、重複量測與版本紀錄 | 工具已實作；GB10 已收 100 cell／1,500 群組，兩個 memory write 波動 cell 已另做診斷補測；3090／4090／5090 待執行 |
-| E3 | 單設備來源時間校正 | 用 P0 trace 預測同設備 G，保留配置測試 | 待實作 |
+| E2 | Compute／Memory／Launch／Host 校正 | 四設備有效效能曲線、重複量測與版本紀錄 | 前三台各有 100 cell／1,500 群；5090 待執行；波動 cell 與工具鏈差異見本機整合報告 |
+| E3 | 單設備來源時間校正 | 用 P0 trace 預測同設備 G，保留配置測試 | C0/C1 pilot 與解析度 grid 量測入口已實作；三設備新矩陣與 trace 品質仍待收集／審查，C2 未實作 |
 | E4 | 第一個跨設備模型 | 固定倍率、硬體倍率、trace 模型的公平比較 | 待實作 |
 | E5 | 四任務、序列與短 dry run | 未見配置／任務／設備結果、error–coverage 與總成本 | 待實作 |
 | E6 | 排程效用 | 相同到達序列下的 deadline miss、goodput 與 oracle 差距 | 待實作 |
@@ -64,7 +64,7 @@ Memory 同時量「同一 buffer 重複使用」與「輪替足夠大的一組 b
 
 每個校正 cell 先做三個獨立程序；每程序至少五個重複計時群組，每群組選足夠 repetition，使計時區間達約 100ms 並記錄 N。觀察延長群組是否改變時脈／溫度。對 Launch 類另保存有限 N 的原始總時間，不只報除以 N 後的數值。使用中位數及分布，短 kernel 不用單次 host timer 估 GPU duration。
 
-建議保存 `hardware_profile.json` 與 `microbench_samples.csv`，欄位至少包含 profile_id、GPU UUID、軟體／程式 hash、類型、工作量、精度、記憶體配置、計時範圍、repeat、duration、環境快照。此格式是新增功能的規格，現有程式尚未輸出。
+現有 E2 工具已保存 `hardware_profile.json` 與 `microbench_samples.csv`，包含 profile_id、GPU UUID、軟體／程式 hash、類型、工作量、精度、記憶體配置、計時範圍、repeat 與 duration；環境快照見 `runNN/environment.json`。三設備來源、品質與限制見本機 E2 整合報告。
 
 第一版以事前固定的幾個錨點構成硬體向量 h_d：大／小 GEMM、兩個工作集的有效頻寬、launch 完成成本與 host 成本。只用三種設備時，不適合同時擬合大量硬體係數。若無法取得同版本軟體，另立 protocol 分組；跨軟體轉移是額外實驗，不放寬既有比對規則來湊配對。
 
