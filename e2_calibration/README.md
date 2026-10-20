@@ -1,5 +1,7 @@
 # E2 硬體校正（v1）
 
+RTX 3090／4090 節點的完整環境檢查、執行、驗收、Nsight 短驗證及封存流程，請看 [E2 節點操作手冊](../docs/E2_NODE_RUNBOOK.md)。可直接交給當地 Codex 的任務文字位於手冊末節。
+
 這是與 E1 ResNet50 session 分開的 CUDA 實測工具。正式協定為 `e2_calibration_v3`。目標是取得 Compute、Memory、Launch、Host／transfer 的有效曲線，不把型錄峰值或 Nsight kernel busy time 當成實測吞吐。使用 Python 3.10+、可用的 CUDA PyTorch 和支援當地 GPU 的 `nvcc`。每台以相同原始碼執行，正式資料存到新目錄。
 
 ```sh

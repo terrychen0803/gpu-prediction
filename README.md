@@ -2,7 +2,7 @@
 
 文件入口：[第一步實驗計畫](第一步實驗_ResNet50量測與Trace對應驗證.md) · [共用輸入與 checksum](inputs/README.md) · [三設備 E1／E2 現況](docs/E1_E2_STATUS_20261020.md) · [GB10 固定輸入 E1](docs/GB10_E1_FIXED_INPUT_20261020.md) · [後續實驗與建模計畫](docs/NEXT_EXPERIMENTS.md) · [3090 節點操作](docs/RTX3090_NODE.md) · [分析節點 Codex 交接報告](docs/CODEX_HANDOFF.md) · [分析報告範本](docs/ANALYSIS_REPORT_TEMPLATE.md)。
 
-另一台電腦接手時，先讀交接報告並使用其中的啟動任務。現在可執行的是 ResNet50 E1 資料流程與 [E2 硬體校正工具](e2_calibration/README.md)；其他任務與跨設備學習模型仍是後續計畫。
+另一台電腦接手時，先讀交接報告並使用其中的啟動任務。現在可執行的是 ResNet50 E1 資料流程與 [E2 硬體校正工具](e2_calibration/README.md)；3090／4090 本地操作請依 [E2 節點手冊](docs/E2_NODE_RUNBOOK.md)。其他任務與跨設備學習模型仍是後續計畫。
 
 這套程式實作四種量測模式、六個 forward 階段標記、穩態檢查、Nsight SQLite 解析、跨設備統計與診斷圖。研究用時間標籤需來自真實 CUDA 推論；主指標以 host timer 量測 forward 到 GPU 完成的服務時間，GPU trace 統計另外保存。缺少 GPU 或必要工具時會停止，不使用 CPU 推論或模擬數字代替實測。
 
