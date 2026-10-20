@@ -8,6 +8,6 @@
 
 目前 26 項 `python -m unittest discover -s tests -v` 通過、1 項需選裝 matplotlib 的圖表測試跳過，包含合成 Nsight SQLite 關聯、分段與缺失事件檢查、跨設備資料切分、固定輸入檔損壞拒絕、新舊輸入協定隔離、E3 三解析度固定檔再生成／hash 驗證、同解析度分組及留出 G 標籤不可洩漏到預測。這些離線測試不能替代 GPU 實測。GB10 的真實實驗環境為 Linux aarch64、PyTorch 2.13.0+cu130、TorchVision 0.28.0+cu130、Nsight Systems 2026.4.1，P0／P1 使用 `cuda-sw`。
 
-E3 新輸入的 R160/B1 與 R320/B32 已各在 GB10 做 G／P0 smoke：四個 run 的 execution、worker quality、reference 正確性通過，兩份 P0 parser 通過；P0 仍出現 CUDA 事件可能未完整收集警告。新 input generator 在兩個獨立輸出目錄重新產生完整三解析度檔，均與 Git manifest hash 一致。此 smoke 不計入正式 E3 grid；完整收集與跨節點比對狀態請以 `docs/E3_NODE_RUNBOOK.md` 和本機分析目錄為準。
+E3 新輸入的 R160/B1 與 R320/B32 已各在 GB10 做 G／P0 smoke：四個 run 的 execution、worker quality、reference 正確性通過，兩份 P0 parser 通過；P0 仍出現 CUDA 事件可能未完整收集警告。新 input generator 在兩個獨立輸出目錄重新產生完整三解析度檔，均與 Git manifest hash 一致。此 smoke 不計入正式 E3 grid。GB10 隨後以相同程式與輸入完成 12 配置／72 個正式 G/P0 run，全部通過 execution／correctness／parser，G 三次 run 的最大 spread 為 4.02%；36 份 P0 均有 CUDA 事件可能未完整收集警告。兩個額外 P1 端點稽核通過 parser，但均有 CUDA/NVTX 警告。詳見本機 `analysis_runs/e3_gb10_grid_20261020_v1/REPORT.md`；跨節點比對尚待 3090／4090 交回資料。
 
 其他節點須先執行 doctor，再做 B1 G／P1 smoke，確認模型輸出、輸入與程式 hash、Nsight 後端和 trace schema，最後收正式 session。GPU trace 警告與不同軟體版本需單獨記錄；不放寬 E1 驗收門檻。

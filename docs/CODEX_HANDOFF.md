@@ -2,7 +2,7 @@
 
 更新：2026-10-20。倉庫：https://github.com/terrychen0803/gpu-prediction 。既有程式基準提交：`7e2e715238e5595ffe0c68ad94c7db8c4b76a5bd`。後續文件以目前 checkout 的 commit 為準，開始工作時請記錄 `git rev-parse HEAD`。
 
-這份報告整理使用者已確認的研究方向與目前進度，讓另一台電腦的本地 Codex 可以接手資料檢查、分析與後續實作。GB10／3090／4090 已用本倉庫的 [固定輸入](../inputs/README.md)各完成 36 個 E1 run，並各完成 E2 的 100 cell。原始量測不在 Git；E1 的 54 份 trace 事件完整性仍待審。E3 的新配置量測與 C0/C1 pilot 已實作，節點命令以 [E3 手冊](E3_NODE_RUNBOOK.md)為準；跨設備預測模型仍是計畫。
+這份報告整理使用者已確認的研究方向與目前進度，讓另一台電腦的本地 Codex 可以接手資料檢查、分析與後續實作。GB10／3090／4090 已用本倉庫的 [固定輸入](../inputs/README.md)各完成 36 個 E1 run，並各完成 E2 的 100 cell。原始量測不在 Git；E1 的 54 份 trace 事件完整性仍待審。E3 的新配置量測與 C0/C1 pilot 已實作，GB10 已完成 12 配置／72 個 G/P0 run，3090／4090 待當地收集；節點命令以 [E3 手冊](E3_NODE_RUNBOOK.md)為準。跨設備預測模型仍是計畫。
 
 ## 1. 可直接貼給另一台 Codex 的任務
 
@@ -71,7 +71,7 @@ Habitat 的 operation 縮放提供方法啟發，但目前沒有重現其完整 
 | CLI 僅列計畫 | 已驗證 12 個唯一 run | suite --dry-run |
 | GB10／3090／4090／5090 實測 | 前三台固定輸入各 36 run；5090 未測 | [GB10 固定輸入摘要](GB10_E1_FIXED_INPUT_20261020.md)；三設備整合在本機 analysis_runs；原始 session 不在 Git |
 | Compute／Memory／Launch／Host microbenchmark | [E2 工具](../e2_calibration/README.md)已實作；GB10／3090／4090 各 100 cell 已收、品質與工具鏈差異見本機整合報告；5090 待收 | NEXT_EXPERIMENTS.md E2 |
-| E3 單設備校正 pilot | [E3 工具](../e3_calibration/README.md)與 [節點手冊](E3_NODE_RUNBOOK.md)已實作；舊三配置只供流程檢查，新 12 配置矩陣待收齊／審查 | NEXT_EXPERIMENTS.md E3 |
+| E3 單設備校正 pilot | [E3 工具](../e3_calibration/README.md)與 [節點手冊](E3_NODE_RUNBOOK.md)已實作；舊三配置只供流程檢查。GB10 新 12 配置／72 run 已完成，但 36 份 P0 有 CUDA 事件警告；3090／4090 待收 | NEXT_EXPERIMENTS.md E3 |
 | 跨設備學習、盲週期切分 | 待實作 | E4～E5 |
 | YOLO、Receiver、Qwen harness／排程器 | 待實作 | E5～E6 |
 

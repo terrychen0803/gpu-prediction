@@ -183,7 +183,7 @@ def main(argv=None):
         'configurations': sorted({r['config_id'] for r in features}),
         'formal_run_count': len(inventory), 'source_feature_columns': list(FEATURES),
         'models': ['C0_gpu_span', 'C1_log_linear_ridge1'],
-        'note': 'Three configurations per device are insufficient for a formal generalization claim. All P0 event warnings remain visible.'})
+        'note': 'Grouped leave-one-configuration-out within observed devices is exploratory; it does not establish cross-device generalization. All P0 event warnings remain visible.'})
     print(f'E3 pilot: {len(features)} device-configurations, {len(predictions)} held-out predictions -> {out}')
 
 
