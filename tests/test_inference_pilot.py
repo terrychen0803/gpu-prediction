@@ -1,12 +1,14 @@
 """Synthetic fixtures validate analysis logic; they are not GPU measurements."""
 import argparse
 import contextlib
+import hashlib
 import sqlite3
 import tempfile
 import unittest
 from pathlib import Path
 
 from inference_pilot.common import DEFAULTS, PHASES, load_settings, read_csv, read_json, union_length, write_csv, write_json
+from inference_pilot.input_data import BYTES_PER_IMAGE, FORMAT, read_fixed_input, sidecar_path
 from inference_pilot.report import summarize
 from inference_pilot.runner import build_command, make_suite, run_one
 from inference_pilot.trace import API_GPU_CLOCK_SKEW_NS, correlate, parse_trace
@@ -163,6 +165,28 @@ class PlanningTests(unittest.TestCase):
     def test_union_does_not_double_count(self):
         self.assertEqual(union_length([(0, 10), (5, 15), (20, 22)]), 17)
 
+    def test_fixed_input_rejects_corruption_and_wrong_batch(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "input.bin"
+            data = b"\0" * BYTES_PER_IMAGE + b"\1" * BYTES_PER_IMAGE
+            path.write_bytes(data)
+            write_json(sidecar_path(path), {
+                "format": FORMAT, "shape": [2, 3, 224, 224], "dtype": "float16",
+                "layout": "NCHW_contiguous", "byte_order": "little",
+                "bytes_per_image": BYTES_PER_IMAGE,
+                "file_sha256": hashlib.sha256(data).hexdigest(),
+                "prefix_sha256": {str(batch): hashlib.sha256(data[:batch * BYTES_PER_IMAGE]).hexdigest()
+                                  for batch in (1, 2)},
+            })
+            prefix, provenance = read_fixed_input(path, 1)
+            self.assertEqual(prefix, data[:BYTES_PER_IMAGE])
+            self.assertEqual(provenance["input_prefix_sha256"], hashlib.sha256(prefix).hexdigest())
+            with self.assertRaisesRegex(ValueError, "metadata or batch"):
+                read_fixed_input(path, 3)
+            path.write_bytes(data[:-1] + b"x")
+            with self.assertRaisesRegex(ValueError, "SHA-256 mismatch"):
+                read_fixed_input(path, 1)
+
     def test_invalid_warmup_budget(self):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / "settings.json"
@@ -232,6 +256,21 @@ class SummaryTests(unittest.TestCase):
                     fake_result(root/"runs"/f"{label}_{repeat}", label, 1, 100, repeat, version=label)
             summarize([root/"runs"], root/"report")
             self.assertEqual(read_csv(root/"report"/"device_ratios.csv"), [])
+
+    def test_fixed_input_protocol_is_separate_from_legacy(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            for label in ("legacy", "fixed"):
+                for repeat in range(3):
+                    path = root / "runs" / f"{label}_{repeat}"
+                    fake_result(path, label, 1, 100, repeat)
+                    if label == "fixed":
+                        manifest = read_json(path / "manifest.json")
+                        manifest["input_scheme"] = FORMAT
+                        write_json(path / "manifest.json", manifest)
+            summarize([root / "runs"], root / "report")
+            self.assertEqual(read_csv(root / "report" / "device_ratios.csv"), [])
+            self.assertEqual(len(read_json(root / "report" / "summary_quality.json")["protocols"]), 2)
 
     def test_planned_run_is_not_a_measurement(self):
         with tempfile.TemporaryDirectory() as temp:

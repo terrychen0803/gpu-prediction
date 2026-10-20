@@ -59,11 +59,16 @@ def run_one(request, dry_run=False, nsys="nsys"):
     out.mkdir(parents=True, exist_ok=True)
     request = dict(request, out=str(out))
     request["weights"] = str(Path(request["weights"]).resolve())
+    if request.get("input_file"):
+        request["input_file"] = str(Path(request["input_file"]).resolve())
     if not dry_run:
         if not Path(request["weights"]).is_file():
             raise FileNotFoundError("Prepare the weights first with the prepare command")
         if not Path(request["weights"] + ".json").is_file():
             raise FileNotFoundError("Missing weights metadata sidecar; copy both prepared files")
+        if request.get("input_file"):
+            from .input_data import read_fixed_input
+            read_fixed_input(request["input_file"], request["batch"])
         if importlib.util.find_spec("torch") is None or importlib.util.find_spec("torchvision") is None:
             raise RuntimeError("Install the GPU-compatible PyTorch and TorchVision pair in this Python environment")
         if request["mode"] in ("P0", "P1") and not shutil.which(nsys):
@@ -118,6 +123,7 @@ def make_suite(args):
         for batch, mode in jobs:
             requests.append({"mode": mode, "batch": batch, "device": args.device, "label": args.label,
                              "expect_gpu": args.expect_gpu, "weights": str(Path(args.weights).resolve()), "settings": settings,
+                             "input_file": getattr(args, "input_file", None),
                              "nsys_cuda_trace": getattr(args, "nsys_cuda_trace", "cuda"),
                              "repeat": repeat + 1, "order_index": len(requests),
                              "out": str(root / args.label / f"b{batch:02d}" / mode / f"run{repeat + 1:02d}")})

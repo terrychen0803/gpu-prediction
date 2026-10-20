@@ -26,6 +26,8 @@ def protocol(manifest, env):
     values = {key: manifest[key] for key in ("model", "weights_sha256", "dtype", "layout", "code_sha256",
               "backend", "cuda_graph", "queue_depth", "timer_scope", "annotation_timer", "forward_path", "precision_policy", "settings")}
     values["software"] = {key: env[key] for key in ("torch", "torchvision", "cuda_runtime", "cudnn")}
+    if manifest.get("input_scheme"):
+        values["input_scheme"] = manifest["input_scheme"]
     return hashlib.sha256(json.dumps(values, sort_keys=True).encode()).hexdigest()[:16]
 
 

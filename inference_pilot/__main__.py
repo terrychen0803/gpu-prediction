@@ -21,10 +21,15 @@ def main(argv=None):
     d.add_argument("--out")
     p = subs.add_parser("prepare", help="Download fixed IMAGENET1K_V2 weights once; no timing")
     p.add_argument("--out", default="assets/resnet50_imagenet1k_v2.pth")
+    p = subs.add_parser("prepare-input", help="Create a portable FP16 input file once; no GPU timing")
+    p.add_argument("--out", required=True)
+    p.add_argument("--max-batch", type=positive_int, default=32)
+    p.add_argument("--seed", type=int, default=42)
     for command in ("run", "suite"):
         p = subs.add_parser(command)
         p.add_argument("--out", required=True)
         p.add_argument("--weights", default="assets/resnet50_imagenet1k_v2.pth")
+        p.add_argument("--input-file", help="Checksum-verified FP16 binary shared with every device")
         p.add_argument("--settings", help="JSON overrides of preregistered defaults")
         p.add_argument("--device", default="cuda:0")
         p.add_argument("--label", required=True, help="Platform identifier; stored alongside actual detected hardware")
@@ -63,6 +68,10 @@ def main(argv=None):
         if args.command == "prepare":
             from .benchmark import prepare_weights
             prepare_weights(args.out)
+        elif args.command == "prepare-input":
+            from .input_data import prepare_input
+            info = prepare_input(args.out, args.max_batch, args.seed)
+            print(json.dumps(info, ensure_ascii=False, indent=2))
         elif args.command == "_worker":
             from .benchmark import worker
             return worker(args.request)
@@ -72,6 +81,7 @@ def main(argv=None):
                 request = {"out": args.out, "weights": args.weights, "settings": load_settings(args.settings),
                            "device": args.device, "label": args.label, "expect_gpu": args.expect_gpu,
                            "mode": args.mode, "batch": args.batch, "repeat": 1,
+                           "input_file": args.input_file,
                            "nsys_cuda_trace": args.nsys_cuda_trace}
                 return 0 if run_one(request, args.dry_run, args.nsys) else 1
             requests = make_suite(args)

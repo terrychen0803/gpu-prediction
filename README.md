@@ -1,12 +1,12 @@
 # ResNet50 第一步實驗程式
 
-文件入口：[第一步實驗計畫](第一步實驗_ResNet50量測與Trace對應驗證.md) · [後續實驗與建模計畫](docs/NEXT_EXPERIMENTS.md) · [3090 節點操作](docs/RTX3090_NODE.md) · [GB10 現況摘要](docs/GB10_E1_STATUS_20261020.md) · [分析節點 Codex 交接報告](docs/CODEX_HANDOFF.md) · [分析報告範本](docs/ANALYSIS_REPORT_TEMPLATE.md)。
+文件入口：[第一步實驗計畫](第一步實驗_ResNet50量測與Trace對應驗證.md) · [共用輸入與 checksum](inputs/README.md) · [GB10 固定輸入 E1 現況](docs/GB10_E1_FIXED_INPUT_20261020.md) · [後續實驗與建模計畫](docs/NEXT_EXPERIMENTS.md) · [3090 節點操作](docs/RTX3090_NODE.md) · [分析節點 Codex 交接報告](docs/CODEX_HANDOFF.md) · [分析報告範本](docs/ANALYSIS_REPORT_TEMPLATE.md)。
 
 另一台電腦接手時，先讀交接報告並使用其中的啟動任務。現在可執行的是 ResNet50 資料流程；其他任務、硬體 microbenchmark、校正與跨設備學習模型為後續計畫。
 
 這套程式實作四種量測模式、六個 forward 階段標記、穩態檢查、Nsight SQLite 解析、跨設備統計與診斷圖。研究用時間標籤需來自真實 CUDA 推論；主指標以 host timer 量測 forward 到 GPU 完成的服務時間，GPU trace 統計另外保存。缺少 GPU 或必要工具時會停止，不使用 CPU 推論或模擬數字代替實測。
 
-合成 SQLite 資料已驗證解析與統計邏輯。另於 2026-10-18 在 GB10 完成 B1/8/32、四模式各三次，共 36 個實測 run；自動品質檢查全數通過，但 Nsight 的事件完整性警告仍標記待審。該次量測使用本版已納入的 GB10 修正與 `cuda-sw` trace 後端；原始資料保留在量測節點，詳見 [現況摘要](docs/GB10_E1_STATUS_20261020.md)。3090、4090、5090 尚未實測。新設備第一次執行仍應先使用 batch 1。
+合成 SQLite 資料已驗證解析與統計邏輯。GB10 已用本倉庫的固定 FP16 輸入完成 B1/8/32、四模式各三次，共 36 個正式 run；18 份 trace 的事件完整性警告仍待審。已收到的 3090／4090 舊 session 各 36 run 使用不同輸入 bytes，須用本倉庫的固定輸入重新量測後才能與 GB10 嚴格比較。原始資料與本機分析位於 `/home/good_egg/RTchen/`，不在 Git；5090 暫不可用。新設備第一次執行仍應先使用 batch 1。
 
 ## 1　安裝環境
 
@@ -43,13 +43,13 @@ python -m inference_pilot prepare --out assets/resnet50_imagenet1k_v2.pth
 在 4090 上先完成一個 G 模式：
 
 ```sh
-python -m inference_pilot run --label rtx4090 --expect-gpu 4090 --mode G --batch 1 --out results/4090_g_smoke
+python -m inference_pilot run --label rtx4090 --expect-gpu 4090 --mode G --batch 1 --input-file inputs/e1_shared_fp16_b32_seed42_20261020.bin --out results/4090_g_smoke
 ```
 
 檢查 `quality.json` 是否為 `passed`。若成功，再測帶標記的 profile：
 
 ```sh
-python -m inference_pilot run --label rtx4090 --expect-gpu 4090 --mode P1 --batch 1 --out results/4090_p1_smoke
+python -m inference_pilot run --label rtx4090 --expect-gpu 4090 --mode P1 --batch 1 --input-file inputs/e1_shared_fp16_b32_seed42_20261020.bin --nsys-cuda-trace cuda-sw --out results/4090_p1_smoke
 ```
 
 這會自動啟動 `nsys profile`、收集穩態 trace、匯出 SQLite 並執行 parser。`quality.json` 是 CUDA worker 的檢查；`trace_quality.json` 是 trace 解析檢查；`execution.json` 是整條流程是否完成。P1 的 trace 還需要檢查 `trace_diagnostics.json` 與 Nsight 介面的診斷資訊。
@@ -61,7 +61,7 @@ python -m inference_pilot run --label rtx4090 --expect-gpu 4090 --mode P1 --batc
 先查看將執行的工作，不下載、不量測：
 
 ```sh
-python -m inference_pilot suite --label rtx4090 --expect-gpu 4090 --batches 1 --repeats 3 --out results/4090_plan --dry-run
+python -m inference_pilot suite --label rtx4090 --expect-gpu 4090 --batches 1 --repeats 3 --input-file inputs/e1_shared_fp16_b32_seed42_20261020.bin --nsys-cuda-trace cuda-sw --out results/4090_plan --dry-run
 ```
 
 `--dry-run` 是 CLI 的「僅列計畫」模式，與研究中的「在來源 GPU 實際執行短 dry run profiling」不同。其輸出標為 `planned_only`，不會進入結果彙整。
@@ -69,7 +69,7 @@ python -m inference_pilot suite --label rtx4090 --expect-gpu 4090 --batches 1 --
 正式執行時使用新的輸出目錄：
 
 ```sh
-python -m inference_pilot suite --label rtx4090 --expect-gpu 4090 --batches 1 --repeats 3 --out results/4090_b1_session01
+python -m inference_pilot suite --label rtx4090 --expect-gpu 4090 --batches 1 --repeats 3 --input-file inputs/e1_shared_fp16_b32_seed42_20261020.bin --nsys-cuda-trace cuda-sw --out results/4090_b1_fixed_input_session01
 ```
 
 預設四種模式各 3 個獨立程序，共 12 runs；每輪會打亂配置與模式順序。第一個失敗會停止，保留資料供排查。可用 `--keep-going` 收集其他 runs，但失敗資料不會被當成通過。
@@ -90,25 +90,25 @@ python -m inference_pilot suite --label rtx4090 --expect-gpu 4090 --batches 1 --
 3090：
 
 ```sh
-python -m inference_pilot suite --label rtx3090 --expect-gpu 3090 --out results/3090_session02
+python -m inference_pilot suite --label rtx3090 --expect-gpu 3090 --input-file inputs/e1_shared_fp16_b32_seed42_20261020.bin --nsys-cuda-trace cuda-sw --out results/3090_fixed_input_session01
 ```
 
 4090：
 
 ```sh
-python -m inference_pilot suite --label rtx4090 --expect-gpu 4090 --out results/4090_session02
+python -m inference_pilot suite --label rtx4090 --expect-gpu 4090 --input-file inputs/e1_shared_fp16_b32_seed42_20261020.bin --nsys-cuda-trace cuda-sw --out results/4090_fixed_input_session01
 ```
 
 5090：
 
 ```sh
-python -m inference_pilot suite --label rtx5090 --expect-gpu 5090 --out results/5090_session02
+python -m inference_pilot suite --label rtx5090 --expect-gpu 5090 --input-file inputs/e1_shared_fp16_b32_seed42_20261020.bin --out results/5090_fixed_input_session01
 ```
 
 GB10：
 
 ```sh
-python -m inference_pilot suite --label gb10 --out results/gb10_session02
+python -m inference_pilot suite --label gb10 --expect-gpu GB10 --input-file inputs/e1_shared_fp16_b32_seed42_20261020.bin --nsys-cuda-trace cuda-sw --out results/gb10_fixed_input_session02
 ```
 
 預設 batches 為 1、8、32，每台 36 runs；四設備正式矩陣共 144 runs。權重檔位置不同時，加 `--weights /absolute/path/to/resnet50_imagenet1k_v2.pth`。工具不在 PATH 時，加 `--nsys /absolute/path/to/nsys`。GB10 使用 `--nsys-cuda-trace cuda-sw`；其他節點先依當地 Nsight 支援與 smoke test 決定後端，並在比較 trace 前核對後端差異。
@@ -119,7 +119,7 @@ python -m inference_pilot suite --label gb10 --out results/gb10_session02
 
 - 224 × 224、NCHW contiguous、模型及輸入 FP16、autocast 關閉。
 - `eval()`、`inference_mode()`、eager、CUDA Graph 關閉、單一預設 stream。
-- 固定種子在 CPU 生成合成輸入，再搬到 GPU；記錄輸入 checksum。
+- 正式 E1 使用 `--input-file inputs/e1_shared_fp16_b32_seed42_20261020.bin`，在計時前載入同一份 checksum 驗證的 FP16 bytes。沒有此參數時程式仍保留 CPU 隨機生成路徑，但它不屬於本輪同輸入協定，結果必須分開。
 - 一次請求結束前呼叫 device synchronize；計時含 forward、標記開關所造成的成本與最後等待。
 - 不在 phase 之間同步。NVTX push／pop 在 host timer 內，方便量化標記開銷。
 - 先做至少 50 次 warm-up，再觀察連續三個 20 次視窗；相鄰中位數變化都小於 5% 才量測。最多 500 次。
@@ -128,6 +128,16 @@ python -m inference_pilot suite --label gb10 --out results/gb10_session02
 - 每個 run 前後保存 `nvidia-smi` 快照；它不提供完整的時間連續功率／溫度記錄。環境欄位缺失會保留原因。
 
 設定集中於 `inference_pilot/settings.json`。若要修改，複製一份後使用 `--settings my_settings.json`。完整設定進入 manifest 與比較條件，不會把不同協定的結果直接混在一起。
+
+### 固定跨設備輸入
+
+本倉庫的 [inputs/](inputs/README.md) 已包含固定 `.bin` 與 `.bin.json`。這份 B32、NCHW contiguous、FP16 little-endian 檔案可取前 B1／B8 筆；執行時會核對完整檔案及所用 batch 前綴的 SHA-256。**3090／4090／5090 直接使用 Git 中的原檔，不要在當地重新執行 `prepare-input`**，因各架構的 CPU `torch.randn` 可能產生不同 bytes。只有設計另一個新協定時才使用：
+
+```sh
+python -m inference_pilot prepare-input --out /path/to/new_input.bin --max-batch 32 --seed 42
+```
+
+每個新節點先以 `run --mode G --batch 1` 與 `run --mode P1 --batch 1`，兩個命令都加入 `--input-file inputs/e1_shared_fp16_b32_seed42_20261020.bin`；核對 manifest 中的 `input_sha256` 後，再以相同參數執行 `suite --batches 1 8 32 --repeats 3`。GB10 的正式 session 為 `/home/good_egg/RTchen/artifacts/runs/gpu_prediction_gb10_fixed_input_full_20261020`。先前以各機 CPU 隨機生成的 x86 session 不回填成新版協定。
 
 ## 7　Trace 對應與限制
 

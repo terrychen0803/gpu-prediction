@@ -108,9 +108,18 @@ def worker(request_path):
         model = resnet50(weights=None)
         model.load_state_dict(torch.load(weights, map_location="cpu", weights_only=True), strict=True)
         model.eval().to(device=device, dtype=torch.float16)
-        generator = torch.Generator(device="cpu").manual_seed(cfg["seed"])
-        cpu_input = torch.randn(request["batch"], 3, 224, 224, generator=generator).to(torch.float16).contiguous()
+        if request.get("input_file"):
+            from .input_data import read_fixed_input
+            raw_input, input_metadata = read_fixed_input(request["input_file"], request["batch"])
+            cpu_input = torch.frombuffer(bytearray(raw_input), dtype=torch.float16).reshape(
+                request["batch"], 3, 224, 224).clone().contiguous()
+        else:
+            generator = torch.Generator(device="cpu").manual_seed(cfg["seed"])
+            cpu_input = torch.randn(request["batch"], 3, 224, 224, generator=generator).to(torch.float16).contiguous()
+            input_metadata = {"input_scheme": "legacy_cpu_torch_randn"}
         input_checksum = hashlib.sha256(cpu_input.numpy().tobytes()).hexdigest()
+        if request.get("input_file") and input_checksum != input_metadata["input_prefix_sha256"]:
+            raise ValueError("Loaded FP16 tensor checksum differs from fixed input bytes")
         x = cpu_input.to(device)
         environment = {
             "python": sys.version, "platform": platform.platform(), "machine": platform.machine(),
@@ -127,6 +136,7 @@ def worker(request_path):
         manifest = dict(request)
         manifest.update({"schema_version": 1, "model": "torchvision.resnet50", "weights_name": "IMAGENET1K_V2",
                          "weights_sha256": checksum, "input_sha256": input_checksum, "shape": list(x.shape),
+                         **input_metadata,
                          "dtype": "float16", "layout": "NCHW_contiguous", "code_sha256": code_hash(),
                          "backend": "eager", "cuda_graph": False, "queue_depth": 1,
                          "timer_scope": "host_forward_plus_device_synchronize", "annotation_timer": "push_and_pop_included",
