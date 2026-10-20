@@ -10,7 +10,7 @@
 
 ```sh
 git fetch origin
-git switch --detach 402239b57aa0e6134e7bafd47529c9fc2c9ce4bc
+git switch --detach origin/main
 git rev-parse HEAD
 git status --short --branch
 python -m unittest discover -s tests -v
@@ -25,7 +25,7 @@ PY
 nvidia-smi -L
 ```
 
-上面固定的 Git commit 含 E3 量測程式與本手冊；`prepare-grid-set` 產生 `inputs/e3_grid_v1/` 下三份 `.bin` 與 `.bin.json`，若已存在則驗證，不覆寫；它逐一核對 Git 中的全檔與 B1／B4／B8／B32 前綴 SHA-256。產生的 160／224／320 檔案全檔 hash 依序為 `5bd2e54bc60cdb718ba82b6fd39acffc2ad6dbef8778047bce2c5e98c2382af1`、`2f10ae79f0fc26dbb51349c60dff8951ea462bba2f1fdaee6e2184eb09c7c64a`、`9326162bd95cca3253f57bac2836d9d41f3cb0a65be4e1eb74774aff256bbbc8`。不一致即停止，查明版本與檔案，不改檢查值。正式權重仍使用 E1 的 `assets/resnet50_imagenet1k_v2.pth` 及 sidecar；檔案 SHA-256 應為 `72f27a9ddb2f3c57258816e525b12701cb0216f0e17192b780111c45ca8a8597`。
+記下 `git rev-parse HEAD` 的實際 commit；以量測模組 hash、輸入／權重 hash 鎖定資料契約。E3 量測程式最初發布於 `402239b57aa0e6134e7bafd47529c9fc2c9ce4bc`，後續文件修訂不改變上方預期量測模組 hash。`prepare-grid-set` 產生 `inputs/e3_grid_v1/` 下三份 `.bin` 與 `.bin.json`，若已存在則驗證，不覆寫；它逐一核對 Git 中的全檔與 B1／B4／B8／B32 前綴 SHA-256。產生的 160／224／320 檔案全檔 hash 依序為 `5bd2e54bc60cdb718ba82b6fd39acffc2ad6dbef8778047bce2c5e98c2382af1`、`2f10ae79f0fc26dbb51349c60dff8951ea462bba2f1fdaee6e2184eb09c7c64a`、`9326162bd95cca3253f57bac2836d9d41f3cb0a65be4e1eb74774aff256bbbc8`。不一致即停止，查明版本與檔案，不改檢查值。正式權重仍使用 E1 的 `assets/resnet50_imagenet1k_v2.pth` 及 sidecar；檔案 SHA-256 應為 `72f27a9ddb2f3c57258816e525b12701cb0216f0e17192b780111c45ca8a8597`。
 
 使用節點既有且已驗證的 CUDA PyTorch／TorchVision 與 Nsight CLI。多卡節點先用 `nvidia-smi -L` 取得目標 GPU 完整 UUID，再設 `CUDA_VISIBLE_DEVICES=<實際 GPU UUID>`；不要依 fastfetch 編號猜 CUDA index。正式收集期間選沒有其他重負載的單張卡，後續指令均用 `cuda:0`。檢查 `python -m inference_pilot doctor --out <新檔案>`，記錄 GPU UUID、driver、torch、CUDA、cuDNN、nsys 版本與 Git commit。GB10 已驗證 `cuda-sw`；3090／4090 的新版 P0 先由 smoke 確認當地 Nsight 支援。不同 backend 必須分組記錄。
 
@@ -89,4 +89,4 @@ python -m e3_calibration --out "results/e3_${E3_LABEL}_analysis01" \
 
 ## 可貼給節點本地 Codex 的任務
 
-> 請先讀 `AGENTS.md`、`docs/E3_NODE_RUNBOOK.md`、`e3_calibration/README.md` 與 `inputs/e3_grid_manifest.json`。在本節點只選一張空閒 RTX 3090／RTX 4090，使用 GitHub commit `402239b57aa0e6134e7bafd47529c9fc2c9ce4bc`、已驗證的 CUDA PyTorch 與 Nsight。執行 `prepare-grid-set` 並核對三解析度 SHA-256、權重及 `inference_pilot` code hash；先做 R160/B1 和 R320/B32 的 G/P0 smoke，檢查 correctness、trace parser 和警告，再按手冊以新目錄完成三個 resolution 的 G/P0 各三次，共 72 個正式 run；另做兩個 P1 端點稽核。保留所有失敗與警告，不改 batch、精度、同步政策、輸入或門檻。完成後以 E3 CLI 做設備內 pilot，核對 12 配置／72 run、G spread 與 P0 品質，將完整原始目錄附 checksum 封存；回報封存檔與 `.sha256` 的絕對路徑、Git commit、GPU UUID、版本、完成／失敗格與每個 trace 警告。若環境不足、目標 GPU 忙碌或最大配置不可行，先回報實際阻礙並保留資料。
+> 請先讀 `AGENTS.md`、GitHub `main` 最新的 `docs/E3_NODE_RUNBOOK.md`、`e3_calibration/README.md` 與 `inputs/e3_grid_manifest.json`。在本節點只選一張空閒 RTX 3090／RTX 4090，記錄 Git commit、使用已驗證的 CUDA PyTorch 與 Nsight。執行 `prepare-grid-set` 並核對三解析度 SHA-256、權重及 `inference_pilot` code hash 必須等於 `7743298b9e32fc40b1467174bd193d124e30fd00adcbe4ef626b8214a19b1eb9`；先做 R160/B1 和 R320/B32 的 G/P0 smoke，檢查 correctness、trace parser 和警告，再按手冊以新目錄完成三個 resolution 的 G/P0 各三次，共 72 個正式 run；另做兩個 P1 端點稽核。保留所有失敗與警告，不改 batch、精度、同步政策、輸入或門檻。完成後以 E3 CLI 做設備內 pilot，核對 12 配置／72 run、G spread 與 P0 品質，將完整原始目錄附 checksum 封存；回報封存檔與 `.sha256` 的絕對路徑、Git commit、GPU UUID、版本、完成／失敗格與每個 trace 警告。若環境不足、目標 GPU 忙碌或最大配置不可行，先回報實際阻礙並保留資料。
