@@ -1,5 +1,7 @@
 # E3 節點手冊：GB10／RTX 3090／RTX 4090
 
+> 本文件保留 E3 的凍結命令與 hash，供既有量測重現。2026-10-21 起新增研究的優先順序依 [O 系列設計](NEXT_EXPERIMENTS.md) 及 [節點交接](CODEX_HANDOFF.md)；不將既有六 phase 當算子標籤。
+
 這份手冊供三台節點的本地 Codex 各自在本機執行。E3 量測 ResNet50 的 batch×resolution 配置，收集無 profiler 的 **G** 標籤及來源設備的 **P0** 數值 trace。每台目標矩陣是 resolution={160,224,320} × batch={1,4,8,32} × mode={G,P0} × 三個獨立程序，即 **72 個正式 run**；三台合計 216 run。E2 已收完的硬體曲線另存，不需重跑。5090 尚未可用，不阻礙前三台的設備內 E3。
 
 本輪 E3 使用新量測程式與新輸入協定。**舊 E1 的 224²、torch.randn 固定檔不能混入 E3 grid**：新檔以純 Python SHAKE256 byte stream 和固定 FP16 lookup table 產生，三台按同一 manifest 可驗出完全相同的 bytes。這是控制計算工作量的合成輸入，並非真實影像準確率測試。資料不在 Git，產生程式與 [三解析度 hash manifest](../inputs/e3_grid_manifest.json) 在 Git。正式程式 `inference_pilot/*.py` 合併 hash 預期為 `7743298b9e32fc40b1467174bd193d124e30fd00adcbe4ef626b8214a19b1eb9`；任何修改都須另立協定，原結果保留。

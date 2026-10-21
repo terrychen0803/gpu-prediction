@@ -1,5 +1,7 @@
 # E2 節點操作手冊：RTX 3090／RTX 4090
 
+> 歷史協定重現手冊。以下狀態是撰寫時記錄；2026-10-21 的主線與節點任務以 [O 系列設計](NEXT_EXPERIMENTS.md) 及 [交接](CODEX_HANDOFF.md) 為準。既有 E2 資料先盤點，不因本文件的「尚待」而重跑。
+
 這份手冊給兩台節點上的操作人員或本地 Codex 執行。E2 量的是各 GPU 的 Compute、Memory、Launch、Host／transfer 校正曲線，**不是重跑 E1 ResNet50 推論**；不需要 E1 的固定輸入或模型權重。GB10 已完成 `e2_calibration_v3`，RTX 3090／4090 尚待各自在本機實測。5090 目前不在這次工作範圍。
 
 本次以 GitHub 上的 `e2_calibration/` 原始碼為基準。GB10 已量測版本的 `kernels.cu` SHA-256 是 `48bd47e6e7fa7ccebebcf17ff98c34981961cf81bf989b21126477a1e4b32083`，`kernels.cu` 加 `__main__.py` 的連續 bytes SHA-256 是 `29c3878d0a9559c250851cb8f8e5f8632e87b0818ba2717bf63f86a7c067a705`。節點的兩個值應一致；各節點編譯後的 `libe2.so` hash、GPU UUID、`software_hash` 可以不同，並須保留實際值。

@@ -1,5 +1,7 @@
 # 分析報告範本
 
+此份保留供既有 E 系列使用。新算子辨識／operation-aware 研究請用 [O 系列範本](OPERATOR_REPORT_TEMPLATE.md)，並依 [現行設計](NEXT_EXPERIMENTS.md) 區分辨識、時間目標及資訊條件。
+
 複製到新的 `analysis_runs/<analysis_id>/REPORT.md` 後填寫。保留「未測／待審／不適用」，不得把空白或缺資料寫成通過。這是範本，不是結果。
 
 ## 基本資訊

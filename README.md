@@ -1,8 +1,28 @@
-# ResNet50 第一步實驗程式
+# GPU 跨設備 inference 預測研究
+
+## 目前主線：由 trace／metrics 辨識算子並預測時間
+
+更新：2026-10-21。研究設備為 **RTX 3090、RTX 4090、GB10**。目標是從來源 GPU 的 dry-run trace／可取得 metrics，自動找出算子邊界、辨識類型，再建立逐算子跨設備時間模型並組合 inference 服務時間；比較其與 wrapper 已知邊界／類型／shape 的預測差距。
+
+**O 系列目前只有設計，尚未實作或實測。** 實驗程式與資料收集由上述本地節點接手。本次整合僅更新文件，保留既有 E1～E3 程式與凍結 hash。使用者回報 E4 已在節點完成，本次審查的遠端基準 `73478bf` 尚未收錄其程式／報告，請先依交接文件找回當地成果。
+
+建議閱讀順序：
+
+1. [目標與現有專案一致性審查](docs/GOAL_ALIGNMENT_REVIEW_20261021.md)
+2. [O0～O5 完整實驗設計](docs/NEXT_EXPERIMENTS.md)
+3. [資料契約與資訊隔離](docs/OPERATOR_DATA_CONTRACT.md)
+4. [三節點 Codex 交接與第一輪實作](docs/CODEX_HANDOFF.md)
+5. [O 系列報告範本](docs/OPERATOR_REPORT_TEMPLATE.md)
+
+第一步是三設備 O0 可觀測性盤點及 GEMM/BMM/Conv2D 九配置 pilot。必須驗證真正無標記 trace 的邊界標籤能否可靠取得；算子辨識與 metrics 可用性均尚未證實，不能只憑既有整模型誤差推論。
+
+## 既有 E1～E3 工具與操作說明
+
+以下為已實作工具，保留用於舊協定重現及校正；其中四設備擴充、E 系列「下一步」是歷史規劃，現行優先順序以上述 O 系列為準。不要把以下 six-phase 的 phase 當成單一 operation。
 
 文件入口：[第一步實驗計畫](第一步實驗_ResNet50量測與Trace對應驗證.md) · [共用輸入與 checksum](inputs/README.md) · [三設備 E1／E2 現況](docs/E1_E2_STATUS_20261020.md) · [GB10 固定輸入 E1](docs/GB10_E1_FIXED_INPUT_20261020.md) · [後續實驗與建模計畫](docs/NEXT_EXPERIMENTS.md) · [3090 節點操作](docs/RTX3090_NODE.md) · [分析節點 Codex 交接報告](docs/CODEX_HANDOFF.md) · [分析報告範本](docs/ANALYSIS_REPORT_TEMPLATE.md)。
 
-另一台電腦接手時，先讀交接報告並使用其中的啟動任務。現在可執行的是 ResNet50 E1 資料流程、[E2 硬體校正工具](e2_calibration/README.md)及 [E3 來源時間校正 pilot](e3_calibration/README.md)。3090／4090 的新配置收集請依 [E3 節點手冊](docs/E3_NODE_RUNBOOK.md)；跨設備學習模型仍是後續計畫。
+現在 Git 內可執行的是 ResNet50 E1 資料流程、[E2 硬體校正工具](e2_calibration/README.md)及 [E3 來源時間校正 pilot](e3_calibration/README.md)。重現 E3 配置請依 [E3 節點手冊](docs/E3_NODE_RUNBOOK.md)；節點 E4 成果與新 O 系列的狀態見上方說明。
 
 這套程式實作四種量測模式、六個 forward 階段標記、穩態檢查、Nsight SQLite 解析、跨設備統計與診斷圖。研究用時間標籤需來自真實 CUDA 推論；主指標以 host timer 量測 forward 到 GPU 完成的服務時間，GPU trace 統計另外保存。缺少 GPU 或必要工具時會停止，不使用 CPU 推論或模擬數字代替實測。
 
