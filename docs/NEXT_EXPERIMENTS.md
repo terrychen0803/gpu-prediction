@@ -1,6 +1,6 @@
 # O 系列設計：由 trace／metrics 建立 operation-aware 跨設備時間模型
 
-更新：2026-10-21。**狀態：設計規格，尚未實作或量測 O 系列。** 實作／量測設備為 **RTX 3090、RTX 4090、GB10**；本次電腦只做設計與文件整合。原 E1～E3 工具保留；E4 為節點已回報、本次 Git 尚未收錄。參見 [一致性審查](GOAL_ALIGNMENT_REVIEW_20261021.md)、[資料契約](OPERATOR_DATA_CONTRACT.md)、[節點交接](CODEX_HANDOFF.md)。舊方案見 [歷史文件](archive/WHOLE_MODEL_PLAN_20261020.md)。
+更新：2026-10-21。**狀態：O1 九配置 pilot 已在 GB10 實作並部分實測；O2～O5 仍是設計規格。** RTX 3090、RTX 4090 待用同版程式進行當地量測與品質審查。GB10 P/R 有事件完整性警告，逐算子 P 標籤未驗收。程式與命令見 [O1 節點手冊](O1_NODE_RUNBOOK.md)，實測摘要見 [GB10 O1 狀態](O1_GB10_PILOT_STATUS_20261021.md)。原 E1～E3 工具保留；E4 為節點已回報、本次 Git 尚未收錄。另見 [一致性審查](GOAL_ALIGNMENT_REVIEW_20261021.md)、[資料契約](OPERATOR_DATA_CONTRACT.md)、[節點交接](CODEX_HANDOFF.md)。舊方案見 [歷史文件](archive/WHOLE_MODEL_PLAN_20261020.md)。
 
 使用者追加指定 **MLP 為主要模型**。O2/O3 的具體數學、loss、模型大小、分段DP、OOF及實作順序以 [T-v1 MLP 規格](T_V1_MLP_MODEL_SPEC.md) 為準；本文保留整體實驗流程。線性／倍率模型僅作基線。
 
@@ -239,4 +239,4 @@ pilot 穩定後對候選 1/4/16 次 request 做真實獨立 capture，量完整�
 
 ## 12. 本輪交付範圍
 
-本次交付設計、[資料契約](OPERATOR_DATA_CONTRACT.md)、[節點清單](CODEX_HANDOFF.md)、[報告範本](OPERATOR_REPORT_TEMPLATE.md)。沒有新 O 系列可執行命令，沒有修改 E1～E3 凍結量測程式。無法可靠恢復邊界／類型時，應報受限辨識或只有時間預測，不能宣稱完成全部研究目標。
+本次已另加入 [O1 pilot 程式](../o1_operator/README.md)、[節點操作](O1_NODE_RUNBOOK.md) 與 [GB10 受限結果](O1_GB10_PILOT_STATUS_20261021.md)；原本的 [資料契約](OPERATOR_DATA_CONTRACT.md)、[節點清單](CODEX_HANDOFF.md)、[報告範本](OPERATOR_REPORT_TEMPLATE.md)仍適用。E1～E3 凍結量測程式未修改。無法可靠恢復邊界／類型時，應報受限辨識或只有時間預測，不能宣稱完成全部研究目標。

@@ -4,7 +4,7 @@
 
 更新：2026-10-21。研究設備為 **RTX 3090、RTX 4090、GB10**。目標是從來源 GPU 的 dry-run trace／可取得 metrics，自動找出算子邊界、辨識類型，再建立逐算子跨設備時間模型並組合 inference 服務時間；比較其與 wrapper 已知邊界／類型／shape 的預測差距。
 
-**O 系列目前只有設計，尚未實作或實測。** 實驗程式與資料收集由上述本地節點接手。本次整合僅更新文件，保留既有 E1～E3 程式與凍結 hash。使用者回報 E4 已在節點完成，本次審查的遠端基準 `73478bf` 尚未收錄其程式／報告，請先依交接文件找回當地成果。
+**O1 九配置 pilot 已在 GB10 實作並部分實測；O2～O5 仍是後續工作。** O1 的九配置 G0/GE 時間量測完成，P/R 三家族 trace 診斷仍有事件完整性警告，不能當正式逐算子 P 標籤。程式與跨節點命令見 [O1 節點手冊](docs/O1_NODE_RUNBOOK.md)，數字與限制見 [GB10 O1 摘要](docs/O1_GB10_PILOT_STATUS_20261021.md)。既有 E1～E3 程式與凍結 hash 保留；使用者回報 E4 已在節點完成，目前 Git 尚未收錄其程式／報告，請先保護當地成果。
 
 建議閱讀順序：
 
@@ -24,7 +24,7 @@
 
 文件入口：[第一步實驗計畫](第一步實驗_ResNet50量測與Trace對應驗證.md) · [共用輸入與 checksum](inputs/README.md) · [三設備 E1／E2 現況](docs/E1_E2_STATUS_20261020.md) · [GB10 固定輸入 E1](docs/GB10_E1_FIXED_INPUT_20261020.md) · [後續實驗與建模計畫](docs/NEXT_EXPERIMENTS.md) · [3090 節點操作](docs/RTX3090_NODE.md) · [分析節點 Codex 交接報告](docs/CODEX_HANDOFF.md) · [分析報告範本](docs/ANALYSIS_REPORT_TEMPLATE.md)。
 
-現在 Git 內可執行的是 ResNet50 E1 資料流程、[E2 硬體校正工具](e2_calibration/README.md)及 [E3 來源時間校正 pilot](e3_calibration/README.md)。重現 E3 配置請依 [E3 節點手冊](docs/E3_NODE_RUNBOOK.md)；節點 E4 成果與新 O 系列的狀態見上方說明。
+現在 Git 內可執行的是 ResNet50 E1 資料流程、[E2 硬體校正工具](e2_calibration/README.md)、[E3 來源時間校正 pilot](e3_calibration/README.md)，以及 [O1 九配置 pilot](o1_operator/README.md)。重現 E3 配置請依 [E3 節點手冊](docs/E3_NODE_RUNBOOK.md)；節點 E4 成果與新 O 系列的狀態見上方說明。
 
 這套程式實作四種量測模式、六個 forward 階段標記、穩態檢查、Nsight SQLite 解析、跨設備統計與診斷圖。研究用時間標籤需來自真實 CUDA 推論；主指標以 host timer 量測 forward 到 GPU 完成的服務時間，GPU trace 統計另外保存。缺少 GPU 或必要工具時會停止，不使用 CPU 推論或模擬數字代替實測。
 

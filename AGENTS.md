@@ -3,7 +3,7 @@
 接手先讀 README.md、docs/CODEX_HANDOFF.md、docs/NEXT_EXPERIMENTS.md 與 inference_pilot/VALIDATION.md。使用繁體中文報告結果。使用者最新指示優先於舊方案。
 
 - 本輪設備為 RTX 3090、RTX 4090、GB10；5090 留待擴充。四任務均為 inference，LLM 為 Qwen3-0.6B。最新目標是從 trace/metrics 自動辨識算子邊界與類型，再逐算子跨設備預測並組合 request 服務時間。不能以整模型回歸取代此目標。
-- 現有 Git 有 E1～E3；使用者回報 E4 在節點完成，但 2026-10-21 審查基準尚未收錄，接手先保護並盤點本地 E4。O 系列只有設計，不要稱已實作。此設計電腦只交付文件，實驗程式與 GPU 量測由三個本地節點執行；以使用者後續授權範圍為準。
+- 現有 Git 有 E1～E3 與 O1 九配置 pilot 程式；GB10 已完成 G0/GE 時間量測及受限 P/R trace 診斷。O2～O5 尚未實作，不把 O1 單算子資料稱作無標記混合序列辨識。使用者回報 E4 在節點完成，但目前 Git 尚未收錄，接手先保護並盤點本地 E4。其餘節點按 docs/O1_NODE_RUNBOOK.md 使用固定版本 branch、記錄 commit SHA 與 input hash。
 - GPU 實測、合成 fixture、CLI planned_only 必須區分。缺資料時列出缺項，不產生假 latency、counter 或成功結果。
 - 保存原始 session 與失敗資料。重新 parse 會寫入衍生檔，應使用副本；分析輸出用新的 analysis_runs/ 子目錄，保留來源 checksum 與分析 commit。
 - Nsight parser 通過不代表無事件遺失。保留 manual review 狀態並核對 log／report；未知 schema 先調查，不以猜測 join 或補零繞過檢查。

@@ -1,6 +1,6 @@
 # RTX 3090／RTX 4090／GB10 節點 Codex 交接
 
-更新：2026-10-21。倉庫：[gpu-prediction](https://github.com/terrychen0803/gpu-prediction)。本次審查的原始 main 為 `73478bfd32a486246a2aecf3c8e59e0f3a839972`；文件更新後請記錄實際 checkout commit。**O 系列只有設計，未實作；GPU 程式開發與量測交由三個本地節點。** 本次設計電腦未執行 GPU 實驗。
+更新：2026-10-21。倉庫：[gpu-prediction](https://github.com/terrychen0803/gpu-prediction)。本次設計基準為 `97f3afd`；節點應使用 O1 固定版本 branch `o1-gb10-pilot-v2-20261021` 並記錄實際 checkout commit。**O1 九配置 pilot 已在 GB10 實作並部分實測；O2～O5 尚未實作。** 3090／4090 仍需依 [節點手冊](O1_NODE_RUNBOOK.md) 執行；GB10 結果見 [狀態摘要](O1_GB10_PILOT_STATUS_20261021.md)。
 
 ## 1. 使用者已確認的目標
 
@@ -18,7 +18,7 @@ wrapper/reference 可做訓練與評分標籤；正式 T/TM predictor 不讀測�
 4. [O 報告範本](OPERATOR_REPORT_TEMPLATE.md)、[既有驗證](../inference_pilot/VALIDATION.md)。
 5. **[T-v1 MLP 數學規格](T_V1_MLP_MODEL_SPEC.md)**：使用者已指定MLP為主要方法；包含片段MLP＋DP、F/V時間MLP、損失、OOF與初始超參數。未知類首版採拒絕，GE與CTX使用不同模型。
 
-Git 有 E1 的 six-phase ResNet50、E2 硬體校正、E3 12 配置及設備內 C0/C1。六 phase 不是六算子；E1 P0 是同步輔助 request 分段。E2 GEMM 不是完整 operation-aware 對照資料集。現有 trace diagnostics 有完整性疑慮，不能忽略。
+Git 有 E1 的 six-phase ResNet50、E2 硬體校正、E3 12 配置及設備內 C0/C1，另有 `o1_operator` 的九配置 G0/GE/P/R pilot。六 phase 不是六算子；E1 P0 是同步輔助 request 分段。E2 GEMM 不是完整 operation-aware 對照資料集。GB10 O1 P/R trace 有完整性疑慮，不能忽略。
 
 使用者回報 E4 已在節點完成，六方向平均 MdAPE 42.52%／37.50%／16.70%；**本次遠端基準沒有 e4_prediction/ 或該報告，未重現**。先找實際節點程式與 session，保存 commit/patch、split、feature allowlist、逐配置結果、品質狀態，不覆蓋或從頭杜撰。若節點新結果與這份文件不同，以有 provenance 的實際證據更新狀態。
 
@@ -34,7 +34,7 @@ Git 有 E1 的 six-phase ResNet50、E2 硬體校正、E3 12 配置及設備內 C
 
 ## 4. 節點開發工作包
 
-以下模組名稱是**建議的新實作**，目前不能執行 `python -m operator_study ...`。
+`o1_operator` 是已可執行的 O1 pilot；下表其他模組名稱與完整資料契約仍是後續**建議實作**，目前不能執行 `python -m operator_study ...`。
 
 | 工作包 | 實作內容 | 驗收／交付 |
 |---|---|---|
@@ -52,9 +52,9 @@ Git 有 E1 的 six-phase ResNet50、E2 硬體校正、E3 12 配置及設備內 C
 
 ## 5. 第一輪實際執行安排
 
-三台共用同一 collector commit、manifest 與 input files。可先在 4090 做單配置正確性／export smoke，再在 GB10、3090 驗證 backend；**三台 pilot 都完成前不凍結大矩陣**。本機 collector 有相容性問題就記實際錯誤，不能默改精度或尺寸。
+三台共用 O1 固定 commit、protocol 與 input SHA manifest。GB10 已完成 G0/GE 九配置三重複與三家族 P/R 一次診斷；3090／4090 依 [O1 節點手冊](O1_NODE_RUNBOOK.md) 先做單配置 smoke，再收當地 G0/GE 與 P/R 品質資料。**三台 pilot 的品質關卡未通過前不凍結大矩陣**。本機 collector 有相容性問題就記實際錯誤，不能默改精度或尺寸。
 
-pilot 每台 9 配置×4 模式×3 repeats=108 配置量測單元，三台 324；可每 worker 掃9配置，因此基本每台12個程序 session。額外 correctness、reference audit、重測另列。先量成本與儲存量，再決定 139 配置／5,004 單元是否划算。
+pilot 每台 9 配置×4 模式×3 repeats=108 配置量測單元，三台 324；目前 `o1_operator` 每單元啟動獨立程序，故完整 pilot 每台為 108 個程序。原設計「每 worker 掃九配置、每台 12 個程序」尚未實作，不能用它估現行啟動成本。額外 correctness、reference audit、重測另列。先量成本與儲存量，再決定 139 配置／5,004 單元是否划算。
 
 O0/pilot 的必要檔案：
 
@@ -75,11 +75,13 @@ O0/pilot 的必要檔案：
 與 wrapper 已知邊界/類型/shape 的基線公平比較。設備是 RTX 3090、RTX 4090、GB10。
 
 先讀 AGENTS.md、docs/GOAL_ALIGNMENT_REVIEW_20261021.md、docs/NEXT_EXPERIMENTS.md、
-docs/OPERATOR_DATA_CONTRACT.md、docs/CODEX_HANDOFF.md。O 系列尚未實作，請不要假設已有 CLI。
+docs/OPERATOR_DATA_CONTRACT.md、docs/CODEX_HANDOFF.md，以及 docs/O1_NODE_RUNBOOK.md。
+O1 九配置 pilot CLI 已有 `python -m o1_operator`，先用固定 commit 與輸入 hash；
+O2～O5 尚未實作，不要假設已有對應 CLI。
 模型主線請依 docs/T_V1_MLP_MODEL_SPEC.md：MLP-S＋分段DP，以及MLP-F/V時間模型。
 先檢查本地 git 狀態與 E4 工作，保存尚未推送的程式/報告，不覆蓋它們。
-完成 O0 環境、trace 完整性、metrics 盤點，實作獨立的新 O collector/exporter，
-先做9配置 G0/GE/P/R pilot及R→無標記P的可靠對應，不直接收全矩陣。
+完成當地 O0 環境、trace 完整性、metrics 盤點；用現有 o1_operator
+先做9配置 G0/GE/P/R pilot及R→無標記P的可靠對應稽核，不直接收全矩陣。
 
 保留 E1～E3 程式、原始資料與凍結 hash。P 不插逐算子 marker/同步；oracle只供
 訓練及 evaluator，predictor 不讀測試真實邊界/類型/shape/target時間。
