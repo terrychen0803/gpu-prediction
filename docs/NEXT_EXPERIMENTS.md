@@ -2,6 +2,8 @@
 
 更新：2026-10-21。**狀態：設計規格，尚未實作或量測 O 系列。** 實作／量測設備為 **RTX 3090、RTX 4090、GB10**；本次電腦只做設計與文件整合。原 E1～E3 工具保留；E4 為節點已回報、本次 Git 尚未收錄。參見 [一致性審查](GOAL_ALIGNMENT_REVIEW_20261021.md)、[資料契約](OPERATOR_DATA_CONTRACT.md)、[節點交接](CODEX_HANDOFF.md)。舊方案見 [歷史文件](archive/WHOLE_MODEL_PLAN_20261020.md)。
 
+使用者追加指定 **MLP 為主要模型**。O2/O3 的具體數學、loss、模型大小、分段DP、OOF及實作順序以 [T-v1 MLP 規格](T_V1_MLP_MODEL_SPEC.md) 為準；本文保留整體實驗流程。線性／倍率模型僅作基線。
+
 ## 1. 研究目標與成功的定義
 
 在來源 GPU 對 inference 做短 dry run，取得 CUDA 執行軌跡及實際可用 metrics。模型須自行找出算子片段、辨識類型，再依來源／目標硬體特性預測各算子在另一設備的時間，最後估計整次 inference 服務時間。希望在不提供測試工作的真實邊界、類型、shape 的條件下，接近 wrapper 取得這些資訊時的預測效果。
@@ -110,7 +112,7 @@ P/PM 不插逐算子同步、等待、dummy kernel 或專屬 memcpy 暴露邊界
 
 建立 60 個混合序列模板，每序列 16～48 次呼叫，包含連續同類、同類不同 shape、多 kernel、相似時間不同類。單 stream、無逐算子同步、輸入預配置；先連續呼叫，再有 tensor 依賴的子圖，分開報告。
 
-保留 API launch 順序、GPU correlation 及事件粒度，不只用 E3 聚合統計。首個模型採候選切點＋片段分類，再考慮 semi-Markov/HMM 聯合模型。最大片段長度、字典、縮放都只由 train/validation 設定。
+保留 API launch 順序、GPU correlation 及事件粒度，不只用 E3 聚合統計。T-v1 採 MLP 評分變長候選片段，以 segmental conditional loss 訓練，再用動態規劃選完整分段；MLP 同時提供類型分數。最大片段長度、字典、縮放都只由 train/validation 設定，詳細公式見專門規格。
 
 特徵候選：kernel 數、duration／gap 分布、grid/block、可用 shared memory、kernel 名稱 token、API 關聯與相鄰窗口。主模型允許部署可見 kernel 名稱，並做**去名稱消融**；名稱可能透露語意／尺寸，因此主張是「無 wrapper 語意輸入」，不是完全無語意線索。禁止 NVTX、Python stack、模型／層名、true op count、config ID。高階 cuDNN 等 API tracing 另列額外資訊組，不能混入 CUDA-runtime-only 主組。
 
@@ -137,7 +139,7 @@ t_hat_t,i,c = t_hat_s,i × exp(g_c(z_i, h_s, h_t))
 t_hat_t,i = Σ_c q_i(c) × t_hat_t,i,c
 ```
 
-f 由訓練配置 GE 校正 trace-span 到指定 device elapsed；g_c 學 log(t_t/t_s)。unknown 用獨立通用模型或 abstain，不能刪掉後重正規化。先正則化線性／小型樹模型，資料足夠再比 MLP。辨識、source 校正對時間模型的訓練輸入採 OOF，避免 train 用完美標籤而 test 用錯誤推估。
+f 由訓練配置 GE 校正 trace-span 到指定 device elapsed；g_c 學 log(t_t/t_s)。主方法使用小型 MLP；T-v1 以共享 MLP 在 h_t/h_s 的輸出差分實作 g_c，並對 unknown 採 abstain。CTX 模式以 source trace span 為時間目標，固定 f=0；GE/CTX 不混訓。辨識與來源校正對時間模型的訓練輸入採 OOF，避免 train 用完美標籤而 test 用錯誤推估。
 
 可解釋硬體基線：
 

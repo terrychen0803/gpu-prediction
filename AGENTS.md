@@ -9,6 +9,7 @@
 - Nsight parser 通過不代表無事件遺失。保留 manual review 狀態並核對 log／report；未知 schema 先調查，不以猜測 join 或補零繞過檢查。
 - G 為無 profiler 的 host 完成時間；P0 目前是同步輔助 request 分段。O 系列的 isolated GE、contextual trace proxy、request G0 分別評估，不可混算。NVTX phase、真實 operator/shape、reference 邊界為 oracle，主 trace 模型不可納入；從合法 trace 推估的類型可作模型輸入。
 - O 系列另讀 docs/OPERATOR_DATA_CONTRACT.md。允許已知 request capture 範圍，測試 op 邊界由模型推估；P 不插逐算子 marker/同步。R 去標記版與真正無標記 P 分開報；跨 run 對應多解時不可猜標籤。
+- 使用者指定MLP為主模型，實作規格見 docs/T_V1_MLP_MODEL_SPEC.md。S做片段分數並用DP分段，F/V做來源校正與硬體條件化倍率；線性僅baseline。首版unknown採拒絕，GE與CTX分模型；不要把設計或合成數值檢查說成已訓練GPU模型。
 - Predictor 只能看測試工作的來源 trace 與允許的設備資料；測試目標時間與 trace 留給 evaluator。訓練 supervision 使用訓練配置的目標 G 是合法的。
 - 以工作配置分組切分所有設備、run、日期、裁切和方向配對。校正、特徵處理與調參只 fit 訓練 fold；兩階段模型使用 OOF 來源校正避免輸入品質不一致。
 - O 系列還須將等價配置、混合序列模板分組，辨識器/類型 gating 也用 OOF。已知設備六方向與留一設備測試分開；留出設備工作負載不可參與 fit，獨立硬體校正可用。

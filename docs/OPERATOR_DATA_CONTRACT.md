@@ -2,6 +2,8 @@
 
 版本提案：`operator_protocol_v1_draft_20261021`。**這是節點待實作規格，不是現有檔案或 CLI。** 第一輪 pilot 後凍結正式版本；變更需新 protocol ID。主要流程見 [實驗設計](NEXT_EXPERIMENTS.md)。
 
+MLP 主模型的具體流程見 [T-v1 數學規格](T_V1_MLP_MODEL_SPEC.md)。首版 unknown 是拒絕狀態，已知類的條件機率與邊界posterior分開保存；不得虛構 unknown softmax 機率。
+
 ## 1. 三種時間目標不可混算
 
 | target_kind | 定義 | 合法用途／限制 |
@@ -92,8 +94,8 @@ train labels 合法供訓練器監督；test labels 只由 evaluator 開啟。�
 每 request 須回傳：
 
 - `prediction_id / model_hash / split_id / source_capture_id / source_hw_id / target_hw_id`。
-- 每片段 `predicted_event_ids`、起迄 event index、類型機率（總和含 unknown=1）、`predicted_class`、`ambiguous_candidates`、`abstain_reason`。
-- `target_kind`、`predicted_time_us`、區間估計／方法及校正集來源；不能把分類 softmax 當時間信賴區間。
+- 每片段 `predicted_event_ids`、起迄 event index、已知類條件機率（總和=1）、`segment_posterior`、`predicted_class`、`ambiguous_candidates`、`abstain_reason`；拒絕時class可為unknown，但不是把未知類訓練成已知類。
+- `target_kind`、`predicted_time_us`、區間估計／方法及校正集來源；未做區間校準則填null及原因，不能把分類 softmax 或seed spread當時間信賴區間。
 - request 時間、unassigned events、unknown fraction、confidence、是否部分預測、各步耗時。
 
 禁止回傳未宣告的 fallback oracle 結果。unknown 可用通用時間模型，但明示分類未成功。預測片段不應互相重複覆蓋事件；保留 orphan/unassigned，不能為降低時間誤差直接忽略。
