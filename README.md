@@ -2,9 +2,9 @@
 
 ## 目前主線：由 trace／metrics 辨識算子並預測時間
 
-更新：2026-10-21。研究設備為 **RTX 3090、RTX 4090、GB10**。目標是從來源 GPU 的 dry-run trace／可取得 metrics，自動找出算子邊界、辨識類型，再建立逐算子跨設備時間模型並組合 inference 服務時間；比較其與 wrapper 已知邊界／類型／shape 的預測差距。
+更新：2026-10-22。研究設備為 **RTX 3090、RTX 4090、GB10**。目標是從來源 GPU 的 dry-run trace／可取得 metrics，自動找出算子邊界、辨識類型，再建立逐算子跨設備時間模型並組合 inference 服務時間；比較其與 wrapper 已知邊界／類型／shape 的預測差距。
 
-**O1 九配置 pilot 已在 GB10 實作並部分實測；O2～O5 仍是後續工作。** O1 的九配置 G0/GE 時間量測完成，P/R 三家族 trace 診斷仍有事件完整性警告，不能當正式逐算子 P 標籤。程式與跨節點命令見 [O1 節點手冊](docs/O1_NODE_RUNBOOK.md)，數字與限制見 [GB10 O1 摘要](docs/O1_GB10_PILOT_STATUS_20261021.md)。既有 E1～E3 程式與凍結 hash 保留；使用者回報 E4 已在節點完成，目前 Git 尚未收錄其程式／報告，請先保護當地成果。
+**O1 九配置 pilot 已在 GB10 實作並部分實測；O2～O5 仍是後續工作。** O1 v4 的 GB10 校準方法與單次 pilot 見 [v4 說明](docs/O1_V4_CALIBRATED_PILOT_20261022.md)，GitHub 分支為 `o1-gb10-pilot-v4-20261022`；R trace 仍有 NVTX 事件完整性警告，不能當正式逐算子 P 標籤。RTX 3090／4090 進行中的 v2 測試依 [v2 節點手冊](docs/O1_NODE_RUNBOOK.md) 完成，不與 v4 混算。既有 E1～E3 程式與凍結 hash 保留；使用者回報 E4 已在節點完成，目前 Git 尚未收錄其程式／報告，請先保護當地成果。
 
 建議閱讀順序：
 

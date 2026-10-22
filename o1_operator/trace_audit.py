@@ -109,6 +109,13 @@ def audit(run, mode):
             scopes.sort(key=lambda r: (r["start"], r["end"]))
             if len(scopes) != expected_calls:
                 raise ValueError(f"R scope count {len(scopes)} != expected calls {expected_calls}")
+            expected_scope_names = {f"o1.op/g{group:02d}/i{index:06d}"
+                                    for group in range(1, quality["group_count"] + 1)
+                                    for index in range(quality["repetitions_per_group"])}
+            actual_scope_names = {scope["name"] for scope in scopes}
+            if actual_scope_names != expected_scope_names:
+                raise ValueError("R reference scope ID inventory has missing, duplicate or unexpected IDs")
+            result["reference_scope_inventory_exact"] = True
             scopes_by_tid = collections.defaultdict(list)
             for scope in scopes:
                 scopes_by_tid[scope["globalTid"]].append(scope)

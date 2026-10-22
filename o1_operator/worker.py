@@ -13,6 +13,7 @@ import traceback
 from datetime import datetime, timezone
 from pathlib import Path
 
+from .calibration import MAX_CALLS_PER_GROUP
 from .spec import BY_ID, INPUT_FORMAT, PROTOCOL, operand_shapes
 
 WARMUP_MIN_CALLS = 100
@@ -21,12 +22,31 @@ WARMUP_MAX_CALLS = 20_000
 WARMUP_TIMEOUT_SECONDS = 45
 GROUPS = 5
 MIN_CALLS_PER_GROUP = 100
-MAX_CALLS_PER_GROUP = 8192
 TARGET_GROUP_NS = 100_000_000
 
 
 def utc_now():
     return datetime.now(timezone.utc).isoformat()
+
+
+def reset_cuda_context_for_trace(cuda_version):
+    """Flush this worker process's CUDA trace data before cudaProfilerStop."""
+    import ctypes
+
+    major = str(cuda_version).split(".", 1)[0]
+    if not major.isdecimal():
+        raise RuntimeError(f"Cannot locate CUDA runtime for version {cuda_version!r}")
+    try:
+        runtime = ctypes.CDLL(f"libcudart.so.{major}")
+    except OSError as exc:
+        raise RuntimeError(f"CUDA runtime libcudart.so.{major} unavailable") from exc
+    reset = runtime.cudaDeviceReset
+    reset.restype = ctypes.c_int
+    reset.argtypes = []
+    result = int(reset())
+    if result != 0:
+        raise RuntimeError(f"cudaDeviceReset failed with CUDA error {result}")
+    return result
 
 
 def write_json(path, value):
@@ -152,7 +172,7 @@ def run_worker(request_path):
             status["warmup"] = warm
             reps = request["measurement_repetitions"]
             if not isinstance(reps, int) or not (MIN_CALLS_PER_GROUP <= reps <= MAX_CALLS_PER_GROUP):
-                raise ValueError("O1 measurement_repetitions must be a fixed integer in [100,8192]")
+                raise ValueError(f"O1 measurement_repetitions must be a fixed integer in [100,{MAX_CALLS_PER_GROUP}]")
             status["repetitions_per_group"] = reps
             if request["mode"] in ("P", "R"):
                 torch.cuda.profiler.start()
@@ -219,6 +239,12 @@ def run_worker(request_path):
             if capturing:
                 # Nsight on GB10 needs time to drain after the final synchronization.
                 time.sleep(1.0)
+                status["profile_finalization"] = {
+                    "scope": "worker_process_cuda_context_only",
+                    "cuda_device_reset_before_profiler_stop": True,
+                    "cuda_device_reset_code": reset_cuda_context_for_trace(torch.version.cuda),
+                    "utc": utc_now(),
+                }
                 torch.cuda.profiler.stop()
                 capturing = False
             status.update({"status": "completed", "group_count": len(group_rows),

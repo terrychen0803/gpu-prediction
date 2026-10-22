@@ -12,13 +12,15 @@ import subprocess
 import sys
 from pathlib import Path
 
+from .calibration import load_manifest, sha256
 from .spec import BY_ID, CONFIGS, INPUT_FORMAT, MODES, PROTOCOL, write_inputs, write_json_exclusive
 from .worker import MAX_CALLS_PER_GROUP
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCES = (Path(__file__).with_name("spec.py"), Path(__file__).with_name("worker.py"),
            Path(__file__).with_name("runner.py"), Path(__file__).with_name("trace_audit.py"),
-           Path(__file__).with_name("summarize.py"), ROOT / "inference_pilot" / "benchmark.py")
+           Path(__file__).with_name("summarize.py"), Path(__file__).with_name("calibration.py"),
+           ROOT / "inference_pilot" / "benchmark.py")
 
 
 def code_hash():
@@ -80,27 +82,40 @@ def selected_jobs(config_ids, modes, repeats, order_seed=42):
     return jobs
 
 
-def execute(out_root, config_ids, modes, repeats, expect_gpu="GB10", dry_run=False):
+def execute(out_root, config_ids, modes, repeats, expect_gpu="GB10", dry_run=False,
+            calibration_manifest=None):
     out_root = Path(out_root).resolve()
     if out_root.exists():
         raise FileExistsError(f"O1 output directory already exists; use a new path: {out_root}")
+    if calibration_manifest is None:
+        raise ValueError("O1 v4 requires --calibration-manifest with fixed per-mode counts")
+    calibration_manifest = Path(calibration_manifest).resolve()
+    calibration = load_manifest(calibration_manifest)
+    if calibration["expect_gpu"].casefold() != expect_gpu.casefold():
+        raise ValueError(f"O1 calibration GPU {calibration['expect_gpu']!r} differs from --expect-gpu {expect_gpu!r}")
     jobs = selected_jobs(config_ids, modes, repeats)
     if not jobs:
         raise ValueError("No O1 jobs selected")
     if not dry_run and any(m in ("P", "R") for m in modes) and not shutil.which("nsys"):
         raise FileNotFoundError("Nsight Systems CLI nsys is required for P/R")
     out_root.mkdir(parents=True)
+    shutil.copyfile(calibration_manifest, out_root / "calibration_manifest.json")
     configs = [BY_ID[c] for c in config_ids]
     inputs = write_inputs(out_root / "inputs", configs)
     write_json_exclusive(out_root / "input_inventory.json", inputs)
     plan = {"protocol": PROTOCOL, "input_format": INPUT_FORMAT, "code_sha256": code_hash(),
+            "calibration_manifest_sha256": sha256(calibration_manifest),
+            "calibration_manifest_source": str(calibration_manifest),
             "configs": configs, "modes": list(modes), "repeats": repeats,
             "order_seed": 42, "jobs": [{"config_id": c, "mode": m, "repeat": r} for c,m,r in jobs],
             "dry_run": dry_run, "status": "planned_only" if dry_run else "running",
             "timing_policy": {"warmup_min_calls": 100, "warmup_min_ms": 100,
                               "groups": 5, "min_calls_per_group": 100, "target_group_ms": 100,
                               "max_calls_per_group": MAX_CALLS_PER_GROUP,
-                              "fixed_calls_per_group_all_modes": MAX_CALLS_PER_GROUP,
+                              "fixed_calls_per_group_by_config_mode": {
+                                  config_id: calibration["config_repetitions"][config_id]
+                                  for config_id in config_ids},
+                              "P_R_profile_finalization": "cudaDeviceReset of worker process before cudaProfilerStop",
                               "GE_main": "single_call_event",
                               "GE_auxiliary": "batch_amortized_event"},
             "execution_policy": {"dtype": "float16", "backend": "eager", "autocast": False,
@@ -118,7 +133,7 @@ def execute(out_root, config_ids, modes, repeats, expect_gpu="GB10", dry_run=Fal
         request = {"protocol": PROTOCOL, "input_format": INPUT_FORMAT,
                    "config_id": config_id, "mode": mode, "repeat": repeat,
                    "output": str(run), "inputs": inputs[config_id], "expect_gpu": expect_gpu,
-                   "measurement_repetitions": MAX_CALLS_PER_GROUP,
+                   "measurement_repetitions": calibration["config_repetitions"][config_id][mode],
                    "code_sha256": plan["code_sha256"],
                    "driver": plan["environment_preflight"]["nvidia_smi"].get("stdout"),
                    "nsys": plan["environment_preflight"]["nsys"].get("stdout")}
@@ -169,7 +184,9 @@ def main(argv=None):
     parser.add_argument("--modes", nargs="+", choices=MODES, default=list(MODES))
     parser.add_argument("--repeats", type=int, default=3)
     parser.add_argument("--expect-gpu", default="GB10")
+    parser.add_argument("--calibration-manifest", required=True)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
-    return execute(args.out, args.configs, args.modes, args.repeats, args.expect_gpu, args.dry_run)
+    return execute(args.out, args.configs, args.modes, args.repeats, args.expect_gpu,
+                   args.dry_run, args.calibration_manifest)
 

@@ -6,13 +6,48 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+from o1_operator.calibration import calls_for_target, load_manifest
 from o1_operator.runner import execute, selected_jobs, worker_command
 from o1_operator.spec import BY_ID, CONFIGS, PROTOCOL, input_bytes, operand_shapes
 from o1_operator.summarize import summarize
 from o1_operator.trace_audit import audit
+from o1_operator.worker import reset_cuda_context_for_trace
 
 
 class O1PlanTests(unittest.TestCase):
+    def test_calibration_rounding_and_pair_policy(self):
+        self.assertEqual(calls_for_target(80), 12800)
+        self.assertEqual(calls_for_target(67.005438), 15360)
+        with self.assertRaises(ValueError):
+            calls_for_target(0)
+        manifest_path = (Path(__file__).resolve().parent.parent /
+                         "o1_operator/calibration_gb10_20261022.json")
+        manifest = load_manifest(manifest_path)
+        self.assertEqual(set(manifest["config_repetitions"]), set(BY_ID))
+        self.assertEqual(manifest["config_repetitions"]["gemm_256_1024_256"]["P"], 15360)
+        with tempfile.TemporaryDirectory() as folder:
+            manifest["config_repetitions"]["gemm_64_64_64"]["R"] += 256
+            bad = Path(folder) / "bad.json"
+            bad.write_text(json.dumps(manifest))
+            with self.assertRaisesRegex(ValueError, "P/R fixed call count mismatch"):
+                load_manifest(bad)
+
+    def test_cuda_trace_finalization_resets_current_process_context(self):
+        with patch("ctypes.CDLL") as library:
+            library.return_value.cudaDeviceReset.return_value = 0
+            self.assertEqual(reset_cuda_context_for_trace("13.0"), 0)
+            library.assert_called_once_with("libcudart.so.13")
+            library.return_value.cudaDeviceReset.assert_called_once_with()
+
+    def test_cuda_trace_finalization_fails_on_runtime_error(self):
+        with patch("ctypes.CDLL") as library:
+            library.return_value.cudaDeviceReset.return_value = 17
+            with self.assertRaisesRegex(RuntimeError, "CUDA error 17"):
+                reset_cuda_context_for_trace("12.8")
+            library.assert_called_once_with("libcudart.so.12")
+        with self.assertRaisesRegex(RuntimeError, "Cannot locate CUDA runtime"):
+            reset_cuda_context_for_trace(None)
+
     def test_published_input_manifest_matches_all_pilot_operands(self):
         manifest = json.loads((Path(__file__).resolve().parent.parent /
                                "o1_operator/pilot_input_sha256.json").read_text())
@@ -29,7 +64,7 @@ class O1PlanTests(unittest.TestCase):
     def test_nine_configs_and_portable_nonconstant_bytes(self):
         self.assertEqual(len(CONFIGS), 9)
         self.assertEqual(len(BY_ID), 9)
-        self.assertIn("fixed_repetitions", PROTOCOL)
+        self.assertIn("calibrated_repetitions", PROTOCOL)
         shape = operand_shapes(CONFIGS[0])["a"]
         one, material = input_bytes(CONFIGS[0]["id"], "a", shape)
         two, _ = input_bytes(CONFIGS[0]["id"], "a", shape)
@@ -53,11 +88,23 @@ class O1PlanTests(unittest.TestCase):
     def test_dry_run_fixes_same_call_count_for_p_and_r(self):
         with tempfile.TemporaryDirectory() as folder, patch("o1_operator.runner.command_text", return_value={}):
             root=Path(folder)/"plan"
-            self.assertEqual(execute(root,[CONFIGS[0]["id"]],("P","R"),1,dry_run=True),0)
+            manifest=Path(__file__).resolve().parent.parent/"o1_operator/calibration_gb10_20261022.json"
+            self.assertEqual(execute(root,[CONFIGS[0]["id"]],("P","R"),1,dry_run=True,
+                                     calibration_manifest=manifest),0)
             requests=[json.loads(p.read_text()) for p in root.glob("runs/*/*/run01/request.json")]
             self.assertEqual({r["mode"] for r in requests},{"P","R"})
-            self.assertEqual({r["measurement_repetitions"] for r in requests},{8192})
+            self.assertEqual({r["measurement_repetitions"] for r in requests},{11520})
             self.assertEqual({r["protocol"] for r in requests},{PROTOCOL})
+            self.assertEqual((root/"calibration_manifest.json").read_bytes(),manifest.read_bytes())
+
+    def test_calibration_rejects_other_gpu_before_creating_output(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder) / "plan"
+            manifest = Path(__file__).resolve().parent.parent / "o1_operator/calibration_gb10_20261022.json"
+            with self.assertRaisesRegex(ValueError, "calibration GPU"):
+                execute(root, [CONFIGS[0]["id"]], ("G0",), 1, expect_gpu="3090",
+                        dry_run=True, calibration_manifest=manifest)
+            self.assertFalse(root.exists())
 
     def test_summary_rejects_old_p_r_call_count_mismatch(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -115,6 +162,16 @@ def make_trace_fixture(run, mode="P", duplicate=False, warning=False, missing_ke
 
 
 class O1TraceAuditTests(unittest.TestCase):
+    def test_r_rejects_missing_scope_id_even_if_scope_count_matches(self):
+        with tempfile.TemporaryDirectory() as folder:
+            run=Path(folder)/"R"; make_trace_fixture(run,"R")
+            with sqlite3.connect(run/"trace.sqlite") as conn:
+                conn.execute("UPDATE NVTX_EVENTS SET text=? WHERE start=2000",
+                             ("o1.op/g02/i000001",))
+            result=audit(run,"R")
+            self.assertEqual(result["status"],"failed")
+            self.assertIn("scope ID inventory",result["errors"][0])
+
     def test_p_records_predictor_view_without_labels(self):
         with tempfile.TemporaryDirectory() as folder:
             run=Path(folder)/"P"; make_trace_fixture(run)

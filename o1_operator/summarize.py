@@ -132,6 +132,7 @@ def summarize(root, out=None):
                               "recorded_sequence_equal": same,
                               "P_warning_count": len(pa.get("warnings", [])),
                               "R_warning_count": len(ra.get("warnings", [])),
+                              "R_scope_inventory_exact": ra.get("reference_scope_inventory_exact", False),
                               "status": status, "error": error})
         write_csv(out / "rp_alignment.csv", pairs, list(pairs[0]))
     summary = {"protocol": plan["protocol"], "source_root": str(root),

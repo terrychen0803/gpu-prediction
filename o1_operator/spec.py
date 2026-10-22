@@ -8,7 +8,7 @@ import sys
 from array import array
 from pathlib import Path
 
-PROTOCOL = "o1_operator_pilot_v2_fixed_repetitions_20261021"
+PROTOCOL = "o1_operator_pilot_v4_calibrated_repetitions_cuda_reset_20261022"
 INPUT_FORMAT = "o1_shake256_lut_fp16_le_v1"
 MODES = ("G0", "GE", "P", "R")
 CONFIGS = (
