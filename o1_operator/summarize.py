@@ -22,6 +22,13 @@ def write_csv(path, rows, columns):
 def signatures(run):
     """Hash the recorded GPU path without duration or absolute timestamps."""
     import sqlite3
+    from .challenge_matrix import PROTOCOL as CHALLENGE_PROTOCOL, ZERO_GPU_VIEW_ID
+    request = read_json(Path(run) / "request.json")
+    if request["protocol"] == CHALLENGE_PROTOCOL and request["config_id"] == ZERO_GPU_VIEW_ID:
+        trace = read_json(Path(run) / "trace_audit.json")
+        if trace["status"] not in ("recorded_zero_gpu_work", "manual_review_required") or trace["kernel_count"] != 0:
+            raise ValueError(f"Metadata-only view has no verified zero-kernel trace: {run}")
+        return 0, hashlib.sha256(b"[]").hexdigest()
     path = Path(run) / "trace.sqlite"
     env = read_json(Path(run) / "environment.json")
     from .trace_audit import pid_of
@@ -30,6 +37,9 @@ def signatures(run):
     strings = {r["id"]: r["value"] for r in conn.execute("SELECT id,value FROM StringIds")}
     candidates = [n for n in ("CUPTI_ACTIVITY_KIND_KERNEL", "CUPTI_ACTIVITY_KIND_CONCURRENT_KERNEL")
                   if conn.execute("SELECT 1 FROM sqlite_master WHERE name=?", (n,)).fetchone()]
+    if not candidates and read_json(Path(run) / "request.json")["config_id"] == "challenge_transpose_view_256_256":
+        conn.close()
+        return 0, hashlib.sha256(b"[]").hexdigest()
     if len(candidates) != 1:
         raise ValueError(f"O1 signature audit requires one kernel table: {path}")
     rows = [dict(r) for r in conn.execute(f'SELECT * FROM "{candidates[0]}"') if pid_of(r["globalPid"]) == env["pid"]]

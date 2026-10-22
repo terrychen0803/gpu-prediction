@@ -39,6 +39,10 @@ def operand_shapes(config):
         return {"a": [config["elements"]], "b": [config["elements"]]}
     if op == "layernorm":
         return {"input": [config["rows"], config["d"]]}
+    if op == "relu":
+        return {"input": [config["elements"]]}
+    if op in ("softmax", "transpose_view", "transpose_copy"):
+        return {"input": [config["rows"], config["d"]]}
     raise ValueError(f"Unsupported O1 op: {op}")
 
 

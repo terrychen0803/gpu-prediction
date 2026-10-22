@@ -11,6 +11,10 @@ from pathlib import Path
 from .spec import BY_ID, INPUT_FORMAT, MODES, PROTOCOL
 from .full_matrix import BY_ID as FORMAL_BY_ID
 from .full_matrix import BOOTSTRAP_PROTOCOL, PROTOCOL as FORMAL_PROTOCOL
+from .challenge_matrix import BY_ID as CHALLENGE_BY_ID
+from .challenge_matrix import BOOTSTRAP_PROTOCOL as CHALLENGE_BOOTSTRAP_PROTOCOL
+from .challenge_matrix import PROTOCOL as CHALLENGE_PROTOCOL
+from .challenge_matrix import ZERO_GPU_VIEW_ID, ZERO_GPU_VIEW_PR_CALLS
 
 BASELINE_REPETITIONS = 8192
 GROUP_COUNT = 5
@@ -18,6 +22,15 @@ TARGET_GROUP_MS = 125
 QUANTUM = 256
 MAX_CALLS_PER_GROUP = 16384
 FORMAL_MAX_CALLS_PER_GROUP = 65536
+CHALLENGE_MAX_CALLS_PER_GROUP = 131072
+
+
+def max_calls_for_protocol(protocol):
+    if protocol == CHALLENGE_PROTOCOL:
+        return CHALLENGE_MAX_CALLS_PER_GROUP
+    if protocol == FORMAL_PROTOCOL:
+        return FORMAL_MAX_CALLS_PER_GROUP
+    return MAX_CALLS_PER_GROUP
 
 
 def sha256(path):
@@ -42,10 +55,12 @@ def load_manifest(path, catalog=BY_ID, expected_protocol=PROTOCOL):
     if not isinstance(manifest.get("expect_gpu"), str) or not manifest["expect_gpu"].strip():
         raise ValueError("O1 calibration manifest must identify its GPU")
     policy = manifest.get("policy", {})
-    max_calls = FORMAL_MAX_CALLS_PER_GROUP if expected_protocol == FORMAL_PROTOCOL else MAX_CALLS_PER_GROUP
+    max_calls = max_calls_for_protocol(expected_protocol)
     expected_policy = {"baseline_repetitions": BASELINE_REPETITIONS, "groups": GROUP_COUNT,
                        "target_group_ms": TARGET_GROUP_MS, "quantum": QUANTUM,
                        "max_calls_per_group": max_calls}
+    if expected_protocol == CHALLENGE_PROTOCOL:
+        expected_policy["zero_gpu_view_pr_calls"] = ZERO_GPU_VIEW_PR_CALLS
     if policy != expected_policy:
         raise ValueError("O1 calibration manifest policy mismatch")
     mapping = manifest.get("config_repetitions")
@@ -59,6 +74,8 @@ def load_manifest(path, catalog=BY_ID, expected_protocol=PROTOCOL):
                 raise ValueError(f"Invalid fixed call count for {config_id}/{mode}: {count!r}")
         if modes["P"] != modes["R"]:
             raise ValueError(f"P/R fixed call count mismatch: {config_id}")
+        if expected_protocol == CHALLENGE_PROTOCOL and config_id == ZERO_GPU_VIEW_ID and modes["P"] != ZERO_GPU_VIEW_PR_CALLS:
+            raise ValueError("Metadata-only transpose P/R calls differ from frozen zero-GPU policy")
     return manifest
 
 
@@ -85,7 +102,8 @@ def read_completed_group_times(root, modes, allow_p_warnings=False):
         if mode == "P":
             trace = json.loads((run / "trace_audit.json").read_text())
             warning_count = len(trace["warnings"])
-            allowed_status = ("recorded_structure_passed", "manual_review_required") if allow_p_warnings else ("recorded_structure_passed",)
+            allowed_status = (("recorded_structure_passed", "recorded_zero_gpu_work", "manual_review_required")
+                              if allow_p_warnings else ("recorded_structure_passed", "recorded_zero_gpu_work"))
             if trace["status"] not in allowed_status or (warning_count and not allow_p_warnings):
                 raise ValueError(f"P calibration trace has warnings: {run}")
         group_path = run / "groups.csv"
@@ -131,24 +149,29 @@ def build_manifest(g0ge_root, p_roots, catalog=BY_ID, protocol=PROTOCOL,
         raise ValueError(f"Calibration source GPU expectations differ: {sorted(expected_gpus)}")
     mapping = {}
     calibration = []
-    max_calls = FORMAL_MAX_CALLS_PER_GROUP if protocol == FORMAL_PROTOCOL else MAX_CALLS_PER_GROUP
+    max_calls = max_calls_for_protocol(protocol)
     for config_id in catalog:
         mapping[config_id] = {}
         for mode in ("G0", "GE", "P"):
             minimum = min(row["minimum_group_ms"] for row in by_cell[(config_id, mode)])
-            count = calls_for_target(minimum, max_calls=max_calls)
+            count = (ZERO_GPU_VIEW_PR_CALLS if protocol == CHALLENGE_PROTOCOL and
+                     config_id == ZERO_GPU_VIEW_ID and mode == "P" else
+                     calls_for_target(minimum, max_calls=max_calls))
             mapping[config_id][mode] = count
             calibration.append({"config_id": config_id, "mode": mode,
                                 "source_run_count": len(by_cell[(config_id, mode)]),
                                 "minimum_observed_group_ms": minimum,
                                 "fixed_calls_per_group": count})
         mapping[config_id]["R"] = mapping[config_id]["P"]
+    policy = {"baseline_repetitions": BASELINE_REPETITIONS, "groups": GROUP_COUNT,
+              "target_group_ms": TARGET_GROUP_MS, "quantum": QUANTUM,
+              "max_calls_per_group": max_calls}
+    if protocol == CHALLENGE_PROTOCOL:
+        policy["zero_gpu_view_pr_calls"] = ZERO_GPU_VIEW_PR_CALLS
     return {"protocol": protocol, "input_format": INPUT_FORMAT,
             "expect_gpu": expected_gpus.pop(),
             "source_trace_warning_policy": "allow_and_record" if allow_p_warnings else "reject",
-            "policy": {"baseline_repetitions": BASELINE_REPETITIONS, "groups": GROUP_COUNT,
-                       "target_group_ms": TARGET_GROUP_MS, "quantum": QUANTUM,
-                       "max_calls_per_group": max_calls},
+            "policy": policy,
             "config_repetitions": mapping, "calibration_cells": calibration,
             "source_sessions": sources, "source_runs": observations,
             "R_calibration_basis": "P group minimum; P/R share count; R must be validated independently"}
@@ -159,16 +182,18 @@ def main(argv=None):
     parser.add_argument("--g0ge-root", required=True)
     parser.add_argument("--p-root", action="append", required=True)
     parser.add_argument("--out", required=True)
-    parser.add_argument("--matrix", choices=("pilot", "formal"), default="pilot")
+    parser.add_argument("--matrix", choices=("pilot", "formal", "challenge"), default="pilot")
     parser.add_argument("--allow-p-warnings", action="store_true")
     args = parser.parse_args(argv)
-    if args.allow_p_warnings and args.matrix != "formal":
-        raise ValueError("Ignoring P source warnings is only available for formal calibration")
+    if args.allow_p_warnings and args.matrix == "pilot":
+        raise ValueError("Ignoring P source warnings is only available for formal/challenge calibration")
     formal = args.matrix == "formal"
-    catalog = FORMAL_BY_ID if formal else BY_ID
-    protocol = FORMAL_PROTOCOL if formal else PROTOCOL
+    challenge = args.matrix == "challenge"
+    catalog = FORMAL_BY_ID if formal else CHALLENGE_BY_ID if challenge else BY_ID
+    protocol = FORMAL_PROTOCOL if formal else CHALLENGE_PROTOCOL if challenge else PROTOCOL
     manifest = build_manifest(args.g0ge_root, args.p_root, catalog, protocol,
-                              BOOTSTRAP_PROTOCOL if formal else None, args.allow_p_warnings)
+                              BOOTSTRAP_PROTOCOL if formal else CHALLENGE_BOOTSTRAP_PROTOCOL if challenge else None,
+                              args.allow_p_warnings)
     out = Path(args.out).resolve()
     with out.open("x", encoding="utf-8") as stream:
         json.dump(manifest, stream, indent=2, ensure_ascii=False)

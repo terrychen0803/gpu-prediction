@@ -8,6 +8,9 @@ import json
 import sqlite3
 from pathlib import Path
 
+from .challenge_matrix import BOOTSTRAP_PROTOCOL as CHALLENGE_BOOTSTRAP_PROTOCOL
+from .challenge_matrix import PROTOCOL as CHALLENGE_PROTOCOL
+
 
 def pid_of(global_id):
     return (int(global_id) >> 24) & ((1 << 24) - 1)
@@ -44,6 +47,8 @@ def audit(run, mode):
     request = json.loads((run / "request.json").read_text())
     env = json.loads((run / "environment.json").read_text())
     quality = json.loads((run / "quality.json").read_text())
+    zero_gpu_expected = (request.get("protocol") in (CHALLENGE_BOOTSTRAP_PROTOCOL, CHALLENGE_PROTOCOL)
+                         and request["config_id"] == "challenge_transpose_view_256_256")
     pid = env["pid"]
     path = run / "trace.sqlite"
     conn = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
@@ -57,12 +62,13 @@ def audit(run, mode):
         require(conn, "StringIds", ("id", "value"))
         kernels_tables = [t for t in ("CUPTI_ACTIVITY_KIND_KERNEL", "CUPTI_ACTIVITY_KIND_CONCURRENT_KERNEL")
                           if table_columns(conn, t) and conn.execute(f'SELECT 1 FROM "{t}" LIMIT 1').fetchone()]
-        if len(kernels_tables) != 1:
+        if len(kernels_tables) != 1 and not (zero_gpu_expected and not kernels_tables):
             raise ValueError(f"Expected one populated Nsight kernel table; found {kernels_tables}")
-        kernel_table = kernels_tables[0]
-        require(conn, kernel_table, ("start", "end", "globalPid", "correlationId", "deviceId",
-                                     "contextId", "streamId", "demangledName", "gridX", "gridY", "gridZ",
-                                     "blockX", "blockY", "blockZ", "dynamicSharedMemory"))
+        kernel_table = kernels_tables[0] if kernels_tables else None
+        if kernel_table:
+            require(conn, kernel_table, ("start", "end", "globalPid", "correlationId", "deviceId",
+                                         "contextId", "streamId", "demangledName", "gridX", "gridY", "gridZ",
+                                         "blockX", "blockY", "blockZ", "dynamicSharedMemory"))
         strings = {r["id"]: r["value"] for r in rows(conn, "StringIds")}
         diagnostics = rows(conn, "DIAGNOSTIC_EVENT") if table_columns(conn, "DIAGNOSTIC_EVENT") else []
         result["warnings"] = [d["text"] for d in diagnostics if d["severity"] >= 2]
@@ -75,8 +81,46 @@ def audit(run, mode):
             name = strings.get(row["nameId"], "")
             if "launch" in name.lower():
                 launches[row["correlationId"]].append(row)
-        kernels = [r for r in rows(conn, kernel_table) if pid_of(r["globalPid"]) == pid]
+        kernels = [r for r in rows(conn, kernel_table) if pid_of(r["globalPid"]) == pid] if kernel_table else []
         kernels.sort(key=lambda r: (r["start"], r["end"]))
+        if zero_gpu_expected:
+            if kernels:
+                raise ValueError("Metadata-only transpose unexpectedly recorded CUDA kernels")
+            expected_calls = quality["repetitions_per_group"] * quality["group_count"]
+            result.update({"kernel_count": 0, "expected_calls": expected_calls,
+                           "launch_api_count": 0, "device_count": 0, "context_count": 0,
+                           "stream_count": 0, "recorded_event_consistency": "zero_gpu_work_expected"})
+            if mode == "R":
+                require(conn, "NVTX_EVENTS", ("start", "end", "text", "textId", "globalTid"))
+                scopes = []
+                for row in rows(conn, "NVTX_EVENTS"):
+                    name = row["text"] or strings.get(row["textId"], "")
+                    if isinstance(name, str) and name.startswith("o1.op/") and pid_of(row["globalTid"]) == pid:
+                        row["name"] = name
+                        scopes.append(row)
+                names = {scope["name"] for scope in scopes}
+                expected_names = {f"o1.op/g{group:02d}/i{index:06d}"
+                                  for group in range(1, quality["group_count"] + 1)
+                                  for index in range(quality["repetitions_per_group"])}
+                if len(scopes) != expected_calls or names != expected_names:
+                    raise ValueError("Metadata-only R scope inventory differs from expected calls")
+                with (run / "reference_operations.jsonl").open("x") as stream:
+                    for scope in scopes:
+                        stream.write(json.dumps({"scope": scope["name"], "kernel_event_indices": [],
+                                                 "api_start_ns": scope["start"], "api_end_ns": scope["end"],
+                                                 "label_provenance": "reference_zero_gpu_work"}) + "\n")
+                result["reference_scope_inventory_exact"] = True
+                result["reference_scope_count"] = len(scopes)
+                result["reference_mapped_kernel_count"] = 0
+            else:
+                if table_columns(conn, "NVTX_EVENTS"):
+                    unexpected = [r for r in rows(conn, "NVTX_EVENTS") if
+                                  (r["text"] or strings.get(r["textId"], "")).startswith("o1.op/")]
+                    if unexpected:
+                        raise ValueError("P capture unexpectedly contains O1 operator scopes")
+                (run / "events_allowlist.jsonl").open("x").close()
+            result["status"] = "manual_review_required" if result["warnings"] else "recorded_zero_gpu_work"
+            return result
         if not kernels:
             raise ValueError("No CUDA kernels attributed to O1 worker PID")
         if len({r["deviceId"] for r in kernels}) != 1 or len({r["contextId"] for r in kernels}) != 1 or len({r["streamId"] for r in kernels}) != 1:

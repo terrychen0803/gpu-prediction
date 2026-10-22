@@ -16,9 +16,39 @@ from o1_operator.full_matrix import (BY_ID as FORMAL_BY_ID, BOOTSTRAP_PROTOCOL,
                                      CONFIGS as FORMAL_CONFIGS, CORE_CONFIGS,
                                      PILOT_OVERLAP, family_counts)
 from o1_operator.splits import make_split
+from o1_operator.challenge_matrix import (BY_ID as CHALLENGE_BY_ID,
+    BOOTSTRAP_PROTOCOL as CHALLENGE_BOOTSTRAP_PROTOCOL,
+    CONFIGS as CHALLENGE_CONFIGS, write_challenge_inputs)
 
 
 class O1PlanTests(unittest.TestCase):
+    def test_challenge_pair_uses_byte_identical_matrices(self):
+        self.assertEqual(len(CHALLENGE_CONFIGS), 7)
+        with tempfile.TemporaryDirectory() as folder:
+            inventory = write_challenge_inputs(Path(folder), CHALLENGE_CONFIGS)
+            gemm = inventory["challenge_gemm_64_64_64"]
+            bmm = inventory["challenge_bmm_1_64_64_64"]
+            for operand in ("a", "b"):
+                self.assertEqual(Path(gemm[operand]["path"]).read_bytes(),
+                                 Path(bmm[operand]["path"]).read_bytes())
+            self.assertEqual(gemm["a"]["shape"], [64, 64])
+            self.assertEqual(bmm["a"]["shape"], [1, 64, 64])
+
+    def test_challenge_bootstrap_dry_run_is_distinct_from_formal(self):
+        with tempfile.TemporaryDirectory() as folder, patch("o1_operator.runner.command_text", return_value={}):
+            root = Path(folder) / "challenge"
+            self.assertEqual(execute(root, list(CHALLENGE_BY_ID), ("G0", "GE", "P"), 1,
+                                     dry_run=True, matrix="challenge", bootstrap=True), 0)
+            plan = json.loads((root / "plan.json").read_text())
+            self.assertEqual(plan["protocol"], CHALLENGE_BOOTSTRAP_PROTOCOL)
+            self.assertEqual(plan["matrix"], "challenge")
+            self.assertEqual(len(plan["jobs"]), 21)
+            self.assertEqual(plan["split_manifest_sha256"], hashlib.sha256((
+                Path(__file__).resolve().parent.parent /
+                "o1_operator/challenge_split_20261022.json").read_bytes()).hexdigest())
+            self.assertEqual({json.loads(p.read_text())["measurement_repetitions"]
+                              for p in root.glob("runs/*/*/run01/request.json")}, {8192})
+
     def test_formal_matrix_counts_shapes_and_pilot_overlap(self):
         self.assertEqual(family_counts(), {"gemm": 27, "bmm": 24, "conv": 64,
                                             "add": 12, "layernorm": 12})
@@ -236,6 +266,38 @@ def make_trace_fixture(run, mode="P", duplicate=False, warning=False, missing_ke
 
 
 class O1TraceAuditTests(unittest.TestCase):
+    def test_metadata_only_view_preserves_zero_gpu_work_and_reference_scopes(self):
+        from o1_operator.challenge_matrix import PROTOCOL as CHALLENGE_PROTOCOL
+        with tempfile.TemporaryDirectory() as folder:
+            for mode in ("P", "R"):
+                run = Path(folder) / mode
+                make_trace_fixture(run, mode)
+                (run / "request.json").write_text(json.dumps({
+                    "config_id": "challenge_transpose_view_256_256", "mode": mode,
+                    "protocol": CHALLENGE_PROTOCOL}))
+                with sqlite3.connect(run / "trace.sqlite") as conn:
+                    conn.execute("DELETE FROM CUPTI_ACTIVITY_KIND_KERNEL")
+                result = audit(run, mode)
+                self.assertEqual(result["status"], "recorded_zero_gpu_work")
+                self.assertEqual(result["kernel_count"], 0)
+                if mode == "R":
+                    self.assertEqual(result["reference_scope_count"], 2)
+                    self.assertEqual(len((run / "reference_operations.jsonl").read_text().splitlines()), 2)
+                else:
+                    self.assertEqual((run / "events_allowlist.jsonl").read_text(), "")
+
+    def test_metadata_only_view_rejects_unexpected_gpu_kernel(self):
+        from o1_operator.challenge_matrix import PROTOCOL as CHALLENGE_PROTOCOL
+        with tempfile.TemporaryDirectory() as folder:
+            run = Path(folder) / "P"
+            make_trace_fixture(run, "P")
+            (run / "request.json").write_text(json.dumps({
+                "config_id": "challenge_transpose_view_256_256", "mode": "P",
+                "protocol": CHALLENGE_PROTOCOL}))
+            result = audit(run, "P")
+            self.assertEqual(result["status"], "failed")
+            self.assertIn("unexpectedly recorded CUDA kernels", result["errors"][0])
+
     def test_r_rejects_missing_scope_id_even_if_scope_count_matches(self):
         with tempfile.TemporaryDirectory() as folder:
             run=Path(folder)/"R"; make_trace_fixture(run,"R")

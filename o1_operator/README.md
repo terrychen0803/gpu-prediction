@@ -1,5 +1,7 @@
 # O1 受控算子 pilot
 
+七配置獨立挑戰集的程式碼版方法見 [挑戰集方法](../docs/O1_CHALLENGE_METHOD.md)；其校準檔必須在各節點本地生成。
+
 RTX 3090／4090 節點進行中的測試仍使用 GitHub branch `o1-gb10-pilot-v2-20261021`，commit `8e6dac845bd6a1162f3beb92d6d4497bc19f0eb3`，並依 [v2 節點手冊](../docs/O1_NODE_RUNBOOK.md) 完成。此 checkout 是獨立發布的 GB10 v4 方法分支 `o1-gb10-pilot-v4-20261022`，protocol 為 `o1_operator_pilot_v4_calibrated_repetitions_cuda_reset_20261022`。兩版呼叫次數不同，不得合併為同一協定。GB10 結果、限制及其他節點建立自己校準檔的方法見 [v4 說明](../docs/O1_V4_CALIBRATED_PILOT_20261022.md)。
 
 九個固定 FP16 配置包含 GEMM、BMM、Conv2D 各三個。輸入是 seed 42 的 SHAKE256 byte stream 經固定 FP16 LUT 轉換；18 個 operand 的預期 SHA-256 在 [`pilot_input_sha256.json`](pilot_input_sha256.json)。正確性以 CPU FP32 算子輸出轉 FP16 為 reference，候選門檻 `rtol=atol=1e-2`。每個配置／模式／repeat 都是獨立程序，五組量測各用固定呼叫次數；P/R 必須完全同數。
