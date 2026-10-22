@@ -64,7 +64,14 @@ git rev-parse HEAD
 python -m unittest discover -s tests -v
 ```
 
-v4 校準需要**該節點**九配置、每組 8192 次的已完成 G0／GE 與 P 來源。G0／GE 可用 v2 的九配置三重複 session；P 需九配置至少一次、正確性通過、P trace 沒有 Nsight 警告。若現有 v2 P 只有三配置，先用獨立 v2 或 v3 checkout 補齊九配置 P source，保留原始 session 和 code hash。此分支中的 v3 CUDA 收尾版本提交為 `3a8f966`，其 P 模式仍每組 8192 次；是否適用須以當地 trace 審查為準。來源警告或 GPU 預期字串不一致時，校準命令會失敗，不能借用 GB10 的 JSON 來跳過。
+v4 校準需要**該節點**九配置、每組 8192 次的已完成 G0／GE 與 P 來源。G0／GE 可用 v2 的九配置三重複 session；P 需九配置至少一次、正確性通過、P trace 沒有 Nsight 警告。若現有 v2 P 只有三配置，先在獨立的 v2 checkout 補齊九配置 P source，保留原始 session 和 code hash。若 P 仍有 Nsight 警告，先調查當地 trace 完整性，不用 GB10 的 JSON 或帶警告的 P 資料繞過校準檢查。來源 GPU 預期字串不一致時，校準命令也會失敗。
+
+在 v2 checkout 補 P source 的指令如下；RTX 4090 改用 `--expect-gpu 4090`，輸出路徑須全新：
+
+```sh
+python -m o1_operator run --out /path/to/new_this_node_v2_p_source \
+  --expect-gpu 3090 --modes P --repeats 1
+```
 
 ```sh
 python -m o1_operator calibrate \
