@@ -12,14 +12,20 @@ import subprocess
 import sys
 from pathlib import Path
 
-from .calibration import load_manifest, sha256
+from .calibration import FORMAL_MAX_CALLS_PER_GROUP, load_manifest, sha256
+from .full_matrix import BY_ID as FORMAL_BY_ID
+from .full_matrix import BOOTSTRAP_PROTOCOL, PROTOCOL as FORMAL_PROTOCOL
+from .splits import make_split
 from .spec import BY_ID, CONFIGS, INPUT_FORMAT, MODES, PROTOCOL, write_inputs, write_json_exclusive
+from .worker import FORMAL_WARMUP_MAX_CALLS, WARMUP_MAX_CALLS, WARMUP_TIMEOUT_SECONDS
 from .worker import MAX_CALLS_PER_GROUP
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCES = (Path(__file__).with_name("spec.py"), Path(__file__).with_name("worker.py"),
            Path(__file__).with_name("runner.py"), Path(__file__).with_name("trace_audit.py"),
            Path(__file__).with_name("summarize.py"), Path(__file__).with_name("calibration.py"),
+           Path(__file__).with_name("full_matrix.py"),
+           Path(__file__).with_name("splits.py"),
            ROOT / "inference_pilot" / "benchmark.py")
 
 
@@ -66,8 +72,8 @@ def worker_command(request_path, mode, out):
     return argv
 
 
-def selected_jobs(config_ids, modes, repeats, order_seed=42):
-    if len(config_ids) != len(set(config_ids)) or any(c not in BY_ID for c in config_ids):
+def selected_jobs(config_ids, modes, repeats, order_seed=42, catalog=BY_ID):
+    if len(config_ids) != len(set(config_ids)) or any(c not in catalog for c in config_ids):
         raise ValueError("Config IDs must be unique O1 pilot IDs")
     if len(modes) != len(set(modes)) or any(m not in MODES for m in modes):
         raise ValueError("Modes must be unique among G0 GE P R")
@@ -83,35 +89,59 @@ def selected_jobs(config_ids, modes, repeats, order_seed=42):
 
 
 def execute(out_root, config_ids, modes, repeats, expect_gpu="GB10", dry_run=False,
-            calibration_manifest=None):
+            calibration_manifest=None, matrix="pilot", bootstrap=False):
     out_root = Path(out_root).resolve()
     if out_root.exists():
         raise FileExistsError(f"O1 output directory already exists; use a new path: {out_root}")
-    if calibration_manifest is None:
-        raise ValueError("O1 v4 requires --calibration-manifest with fixed per-mode counts")
-    calibration_manifest = Path(calibration_manifest).resolve()
-    calibration = load_manifest(calibration_manifest)
-    if calibration["expect_gpu"].casefold() != expect_gpu.casefold():
-        raise ValueError(f"O1 calibration GPU {calibration['expect_gpu']!r} differs from --expect-gpu {expect_gpu!r}")
-    jobs = selected_jobs(config_ids, modes, repeats)
+    if matrix not in ("pilot", "formal") or (bootstrap and matrix != "formal"):
+        raise ValueError("O1 bootstrap is only available for the formal matrix")
+    catalog = BY_ID if matrix == "pilot" else FORMAL_BY_ID
+    protocol = PROTOCOL if matrix == "pilot" else BOOTSTRAP_PROTOCOL if bootstrap else FORMAL_PROTOCOL
+    catalog_manifest = ROOT / "o1_operator/formal_matrix_20261022.json" if matrix == "formal" else None
+    split_manifest = ROOT / "o1_operator/formal_split_seed42_20261022.json" if matrix == "formal" else None
+    if catalog_manifest is not None:
+        frozen = json.loads(catalog_manifest.read_text())
+        if frozen["configs"] != list(catalog.values()) or frozen["protocol"] != FORMAL_PROTOCOL:
+            raise ValueError("O1 formal catalog differs from frozen matrix manifest")
+        if json.loads(split_manifest.read_text()) != make_split():
+            raise ValueError("O1 formal split differs from frozen split manifest")
+    if bootstrap:
+        if calibration_manifest is not None:
+            raise ValueError("O1 formal bootstrap uses fixed 8192 calls without a calibration manifest")
+        calibration = {"config_repetitions": {config_id: {mode: 8192 for mode in MODES}
+                                               for config_id in catalog}}
+    else:
+        if calibration_manifest is None:
+            raise ValueError("O1 run requires --calibration-manifest with fixed per-mode counts")
+        calibration_manifest = Path(calibration_manifest).resolve()
+        calibration = load_manifest(calibration_manifest, catalog=catalog, expected_protocol=protocol)
+        if calibration["expect_gpu"].casefold() != expect_gpu.casefold():
+            raise ValueError(f"O1 calibration GPU {calibration['expect_gpu']!r} differs from --expect-gpu {expect_gpu!r}")
+    jobs = selected_jobs(config_ids, modes, repeats, catalog=catalog)
     if not jobs:
         raise ValueError("No O1 jobs selected")
     if not dry_run and any(m in ("P", "R") for m in modes) and not shutil.which("nsys"):
         raise FileNotFoundError("Nsight Systems CLI nsys is required for P/R")
     out_root.mkdir(parents=True)
-    shutil.copyfile(calibration_manifest, out_root / "calibration_manifest.json")
-    configs = [BY_ID[c] for c in config_ids]
+    if calibration_manifest is not None:
+        shutil.copyfile(calibration_manifest, out_root / "calibration_manifest.json")
+    configs = [catalog[c] for c in config_ids]
     inputs = write_inputs(out_root / "inputs", configs)
     write_json_exclusive(out_root / "input_inventory.json", inputs)
-    plan = {"protocol": PROTOCOL, "input_format": INPUT_FORMAT, "code_sha256": code_hash(),
-            "calibration_manifest_sha256": sha256(calibration_manifest),
-            "calibration_manifest_source": str(calibration_manifest),
+    plan = {"protocol": protocol, "input_format": INPUT_FORMAT, "code_sha256": code_hash(),
+            "matrix": matrix, "bootstrap": bootstrap,
+            "catalog_manifest_sha256": sha256(catalog_manifest) if catalog_manifest else None,
+            "split_manifest_sha256": sha256(split_manifest) if split_manifest else None,
+            "calibration_manifest_sha256": sha256(calibration_manifest) if calibration_manifest else None,
+            "calibration_manifest_source": str(calibration_manifest) if calibration_manifest else None,
             "configs": configs, "modes": list(modes), "repeats": repeats,
             "order_seed": 42, "jobs": [{"config_id": c, "mode": m, "repeat": r} for c,m,r in jobs],
             "dry_run": dry_run, "status": "planned_only" if dry_run else "running",
             "timing_policy": {"warmup_min_calls": 100, "warmup_min_ms": 100,
+                              "warmup_max_calls": FORMAL_WARMUP_MAX_CALLS if matrix == "formal" else WARMUP_MAX_CALLS,
+                              "warmup_timeout_seconds": WARMUP_TIMEOUT_SECONDS,
                               "groups": 5, "min_calls_per_group": 100, "target_group_ms": 100,
-                              "max_calls_per_group": MAX_CALLS_PER_GROUP,
+                              "max_calls_per_group": FORMAL_MAX_CALLS_PER_GROUP if matrix == "formal" else MAX_CALLS_PER_GROUP,
                               "fixed_calls_per_group_by_config_mode": {
                                   config_id: calibration["config_repetitions"][config_id]
                                   for config_id in config_ids},
@@ -130,7 +160,7 @@ def execute(out_root, config_ids, modes, repeats, expect_gpu="GB10", dry_run=Fal
     for index, (config_id, mode, repeat) in enumerate(jobs, 1):
         run = out_root / "runs" / config_id / mode / f"run{repeat:02d}"
         run.mkdir(parents=True, exist_ok=False)
-        request = {"protocol": PROTOCOL, "input_format": INPUT_FORMAT,
+        request = {"protocol": protocol, "input_format": INPUT_FORMAT,
                    "config_id": config_id, "mode": mode, "repeat": repeat,
                    "output": str(run), "inputs": inputs[config_id], "expect_gpu": expect_gpu,
                    "measurement_repetitions": calibration["config_repetitions"][config_id][mode],
@@ -180,13 +210,16 @@ def execute(out_root, config_ids, modes, repeats, expect_gpu="GB10", dry_run=Fal
 def main(argv=None):
     parser = argparse.ArgumentParser(description="O1 nine-configuration controlled operator pilot")
     parser.add_argument("--out", required=True)
-    parser.add_argument("--configs", nargs="+", choices=list(BY_ID), default=list(BY_ID))
+    parser.add_argument("--matrix", choices=("pilot", "formal"), default="pilot")
+    parser.add_argument("--bootstrap", action="store_true")
+    parser.add_argument("--configs", nargs="+", default=None)
     parser.add_argument("--modes", nargs="+", choices=MODES, default=list(MODES))
     parser.add_argument("--repeats", type=int, default=3)
     parser.add_argument("--expect-gpu", default="GB10")
-    parser.add_argument("--calibration-manifest", required=True)
+    parser.add_argument("--calibration-manifest")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
-    return execute(args.out, args.configs, args.modes, args.repeats, args.expect_gpu,
-                   args.dry_run, args.calibration_manifest)
+    catalog = BY_ID if args.matrix == "pilot" else FORMAL_BY_ID
+    return execute(args.out, args.configs or list(catalog), args.modes, args.repeats, args.expect_gpu,
+                   args.dry_run, args.calibration_manifest, args.matrix, args.bootstrap)
 

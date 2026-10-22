@@ -6,18 +6,92 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from o1_operator.calibration import calls_for_target, load_manifest
+from o1_operator.calibration import calls_for_target, load_manifest, read_completed_group_times
 from o1_operator.runner import execute, selected_jobs, worker_command
 from o1_operator.spec import BY_ID, CONFIGS, PROTOCOL, input_bytes, operand_shapes
 from o1_operator.summarize import summarize
 from o1_operator.trace_audit import audit
 from o1_operator.worker import reset_cuda_context_for_trace
+from o1_operator.full_matrix import (BY_ID as FORMAL_BY_ID, BOOTSTRAP_PROTOCOL,
+                                     CONFIGS as FORMAL_CONFIGS, CORE_CONFIGS,
+                                     PILOT_OVERLAP, family_counts)
+from o1_operator.splits import make_split
 
 
 class O1PlanTests(unittest.TestCase):
+    def test_formal_matrix_counts_shapes_and_pilot_overlap(self):
+        self.assertEqual(family_counts(), {"gemm": 27, "bmm": 24, "conv": 64,
+                                            "add": 12, "layernorm": 12})
+        self.assertEqual(len(FORMAL_CONFIGS), 139)
+        self.assertEqual(len(CORE_CONFIGS), 115)
+        self.assertEqual(len(FORMAL_BY_ID), 139)
+        self.assertEqual(PILOT_OVERLAP, set(FORMAL_BY_ID) & set(BY_ID))
+        self.assertEqual(operand_shapes(FORMAL_BY_ID["add_1024"]),
+                         {"a": [1024], "b": [1024]})
+        self.assertEqual(operand_shapes(FORMAL_BY_ID["layernorm_32_4096"]),
+                         {"input": [32, 4096]})
+
+    def test_formal_split_freezes_config_groups_before_measurement(self):
+        split = make_split()
+        frozen = json.loads((Path(__file__).resolve().parent.parent /
+                             "o1_operator/formal_split_seed42_20261022.json").read_text())
+        self.assertEqual(split, frozen)
+        self.assertEqual(sum(map(len, split["folds"])), 138)
+        self.assertEqual(len({x for fold in split["folds"] for x in fold}), 138)
+        self.assertEqual(split["development_only_ids"], sorted(PILOT_OVERLAP))
+        for evaluation in split["evaluations"]:
+            self.assertEqual(set(evaluation["train_ids"]) & set(evaluation["test_ids"]), set())
+            self.assertEqual(set(evaluation["validation_ids"]) & set(evaluation["test_ids"]), set())
+
+    def test_formal_bootstrap_dry_run_freezes_8192_calls(self):
+        with tempfile.TemporaryDirectory() as folder, patch("o1_operator.runner.command_text", return_value={}):
+            root = Path(folder) / "bootstrap"
+            ids = ("add_1024", "layernorm_1_64")
+            self.assertEqual(execute(root, ids, ("G0", "GE", "P"), 1,
+                                     dry_run=True, matrix="formal", bootstrap=True), 0)
+            plan = json.loads((root / "plan.json").read_text())
+            self.assertEqual(plan["protocol"], BOOTSTRAP_PROTOCOL)
+            self.assertEqual(len(plan["jobs"]), 6)
+            self.assertEqual({json.loads(p.read_text())["measurement_repetitions"]
+                              for p in root.glob("runs/*/*/run01/request.json")}, {8192})
+            self.assertFalse((root / "calibration_manifest.json").exists())
+
+    def test_formal_p_warning_requires_explicit_calibration_opt_in(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            config_id = "add_1024"
+            run = root / "runs" / config_id / "P" / "run01"
+            run.mkdir(parents=True)
+            (root / "plan.json").write_text(json.dumps({"status": "completed",
+                "protocol": BOOTSTRAP_PROTOCOL, "input_format": "o1_shake256_lut_fp16_le_v1",
+                "jobs": [{"config_id": config_id, "mode": "P", "repeat": 1}]}))
+            (run / "request.json").write_text(json.dumps({"protocol": BOOTSTRAP_PROTOCOL,
+                                                            "expect_gpu": "GB10"}))
+            (run / "quality.json").write_text(json.dumps({"status": "completed",
+                "correctness": {"passed": True}, "repetitions_per_group": 8192}))
+            (run / "execution.json").write_text(json.dumps({"status": "completed"}))
+            (run / "trace_audit.json").write_text(json.dumps({
+                "status": "manual_review_required", "warnings": ["event-loss"]}))
+            (run / "groups.csv").write_text("repetitions,host_group_us\n" +
+                                            "8192,100000\n" * 5)
+            with self.assertRaisesRegex(ValueError, "P calibration trace has warnings"):
+                read_completed_group_times(root, ("P",))
+            _, observations = read_completed_group_times(root, ("P",), allow_p_warnings=True)
+            self.assertEqual(observations[0]["source_trace_warning_count"], 1)
+
+    def test_formal_run_cannot_reuse_nine_config_gb10_calibration(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder) / "run"
+            manifest = Path(__file__).resolve().parent.parent / "o1_operator/calibration_gb10_20261022.json"
+            with self.assertRaisesRegex(ValueError, "protocol/input format mismatch"):
+                execute(root, ("add_1024",), ("G0",), 1, dry_run=True,
+                        calibration_manifest=manifest, matrix="formal")
+            self.assertFalse(root.exists())
+
     def test_calibration_rounding_and_pair_policy(self):
         self.assertEqual(calls_for_target(80), 12800)
         self.assertEqual(calls_for_target(67.005438), 15360)
+        self.assertEqual(calls_for_target(30, max_calls=65536), 34304)
         with self.assertRaises(ValueError):
             calls_for_target(0)
         manifest_path = (Path(__file__).resolve().parent.parent /

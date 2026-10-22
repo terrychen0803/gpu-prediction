@@ -13,12 +13,15 @@ import traceback
 from datetime import datetime, timezone
 from pathlib import Path
 
-from .calibration import MAX_CALLS_PER_GROUP
+from .calibration import FORMAL_MAX_CALLS_PER_GROUP, MAX_CALLS_PER_GROUP
 from .spec import BY_ID, INPUT_FORMAT, PROTOCOL, operand_shapes
+from .full_matrix import BY_ID as FORMAL_BY_ID
+from .full_matrix import BOOTSTRAP_PROTOCOL, PROTOCOL as FORMAL_PROTOCOL
 
 WARMUP_MIN_CALLS = 100
 WARMUP_MIN_NS = 100_000_000
 WARMUP_MAX_CALLS = 20_000
+FORMAL_WARMUP_MAX_CALLS = 100_000
 WARMUP_TIMEOUT_SECONDS = 45
 GROUPS = 5
 MIN_CALLS_PER_GROUP = 100
@@ -63,7 +66,8 @@ def check_input_file(path, expected):
 def load_operation(torch, request):
     import torch.nn.functional as F
 
-    config = BY_ID[request["config_id"]]
+    catalog = BY_ID if request["protocol"] == PROTOCOL else FORMAL_BY_ID
+    config = catalog[request["config_id"]]
     files = request["inputs"]
     shapes = operand_shapes(config)
     if set(files) != set(shapes):
@@ -88,6 +92,14 @@ def load_operation(torch, request):
                             stride=config["stride"], padding=config["padding"], groups=1)
         reference = F.conv2d(cpu["input"].float(), cpu["weight"].float(), bias=None,
                              stride=config["stride"], padding=config["padding"], groups=1).half()
+    elif config["op"] == "add":
+        def op(): return torch.add(gpu["a"], gpu["b"])
+        reference = torch.add(cpu["a"].float(), cpu["b"].float()).half()
+    elif config["op"] == "layernorm":
+        shape = (config["d"],)
+        def op(): return F.layer_norm(gpu["input"], shape, weight=None, bias=None, eps=config["eps"])
+        reference = F.layer_norm(cpu["input"].float(), shape, weight=None,
+                                 bias=None, eps=config["eps"]).half()
     else:
         raise ValueError(f"Unsupported O1 operation: {config['op']}")
     return op, reference, gpu
@@ -116,16 +128,18 @@ def correctness(torch, op, reference):
     return result
 
 
-def warmup(torch, op):
+def warmup(torch, op, max_calls=WARMUP_MAX_CALLS):
     started = time.perf_counter_ns()
     calls = 0
     while calls < WARMUP_MIN_CALLS or time.perf_counter_ns() - started < WARMUP_MIN_NS:
-        if calls >= WARMUP_MAX_CALLS or (time.perf_counter_ns() - started) / 1e9 > WARMUP_TIMEOUT_SECONDS:
-            raise RuntimeError("O1 warm-up hit cap before 100 calls and 100 ms; preserve failed run")
-        for _ in range(min(100, WARMUP_MAX_CALLS - calls)):
+        if calls >= max_calls or (time.perf_counter_ns() - started) / 1e9 > WARMUP_TIMEOUT_SECONDS:
+            raise RuntimeError(f"O1 warm-up reached cap ({calls}/{max_calls} calls or "
+                               f"{WARMUP_TIMEOUT_SECONDS}s) before 100 calls and 100 ms; preserve failed run")
+        step = min(100, max_calls - calls)
+        for _ in range(step):
             result = op()
             del result
-        calls += min(100, WARMUP_MAX_CALLS - calls)
+        calls += step
         torch.cuda.synchronize()
     elapsed = time.perf_counter_ns() - started
     return {"calls": calls, "host_elapsed_ns": elapsed, "utc_end": utc_now()}
@@ -134,9 +148,10 @@ def warmup(torch, op):
 def run_worker(request_path):
     request = json.loads(Path(request_path).read_text())
     output = Path(request["output"])
-    if request["protocol"] != PROTOCOL or request["input_format"] != INPUT_FORMAT:
+    if request["protocol"] not in (PROTOCOL, BOOTSTRAP_PROTOCOL, FORMAL_PROTOCOL) or request["input_format"] != INPUT_FORMAT:
         raise ValueError("O1 worker request protocol/input format mismatch")
-    if request["config_id"] not in BY_ID or request["mode"] not in ("G0", "GE", "P", "R"):
+    catalog = BY_ID if request["protocol"] == PROTOCOL else FORMAL_BY_ID
+    if request["config_id"] not in catalog or request["mode"] not in ("G0", "GE", "P", "R"):
         raise ValueError("O1 worker config or mode is invalid")
     status = {"status": "started", "errors": [], "trace_integrity": "not_applicable"}
     write_json(output / "quality.json", status)
@@ -168,11 +183,14 @@ def run_worker(request_path):
         with torch.inference_mode(), torch.autocast(device_type="cuda", enabled=False):
             op, reference, operands = load_operation(torch, request)
             status["correctness"] = correctness(torch, op, reference)
-            warm = warmup(torch, op)
+            warm = warmup(torch, op,
+                          FORMAL_WARMUP_MAX_CALLS if request["protocol"] != PROTOCOL
+                          else WARMUP_MAX_CALLS)
             status["warmup"] = warm
             reps = request["measurement_repetitions"]
-            if not isinstance(reps, int) or not (MIN_CALLS_PER_GROUP <= reps <= MAX_CALLS_PER_GROUP):
-                raise ValueError(f"O1 measurement_repetitions must be a fixed integer in [100,{MAX_CALLS_PER_GROUP}]")
+            max_reps = MAX_CALLS_PER_GROUP if request["protocol"] == PROTOCOL else FORMAL_MAX_CALLS_PER_GROUP
+            if not isinstance(reps, int) or not (MIN_CALLS_PER_GROUP <= reps <= max_reps):
+                raise ValueError(f"O1 measurement_repetitions must be a fixed integer in [100,{max_reps}]")
             status["repetitions_per_group"] = reps
             if request["mode"] in ("P", "R"):
                 torch.cuda.profiler.start()

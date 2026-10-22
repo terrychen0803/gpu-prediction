@@ -35,6 +35,10 @@ def operand_shapes(config):
     if op == "conv":
         return {"input": [config["b"], config["cin"], config["h"], config["h"]],
                 "weight": [config["cout"], config["cin"], config["k"], config["k"]]}
+    if op == "add":
+        return {"a": [config["elements"]], "b": [config["elements"]]}
+    if op == "layernorm":
+        return {"input": [config["rows"], config["d"]]}
     raise ValueError(f"Unsupported O1 op: {op}")
 
 
