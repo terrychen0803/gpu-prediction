@@ -1,6 +1,6 @@
 # O1 formal 139-config method
 
-This branch extends the published v4 pilot with a separate formal protocol. It contains code, the predefined configuration catalog, and a split manifest. Node-specific calibration manifests and trace data stay on each node.
+This branch extends the published v4 pilot with a separate formal protocol. The new material contains code, the predefined configuration catalog, and a split manifest. New formal calibration manifests and trace data stay on each node; historical v4 pilot material is inherited from the base branch.
 
 The catalog contains GEMM 27, BMM 24, Conv2D 64, Add 12, and LayerNorm 12 configurations. The first three families form the 115-config core. All inputs use the existing seed-42 SHAKE256-to-FP16 format. The execution policy is FP16 eager on one CUDA stream, with no autograd, autocast, CUDA Graph, input transfer, or allocation setup inside measured groups. CPU FP32 results converted to FP16 provide the correctness reference.
 
