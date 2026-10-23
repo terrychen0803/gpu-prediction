@@ -1,0 +1,4746 @@
+{
+  "protocol": "o2_mixed_sequence_gb10_v3_chain_norm_checked_20261024",
+  "source_split": "o1_operator/formal_split_seed42_20261022.json",
+  "templates": [
+    {
+      "id": "fold0_v00_independent",
+      "fold": 0,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold0_v00_dependent_tail",
+      "fold": 0,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold0_v01_independent",
+      "fold": 0,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold0_v01_dependent_tail",
+      "fold": 0,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_32_64_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_32_64_64_64",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold0_v02_independent",
+      "fold": 0,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold0_v02_dependent_tail",
+      "fold": 0,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold0_v03_independent",
+      "fold": 0,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold0_v03_dependent_tail",
+      "fold": 0,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_128_64_64",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold0_v04_independent",
+      "fold": 0,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold0_v04_dependent_tail",
+      "fold": 0,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold0_v05_independent",
+      "fold": 0,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold0_v05_dependent_tail",
+      "fold": 0,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_16_64_64",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold1_v00_independent",
+      "fold": 1,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold1_v00_dependent_tail",
+      "fold": 1,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold1_v01_independent",
+      "fold": 1,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold1_v01_dependent_tail",
+      "fold": 1,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold1_v02_independent",
+      "fold": 1,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold1_v02_dependent_tail",
+      "fold": 1,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold1_v03_independent",
+      "fold": 1,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold1_v03_dependent_tail",
+      "fold": 1,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold1_v04_independent",
+      "fold": 1,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold1_v04_dependent_tail",
+      "fold": 1,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_64_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold1_v05_independent",
+      "fold": 1,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold1_v05_dependent_tail",
+      "fold": 1,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_16_1024_1024",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold2_v00_independent",
+      "fold": 2,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold2_v00_dependent_tail",
+      "fold": 2,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold2_v01_independent",
+      "fold": 2,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold2_v01_dependent_tail",
+      "fold": 2,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold2_v02_independent",
+      "fold": 2,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold2_v02_dependent_tail",
+      "fold": 2,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_8_64_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_8_64_64_64",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold2_v03_independent",
+      "fold": 2,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold2_v03_dependent_tail",
+      "fold": 2,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_16_64_64",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold2_v04_independent",
+      "fold": 2,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold2_v04_dependent_tail",
+      "fold": 2,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold2_v05_independent",
+      "fold": 2,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold2_v05_dependent_tail",
+      "fold": 2,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_32_16_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold3_v00_independent",
+      "fold": 3,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold3_v00_dependent_tail",
+      "fold": 3,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold3_v01_independent",
+      "fold": 3,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold3_v01_dependent_tail",
+      "fold": 3,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_64_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_8_16_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_8_16_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold3_v02_independent",
+      "fold": 3,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold3_v02_dependent_tail",
+      "fold": 3,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_64_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_8_16_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_8_16_64_64",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold3_v03_independent",
+      "fold": 3,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold3_v03_dependent_tail",
+      "fold": 3,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold3_v04_independent",
+      "fold": 3,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold3_v04_dependent_tail",
+      "fold": 3,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_512_64_64",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold3_v05_independent",
+      "fold": 3,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold3_v05_dependent_tail",
+      "fold": 3,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_2_16_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold4_v00_independent",
+      "fold": 4,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold4_v00_dependent_tail",
+      "fold": 4,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_128_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold4_v01_independent",
+      "fold": 4,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold4_v01_dependent_tail",
+      "fold": 4,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_16_32_32_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold4_v02_independent",
+      "fold": 4,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold4_v02_dependent_tail",
+      "fold": 4,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_128_64_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_32_64_k3_s2_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_16_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_8_64_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_8_64_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold4_v03_independent",
+      "fold": 4,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold4_v03_dependent_tail",
+      "fold": 4,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_32_k1_s2_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_8_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_16_256_256",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold4_v04_independent",
+      "fold": 4,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold4_v04_dependent_tail",
+      "fold": 4,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_1_64_32_32_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_128_64_k3_s1_p1",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_256_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "gemm_512_1024_1024",
+          "input": "previous_output"
+        }
+      ]
+    },
+    {
+      "id": "fold4_v05_independent",
+      "fold": 4,
+      "topology": "independent",
+      "steps": [
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        }
+      ]
+    },
+    {
+      "id": "fold4_v05_dependent_tail",
+      "fold": 4,
+      "topology": "dependent_tail",
+      "steps": [
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_16_128_64_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_256_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "conv_4_64_32_32_k1_s1_p0",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_64_256_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "gemm_128_1024_256",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "preallocated"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "previous_output"
+        },
+        {
+          "config_id": "bmm_32_16_64_64",
+          "input": "previous_output"
+        }
+      ]
+    }
+  ]
+}

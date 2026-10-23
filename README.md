@@ -2,9 +2,9 @@
 
 ## 目前主線：由 trace／metrics 辨識算子並預測時間
 
-更新：2026-10-22。研究設備為 **RTX 3090、RTX 4090、GB10**。目標是從來源 GPU 的 dry-run trace／可取得 metrics，自動找出算子邊界、辨識類型，再建立逐算子跨設備時間模型並組合 inference 服務時間；比較其與 wrapper 已知邊界／類型／shape 的預測差距。
+更新：2026-10-24。研究設備為 **RTX 3090、RTX 4090、GB10**。目標是從來源 GPU 的 dry-run trace／可取得 metrics，自動找出算子邊界、辨識類型，再建立逐算子跨設備時間模型並組合 inference 服務時間；比較其與 wrapper 已知邊界／類型／shape 的預測差距。
 
-**O1 九配置 pilot 已在 GB10 實作並部分實測；O2～O5 仍是後續工作。** O1 v4 的 GB10 校準方法與單次 pilot 見 [v4 說明](docs/O1_V4_CALIBRATED_PILOT_20261022.md)，GitHub 分支為 `o1-gb10-pilot-v4-20261022`；R trace 仍有 NVTX 事件完整性警告，不能當正式逐算子 P 標籤。RTX 3090／4090 進行中的 v2 測試依 [v2 節點手冊](docs/O1_NODE_RUNBOOK.md) 完成，不與 v4 混算。既有 E1～E3 程式與凍結 hash 保留；使用者回報 E4 已在節點完成，目前 Git 尚未收錄其程式／報告，請先保護當地成果。
+**此方法分支包含 O1 與 O2 的收集程式；O2 的 GB10 單節點 60 模板 × G0/P/R × 3 重複已完成。** 取得同版 O2 方法及其他節點指令請見 [O2 節點手冊](docs/O2_NODE_RUNBOOK.md) 與 [collector 說明](o2_sequence/README.md)。GB10 的 180 組 P/R 完整 kernel 序列一致，但所有 R trace 均有 NVTX 事件可能遺漏警告；收集完成不等於 P 逐步標籤已嚴格驗證。RTX 3090／4090 的 O2 收集仍須在各節點執行。O3～O5 與 T-v1 訓練尚未完成。此分支不含原始 trace、輸入 bytes 或本機分析結果。既有 E1～E3 程式與凍結 hash 保留；當地 E4 未提交成果請先保護。
 
 建議閱讀順序：
 
@@ -12,11 +12,12 @@
 2. [O0～O5 完整實驗設計](docs/NEXT_EXPERIMENTS.md)
 3. [資料契約與資訊隔離](docs/OPERATOR_DATA_CONTRACT.md)
 4. [三節點 Codex 交接與第一輪實作](docs/CODEX_HANDOFF.md)
-5. [O 系列報告範本](docs/OPERATOR_REPORT_TEMPLATE.md)
+5. [O2 混合序列節點手冊](docs/O2_NODE_RUNBOOK.md)
+6. [O 系列報告範本](docs/OPERATOR_REPORT_TEMPLATE.md)
 
 模型已指定以 **MLP 為主**。可實作的公式、特徵、MLP-S/F/V 架構、分段動態規劃、損失函數與分組訓練順序，見 [T-v1 MLP 數學規格](docs/T_V1_MLP_MODEL_SPEC.md)。這是新增設計，尚無新模型程式或訓練成績。
 
-第一步是三設備 O0 可觀測性盤點及 GEMM/BMM/Conv2D 九配置 pilot。必須驗證真正無標記 trace 的邊界標籤能否可靠取得；算子辨識與 metrics 可用性均尚未證實，不能只憑既有整模型誤差推論。
+跨設備比較前仍需各節點以同版程式完成 O0 可觀測性與 O1/O2 收集，並驗證真正無標記 P trace 的逐算子邊界標籤。GB10 O2 已收齊原始資料，但 NVTX 警告使逐步標籤仍待審；算子辨識模型尚未訓練，不能只憑既有整模型誤差推論。
 
 ## 既有 E1～E3 工具與操作說明
 
@@ -24,7 +25,7 @@
 
 文件入口：[第一步實驗計畫](第一步實驗_ResNet50量測與Trace對應驗證.md) · [共用輸入與 checksum](inputs/README.md) · [三設備 E1／E2 現況](docs/E1_E2_STATUS_20261020.md) · [GB10 固定輸入 E1](docs/GB10_E1_FIXED_INPUT_20261020.md) · [後續實驗與建模計畫](docs/NEXT_EXPERIMENTS.md) · [3090 節點操作](docs/RTX3090_NODE.md) · [分析節點 Codex 交接報告](docs/CODEX_HANDOFF.md) · [分析報告範本](docs/ANALYSIS_REPORT_TEMPLATE.md)。
 
-現在 Git 內可執行的是 ResNet50 E1 資料流程、[E2 硬體校正工具](e2_calibration/README.md)、[E3 來源時間校正 pilot](e3_calibration/README.md)，以及 [O1 九配置 pilot](o1_operator/README.md)。重現 E3 配置請依 [E3 節點手冊](docs/E3_NODE_RUNBOOK.md)；節點 E4 成果與新 O 系列的狀態見上方說明。
+現在 Git 內可執行的是 ResNet50 E1 資料流程、[E2 硬體校正工具](e2_calibration/README.md)、[E3 來源時間校正 pilot](e3_calibration/README.md)、[O1 收集程式](o1_operator/README.md)及 [O2 混合序列收集程式](o2_sequence/README.md)。重現 E3 配置請依 [E3 節點手冊](docs/E3_NODE_RUNBOOK.md)；O2 請依上方節點手冊執行。
 
 這套程式實作四種量測模式、六個 forward 階段標記、穩態檢查、Nsight SQLite 解析、跨設備統計與診斷圖。研究用時間標籤需來自真實 CUDA 推論；主指標以 host timer 量測 forward 到 GPU 完成的服務時間，GPU trace 統計另外保存。缺少 GPU 或必要工具時會停止，不使用 CPU 推論或模擬數字代替實測。
 
