@@ -2,7 +2,7 @@
 
 更新：2026-10-21。**狀態：O1 九配置 pilot 已在 GB10 實作並部分實測；O2～O5 仍是設計規格。** RTX 3090、RTX 4090 待用同版程式進行當地量測與品質審查。GB10 P/R 有事件完整性警告，逐算子 P 標籤未驗收。程式與命令見 [O1 節點手冊](O1_NODE_RUNBOOK.md)，實測摘要見 [GB10 O1 狀態](O1_GB10_PILOT_STATUS_20261021.md)。原 E1～E3 工具保留；E4 為節點已回報、本次 Git 尚未收錄。另見 [一致性審查](GOAL_ALIGNMENT_REVIEW_20261021.md)、[資料契約](OPERATOR_DATA_CONTRACT.md)、[節點交接](CODEX_HANDOFF.md)。舊方案見 [歷史文件](archive/WHOLE_MODEL_PLAN_20261020.md)。
 
-使用者追加指定 **MLP 為主要模型**。O2/O3 的具體數學、loss、模型大小、分段DP、OOF及實作順序以 [T-v1 MLP 規格](T_V1_MLP_MODEL_SPEC.md) 為準；本文保留整體實驗流程。線性／倍率模型僅作基線。
+使用者追加指定 **MLP 為主要模型**。2026-10-28 修正後 O2/O3 的主模型依 [T-v2 joint MLP 設計](T_V2_JOINT_MLP_MODEL.md)：共享算子表示、分段／類型頭、直接目標時間頭；[T-v1 F/V 分解](T_V1_MLP_MODEL_SPEC.md)保留為對照。本文其餘章節保留整體實驗流程；線性／倍率模型僅作基線。
 
 ## 1. 研究目標與成功的定義
 
@@ -128,9 +128,11 @@ P/PM 不插逐算子同步、等待、dummy kernel 或專屬 memcpy 暴露邊界
 
 ## 7. O3：數學模型與公平對照
 
-### 7.1 分層時間模型
+### 7.1 分層時間模型（原 T-v1 對照）
 
 令 x_s 為來源事件序列，h_s/h_t 為獨立硬體描述。辨識器輸出片段 B_hat 與類型機率 q_i(c)，片段特徵為 z_i：
+
+下式記錄原先的 F/V 分解，**不是 T-v2 現行主模型**。現行方法將 F/V 合併為共享表示上的直接目標時間頭，並以分段／時間 joint loss 訓練；公式與限制見 [T-v2](T_V2_JOINT_MLP_MODEL.md)。
 
 ```text
 (B_hat, q) = S(x_s, optional_metrics_s)

@@ -2,7 +2,7 @@
 
 版本提案：`operator_protocol_v1_draft_20261021`。**完整資料契約仍是待實作規格。** 目前已有 [O1 九配置 pilot CLI](../o1_operator/README.md) 和部分欄位草案；它不等於本契約的完整 predictor/evaluator、split 或 O2/O3 實作。第一輪 pilot 後凍結正式版本；變更需新 protocol ID。主要流程見 [實驗設計](NEXT_EXPERIMENTS.md)。
 
-MLP 主模型的具體流程見 [T-v1 數學規格](T_V1_MLP_MODEL_SPEC.md)。首版 unknown 是拒絕狀態，已知類的條件機率與邊界posterior分開保存；不得虛構 unknown softmax 機率。
+現行 MLP 主模型的具體流程見 [T-v2 joint 設計](T_V2_JOINT_MLP_MODEL.md)；[T-v1](T_V1_MLP_MODEL_SPEC.md)保留為 F/V 對照。首版 unknown 是拒絕狀態，已知類的條件機率與邊界 posterior 分開保存；不得虛構 unknown softmax 機率。
 
 ## 1. 三種時間目標不可混算
 

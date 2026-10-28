@@ -14,7 +14,7 @@
 4. [三節點 Codex 交接與第一輪實作](docs/CODEX_HANDOFF.md)
 5. [O 系列報告範本](docs/OPERATOR_REPORT_TEMPLATE.md)
 
-模型已指定以 **MLP 為主**。可實作的公式、特徵、MLP-S/F/V 架構、分段動態規劃、損失函數與分組訓練順序，見 [T-v1 MLP 數學規格](docs/T_V1_MLP_MODEL_SPEC.md)。這是新增設計，尚無新模型程式或訓練成績。
+模型已指定以 **MLP 為主**。2026-10-28 的[現行 T-v2 joint MLP 設計](docs/T_V2_JOINT_MLP_MODEL.md)讓算子分段／類型與直接目標時間預測共享表示、共同訓練；[T-v1 分段與 F/V 分解](docs/T_V1_MLP_MODEL_SPEC.md)保留為對照。這些是設計，尚無 O2/O3 模型程式或訓練成績。
 
 第一步是三設備 O0 可觀測性盤點及 GEMM/BMM/Conv2D 九配置 pilot。必須驗證真正無標記 trace 的邊界標籤能否可靠取得；算子辨識與 metrics 可用性均尚未證實，不能只憑既有整模型誤差推論。
 

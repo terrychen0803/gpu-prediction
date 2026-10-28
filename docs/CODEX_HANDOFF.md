@@ -16,7 +16,8 @@ wrapper/reference 可做訓練與評分標籤；正式 T/TM predictor 不讀測�
 2. [完整設計](NEXT_EXPERIMENTS.md)：配置、模式、模型、對照、split、gate。
 3. [資料契約](OPERATOR_DATA_CONTRACT.md)：predictor/evaluator 分離與三種時間 target。
 4. [O 報告範本](OPERATOR_REPORT_TEMPLATE.md)、[既有驗證](../inference_pilot/VALIDATION.md)。
-5. **[T-v1 MLP 數學規格](T_V1_MLP_MODEL_SPEC.md)**：使用者已指定MLP為主要方法；包含片段MLP＋DP、F/V時間MLP、損失、OOF與初始超參數。未知類首版採拒絕，GE與CTX使用不同模型。
+5. **[T-v2 joint MLP 設計](T_V2_JOINT_MLP_MODEL.md)**：2026-10-28 現行主模型；共享算子表示、分段／類型頭、直接目標時間頭及 joint loss。獨立 F 不再是必要主模型。
+6. [T-v1 MLP 分解規格](T_V1_MLP_MODEL_SPEC.md)：保留作舊方案及 F/V 對照，勿將其獨立 F/V 流程直接當最新實作要求。
 
 Git 有 E1 的 six-phase ResNet50、E2 硬體校正、E3 12 配置及設備內 C0/C1，另有 `o1_operator` 的九配置 G0/GE/P/R pilot。六 phase 不是六算子；E1 P0 是同步輔助 request 分段。E2 GEMM 不是完整 operation-aware 對照資料集。GB10 O1 P/R trace 有完整性疑慮，不能忽略。
 
@@ -48,7 +49,7 @@ Git 有 E1 的 six-phase ResNet50、E2 硬體校正、E3 12 配置及設備內 C
 
 先完成 A～D 的最小 pilot，不先做完整大型分類器。修改新 parser／量測時按資料契約補風險測試，既有 tests 也需通過。不要在沒有真 GPU 時用 mock latency 交付成功。
 
-工作包E以T-v1規格的MLP-S/F/V實作；最小模型先在isolated資料做數值sanity，再做mixed sequence的結構loss與DP，最後做OOF時間預測。MLP是主方法，線性／倍率保留作baseline。候選片段長度與hardware profile可用性依pilot凍結。
+工作包E的主模型依T-v2：共享MLP＋分段／類型頭＋直接目標時間頭。先在isolated資料做數值sanity，再用有可靠reference的mixed sequence做joint訓練及DP，最後比較六方向時間預測。T-v1獨立F/V、線性／倍率保留作baseline。候選片段長度與hardware profile可用性依pilot凍結。
 
 ## 5. 第一輪實際執行安排
 
@@ -78,7 +79,7 @@ O0/pilot 的必要檔案：
 docs/OPERATOR_DATA_CONTRACT.md、docs/CODEX_HANDOFF.md，以及 docs/O1_NODE_RUNBOOK.md。
 O1 九配置 pilot CLI 已有 `python -m o1_operator`，先用固定 commit 與輸入 hash；
 O2～O5 尚未實作，不要假設已有對應 CLI。
-模型主線請依 docs/T_V1_MLP_MODEL_SPEC.md：MLP-S＋分段DP，以及MLP-F/V時間模型。
+模型主線請依 docs/T_V2_JOINT_MLP_MODEL.md：共享MLP＋分段DP及直接目標時間頭。docs/T_V1_MLP_MODEL_SPEC.md的F/V分解只作對照。
 先檢查本地 git 狀態與 E4 工作，保存尚未推送的程式/報告，不覆蓋它們。
 完成當地 O0 環境、trace 完整性、metrics 盤點；用現有 o1_operator
 先做9配置 G0/GE/P/R pilot及R→無標記P的可靠對應稽核，不直接收全矩陣。

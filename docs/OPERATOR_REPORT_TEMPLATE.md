@@ -1,5 +1,7 @@
 # O 系列研究報告範本
 
+現行主模型的 loss、時間目標及資訊邊界依 [T-v2 joint MLP 設計](T_V2_JOINT_MLP_MODEL.md)；T-v1 獨立 F/V 只作比較組。
+
 這是範本，沒有實測結果。複製到新的分析目錄後填寫；未知／未測／待審不要改成通過。方法依 [設計](NEXT_EXPERIMENTS.md) 與 [資料契約](OPERATOR_DATA_CONTRACT.md)。
 
 ## 1. 本次問題與證據
