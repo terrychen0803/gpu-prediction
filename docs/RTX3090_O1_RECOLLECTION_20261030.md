@@ -4,8 +4,8 @@
 - **節點：** NVIDIA GeForce RTX 3090（單一可見 CUDA GPU）。
 - **研究目的：** 在原始 RTX 3090 O1 時間資料受到背景工作負載干擾、三次重複穩定性不佳的情況下，重新收集具有相同 O1 Formal 139 配置與 protocol 的資料，區分系統干擾與不同計時方式引起的變異。
 - **方法來源：** [O1 formal branch](https://github.com/terrychen0803/gpu-prediction/tree/o1-formal139-method-20261022)，固定 Git commit **89431b415ebf4cbe3c886795b39d7b7aba32e7a8**。
-- **Bootstrap protocol：** \`o1_formal_139_bootstrap_8192_v2_20261022\`
-- **Formal protocol：** \`o1_formal_139_calibrated_v2_20261022\`
+- **Bootstrap protocol：** `o1_formal_139_bootstrap_8192_v2_20261022`
+- **Formal protocol：** `o1_formal_139_calibrated_v2_20261022`
 - **研究狀態：** 收集完整性 **PASS**；原定嚴格時間品質（所有 G0/GE spread ≤5%）**未完全通過**。**不得將 collection PASS 說成 timing-quality PASS。**
 
 ## 1. 方法與環境
@@ -27,7 +27,7 @@ O1 Formal 139 的算子配置為 GEMM 27、BMM 24、Conv2D 64、Add 12、LayerNo
 
 - Bootstrap：**417/417 completed**。
 - 新 Calibration manifest SHA-256：**0a4df0fc7990dac77f931ea7347e922e4dbd867563bedd586afe01a9a9f3e294**。
-- 為了不中斷本次收集，Calibration 使用 \`--allow-p-warnings\`；此選項只允許帶警告的 P trace 作為校準來源，**並非 NVTX/reference 完整性已被證實**。
+- 為了不中斷本次收集，Calibration 使用 `--allow-p-warnings`；此選項只允許帶警告的 P trace 作為校準來源，**並非 NVTX/reference 完整性已被證實**。
 
 ## 2. 正式收集結果：舊資料與新資料
 
@@ -57,7 +57,7 @@ O1 Formal 139 的算子配置為 GEMM 27、BMM 24、Conv2D 64、Add 12、LayerNo
 
 以 spread ≤5% 判定穩定性。新資料不穩定 34 組，**GE 28 組、G0 6 組**；按算子家族統計：GEMM 14、Conv2D 9、Add 6、LayerNorm 5，BMM 0。GE 不穩定的許多算子僅約 9–21 µs；約 1 µs 的絕對變化就可能造成超過 5% 的相對 spread。
 
-原始 GE 每次操作使用 CUDA Event 並在每個 call 後同步；同一 run 另外收集 \`batch_event_us_per_call\`，在連續多次 operation 前後放 Event，將整批時間除以 calls。後者與逐次同步 **不是同一種 estimand／預測標籤**。
+原始 GE 每次操作使用 CUDA Event 並在每個 call 後同步；同一 run 另外收集 `batch_event_us_per_call`，在連續多次 operation 前後放 Event，將整批時間除以 calls。後者與逐次同步 **不是同一種 estimand／預測標籤**。
 
 | GE 三次重複穩定性（5% 門檻） | 配置數（共 139） |
 |---|---:|
@@ -91,33 +91,33 @@ O1 Formal 139 的算子配置為 GEMM 27、BMM 24、Conv2D 64、Add 12、LayerNo
 ## 5. 解釋、限制與資料使用政策
 
 1. 重新收集顯著改善了 RTX 3090 的整體時間穩定性，且全部新配置/模式聚合都滿足 100 ms 最低 group window；但尚未達成 **278/278** 的完整穩定性門檻。
-2. Single-call 與 Batch Event 的數值和執行語意不同。研究模型至少應明確區分 \`isolated_device_event_us\` 與 \`batch_event_us_per_call\`；G0 host completion time 亦不可與它們直接混用。
+2. Single-call 與 Batch Event 的數值和執行語意不同。研究模型至少應明確區分 `isolated_device_event_us` 與 `batch_event_us_per_call`；G0 host completion time 亦不可與它們直接混用。
 3. 新資料 **417/417 P/R recorded sequence alignment** 並不代表 NVTX 事件完整。全部 417 個 warning-bearing trace pair 仍為 **manual_review_required_event_loss**，不得宣稱具有 verified reference labels。
 4. 可將新資料指定為主要 O1 RTX3090 收集資料，但應在分析中以 configuration/mode 為單位保留 stability flag。不得只重跑失敗配置並用新數字覆寫，使整體品質看起來人為提高。
 5. 舊資料因高波動應標為 **superseded / high-variance**；為節省磁碟可在**完成新資料本機封存、遠端備份及 checksum 驗證之後**刪除舊 RTX 3090 的本機 O1 raw/analysis。此資料生命週期決策不代表新資料達到最初設定的全通過標準。
-6. 本報告來自節點 console 執行結果及其摘要，未把完整原始 trace 提交 GitHub。需進行後續學術結論或重新分析時，應使用 raw \`.nsys-rep\`／SQLite、\`call_samples.csv\`、\`groups.csv\`、\`run_inventory.csv\`、\`aggregate.csv\`、\`rp_alignment.csv\` 與校準 manifest。
+6. 本報告來自節點 console 執行結果及其摘要，未把完整原始 trace 提交 GitHub。需進行後續學術結論或重新分析時，應使用 raw `.nsys-rep`／SQLite、`call_samples.csv`、`groups.csv`、`run_inventory.csv`、`aggregate.csv`、`rp_alignment.csv` 與校準 manifest。
 
 ## 6. 封存與可追溯目錄
 
-以下均為節點 \`~/RTchen\` 下的相對路徑：
+以下均為節點 `~/RTchen` 下的相對路徑：
 
 **新 clean session（需要一起備份）：**
 
-- \`o1-runs/rtx3090_formal139_clean_20261030_001_bootstrap/\`
-- \`o1-runs/rtx3090_formal139_clean_20261030_001_full/\`
-- \`o1-analysis/rtx3090_formal139_clean_20261030_001_calibration.json\`
-- \`o1-analysis/rtx3090_formal139_clean_20261030_001_analysis/\`
-- \`o1-analysis/rtx3090_formal139_clean_20261030_001_collection.log\`
-- \`o1-runs/rtx3090_critical9_diagnostic_001/\`
-- \`o1-analysis/rtx3090_critical9_diagnostic_001/\`
+- `o1-runs/rtx3090_formal139_clean_20261030_001_bootstrap/`
+- `o1-runs/rtx3090_formal139_clean_20261030_001_full/`
+- `o1-analysis/rtx3090_formal139_clean_20261030_001_calibration.json`
+- `o1-analysis/rtx3090_formal139_clean_20261030_001_analysis/`
+- `o1-analysis/rtx3090_formal139_clean_20261030_001_collection.log`
+- `o1-runs/rtx3090_critical9_diagnostic_001/`
+- `o1-analysis/rtx3090_critical9_diagnostic_001/`
 
 **不納入新資料、待遠端 checksum 驗證後可刪除的舊本機 O1 Formal：**
 
-- \`o1-runs/rtx3090_formal139_bootstrap_001/\`
-- \`o1-runs/rtx3090_formal139_full_001/\`
-- \`o1-analysis/rtx3090_formal139_calibration_001.json\`
-- \`o1-analysis/rtx3090_formal139_full_001/\`
-- \`o1-analysis/rtx3090_formal139_collection.log\`
+- `o1-runs/rtx3090_formal139_bootstrap_001/`
+- `o1-runs/rtx3090_formal139_full_001/`
+- `o1-analysis/rtx3090_formal139_calibration_001.json`
+- `o1-analysis/rtx3090_formal139_full_001/`
+- `o1-analysis/rtx3090_formal139_collection.log`
 
 **注意：** RTX3090 O2、O1 舊 pilot、任何遠端封存資料均不在本次本機刪除範圍。
 
