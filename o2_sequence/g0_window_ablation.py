@@ -157,6 +157,10 @@ def summarize(root):
                 quality = read(folder / "quality.json")
                 if quality["status"] != "completed":
                     raise RuntimeError(f"Failed worker quality: {folder}")
+                expected_correctness = ("passed" if template_id.endswith("_dependent_tail")
+                                        else "not_applicable")
+                if quality["dependent_correctness"]["status"] != expected_correctness:
+                    raise RuntimeError(f"Failed dependent correctness: {folder}")
                 with (folder / "groups.csv").open() as f:
                     groups = list(csv.DictReader(f))
                 if len(groups) != GROUPS or {int(x["group"]) for x in groups} != set(range(1,GROUPS+1)):
@@ -174,7 +178,7 @@ def summarize(root):
                 )
             repeat_spread = (max(medians) - min(medians))/statistics.median(medians)*100
             rows.append({
-                "template": template_id, "topology": template_id.split("_")[-1],
+                "template": template_id, "topology": ("dependent_tail" if template_id.endswith("_dependent_tail") else "independent"),
                 "sequences_per_group": n,
                 "repeat_spread_pct": round(repeat_spread, 5),
                 "stable_le_5pct": repeat_spread <= 5,
