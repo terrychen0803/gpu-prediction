@@ -76,3 +76,35 @@ Report for each sequence count:
 - Single-node CPU load and GPU clocks could drift despite idle preflight. GPU snapshots at run boundaries do not establish per-group clocks.
 - Host timing includes launch/submission overhead and synchronization, not just GPU kernel execution.
 - O2 V3's `verified_steps=0` due to NVTX warnings remains unresolved; this G0-only pilot does **not** repair reference completeness.
+
+
+## Observed RTX 3090 pilot results (2026-11-01)
+
+The user-reported on-node run finished with **60/60 completed, 0 failures**. Analysis was generated under `o2-runs/rtx3090_o2_g0_window_pilot_v4_20261101_001/analysis`.
+
+| Sequences per group | Stable under <=5% repeat spread | Median group duration | Minimum group duration |
+|---:|---:|---:|---:|
+| 8 | 3/5 | 1.992 ms | 1.710 ms |
+| 64 | 3/5 | 15.291 ms | 13.369 ms |
+| 256 | **5/5** | 61.937 ms | 53.676 ms |
+| 512 | 4/5 | 125.411 ms | 107.439 ms |
+
+Full per-template **repeat spread (%)**, in ascending sequence-count order 8 / 64 / 256 / 512:
+
+| Template | 8 | 64 | 256 | 512 |
+|---|---:|---:|---:|---:|
+| `fold0_v00_dependent_tail` | 4.01 | 1.72 | 1.56 | 2.33 |
+| `fold0_v04_independent` | 4.92 | 2.67 | 4.73 | 1.77 |
+| `fold0_v04_dependent_tail` | 7.99 | 3.01 | 3.96 | **5.09** |
+| `fold3_v03_independent` | 1.81 | **5.28** | 3.33 | 4.84 |
+| `fold4_v01_dependent_tail` | 7.93 | **5.39** | 2.86 | 0.39 |
+
+### Interpretation and experiment decision
+
+- Longer groups tend to show lower spread for some templates, supporting a **measurement-window sensitivity hypothesis**, but improvement is **not monotonic**.
+- The observed 256-sequence window meets the 5% stability criterion on all five **diagnostically selected** templates despite its minimum group being **below 100 ms**. Thus **100 ms is not yet established as a necessary threshold**.
+- At 512 sequences all sampled groups exceeded 100 ms, but one template failed 5% by a small margin (5.09%). Thus >=100 ms is **not sufficient to guarantee** stability.
+- Sample size **n=5 templates** and **three repeats per cell** limit confidence. These five were not randomly selected from the 60 formal templates; avoid extrapolating 5/5 to a 100% population acceptance rate.
+- The existing V3 G0-only control had 39/60 stable and V3 clean O2 had 42/60; no V3 collection, trace or per-step verified label is changed by this pilot.
+- **Next recommended test:** preregister an independent, randomized **60-template G0-only window-length comparison** with 8, 256 and 512 sequences/group (60 x 3 x 3 = 540 G0-only runs), calculate repeat-spread, stable proportions and measured group durations per count. This is a **confirmatory ablation proposal**, not a claim of success. Only afterward select a calibration target/cap for a separately frozen adaptive protocol.
+- **Do not discard** any old or clean O2 runs until the new intended use is validated and a verified remote archive exists.
