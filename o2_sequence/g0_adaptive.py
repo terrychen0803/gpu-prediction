@@ -223,6 +223,9 @@ def bootstrap(root, gpu):
         put(folder / "request.json", req)
         print(f"BOOTSTRAP {i}/{len(jobs)} {tid} run{rep:02d}", flush=True)
         _run_worker(folder, plan, {"template": tid, "repeat": rep})
+        if plan["failures"]:
+            print("Stopping bootstrap at first failure; inspect the failed worker.log", file=sys.stderr)
+            break
     plan["status"] = "completed" if not plan["failures"] else "completed_with_failures"
     plan["failure_count"] = len(plan["failures"])
     put(root / "bootstrap_plan.json", plan)
@@ -310,6 +313,10 @@ def formal(root):
     if cal["adaptive_code_sha256"] != sha_file(__file__):
         raise RuntimeError("Adaptive source modified after calibration")
     templates, configs = template_config()
+    if bootstrap_plan["catalog_sha256"] != hash_file(FROZEN_PATH):
+        raise RuntimeError("Frozen O2 template catalog changed since bootstrap")
+    if bootstrap_plan["o1_split_sha256"] != hash_file(SPLIT_PATH):
+        raise RuntimeError("O1 split changed since bootstrap")
     if set(cal["counts"]) != {t["id"] for t in templates}:
         raise RuntimeError("Calibration template set mismatch")
     inventory = read(root / "input_inventory.json")
@@ -343,6 +350,9 @@ def formal(root):
         print(f"FORMAL {i}/{len(jobs)} {tid} run{rep:02d} "
               f"n={request['sequence_count']}", flush=True)
         _run_worker(folder, plan, {"template": tid, "repeat": rep})
+        if plan["failures"]:
+            print("Stopping formal at first failure; inspect the failed worker.log", file=sys.stderr)
+            break
     plan["status"] = "completed" if not plan["failures"] else "completed_with_failures"
     plan["failure_count"] = len(plan["failures"])
     put(root / "formal_plan.json", plan)
