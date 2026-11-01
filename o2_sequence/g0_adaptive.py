@@ -81,6 +81,9 @@ def worker(path):
         checked_source()
         if req["protocol"] != PROTOCOL or req["source_protocol"] != V3_PROTOCOL:
             raise RuntimeError("Adaptive G0 protocol mismatch")
+        if (req.get("matrix"), req.get("mode"), req.get("input_format"), req.get("groups")) != (
+                "formal", "G0", INPUT_FORMAT, GROUPS):
+            raise RuntimeError("Adaptive G0 request matrix/mode/inputs/group policy mismatch")
         if req["code_sha256"] != sha_file(__file__):
             raise RuntimeError("Adaptive worker source changed")
         n = req["sequence_count"]
