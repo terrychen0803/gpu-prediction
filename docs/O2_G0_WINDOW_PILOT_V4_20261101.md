@@ -108,3 +108,32 @@ Full per-template **repeat spread (%)**, in ascending sequence-count order 8 / 6
 - The existing V3 G0-only control had 39/60 stable and V3 clean O2 had 42/60; no V3 collection, trace or per-step verified label is changed by this pilot.
 - **Next recommended test:** preregister an independent, randomized **60-template G0-only window-length comparison** with 8, 256 and 512 sequences/group (60 x 3 x 3 = 540 G0-only runs), calculate repeat-spread, stable proportions and measured group durations per count. This is a **confirmatory ablation proposal**, not a claim of success. Only afterward select a calibration target/cap for a separately frozen adaptive protocol.
 - **Do not discard** any old or clean O2 runs until the new intended use is validated and a verified remote archive exists.
+
+
+## Implemented next step: 60-template randomized window comparison
+
+The separate module [`o2_sequence/g0_window_ablation.py`](../o2_sequence/g0_window_ablation.py) implements the preregistered 540-run G0-only comparison; it **reuses the exact V4 pilot measurement worker** and logs both the independent `design_protocol` and the worker `measurement_protocol`. It does **not** edit or rerun V3 P/R.
+
+- Full 60 frozen V3 O2 formal templates, 30 independent and 30 dependent-tail.
+- 8, 256 and 512 sequences/group, five groups/run, three independent repeats; **540 G0-only jobs**.
+- Deterministically shuffled global job order (seed 20261101), with no profiler.
+- Session-safe output path: refuses existing directories.
+- Outputs `analysis/window_quality.csv` and `analysis/summary.json` with stable count and median repeat spread by count, minimum/median observed group duration, and paired FAIL→PASS/PASS→FAIL versus n=8.
+
+**RTX3090 example (from existing branch checkout):**
+
+```bash
+conda activate gpu-prediction-o1
+cd ~/RTchen/gpu-prediction-o2-g0-v4
+git status --short
+git pull --ff-only origin o2-g0-window-pilot-20261101
+python -m unittest discover -s tests -p 'test_o2_g0_window_ablation.py' -v
+export CUDA_VISIBLE_DEVICES=0
+OUT="$HOME/RTchen/o2-runs/rtx3090_o2_g0_window_ablation_20261101_001"
+python -m o2_sequence.g0_window_ablation run --expect-gpu 3090 --out "$OUT"
+python -m o2_sequence.g0_window_ablation review --root "$OUT"
+```
+
+The source checkout must be clean, and the node's GPU should be idle before the run. Use tmux for persistence. Archive data and verify SHA-256 on the intended backup destination **before** deleting any old O2 or other data. This is a G0 timing study, **not** a fix for O2 V3's 0 verified per-step reference labels.
+
+**Expected result semantics:** The runner can report collection 540/540 PASS and then print stability per window size; stable counts and minimum windows are empirical and **not** guaranteed. The confirmatory output should drive a subsequent decision about whether to freeze an adaptive `>=100 ms` calibration policy or adopt a fixed length for timing-only labels.
