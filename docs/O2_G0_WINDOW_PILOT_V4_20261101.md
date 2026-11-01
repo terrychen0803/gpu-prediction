@@ -170,3 +170,21 @@ The source checkout must be clean, and the node's GPU should be idle before the 
 **Proposed next step, not yet executed:** develop a separate, versioned *template-specific G0 calibration* protocol. Use a calibration phase to choose calls/group based on observed host group duration (e.g., target 100-125 ms and an explicit maximum), freeze counts, then run **new** three-repeat formal validation and evaluate the same threshold and raw group windows. Do not use formal validation repeats to tune the selected counts. An alternative is to formally adopt fixed n=256 for an efficiency-centered timing endpoint, with the observed 54/60 repeat-spread result disclosed rather than described as a complete pass.
 
 **Data lifecycle:** keep both old and new V3 O2, the G0-only control, the five-template pilot and this 60-template ablation until the chosen G0 target is finalized, the experiment artifacts have been fully packaged, and a remote SHA-256 check has succeeded. Never delete O2 P/R traces in a G0-only cleanup.
+
+
+## Cross-window unstable-template identity (operator-reported)
+
+The operator extracted exact per-template failures from `analysis/window_quality.csv` after the 540/540 ablation completed:
+
+- **n=8:** 26 failed of 60.
+- **n=256:** 6 failed: `fold1_v05_independent` (6.68%), `fold1_v05_dependent_tail` (6.16%), `fold0_v03_independent` (5.83%), `fold2_v01_independent` (5.56%), `fold0_v02_independent` (5.30%), `fold4_v03_dependent_tail` (5.16%).
+- **n=512:** 5 failed: `fold0_v03_independent` (7.34%), `fold4_v04_independent` (6.05%), `fold3_v00_dependent_tail` (5.92%), `fold0_v05_dependent_tail` (5.63%), `fold4_v05_dependent_tail` (5.09%).
+- **Intersection of n=256 and n=512 failures:** exactly **1** template: `fold0_v03_independent` (5.83% at 256; 7.34% at 512).
+- Relative to n=256, n=512 has **5 FAIL→PASS** and **4 PASS→FAIL**; total stable count increases only **54→55**. Thus there is no monotonic per-template stability improvement when doubling the window.
+- The n=8/n=256 intersection has 2 failed templates; the n=8/n=512 intersection also has 2; all three windows share **no** jointly failed templates.
+
+**Interpretation:** Most residual unstable template IDs change with experimental condition, consistent with temporal measurement variability, though this does not establish the exact cause (CPU scheduler, GPU clock, thermals, etc.). The 256 and 512 settings remain promising, but selecting a fixed 512 on the basis of +1/60 successes is not justified by this sample alone.
+
+**Calibration protocol proposal:** For each of the 60 templates, collect a separate, unprofiled G0 bootstrap, use a robust per-sequence host-duration estimator to choose the smallest multiple of a chosen quantum expected to reach a **125 ms nominal group target**, impose a prespecified cap, freeze counts together with the provenance hash, and validate on an independent 3-repeat formal collection. Evaluate **actual minimum group time**, 5% repeat spread and per-template failure lists. Bootstrap and validation must be disjoint. A nominal calibration target is not a guarantee every subsequent group exceeds 100 ms; that is an empirical acceptance condition. Do not use the 60-template ablation outcomes to manually tune each template's count.
+
+Keep existing V3 P/R trace integrity caveats unchanged, and archive verified artifacts before deleting old RTX3090 datasets.
