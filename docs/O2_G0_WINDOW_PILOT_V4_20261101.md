@@ -137,3 +137,36 @@ python -m o2_sequence.g0_window_ablation review --root "$OUT"
 The source checkout must be clean, and the node's GPU should be idle before the run. Use tmux for persistence. Archive data and verify SHA-256 on the intended backup destination **before** deleting any old O2 or other data. This is a G0 timing study, **not** a fix for O2 V3's 0 verified per-step reference labels.
 
 **Expected result semantics:** The runner can report collection 540/540 PASS and then print stability per window size; stable counts and minimum windows are empirical and **not** guaranteed. The confirmatory output should drive a subsequent decision about whether to freeze an adaptive `>=100 ms` calibration policy or adopt a fixed length for timing-only labels.
+
+
+## RTX3090 60-template confirmation results (2026-11-01)
+
+**Source:** On-node terminal output provided by the experiment operator. The raw `window_quality.csv` and `summary.json` are stored on RTX3090, not committed to GitHub. Raw path: `/home/iccl/RTchen/o2-runs/rtx3090_o2_g0_window_ablation_20261101_001/analysis`.
+
+**Collection:** 540/540 completed; 0 failed. The test compares 60 frozen formal O2 templates, 3 G0 group-window settings (8, 256, 512 sequences/group), and 3 independent repetitions each. Each run has 5 synchronized groups. The original O2 V3 G0/P/R data and P/R labels are not changed.
+
+| Sequences/group | Stable templates (3-repeat spread <=5%) | Pass rate | Median repeat spread | Median group duration | Minimum observed group duration |
+|---:|---:|---:|---:|---:|---:|
+| 8 | **34/60** | **56.7%** | 4.29% | 2.02 ms | 1.45 ms |
+| 256 | **54/60** | **90.0%** | 2.47% | 63.28 ms | 45.18 ms |
+| 512 | **55/60** | **91.7%** | 2.37% | 126.30 ms | 90.26 ms |
+
+### Paired changes versus n=8
+
+| Compared window | FAIL -> PASS | PASS -> FAIL | Net stable-template change |
+|---|---:|---:|---:|
+| n=256 | 24 | 4 | +20 |
+| n=512 | 24 | 3 | +21 |
+
+### Decision and limitations
+
+1. The full-template experiment **supports the hypothesis that longer G0 batch windows improve host timing repeat stability** on this RTX3090 measurement environment. This is an association under the experimental protocol, not isolated proof that CPU scheduler jitter or a specific hardware mechanism caused the previous variability.
+2. **The additional gain from n=256 to n=512 is small:** +1/60 stable template and median repeat spread 2.47% -> 2.37%, whereas median group duration is nearly doubled (63.28 -> 126.30 ms). Treat 256 as a sensible efficiency/stability *candidate*, not a final frozen choice.
+3. **Neither setting is universally stable:** n=256 failed 6 templates; n=512 failed 5. Minimum group duration at n=512 was **90.26 ms**, so the original proposed >=100 ms target is *not met for every measured group*.
+4. Repeating longer batches changes measurement policy and can change thermal, frequency, cache, submission/queue effects. These measurements have a distinct protocol and are **not drop-in replacements** for O2 V3 8-sequence G0 data or V3 P/R trace reference labels.
+5. Stability is evaluated from **three independent repeats per template per window**, a small sample. The independent/related outcomes are paired by template but run jobs were shuffled in time; full per-template inspection and repeated session checks are appropriate before claiming a generalizable calibration rule.
+6. The original O2 V3 strict per-step reference completeness remains unresolved (`verified_steps=0` because all 180 P/R pairs had profiler warnings). This window-only experiment neither improves nor invalidates V3 P/R structural evidence.
+
+**Proposed next step, not yet executed:** develop a separate, versioned *template-specific G0 calibration* protocol. Use a calibration phase to choose calls/group based on observed host group duration (e.g., target 100-125 ms and an explicit maximum), freeze counts, then run **new** three-repeat formal validation and evaluate the same threshold and raw group windows. Do not use formal validation repeats to tune the selected counts. An alternative is to formally adopt fixed n=256 for an efficiency-centered timing endpoint, with the observed 54/60 repeat-spread result disclosed rather than described as a complete pass.
+
+**Data lifecycle:** keep both old and new V3 O2, the G0-only control, the five-template pilot and this 60-template ablation until the chosen G0 target is finalized, the experiment artifacts have been fully packaged, and a remote SHA-256 check has succeeded. Never delete O2 P/R traces in a G0-only cleanup.
