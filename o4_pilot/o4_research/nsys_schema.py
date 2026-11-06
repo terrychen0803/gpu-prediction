@@ -1,10 +1,13 @@
 """Explicit Nsight SQLite structural gate for O4 development-only audits.
 
-Allowlist is based on observed 3.28.0 (GB10) and 3.31.0 (RTX3090) layouts.
+Allowlist is based on observed 3.28.0 (GB10), 3.29.0 (RTX4090),
+and 3.31.0 (RTX3090) layouts. 4090 3.29.0 was checked against the
+required/optional/feature columns and SQLite quick_check on RN-A P/R smoke.
+This is structural acceptance only; event/reference completeness remains unverified.
 Passing column checks is NOT a proof of CUDA event completeness, timestamp
 semantics, R-label correctness, or strict Reference eligibility.
 """
-SUPPORTED_SCHEMAS = frozenset(("3.28.0", "3.31.0"))
+SUPPORTED_SCHEMAS = frozenset(("3.28.0", "3.29.0", "3.31.0"))
 
 REQUIRED = {
     "META_DATA_EXPORT": {"name", "value"},
