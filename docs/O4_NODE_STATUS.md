@@ -3,6 +3,21 @@
 本文件區分歷史GPU實測、統一版工程實作、尚未執行與Reference資格。
 
 
+## 2026-11-07：RTX4090 YO-A 40×3 正式工程收集
+
+操作者於 `iccl_resilient@iccl-WHITLEY` 提供 YO-A（YOLO26n）Unified v2 `40×3` 全量 SUMMARY 與容量：
+
+- 原始 Session：`/home/iccl_resilient/RTchen/o4-data-4090/unified_v2/YO_A_20261106T191227Z`（`utc_end=2026-11-06T19:14:08.303457+00:00`）。
+- `protocol=o4_seven_A_40x3_engineering_v2_20261106`；`status=completed_engineering`；`quality_status=engineering_accepted`。
+- `completed_cells=9/9`；`failed_cells=0`；`measured_valid_iterations=360`；`P_R_pairs_exact=3/3`；`trace_structural_passes=6/6`；`all_three_process_spreads_pass=true`。
+- 六份 P/R Capture 各有已知 `Not all NVTX events might have been collected.` 警告；六份各 **1,035 unmatched Work API**，尚未取得名稱分類（不能假設全是 Memset），平均 1,035/45 = 23 未匹配 Work API／Iteration，非逐 Iteration 實際分布保證。
+- `strict_reference_verified=false`、`training_eligible=false`、`models_trained=0`。原始 Session `du -sh` 為 307M。當時 `df -h` 顯示剩餘約 160G。
+- RTX4090 最新正式工程收集 **4/7**（RN-A、MV-A、UN-A、YO-A），**36/36 completed Cells、1,440 measured valid iterations、12/12 exact P/R pairs、24/24 P/R structural passes**。下一組建議 QD-A；其後 QP-A、SW-A。
+
+此記錄僅根據操作者貼出的 SUMMARY／容量資訊，尚未對 YO-A raw SQLite 獨立重稽核；不因工程收集通過而提升 Reference 等級。此次只更新文件，收集程式不變，也未建立新分支。
+
+---
+
 ## 2026-11-07：RTX4090 UN-A 40×3 完成與 MV-A Memset 分類
 
 操作者於 `iccl_resilient@iccl-WHITLEY` 完成 UN-A（U-Net）正式 `40×3` 工程收集，原始目錄 `/home/iccl_resilient/RTchen/o4-data-4090/unified_v2/UN_A_20261106T190759Z`（輸出 SUMMARY `utc_end=2026-11-06T19:09:22.426010+00:00`）。
