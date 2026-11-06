@@ -82,14 +82,14 @@ class SummarizeTests(unittest.TestCase):
             folder = root / j["folder"]
             folder.mkdir()
             write(folder / "quality.json", {
-                "status": "completed", "correctness": {"passed": True}
+                "status": "completed", "correctness": {"passed": True}, "warmup": {"passed": True}
             })
             speed = 13 if slower and j["mode"] == "R" and j["repeat"] == 1 else 10
             with (folder / "iterations.csv").open("w", newline="") as stream:
-                writer = csv.DictWriter(stream, fieldnames=["stage", "elapsed_us"])
+                writer = csv.DictWriter(stream, fieldnames=["stage", "iteration", "elapsed_us"])
                 writer.writeheader()
-                for _ in range(40):
-                    writer.writerow({"stage": "measure", "elapsed_us": speed})
+                for iteration in range(40):
+                    writer.writerow({"stage": "measure", "iteration": iteration, "elapsed_us": speed})
         return jobs
 
     def test_complete_with_warning_is_still_not_strict(self):

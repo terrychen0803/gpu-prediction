@@ -17,3 +17,5 @@
 - 修改量測與 parser 時，補針對實際風險的測試並執行 `python -m unittest discover -s tests -v`；只修改文件時核對命令、欄位、連結與計數即可。
 - 不默默更改 batch、精度、同步政策或驗收門檻。協定改變需記錄新版本，既有資料不可回填成新協定。
 - 原始 trace、模型權重、results/、analysis_runs/ 不提交 Git。可追溯的程式、計畫與經整理的研究報告可依使用者授權提交。
+
+- 新 O4 節點統一入口為 docs/O4_QUICKSTART_ZH_TW.md；固定release tag與full source/asset index。歷史分支以同名封存tag保存，`origin/<歷史名>` 改為 `refs/tags/<歷史名>`。不要在節點重建release manifest來繞過驗證。

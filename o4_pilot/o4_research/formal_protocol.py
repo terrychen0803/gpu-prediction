@@ -5,7 +5,7 @@ import statistics
 from o4_iteration.manifest import stable as original_stable
 
 PROTOCOL = {
-    "protocol_id": "o4_seven_A_40x3_engineering_v1_20261106",
+    "protocol_id": "o4_seven_A_40x3_engineering_v2_20261106",
     "status": "new_seven_A_development_pilot_not_original_frozen_v2",
     "modes": ["GI", "P", "R"],
     "independent_process_repeats": 3,
@@ -32,6 +32,8 @@ PROTOCOL = {
     "reference": "ATen leaf dispatch only in R; no strict certification",
     "nvtx_warning_policy": "provisional_engineering_only_preserve_diagnostics",
     "strict_verified": 0,
+    "finalization": "release adapter/events; synchronize; sleep1s; own-context reset; ProfilerStop",
+    "engineering_acceptance": "o4_engineering_acceptance_v1_20261106",
     "training_eligible": False,
     "formal_training_eligible": False,
 }

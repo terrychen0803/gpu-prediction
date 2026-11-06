@@ -1,20 +1,23 @@
 {
-  "protocol_id": "o4_native_software_handoff_v2_20261106",
+  "protocol_id": "o4_native_software_handoff_v3_20261106",
   "source_sha256": {
+    "BUNDLE_MANIFEST_v2_historical.json": "35f1fe5e3fa972fbbf0e160cbe9a9a4c365663c850617228c38a93fc26c78312",
     "HISTORICAL_BUNDLE_MANIFEST.json": "9107813e3b8a11c3093e8193ccca50cfe557590abcc1272e25720a3862fbfcff",
     "HISTORICAL_NODE_RUNBOOK_ZH_TW.md": "a51ada16e28716d29ddfe35b5089fb61292bc9262ac7eba77075c6b4f534217b",
-    "NODE_RUNBOOK_ZH_TW.md": "9edd705e90e7de41902243eca5ffb2cf094f7acfe78f56890cae9c7b2b967b03",
+    "NODE_RUNBOOK_ZH_TW.md": "93b7a598c830990a870aa4a06643ac811e26e24733b72ece08a8eb3669b1e871",
     "SOFTWARE_ONLY_DEFAULT_ZH_TW.md": "d77fe683372b93445c7f3a090d468dd002b5c0b2713f2b0c48975517c24b007b",
     "native/serial_mre.cu": "2800d1dc1a30f9fff17ca0ad9038be5e7eb54c7a67fd839cc17c72e95b9f584f",
     "native/serial_mre_drain_v2.cu": "039b0744364138c9cf60824a1493e26b0f7920fdbc372d007254d9b9052fc13c",
-    "run_native_node.sh": "d9af40a47f990213d3b8f274a4b020b2ff981b757621df7aee76aae31b362f25",
-    "src/analyze_native.py": "8e0b3fbe6d915c1f12200b0a50cdcd991a3cad064aca11c8d426368257dd76b7",
-    "src/collect_controls.py": "801cf58bba86fcd6c749a3834e52ce5374620d41c1ff74681efa4872632d1657",
+    "run_native_node.sh": "fb1e7d05e7080355d5a21f23913b3252bbba069e77344c796a170ff9b0fe851d",
+    "src/analyze_native.py": "5045535c9f8674377eb752e99b9897e5e4186559f7dc05d84e1ab44657cb1924",
+    "src/collect_controls.py": "fd472593f720f6f1a7fad59bb223fa3dc9b51f09e5aa58f5615dfe56383968cf",
+    "src/nsys_schema.py": "3115388b3640af3fc0b161f75b6b12eda600ca800024a2196352884344d0c314",
     "src/quality.py": "f925f234859690bb7fec4609afdfd3b2ec987e97ae44c8defc7a9885b778c498",
+    "src/runtime_guard.py": "f78de5d4e8d94e07f5b1d49885a1c7a2ae7d51086d82a5b81eabcfce13397005",
+    "src/trace_contract.py": "846fc0fc22d83f8a2629a3941b2b397f730aed3a8adb6a87d419b7aa8c04cf10",
     "tests/test_collector.py": "9357cc09dbccc9e0a2b97a4fe65a440078d1d3b6c6bc2ebd57ae7f400d9e40cd",
     "tests/test_quality.py": "db8238d7f000ad98519ecbd2555d8ce549e19211d04f4fa9677f78585d8aca7e"
   },
-  "initial_captures": 2,
-  "software_only_default": true,
-  "new_entrypoint_status": "offline tested; prior GB10 native CUDA source GPU measured; RTX pending"
+  "GPU_status": "new entrypoint unmeasured; historical captures unchanged",
+  "software_only_default": true
 }

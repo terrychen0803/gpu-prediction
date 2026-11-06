@@ -17,6 +17,7 @@ from pathlib import Path
 from .adapters import Adapter, require_a
 from .common import csvwrite, now, read, sha, write
 from .formal_protocol import PROTOCOL, validate_protocol, warmup_stable
+from .provenance import snapshot
 
 
 def run(req_path):
@@ -54,6 +55,7 @@ def run(req_path):
             raise RuntimeError("Expected GPU identity does not match actual device")
         precision = precision_policy(torch)
         stream = torch.cuda.current_stream()
+        write(folder / "toolchain_provenance.json", snapshot())
         write(folder / "environment.json", {
             "utc": now(), "pid": os.getpid(), "python": sys.version,
             "machine": platform.machine(), "torch": torch.__version__,

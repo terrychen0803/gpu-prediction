@@ -1,5 +1,8 @@
 # GPU 跨設備 inference 預測研究
 
+> **O4 統一工程候選版：** GB10／3090／4090 請從 [三節點 Quickstart](docs/O4_QUICKSTART_ZH_TW.md) 開始。固定 tag `o4-unified-engineering-v1-20261106`；新 v2 GPU canary 未執行、strict verified=0。分支已收斂為 main 與統一候選，舊版以同名 tag 保存，見 [封存表](docs/BRANCH_ARCHIVE_20261106.md)。
+
+
 ## 最新主線（2026-11-06）：operation → GPU inference 迭代時間
 
 **主要方向：RTX4090→GB10、RTX4090→RTX3090。** 由4090來源dry-run trace辨識算子邊界／類型，以MLP預測各片段時間，再組合一次完整forward的GPU迭代時間；其他方向選配。

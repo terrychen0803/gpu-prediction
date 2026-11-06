@@ -1,3 +1,7 @@
+# 歷史 v1 草案入口
+
+本檔記錄 v1 規劃；統一版 v2 請依 [Quickstart](../../docs/O4_QUICKSTART_ZH_TW.md)。GPU 結果不因版本整合而升級。
+
 # O4 七 A × 40×3 工程 Collector：RTX3090 / GB10 / RTX4090
 
 > 版本：`o4_seven_A_40x3_engineering_v1_20261106`（新開發協定）。
@@ -71,7 +75,7 @@ python -m o4_research.replay \
 **先 plan-only**（不執行 GPU），會建立新的 manifest/output 目錄：
 
 ```bash
-cd "$NEW/o4_pilot"
+cd "$NEW40/o4_pilot"
 python -m o4_research.run_formal \
   --out "$HOME/RTchen/o4-data-3090/sevenA_40x3_plan_$(date -u +%Y%m%dT%H%M%SZ)" \
   --assets-manifest "$ASSETS" \

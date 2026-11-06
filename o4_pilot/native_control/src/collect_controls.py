@@ -25,7 +25,8 @@ def gpu_snapshot(dest):
  command(['nvidia-smi','--query-compute-apps=pid,process_name,used_gpu_memory','--format=csv,noheader'],dest/'compute_processes.csv')
 def binary_for(cell):return RUN/'native'/('serial_mre_drain_v2' if cell.startswith('D') or cell=='correctness_drain' else 'serial_mre')
 def preflight(cell,expect_gpu):
- dest=RUN/'preflight'/cell;dest.mkdir(exist_ok=False);gpu_snapshot(dest)
+ from runtime_guard import gpu_guard
+ dest=RUN/'preflight'/cell;dest.mkdir(exist_ok=False);gpu_snapshot(dest);gpu_guard(dest,expect_gpu)
  for name,cmd in [('uname.txt',['uname','-srm']),('nsys_status.txt',['nsys','status','-e'])]:
   try:command(cmd,dest/name)
   except RuntimeError:pass
@@ -43,7 +44,7 @@ def main():
   backend='cuda-sw' if a.cell in ('A1','A2','B1','D1') else 'cuda'
   cmd=['nsys','profile',f'--trace={backend},nvtx','--discard-environment=true','--sample=none','--cpuctxsw=none','--gpu-metrics-devices=none','--capture-range=cudaProfilerApi','--capture-range-end=stop',f'--output={folder}/trace']+cmd
  if a.cell=='C3':cmd.insert(2,'--flush-on-cudaprofilerstop=true')
- request={'protocol_id':'o4_native_software_handoff_v2_20261106','cell':a.cell,'protocol_variant':'explicit_flush_true' if a.cell=='C3' else 'baseline','mode':mode,'requested_backend':backend,'measured':8,'warmup':8,'source_sha256':sha(binary_for(a.cell).with_suffix('.cu')),'binary_sha256':sha(binary_for(a.cell)),'full_forward_GI':False,'one_process_per_cell':True,'PDL_launch_attributes':'none; ordinary <<<>>> launches in source','correctness':'all256 float32 outputs exactly3.0; successful exit required','background':'existing contexts preserved; actual process snapshot in preflight'};request['protocol_id']='o4_native_trace_host_drain_v2_20261106' if a.cell.startswith('D') or a.cell=='correctness_drain' else ('o4_native_trace_explicit_flush_v1_20261106' if a.cell=='C3' else request['protocol_id']);request['host_drain_ms']=200 if a.cell.startswith('D') or a.cell=='correctness_drain' else 0;write(folder/'request.json',request)
+ request={'protocol_id':'o4_native_software_handoff_v3_20261106','cell':a.cell,'protocol_variant':'explicit_flush_true' if a.cell=='C3' else 'baseline','mode':mode,'requested_backend':backend,'measured':8,'warmup':8,'source_sha256':sha(binary_for(a.cell).with_suffix('.cu')),'binary_sha256':sha(binary_for(a.cell)),'full_forward_GI':False,'one_process_per_cell':True,'PDL_launch_attributes':'none; ordinary <<<>>> launches in source','correctness':'all256 float32 outputs exactly3.0; successful exit required','background':'existing contexts preserved; actual process snapshot in preflight'};request['protocol_id']='o4_native_trace_host_drain_v2_20261106' if a.cell.startswith('D') or a.cell=='correctness_drain' else ('o4_native_trace_explicit_flush_v1_20261106' if a.cell=='C3' else request['protocol_id']);request['host_drain_ms']=200 if a.cell.startswith('D') or a.cell=='correctness_drain' else 0;write(folder/'request.json',request)
  try:
   command(cmd,folder/'collect.log',timeout=90)
   text=(folder/'collect.log').read_text();header='iteration,event_elapsed_us,kernel_calls,positive_memset_bytes,zero_memset_bytes,reference'

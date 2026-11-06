@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse,collections,re,sqlite3
 from pathlib import Path
 from quality import *
+from nsys_schema import validate_export_schema
+from trace_contract import diagnostic_policy
 RUN=Path(__file__).resolve().parents[1]
 ITER=re.compile(r'^diag\.iter/(\d{6})$');OP=re.compile(r'^diag\.op/(\d{6})/(first|second|memset64|memset0)$')
 def table_rows(c,t,tables):return [dict(x) for x in c.execute('SELECT rowid AS _rowid,* FROM "'+t+'"')] if t in tables else []
@@ -12,13 +14,14 @@ def inspect(cell,out):
  c=sqlite3.connect('file:'+str(folder/'trace.sqlite')+'?mode=ro',uri=True);c.execute('PRAGMA query_only=ON');c.row_factory=sqlite3.Row
  tables={x[0] for x in c.execute("SELECT name FROM sqlite_master WHERE type='table'")};schema={t:[dict(x) for x in c.execute('pragma table_info("'+t+'")')] for t in sorted(tables)};write(out/'schema.json',schema)
  meta=table_rows(c,'META_DATA_EXPORT',tables);schema_version=next(x['value'] for x in meta if x['name']=='EXPORT_SCHEMA_VERSION')
- if schema_version!='3.28.0':raise ValueError('Unknown schema, investigate first: '+schema_version)
+ compatibility=validate_export_schema(schema_version,schema);write(out/'schema_compatibility.json',compatibility)
  integrity=c.execute('pragma quick_check').fetchone()[0];strings={x['id']:x['value'] for x in table_rows(c,'StringIds',tables)}
  contexts=table_rows(c,'TARGET_INFO_CUDA_CONTEXT_INFO',tables);pids={x['processId'] for x in contexts}
  if len(pids)!=1:raise ValueError('Expected exactly one native process/context set')
  pid=next(iter(pids));diagnostics=table_rows(c,'DIAGNOSTIC_EVENT',tables);warnings=[x for x in diagnostics if x.get('severity',0)>=2];write(out/'diagnostics.json',diagnostics)
  # Raw Nsight metadata may include the inherited environment; never export it.
  metadata={t:table_rows(c,t,tables) for t in ('META_DATA_EXPORT','TARGET_INFO_CUDA_CONTEXT_INFO','TARGET_INFO_CUDA_STREAM','ENUM_CUDA_KERNEL_LAUNCH_TYPE','ENUM_DIAGNOSTIC_SEVERITY_LEVEL')};write(out/'safe_metadata.json',metadata)
+ engineering=diagnostic_policy(diagnostics,'cuda-sw');write(out/'engineering_diagnostics.json',engineering)
  backend_messages=[x['text'] for x in diagnostics if any(s in x['text'].lower() for s in ('software instrumented trace','hardware','fallback','hw trace','incomplete cupti'))]
  actual='software' if any('legacy/software instrumented trace was collected' in s for s in backend_messages) else 'unverified'
  if any('Hardware tracing used for CUDA tracing.' in s for s in backend_messages):actual='hardware'

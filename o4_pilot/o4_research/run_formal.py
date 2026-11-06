@@ -18,13 +18,11 @@ from .common import command, gpu_guard, now, read, sha, write
 from .formal_protocol import PROTOCOL, process_spread
 
 
-CODE = ("formal_protocol.py", "formal_worker.py", "run_formal.py",
-        "adapters.py", "audit.py", "quality_v4.py", "nsys_schema.py")
+from .provenance import source_hashes, snapshot, verify_release
 
 
 def code_hashes():
-    root = Path(__file__).resolve().parent
-    return {name: sha(root / name) for name in CODE}
+    return source_hashes()
 
 
 def plan(workloads, *, plan_only=False):
@@ -62,12 +60,14 @@ def validate_sources(manifest, requested, expected_digest):
 
 def measured_median(folder, measured_count):
     q = read(folder / "quality.json")
-    if q["status"] != "completed" or not q["correctness"]["passed"]:
+    if q["status"] != "completed" or not q["correctness"]["passed"] or not q.get("warmup", {}).get("passed"):
         raise ValueError("Worker or correctness incomplete")
     with (folder / "iterations.csv").open() as f:
         records = [r for r in csv.DictReader(f) if r["stage"] == "measure"]
     if len(records) != measured_count:
         raise ValueError(f"Measured count {len(records)} != {measured_count}")
+    if {int(r["iteration"]) for r in records} != set(range(measured_count)):
+        raise ValueError("Measured iteration IDs missing or duplicated")
     values = [float(r["elapsed_us"]) for r in records]
     if not all(0 < v < float("inf") for v in values):
         raise ValueError("Invalid CUDA timing")
@@ -175,6 +175,8 @@ def summarize(root, jobs, workloads):
         "models_trained": 0,
         "new_confirmation_dataset": False,
     }
+    summary["quality_status"] = "engineering_accepted" if complete and pairs_exact and summary["all_three_process_spreads_pass"] else "review_required"
+    summary["diagnostic_warning_captures"] = [{"workload": j["workload"], "mode": j["mode"], "repeat": j["repeat"], "warnings": j["diagnostic_warnings"]} for j in jobs if j.get("diagnostic_warnings")]
     write(root / "pair_summary.json", pairs)
     write(root / "aggregate.json", groups)
     write(root / "SUMMARY.json", summary)
@@ -199,6 +201,7 @@ def main():
     manifest = Path(args.assets_manifest).resolve()
     jobs = plan(args.workload, plan_only=args.plan_only)
     validate_sources(manifest, args.workload, args.expected_manifest_sha256)
+    release = verify_release()
     hashes = code_hashes()
     root.mkdir(parents=True, exist_ok=False)
     inventory = {
@@ -213,6 +216,8 @@ def main():
         "strict_verified": 0, "training_eligible": False,
         "models_trained": 0,
     }
+    inventory["source_release"] = release
+    write(root / "environment_snapshot.json", snapshot())
     write(root / "inventory.json", inventory)
     if args.plan_only:
         print("PLAN_ONLY:", len(jobs), "cells; GPU executions = 0")
@@ -267,13 +272,17 @@ def main():
                          "--output=" + str(folder / "trace.sqlite"),
                          str(folder / "trace.nsys-rep")],
                         folder, "export", timeout=args.cell_timeout_seconds or None)
-                from .audit import audit
+                from .audit_v5 import audit
                 audit_summary = audit(folder, folder / "audit")
                 j["trace_structure"] = audit_summary["status"]
                 j["schema"] = audit_summary["schema"]
                 j["GPU_records"] = audit_summary["GPU_records"]
                 j["preparation_GPU_records"] = audit_summary["preparation_GPU_records"]
-                j["NVTX_warnings"] = audit_summary["warnings"]
+                j["diagnostic_warnings"] = audit_summary["warnings"]
+                j["NVTX_warnings"] = [x["text"] for x in audit_summary["engineering_acceptance"]["accepted_warnings"]]
+                j["engineering_acceptance"] = audit_summary["engineering_acceptance"]
+                if not j["engineering_acceptance"]["accepted"]:
+                    raise RuntimeError("Engineering acceptance blocked; see audit/engineering_acceptance.json")
                 j["unmatched_work_APIs"] = audit_summary["unmatched_work_APIs"]
                 if j["trace_structure"] != "recorded_structure_complete":
                     raise RuntimeError("Recorded structure integrity failed")
@@ -291,7 +300,7 @@ def main():
     inventory["utc_end"] = now()
     write(root / "inventory.json", inventory)
     print(summary, flush=True)
-    if inventory["status"] != "completed_engineering":
+    if inventory["status"] != "completed_engineering" or summary["quality_status"] != "engineering_accepted":
         return 1
     return 0
 
