@@ -1,5 +1,5 @@
 """Read-only v4 audit with explicit out-of-iteration preparation accounting."""
-import collections,json,re,sqlite3
+import bisect,collections,json,re,sqlite3
 from pathlib import Path
 from .common import read,write,csvwrite,sha
 from .quality_v4 import interval_closure,overlapping_pairs,partition_supported,gate,strict_gate,VERSION
@@ -9,7 +9,27 @@ SAFE={'event_kind','start_ns','end_ns','api_start_ns','api_end_ns','grid_xyz','b
 def safe(e,i):
  x={k:v for k,v in e.items() if k in SAFE};x.update(event_id=f'e{i:06d}',api_event_id=f'a{i:06d}',correlation_id=f'c{i:06d}',stream_id='s0',context_id='c0',process_id='p0');return x
 def signature(e):return [e.get(k) for k in ('event_kind','kernel_name','grid_xyz','block_xyz','dynamic_shared_memory_bytes','bytes','copy_kind','memory_kind','memset_value')]
-def contains(a,scopes):return [s for s in scopes if s['globalTid']==a['globalTid'] and s['start']<=a['start'] and a['end']<=s['end']]
+class ScopeLookup:
+ """Exact single-owner time lookup; nested scopes rejected, never guessed."""
+ def __init__(self,scopes):
+  grouped=collections.defaultdict(list)
+  for scope in scopes:grouped[scope['globalTid']].append(scope)
+  self.groups={}
+  for tid,values in grouped.items():
+   values.sort(key=lambda x:(x['start'],x['end']))
+   if any(a['end']>b['start'] for a,b in zip(values,values[1:])):
+    raise ValueError('Overlapping/nested scopes of same class; cannot use unique ownership lookup')
+   self.groups[tid]=([x['start'] for x in values],values)
+ def contains(self,api):
+  group=self.groups.get(api['globalTid'])
+  if group is None:return []
+  starts,values=group
+  idx=bisect.bisect_right(starts,api['start'])-1
+  if idx<0:return []
+  x=values[idx]
+  return [x] if x['start']<=api['start'] and api['end']<=x['end'] else []
+def contains(a,scopes):
+ return scopes.contains(a) if isinstance(scopes,ScopeLookup) else [s for s in scopes if s['globalTid']==a['globalTid'] and s['start']<=a['start'] and a['end']<=s['end']]
 def audit(folder,out):
  folder=Path(folder);out=Path(out);out.mkdir(exist_ok=False);req=read(folder/'request.json');env=read(folder/'environment.json');pid=env['pid'];c=sqlite3.connect('file:'+str(folder/'trace.sqlite')+'?mode=ro',uri=True);c.execute('pragma query_only=ON');c.row_factory=sqlite3.Row
  try:
@@ -29,12 +49,23 @@ def audit(folder,out):
     if match:
      if n['end'] is None or n['end']<n['start']:raise ValueError('Unclosed/invalid scope')
      n.update(stage=match[1],iteration=int(match[2]));dest.append(n)
-  dispatch=[json.loads(x) for x in (folder/'reference_dispatch.jsonl').read_text().splitlines()] if req['mode']=='R' else [];byname={x['scope']:x for x in dispatch};scope_exact=len(iters)==4 and len({x['name'] for x in iters})==4;reference_exact=len(ops)==len(byname) and {x['name'] for x in ops}==set(byname)
+  dispatch=[json.loads(x) for x in (folder/'reference_dispatch.jsonl').read_text().splitlines()] if req['mode']=='R' else []
+  byname={x['scope']:x for x in dispatch}
+  p=req.get('protocol',{})
+  transition=p.get('transition_iterations',1);measured=p.get('measured_iterations',3)
+  if not isinstance(transition,int) or not isinstance(measured,int) or not 0<transition<=20 or not 0<measured<=100:
+   raise ValueError('Unexpected or unbounded iteration protocol')
+  expected={f'o4.iter/{stage}/{i:06d}' for stage,n in [('transition',transition),('measure',measured)] for i in range(n)}
+  scope_exact=len(iters)==len(expected) and {x['name'] for x in iters}==expected
+  reference_exact=len(ops)==len(dispatch)==len(byname) and {x['name'] for x in ops}==set(byname)
+  if not scope_exact:raise ValueError('Iteration NVTX scope set inconsistent with request protocol')
+  if req['mode']=='R' and not reference_exact:raise ValueError('R op NVTX/dispatch scope sets differ')
+  iter_lookup=ScopeLookup(iters);prep_lookup=ScopeLookup(preps);op_lookup=ScopeLookup(ops)
   apis=[];idx=collections.defaultdict(list)
   for table in ('CUPTI_ACTIVITY_KIND_RUNTIME','CUPTI_ACTIVITY_KIND_DRIVER'):
    for a in rows(table):
     if ((a['globalTid']>>24)&0xffffff)!=pid:continue
-    a.update(name=strings.get(a['nameId'],''),table=table,key=f'{table}:{a["_rowid"]}');ins=contains(a,iters);prep=contains(a,preps);op=contains(a,ops);a.update(iter_scope=ins[0]['name'] if len(ins)==1 else None,prep_scope=prep[0]['name'] if len(prep)==1 else None,op_scope=op[0]['name'] if len(op)==1 else None);apis.append(a);idx[(a['globalTid']>>24,a['correlationId'])].append(a)
+    a.update(name=strings.get(a['nameId'],''),table=table,key=f'{table}:{a["_rowid"]}');ins=contains(a,iter_lookup);prep=contains(a,prep_lookup);op=contains(a,op_lookup);a.update(iter_scope=ins[0]['name'] if len(ins)==1 else None,prep_scope=prep[0]['name'] if len(prep)==1 else None,op_scope=op[0]['name'] if len(op)==1 else None);apis.append(a);idx[(a['globalTid']>>24,a['correlationId'])].append(a)
   events=[];errors=[]
   for table,kind in [('CUPTI_ACTIVITY_KIND_KERNEL','kernel'),('CUPTI_ACTIVITY_KIND_CONCURRENT_KERNEL','kernel'),('CUPTI_ACTIVITY_KIND_MEMSET','memset'),('CUPTI_ACTIVITY_KIND_MEMCPY','copy')]:
    for e in rows(table):
@@ -45,12 +76,21 @@ def audit(folder,out):
     if e['end']<=e['start']:raise ValueError('Nonpositive GPU interval')
     if not a['iter_scope'] and not a['prep_scope']:errors.append({'table':table,'rowid':e['_rowid'],'reason':'unscoped_recorded_GPU'})
     events.append({'uid':f'{table}:{e["_rowid"]}','start':e['start'],'end':e['end'],'event_kind':kind,'start_ns':e['start'],'end_ns':e['end'],'api_start_ns':a['start'],'api_end_ns':a['end'],'api_key':a['key'],'API_name':a['name'],'correlation_id_raw':e['correlationId'],'iteration_scope':a['iter_scope'],'preparation_scope':a['prep_scope'],'op_scope':a['op_scope'],'kernel_name':strings.get(e.get('demangledName'),''),'grid_xyz':[e.get('grid'+k) for k in 'XYZ'] if kind=='kernel' else None,'block_xyz':[e.get('block'+k) for k in 'XYZ'] if kind=='kernel' else None,'dynamic_shared_memory_bytes':e.get('dynamicSharedMemory'),'bytes':e.get('bytes'),'copy_kind':e.get('copyKind'),'memory_kind':e.get('memKind'),'memset_value':e.get('value') if kind=='memset' else None,'device':e['deviceId'],'context':e['contextId'],'stream':e['streamId']})
-  events.sort(key=lambda e:(e['start'],e['end'],e['uid']));csvwrite(out/'events_diagnostic.csv',events);write(out/'correlation_errors.json',errors)
+  events.sort(key=lambda e:(e['start'],e['end'],e['uid']))
+  csvwrite(out/'events_diagnostic.csv',events);write(out/'correlation_errors.json',errors)
   keys={e['api_key'] for e in events};orphans=[a for a in apis if any(k in a['name'].lower() for k in ('launchkernel','memsetasync','memcpy')) and a['key'] not in keys];csvwrite(out/'unmatched_work_APIs.csv',orphans);per=[];references=[]
+  by_iteration=collections.defaultdict(list)
+  by_op_by_stage=collections.defaultdict(list)
+  for e in events:
+   if e['iteration_scope']:by_iteration[e['iteration_scope']].append(e)
+  for op in ops:by_op_by_stage[(op['stage'],op['iteration'])].append(op)
   for it in sorted(iters,key=lambda n:n['start']):
-   ev=[e for e in events if e['iteration_scope']==it['name']];owns=[e['op_scope'] for e in ev];parts=[];seq=[]
-   for op in [x for x in ops if x['stage']==it['stage'] and x['iteration']==it['iteration']]:
-    ids=[j for j,e in enumerate(ev) if e['op_scope']==op['name']];span=(max(ev[j]['end'] for j in ids)-min(ev[j]['start'] for j in ids)) if ids else None;ref=byname.get(op['name'],{})
+   ev=by_iteration[it['name']];owns=[e['op_scope'] for e in ev];parts=[];seq=[]
+   ids_by_op=collections.defaultdict(list)
+   for j,e in enumerate(ev):
+    if e['op_scope']:ids_by_op[e['op_scope']].append(j)
+   for op in by_op_by_stage[(it['stage'],it['iteration'])]:
+    ids=ids_by_op[op['name']];span=(max(ev[j]['end'] for j in ids)-min(ev[j]['start'] for j in ids)) if ids else None;ref=byname.get(op['name'],{})
     references.append({**ref,'scope':op['name'],'event_indices':ids,'contiguous':not ids or ids==list(range(ids[0],ids[-1]+1)),'recorded_GPU_event_count':len(ids),'recorded_contextual_span_ns':span,'zero_recorded_GPU_work':not ids,'label_status':'development_unverified'})
     if ids:parts.append((min(ev[j]['start'] for j in ids),max(ev[j]['end'] for j in ids)))
    closure=interval_closure(parts) if parts else None
