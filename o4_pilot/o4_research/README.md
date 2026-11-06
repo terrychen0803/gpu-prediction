@@ -55,3 +55,13 @@ python -m o4_research.inventory --runs /data/rna_smoke /data/other_A_smoke --out
 ## Native控制
 
 repo的`native_control/`保留原始CUDA MRE與完整known-work審查；新entrypoint預設只做software P/R。舊四capture手冊另存historical，不執行已無效的GB10硬體flush／drain重試。
+
+## RTX 3090 直接驗證（I1/I2 相容性更新）
+
+請先讀 [3090 節點實證與後續 gate](../../docs/O4_RTX3090_I1_I2_20261106.md)。這個版本新增：
+
+- `observe_memset.py` v3：**不再硬性要求 `op140` 必須在每次 RN-A forward 產生一次 0B Memset**；驗證 enter/exit、成功 return、三次相同 ATen 有序簽章及穩定的 Memset API 分布，將 `op140` 差異明列 `device_specific_difference`。原 v2 失敗紀錄不修改，new run 使用新 `--out`。
+- `nsys_schema.py`：對 3.28.0／3.31.0 進行**白名單版號與必需 SQLite 欄位**檢查，I2 `audit.py` 另記 `schema_compatibility.json` 和 SQLite quick_check；未知版號／缺欄位 fail closed。結構相容 **不代表**語意相容或 Reference 完整；`strict_verified` 不升級。
+- 新增兩組不需 CUDA 的回歸測試 `test_research_memset_transfer.py`、`test_research_nsys_schema.py`。
+
+目前 3090 RN-A GI 三次 measured 工程測試通過；**下一步先以全新輸出路徑跑 RN-A P/R，再審核同設備 P/R signature、warning、reverse API、clock 與各 gate**，通過工程檢查後才跑其他六個 A。不得用 3.31 結構通過推定全部七個 A 的 SQLite 語意相同，也不得用這批 3-measured smoke 冒充凍結的 40×3 收集。
