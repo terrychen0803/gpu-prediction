@@ -36,7 +36,9 @@
 
 RN權重SHA為`72f27a9ddb2f3c57258816e525b12701cb0216f0e17192b780111c45ca8a8597`；sidecar `524b5f9af81a86770840a364061c4ea861132da349883c3065f85ef4b8498a49`；B32共用輸入 `0082e5f18717dcc379d22cf44250c8497c3f8ccc41763301ee8f67d7cfe7b152`。六個小算子operand checksums與shape見[完整資產manifest](../o4_pilot/manifests/assets.json)。
 
-## 3.1 三節點先做最小控制診斷（不改舊 collector）
+## 3.1 三節點最小控制診斷：GB10 已實測、RTX 待驗（不改舊 collector）
+
+最新 [GB10 Native Control v4](O4_GB10_NATIVE_CONTROL_V4_STATUS_20261106.md) 已實際執行：Software 48/48 kernels、Hardware 0/80（Nsight incomplete CUPTI events dropped），且 Software 仍有 start-before-API-entry。以下原版 native control 是 RTX4090/3090 待執行交接，不再描述 GB10 未實測；此文件所指完整 portable MRE 仍在 GB10 本地，非 GitHub 已發布 CLI。
 
 [GB10 最新唯讀品質摘要](O4_GB10_TRACE_QUALITY_UPDATE_20261106.md) 顯示 123 對同 stream kernel-kernel overlap、1,579 筆 GPU end 早於 CPU API start、270 個成功但無 GPU Activity 的 cudaMemsetAsync，以及 NVTX warning 未排除。它們是**不同品質問題**；PDL 只是待驗證的相容機制，不是已證實根因。
 
