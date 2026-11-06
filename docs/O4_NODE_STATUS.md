@@ -3,6 +3,30 @@
 本文件區分歷史GPU實測、統一版工程實作、尚未執行與Reference資格。
 
 
+## 2026-11-07：RTX4090 UN-A 40×3 完成與 MV-A Memset 分類
+
+操作者於 `iccl_resilient@iccl-WHITLEY` 完成 UN-A（U-Net）正式 `40×3` 工程收集，原始目錄 `/home/iccl_resilient/RTchen/o4-data-4090/unified_v2/UN_A_20261106T190759Z`（輸出 SUMMARY `utc_end=2026-11-06T19:09:22.426010+00:00`）。
+
+| 指標 | UN-A 4090 |
+|---|---|
+| Protocol | `o4_seven_A_40x3_engineering_v2_20261106` |
+| Status | `completed_engineering` |
+| Completed / failed | 9/9 / 0 |
+| Measured valid | 360（GI / P / R 各 120） |
+| Exact P/R | 3/3 |
+| Trace structural passes | 6/6 |
+| Stability | `all_three_process_spreads_pass=true`；無失敗 groups |
+| Unmatched Work API | **0 captures** |
+| Known NVTX warning | P/R 六份皆保留 |
+| Quality | `engineering_accepted` |
+| Training | `strict_reference_verified=false`、`training_eligible=false` |
+| Size | `du -sh` 43M |
+
+MV-A `MV_A_20261106T190225Z` 的 P/R repeat 1 CSV 進一步確認各 **135 筆 unmatched Work API 全部屬 `cudaMemsetAsync_v3020`**。RN-A 六份 P/R 各 630 筆也已確認為 `cudaMemsetAsync_v3020`。以 5 transition + 40 measured 計算，兩者分別平均每 iteration 14 與 3 筆 unmatched。此結論只是 **API 類別**，並不能證明參數 `count=0`，也不能直接判定 GPU Activity 漏記；需要額外 Callback Observer／Bytes 參數佐證。MV-A 目前只取 P/R repeat 1 的具名 CSV 分布，其他 repeat 的 unmatched *數量* 一致，但名稱分布尚未逐份查核。
+
+至此 RTX4090 正式工程收集 **3/7 workloads：RN-A、MV-A、UN-A；27/27 cells，1,080 measured valid，9/9 P/R exact pairs，18/18 trace structural passes**。其餘 YO-A、QD-A、QP-A、SW-A 尚未有成功交付。來源為操作者貼出的 SUMMARY、CSV 摘要及 `du`，不是從節點對 raw SQLite 再獨立 re-audit。歷史 tag 未改，新收集不因這項文件更新改變 Collector commit。
+
+---
 ## 2026-11-07：RTX4090 MV-A 40×3 與 RN-A unmatched Memset 診斷
 
 RTX4090 新增 MV-A（MobileNetV3）`MV_A_20261106T190225Z` 正式 40×3 工程實測（操作者在 2026-11-07 提供 `SUMMARY.json`、Collector 輸出與 `du`）：
