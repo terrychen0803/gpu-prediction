@@ -40,7 +40,7 @@ nvidia-smi
 PYTHON="$PYTHON" bash scripts/run_node.sh 3090 single
 ```
 
-只在新 `single` 的三個 Cell 與獨立 Quality Report 審核後，才執行 `three`（27 Cell）與 `resnet`（9 Cell）。單一程序 40 measured／5 transition 和三程序 repeated 40 值均按照原版 Protocol，不以凍結八 warmup/三 measured 的 I2 Smoke 替代。**當時此文件建立時尚無 single GPU 結果；實測最新進度見下節，three/resnet 尚未執行。**
+只在新 `single` 的三個 Cell 與獨立 Quality Report 審核後，才執行 `three`（27 Cell）與 `resnet`（9 Cell）。單一程序 40 measured／5 transition 和三程序 repeated 40 值均按照原版 Protocol，不以凍結八 warmup/三 measured 的 I2 Smoke 替代。**此段為早期操作順序；RTX 3090 目前已完成 single、three、resnet 的全部 39 個工程 Cell，實際成績見文件末尾。**
 
 若 fail：保留新 run `analysis_runs/o4_3090_*`、`reports` 與 error log；不修改 driver 或底層程式、也不消除 warning 並改寫 verified。所有 CLI 結果的 `collector_git_commit` 應指向**勘誤分支**實際 commit，不能在報告中稱使用未修改的 b204 commit。
 
@@ -60,3 +60,53 @@ PYTHON="$PYTHON" bash scripts/run_node.sh 3090 single
 - `REPORT.md` 標題仍寫「O4 GB10」，且模板文字寫「未取得4090／3090新資料」；這與當次 `inventory.json.expected_gpu=3090`、實測輸出不一致，屬報告模板過時。此次**不修改凍結報告生成程式**；統計以當次 inventory/snapshot/trace 為準。
 
 **接續門檻：** 可以開始工程 `three`（三小算子 × GI/P/R × 3 independent processes = 27 Cells）；需查所有 27 Cell、重複 spread、P/R 9 對結構／NVTX／clock、正式 Reference gate。通過工程品質審核再做 `resnet`（9 Cells）。不更改 release assets、工作負載、計時協定、不混用 I2 3-measured smoke，也不會因 warning-accepted 自動升級 strict Reference。
+
+## 2026-11-06 RTX3090 原版 Three Pilot 與 ResNet 40×3 完成
+
+以下數值皆由 RTX3090 節點實際收集並貼出的 `inventory.json`、`reports/SUMMARY.json`、`reports/aggregate.csv` 和 `reports/pair_summary.json` 提供，**不是遠端 CI、GitHub 實測或正式 confirmation set**。收集時 checkout `2ca671ad8c4d5b73d92efcb07c31ed62971edf0b`，`scripts/verify_assets.py` 9 個 asset hashes PASS；driver 580.178.04、CUDA 13.0，執行前 GPU 0% 且沒有 compute process。
+
+### Three Pilot：三小算子 GI/P/R × 3 repeats
+
+- Raw run：`analysis_runs/o4_3090_three_20261106T141407Z`。
+- **27/27 Cells completed，0 failed，1,080 valid measured iterations**，P/R 18/18 Trace structural passes，9/9 P/R pairs exact（每對 40/40 measured）。
+- `composition_supported_traces=18`，`overlapping_recorded_work_events=0`，`cpu_gpu_clock_inversions=0`。
+- **8/9 配置×模式三程序 spread ≤5%**；唯一未達門檻的是 `gemm_16_64_64` **R = 29.862351%**。不得刪除較慢程序或宣稱 9/9 stable。
+
+| Workload | Mode | median of 3 process medians (µs) | Spread (%) | Stability |
+| --- | --- | ---: | ---: | --- |
+| GEMM | GI | 13.312 | 0.1202 | PASS |
+| GEMM | P | 23.904 | 3.0120 | PASS |
+| GEMM | R | 53.472 | **29.8624** | **FAIL** |
+| BMM | GI | 20.480 | 0.1563 | PASS |
+| BMM | P | 32.720 | 2.4450 | PASS |
+| BMM | R | 60.400 | 2.3576 | PASS |
+| Conv | GI | 22.528 | 0.0000 | PASS |
+| Conv | P | 31.552 | 4.8682 | PASS |
+| Conv | R | 66.656 | 4.7768 | PASS |
+
+原版三小算子每 Operation 皆 1 個已記錄 GPU Event，原版三類相關 event/busy coverage=100%；**只對這三個特定算子配置成立**，不代表 DNN 新 family 與 shapes 都支援。全部 P/R 仍出現 `Not all NVTX events might have been collected.`，`reference_gate=not_verified`，`strict_verified_operations=0`。
+
+### ResNet RN-A 40×3 Pilot
+
+- Raw run：`analysis_runs/o4_3090_resnet_20261106T142247Z`。
+- **9/9 Cells completed，0 failed，360 valid measured iterations**；6/6 P/R Trace structural passes；3/3 P/R pairs exact（每對 40/40 measured）；overlap 與 CPU/GPU clock inversion 均 **0**。
+- **GI/P/R 三種模式全部三程序 spread ≤5%**，數值：
+
+| Mode | Median of 3 process medians (µs) | Process spread (%) | Stability |
+| --- | ---: | ---: | --- |
+| GI | **2971.135974** | 2.101286 | PASS |
+| P | **4759.919882** | 0.705891 | PASS |
+| R | **10658.607960** | 0.421215 | PASS |
+
+- 120 個 measured forward（3 repeats × 40），每 forward 有 **175 個 Reference ATen**：共 **21,000** Reference Operation，**20,880** 有 recorded GPU work、**120** zero-recorded-GPU work（即每 forward 1 個）。`max_events_per_operation=5`；共 **480** 個 >L=4（每 forward 4 個），這些 operations 的事件佔已記錄 GPU Events **5.813953%**。
+- 舊 GEMM/BMM/Conv 三家族**相關** recorded events **34.011628%**、recorded busy union **60.289245%**。此為 heuristic family relation，**不是現成 N0 模型的可預測覆蓋率**。
+- `reference_gate=not_verified`，`strict_verified_operations=0`；全部 P/R 仍有 `Not all NVTX events might have been collected.`。對齊、closure、repeat stability 不會自動解除 Reference 完整性疑慮。
+- 不把 R 的 profiled iteration event 時間（約 10.659 ms）當 GI 真值（約 2.971 ms）；也不把 I2 三樣本工程 smoke 與此 40×3 Pilot 混合訓練。
+
+### RTX3090 已達成範圍及未完成項目
+
+原版 Frozen Pilot **single 3 + three 27 + resnet 9 = 39/39 工程 Cells completed**；其中 three 有 GEMM R spread 29.86% 的**獨立穩定性失敗**，整套 Reference 仍為 **unverified**。
+
+另一方面，新 I2 七 A 的獨立 3-measured engineering smoke 已完成 21/21 Cells、7/7 inventory、14/14 trace replay，見 [RTX3090 I1/I2 紀錄](https://github.com/terrychen0803/gpu-prediction/blob/o4/rtx3090-evidence-compat-20261106/docs/O4_RTX3090_I1_I2_20261106.md)，**不是此原版 40×3 Pilot**。
+
+後續順序：保留與唯讀審查 GEMM R 三程序失穩及所有 NVTX/CUPTI 事件警告；對 MV/SW/YO 未匹配 `cudaMemsetAsync` 作獨立參數診斷，不猜測 0B；再為七 A 新 Collector 制定版本化 40×3 協定與不可洩漏資料分割。RTX4090 的主來源 P 是下階段獨立收集任務，不將目標 GPU Reference 或 GI 倒灌入 predictor。
