@@ -36,6 +36,18 @@
 
 RN權重SHA為`72f27a9ddb2f3c57258816e525b12701cb0216f0e17192b780111c45ca8a8597`；sidecar `524b5f9af81a86770840a364061c4ea861132da349883c3065f85ef4b8498a49`；B32共用輸入 `0082e5f18717dcc379d22cf44250c8497c3f8ccc41763301ee8f67d7cfe7b152`。六個小算子operand checksums與shape見[完整資產manifest](../o4_pilot/manifests/assets.json)。
 
+## 3.1 三節點最小控制診斷：GB10 已實測、RTX 待驗（不改舊 collector）
+
+最新 [GB10 Native Control v4](O4_GB10_NATIVE_CONTROL_V4_STATUS_20261106.md) 已實際執行：Software 48/48 kernels、Hardware 0/80（Nsight incomplete CUPTI events dropped），且 Software 仍有 start-before-API-entry。以下原版 native control 是 RTX4090/3090 待執行交接，不再描述 GB10 未實測；此文件所指完整 portable MRE 仍在 GB10 本地，非 GitHub 已發布 CLI。
+
+[GB10 最新唯讀品質摘要](O4_GB10_TRACE_QUALITY_UPDATE_20261106.md) 顯示 123 對同 stream kernel-kernel overlap、1,579 筆 GPU end 早於 CPU API start、270 個成功但無 GPU Activity 的 cudaMemsetAsync，以及 NVTX warning 未排除。它們是**不同品質問題**；PDL 只是待驗證的相容機制，不是已證實根因。
+
+4090／3090 在放大 three／RN-A 前，先核對 GB10 本地最小控制程式及輸入 SHA，完成 serial/no-PDL、64B／0B memset 對照，依 native control 計畫執行 SW／auto × P/R 四 captures（各 8 measured）。要記錄 **actual trace backend** 及 fallback，不能只根據 CLI 要求旗標認定後端獨立。必要時再加 PDL launch attribute、device completion 錨點或 op140 1×1 Conv 診斷。**這些 native MRE 的原始碼目前仍在 GB10 本地，不要假裝 GitHub 已有可執行命令。**
+
+各台必須分別輸出 `recorded_event_integrity`（GPU→API）、`submitted_work_coverage`（API→GPU；0-byte/no-op 必須有證據）、`reference_semantic_alignment`（ATen／NVTX）、`timestamp_consistency`、`event_index_partition_supported`、`nonoverlap_sum_supported`、`overlap_aware_closure_supported`、`strict_reference_verified` 等 gate，保留 passed／warning_accepted／failed／unverified 和 evidence path。若結果仍未解釋，維持 warning-accepted／unverified，不用原封不動的已收集 trace 憑空升級品質。
+
+這是新增診斷層，不更動已凍結的 `o4_gpu_iteration_smoke_v2_20261106`。只讀重解析採新 audit/quality overlay 版本；真正變更 Collector 行為需新 protocol ID／SHA。每台都要保留舊 O1/O2/O3 與失敗 records，先 single smoke 再決定是否擴大。
+
 ## 4. 可執行命令與順序
 
 在repo根目錄：
@@ -75,7 +87,7 @@ bash scripts/run_node.sh 4090 resnet
 - P只有iteration scope NVTX；R攔截非巢狀ATen單位。保存全部kernel/copy/memset、零GPU工作、scope與API correlation。
 - P/R需在**同設備、同配置**核對完整signature；跨GPU kernel一一相同不是要求。融合／拆分不同另定可對應logical group，不硬貼標籤。
 - NVTX／CUDA warning保留；即使warning消失，也須審查log/report與reference，不自動verified。GB10本輪strict verified=0。
-- GPU interval重疊保留原timestamps，`composition_supported=false`；不能裁切重疊、補零或硬套非重疊SUM。RN-A五份trace已觸發此限制。
+- GPU interval 重疊保留原 timestamps；區分 `event_index_partition_supported`、`nonoverlap_sum_supported=false`、`overlap_aware_closure_supported`，不能把單 stream 當無 overlap 保證。union 閉合只驗算 recorded-span，不代表 reference 已 verified；不裁切重疊、不平移時間、不補零。
 - `reference_contiguous`、候選L覆蓋、GI穩定、語意與時間完整性分開。GB10 RN-A有9個op/forward超L4，需另評估taxonomy與L。
 
 回傳完整新run：inventory/protocol、request/commands/environment、iterations/warmup/correctness、nsys-rep/SQLite、collect/export logs、quality/diagnostics、P-only exports、R reference與reports。不要只交aggregate。保存checkout SHA、code/asset hashes、backend與失敗原因；raw大檔留節點／另行傳給分析節點，不提交Git。

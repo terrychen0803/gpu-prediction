@@ -20,6 +20,10 @@
 
 本輪結果：[GB10實測報告](docs/O4_GB10_PILOT_STATUS_20261106.md) · [對齊manifest](docs/o4_gb10_pilot_20261106/alignment_manifest.json) · [共用資產checksums](o4_pilot/manifests/assets.json)。Linux/POSIX live已在GB10驗證，4090／3090待測，Windows live待實作；權重／原始trace及105MB交接包不在Git。
 
+最新 [GB10 Native Controls v4 實測](docs/O4_GB10_NATIVE_CONTROL_V4_STATUS_20261106.md)：Software cuda-sw 的受控正工作 48/48 kernels；Hardware cuda 的已知工作 0/80，且有 incomplete CUPTI events dropped。v4 strict verified 仍為 0，RN-A Memset/NVTX/clock 未解；本次只加入本地結果摘要，完整 raw／MRE 未在 Git。
+
+新增 [GB10 Trace 品質分析與 O4 修訂](docs/O4_GB10_TRACE_QUALITY_UPDATE_20261106.md)：同 stream overlap 不等於 event-index 分段失效；submitted-work、NVTX、clock gate 仍待驗證；I5 比較 T-ITER Base／Overlap 消融。這是規劃與品質診斷文件更新，未增加 GPU 實測或訓練結果。
+
 ## 歷史主線說明（2026-10-21／10-28，以下保留原狀供追溯）
 
 以下舊「服務時間／O2尚未實作／joint為現行主線」是當時狀態；新工作以上方入口為準。舊工具命令只重現原協定，不會產生新GI標籤。
