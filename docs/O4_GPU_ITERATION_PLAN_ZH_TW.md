@@ -114,6 +114,8 @@ P/R 沿用與 GI 相同的 iteration 級完成政策；可用已知 iteration �
 
 I1 與 I2 可交錯做小型 pilot；reference 未解時可做整體 GI 工程檢查，但不能發表正式逐算子辨識與時間結論。不需先把所有 q／joint 變體做完才開始 I4。
 
+**GB10 I1 後續實測更新**：參見 [Native Controls v4 狀態](O4_GB10_NATIVE_CONTROL_V4_STATUS_20261106.md)。Software cuda-sw 已知受控工作 48/48 完整記錄，Hardware cuda 0/80（工具明報 incomplete CUPTI events dropped）。它是本工具鏈的實測差異，非所有歷史 O1/O2 trace 失效證明。Native 0B memset 未產生 GPU activity，仍不足以證明 RN-A op140 未匹配 API 為 0B；NVTX、CPU/GPU clock 與 RN-A strict Reference 尚未驗證。I1 允許在 warning-accepted 下推進六任務 I2 工程盤點，正式逐算子模型訓練仍須獨立通過 Reference Gate。
+
 ### 4.0 來自 GB10 v3 診斷的 I1／I2 修訂（2026-11-06）
 
 最新的 [GB10 O4 Trace 品質摘要](O4_GB10_TRACE_QUALITY_UPDATE_20261106.md) 顯示，同一 default stream 的 123 對跨 ATen kernel-kernel 時間重疊並未造成 event/API 的先後順序反轉。後繼 cuLaunchKernelEx 與 PDL 相容，但實際 launch attributes 尚未驗證，不能直接認定已證實 PDL。**單 stream 並不保證 GPU 時間非重疊；time overlap 也不自動破壞 event-index semi-Markov 分段。**
