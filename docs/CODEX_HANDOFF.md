@@ -1,5 +1,13 @@
 # RTX 3090／RTX 4090／GB10 節點 Codex 交接
 
+## 最新交接入口（2026-11-06）
+
+**目前主場景：4090→GB10／3090，主目標為一次完整forward的GPU event迭代時間GI。** 新工作依 [O4節點交接](O4_GPU_ITERATION_HANDOFF.md)、[主計畫](O4_GPU_ITERATION_PLAN_ZH_TW.md)與[數學規格](O4_GPU_ITERATION_MATH.md)。六任務配置見 [矩陣](O4_WORKLOAD_MATRIX.md)。
+
+節點O2/O3/q消融已有探索結果，主線尚未收錄全部程式；先保護當地成果。N0是開發候選，joint/F/V是對照。不要執行下方歷史prompt當作最新要求；舊O1凍結命令只供原協定重現。
+
+## 歷史交接（2026-10-21／10-28，保留追溯）
+
 更新：2026-10-21。倉庫：[gpu-prediction](https://github.com/terrychen0803/gpu-prediction)。本次設計基準為 `97f3afd`；節點應使用 O1 固定版本 branch `o1-gb10-pilot-v2-20261021` 並記錄實際 checkout commit。**O1 九配置 pilot 已在 GB10 實作並部分實測；O2～O5 尚未實作。** 3090／4090 仍需依 [節點手冊](O1_NODE_RUNBOOK.md) 執行；GB10 結果見 [狀態摘要](O1_GB10_PILOT_STATUS_20261021.md)。
 
 ## 1. 使用者已確認的目標

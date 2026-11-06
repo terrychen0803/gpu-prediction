@@ -1,5 +1,7 @@
 # O 系列設計：由 trace／metrics 建立 operation-aware 跨設備時間模型
 
+> **2026-11-06更新：** O4主目標已改為無profiler的一次forward GPU event時間GI，主要方向4090→GB10／3090。最新步驟、公式、六任務及節點交接見 [O4主計畫](O4_GPU_ITERATION_PLAN_ZH_TW.md)。節點O2/O3已有探索結果，N0為開發候選；下方日期、六方向、服務時間及「尚未實作」描述是歷史狀態／原協定，不作新O4要求。舊資料與驗收規格不回填。
+
 更新：2026-10-21。**狀態：O1 九配置 pilot 已在 GB10 實作並部分實測；O2～O5 仍是設計規格。** RTX 3090、RTX 4090 待用同版程式進行當地量測與品質審查。GB10 P/R 有事件完整性警告，逐算子 P 標籤未驗收。程式與命令見 [O1 節點手冊](O1_NODE_RUNBOOK.md)，實測摘要見 [GB10 O1 狀態](O1_GB10_PILOT_STATUS_20261021.md)。原 E1～E3 工具保留；E4 為節點已回報、本次 Git 尚未收錄。另見 [一致性審查](GOAL_ALIGNMENT_REVIEW_20261021.md)、[資料契約](OPERATOR_DATA_CONTRACT.md)、[節點交接](CODEX_HANDOFF.md)。舊方案見 [歷史文件](archive/WHOLE_MODEL_PLAN_20261020.md)。
 
 使用者追加指定 **MLP 為主要模型**。2026-10-28 修正後 O2/O3 的主模型依 [T-v2 joint MLP 設計](T_V2_JOINT_MLP_MODEL.md)：共享算子表示、分段／類型頭、直接目標時間頭；[T-v1 F/V 分解](T_V1_MLP_MODEL_SPEC.md)保留為對照。本文其餘章節保留整體實驗流程；線性／倍率模型僅作基線。

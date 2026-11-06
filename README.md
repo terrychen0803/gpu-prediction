@@ -1,6 +1,26 @@
 # GPU 跨設備 inference 預測研究
 
-## 目前主線：由 trace／metrics 辨識算子並預測時間
+## 最新主線（2026-11-06）：operation → GPU inference 迭代時間
+
+**主要方向：RTX4090→GB10、RTX4090→RTX3090。** 由4090來源dry-run trace辨識算子邊界／類型，以MLP預測各片段時間，再組合一次完整forward的GPU迭代時間；其他方向選配。
+
+新主標籤 **GI / `iteration_device_event_us`** 是無profiler的整次forward CUDA event elapsed，包含interval內可能的提交空隙，不是純kernel busy。舊G0 host服務時間留作輔助；排隊、網路、輸入準備與完整LLM生成不在第一版主線。
+
+六任務為 **ResNet-50、MobileNetV3、Swin-T、U-Net、YOLO26、Qwen3-0.6B**；LLM prefill/decode分開。六任務七iteration群、21配置均為規劃，尚非實測。
+
+建議閱讀順序：
+
+1. **[O4完整步驟與量測協定](docs/O4_GPU_ITERATION_PLAN_ZH_TW.md)**
+2. **[數學公式、MLP與OOF](docs/O4_GPU_ITERATION_MATH.md)**
+3. **[六任務配置矩陣](docs/O4_WORKLOAD_MATRIX.md)**／[planned manifest](docs/o4_gpu_iteration_pilot.plan.json)
+4. **[本地三節點實作交接](docs/O4_GPU_ITERATION_HANDOFF.md)**
+5. [O3 q消融證據與限制](docs/O3_Q_ABLATION_STATUS_20261106.md)
+
+節點已有O2/O3受控實驗與q消融，主線尚未收錄全部節點程式／資料。**固定辨識器＋N0 scalar時間MLP是開發候選**，joint／q／F/V保留對照；reference警告未解除。本次新增O4文件與planned manifest，**沒有新增可執行O4 CLI**。先保護當地O2/O3，做GI/reference smoke與ResNet完整盤點，再擴矩陣。
+
+## 歷史主線說明（2026-10-21／10-28，以下保留原狀供追溯）
+
+以下舊「服務時間／O2尚未實作／joint為現行主線」是當時狀態；新工作以上方入口為準。舊工具命令只重現原協定，不會產生新GI標籤。
 
 更新：2026-10-21。研究設備為 **RTX 3090、RTX 4090、GB10**。目標是從來源 GPU 的 dry-run trace／可取得 metrics，自動找出算子邊界、辨識類型，再建立逐算子跨設備時間模型並組合 inference 服務時間；比較其與 wrapper 已知邊界／類型／shape 的預測差距。
 

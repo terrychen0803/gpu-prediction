@@ -2,19 +2,20 @@
 
 版本提案：`operator_protocol_v1_draft_20261021`。**完整資料契約仍是待實作規格。** 目前已有 [O1 九配置 pilot CLI](../o1_operator/README.md) 和部分欄位草案；它不等於本契約的完整 predictor/evaluator、split 或 O2/O3 實作。第一輪 pilot 後凍結正式版本；變更需新 protocol ID。主要流程見 [實驗設計](NEXT_EXPERIMENTS.md)。
 
-現行 MLP 主模型的具體流程見 [T-v2 joint 設計](T_V2_JOINT_MLP_MODEL.md)；[T-v1](T_V1_MLP_MODEL_SPEC.md)保留為 F/V 對照。首版 unknown 是拒絕狀態，已知類的條件機率與邊界 posterior 分開保存；不得虛構 unknown softmax 機率。
+2026-11-06主目標更新：**4090→GB10／3090，一次GPU inference迭代GI**。新MLP與OOF流程見 [O4數學規格](O4_GPU_ITERATION_MATH.md)，模式與quality見 [O4主計畫](O4_GPU_ITERATION_PLAN_ZH_TW.md)。[T-v2 joint](T_V2_JOINT_MLP_MODEL.md)與[T-v1 F/V](T_V1_MLP_MODEL_SPEC.md)保留歷史／對照。未知拒絕需另校準；不得虛構unknown softmax機率。
 
-## 1. 三種時間目標不可混算
+## 1. 四種時間目標不可混算
 
 | target_kind | 定義 | 合法用途／限制 |
 |---|---|---|
 | isolated_device_event_us | GE 獨立算子 CUDA events 間 elapsed | O1/O3 獨立算子時間主標籤；記 single-call 或 batch-amortized |
 | contextual_trace_span_us | 完整 P/PM/R 內，reference 可驗證片段的首 GPU start 到末 GPU end | 上下文逐算子 proxy，受 profiler 干擾；P/R/PM 必須分欄 |
-| request_host_service_us | 無 profiler G0 的 host start 到末端 synchronize 完成 | O4 完整 request 主標籤；不含排隊、網路、載入及事前輸入搬移 |
+| iteration_device_event_us | 無profiler GI，以同stream CUDA events包住完整一次forward的elapsed，µs | **新O4主標籤**；包含interval內等待，非純busy；多stream須驗證join，warmup/準備在計時外 |
+| request_host_service_us | 無 profiler G0 的 host start 到末端 synchronize 完成 | 原O4服務時間目標，現為輔助；不含排隊、網路、載入及事前輸入搬移 |
 
 另存 kernel busy union、GPU request span、host submit 時間等，禁止都命名為 `latency`。一個單位由多 kernel 構成時同時記 span 與 busy union，不能把 overlap 重複相加。GE event 時間不是純 ALU 時間。
 
-**完整 DNN 中無干擾的逐算子時間沒有自動可得的真值。** 插入 event／同步本身會改變執行；R 也有標記干擾。因此：獨立算子 GE 的預測精度、上下文 trace proxy 的預測精度、無 profiler request G0 的精度，三張表分開。O4 不能把 target trace proxy 當無 profiler 每算子真值，或把 isolated GE 當實際上下文時間。若需要新上下文時間模型，僅以 training-context label 擬合，與 zero-shot isolated→context 結果分開。
+**完整 DNN 中無干擾的逐算子時間沒有自動可得的真值。** 插入event／同步會改變執行；R亦有標記干擾。GE、CTX、GI、G0各自分表，不能將舊latency改名成GI。`iteration_trace_span_us`另存P的整次span，只作閉合／profiler診斷，不是第五種可互換的無profiler真值。新上下文模型只用training-context擬合，與zero-shot結果分開。
 
 ## 2. 檔案邊界：predictor 與 evaluator
 
