@@ -2,6 +2,16 @@
 
 本文件區分歷史GPU實測、統一版工程實作、尚未執行與Reference資格。
 
+
+## 2026-11-07：RTX4090 RN-A Smoke 與 Nsight 3.29.0 結構相容性
+
+RTX4090 目前為 `iccl_resilient@iccl-WHITLEY`、Ubuntu 22.04、RTX4090、NVIDIA Driver 580.178.04。使用 Nsight Systems 2026.5.2.323（以使用者目錄解壓套件執行）、PyTorch 2.8.0+cu128、TorchVision 0.23.0+cu128、Transformers 4.57.1、Ultralytics 8.4.55。操作者已提供 82/82 O4 tests 與 54/54 Legacy tests 通過、frozen assets Verify 和 Preflight 通過的日誌；Manifest SHA256 `55300ee1eb51a481421a7318ec8fbf9c1b2bffdce9e31d77d37f7383cf69cec4`。
+
+RTX4090 RN-A inventory Smoke 首次結果為 GI completed，P/R 因 `Unknown Nsight export schema 3.29.0` 被 Parser 拒絕；**不是已證明 P/R Trace 有漏記**。使用者對失敗的 P、R SQLite 各自唯讀檢查：`PRAGMA quick_check=ok`，`EXPORT_SCHEMA_VERSION=3.29.0`，必要/可選/feature 欄位沒有缺漏，均記錄 1,380 個 Kernel、12 個 Memset；P NVTX 8 筆、R NVTX 708 筆；都有已知 `Not all NVTX events might have been collected.` 警告，並確認 `CUDA legacy/software instrumented trace was collected`。上述為現場欄位檢查，**不等於 v5 audit／P-R exact pairing／提交工作完整性通過**。
+
+已在既有分支 `o4/unified-engineering-20261106` 將 `3.29.0` 新增至明確 Schema allowlist，擴增 offline tests，更新 `unified_release.json` SHA256 source index（`guard-retry-schema329-patch2`）；未修改原固定 tag、未增分支、未放寬 warning／CUDA drop／Reference gate。**下一步需由操作者在 RTX4090 更新程式、執行測試與對原 Smoke P/R SQLite 進行唯讀 re-audit，確認工程 acceptance 再新建正式 collection output。** 目前 RTX4090 40×3 尚未開始，strict reference 仍未驗證。
+
+
 ## 2026-11-07：RTX3090 Unified v2 七組 A 正式長度工程量測更新
 
 操作者已交付七組 A `40×3` 摘要：**7/7 工作負載、63/63 Cells、2,520 valid measured iterations、21/21 P/R exact pairs、42/42 P/R trace structural passes**。六組 `engineering_accepted`；UN-A 全部9 Cells完成但 P repeat spread **5.7697%**，因此 `quality_status=review_required`。
