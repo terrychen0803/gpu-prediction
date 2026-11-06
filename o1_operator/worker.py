@@ -13,20 +13,47 @@ import traceback
 from datetime import datetime, timezone
 from pathlib import Path
 
+from .calibration import CHALLENGE_MAX_CALLS_PER_GROUP, FORMAL_MAX_CALLS_PER_GROUP, MAX_CALLS_PER_GROUP
 from .spec import BY_ID, INPUT_FORMAT, PROTOCOL, operand_shapes
+from .full_matrix import BY_ID as FORMAL_BY_ID
+from .full_matrix import BOOTSTRAP_PROTOCOL, PROTOCOL as FORMAL_PROTOCOL
+from .challenge_matrix import BY_ID as CHALLENGE_BY_ID
+from .challenge_matrix import BOOTSTRAP_PROTOCOL as CHALLENGE_BOOTSTRAP_PROTOCOL
+from .challenge_matrix import PROTOCOL as CHALLENGE_PROTOCOL
+from .challenge_matrix import ZERO_GPU_VIEW_ID
 
 WARMUP_MIN_CALLS = 100
 WARMUP_MIN_NS = 100_000_000
 WARMUP_MAX_CALLS = 20_000
+FORMAL_WARMUP_MAX_CALLS = 100_000
 WARMUP_TIMEOUT_SECONDS = 45
 GROUPS = 5
 MIN_CALLS_PER_GROUP = 100
-MAX_CALLS_PER_GROUP = 8192
 TARGET_GROUP_NS = 100_000_000
 
 
 def utc_now():
     return datetime.now(timezone.utc).isoformat()
+
+
+def reset_cuda_context_for_trace(cuda_version):
+    """Flush this worker process's CUDA trace data before cudaProfilerStop."""
+    import ctypes
+
+    major = str(cuda_version).split(".", 1)[0]
+    if not major.isdecimal():
+        raise RuntimeError(f"Cannot locate CUDA runtime for version {cuda_version!r}")
+    try:
+        runtime = ctypes.CDLL(f"libcudart.so.{major}")
+    except OSError as exc:
+        raise RuntimeError(f"CUDA runtime libcudart.so.{major} unavailable") from exc
+    reset = runtime.cudaDeviceReset
+    reset.restype = ctypes.c_int
+    reset.argtypes = []
+    result = int(reset())
+    if result != 0:
+        raise RuntimeError(f"cudaDeviceReset failed with CUDA error {result}")
+    return result
 
 
 def write_json(path, value):
@@ -43,7 +70,10 @@ def check_input_file(path, expected):
 def load_operation(torch, request):
     import torch.nn.functional as F
 
-    config = BY_ID[request["config_id"]]
+    catalog = (BY_ID if request["protocol"] == PROTOCOL else
+               CHALLENGE_BY_ID if request["protocol"] in (CHALLENGE_BOOTSTRAP_PROTOCOL, CHALLENGE_PROTOCOL)
+               else FORMAL_BY_ID)
+    config = catalog[request["config_id"]]
     files = request["inputs"]
     shapes = operand_shapes(config)
     if set(files) != set(shapes):
@@ -68,6 +98,26 @@ def load_operation(torch, request):
                             stride=config["stride"], padding=config["padding"], groups=1)
         reference = F.conv2d(cpu["input"].float(), cpu["weight"].float(), bias=None,
                              stride=config["stride"], padding=config["padding"], groups=1).half()
+    elif config["op"] == "add":
+        def op(): return torch.add(gpu["a"], gpu["b"])
+        reference = torch.add(cpu["a"].float(), cpu["b"].float()).half()
+    elif config["op"] == "layernorm":
+        shape = (config["d"],)
+        def op(): return F.layer_norm(gpu["input"], shape, weight=None, bias=None, eps=config["eps"])
+        reference = F.layer_norm(cpu["input"].float(), shape, weight=None,
+                                 bias=None, eps=config["eps"]).half()
+    elif config["op"] == "relu":
+        def op(): return F.relu(gpu["input"])
+        reference = F.relu(cpu["input"].float()).half()
+    elif config["op"] == "softmax":
+        def op(): return F.softmax(gpu["input"], dim=-1)
+        reference = F.softmax(cpu["input"].float(), dim=-1).half()
+    elif config["op"] == "transpose_view":
+        def op(): return gpu["input"].transpose(0, 1)
+        reference = cpu["input"].float().transpose(0, 1).half()
+    elif config["op"] == "transpose_copy":
+        def op(): return gpu["input"].transpose(0, 1).contiguous()
+        reference = cpu["input"].float().transpose(0, 1).contiguous().half()
     else:
         raise ValueError(f"Unsupported O1 operation: {config['op']}")
     return op, reference, gpu
@@ -96,27 +146,35 @@ def correctness(torch, op, reference):
     return result
 
 
-def warmup(torch, op):
+def warmup(torch, op, max_calls=WARMUP_MAX_CALLS, min_ns=WARMUP_MIN_NS):
     started = time.perf_counter_ns()
     calls = 0
-    while calls < WARMUP_MIN_CALLS or time.perf_counter_ns() - started < WARMUP_MIN_NS:
-        if calls >= WARMUP_MAX_CALLS or (time.perf_counter_ns() - started) / 1e9 > WARMUP_TIMEOUT_SECONDS:
-            raise RuntimeError("O1 warm-up hit cap before 100 calls and 100 ms; preserve failed run")
-        for _ in range(min(100, WARMUP_MAX_CALLS - calls)):
+    while calls < WARMUP_MIN_CALLS or time.perf_counter_ns() - started < min_ns:
+        if calls >= max_calls or (time.perf_counter_ns() - started) / 1e9 > WARMUP_TIMEOUT_SECONDS:
+            raise RuntimeError(f"O1 warm-up reached cap ({calls}/{max_calls} calls or "
+                               f"{WARMUP_TIMEOUT_SECONDS}s) before {WARMUP_MIN_CALLS} calls "
+                               f"and {min_ns / 1e6:g} ms; preserve failed run")
+        step = min(100, max_calls - calls)
+        for _ in range(step):
             result = op()
             del result
-        calls += min(100, WARMUP_MAX_CALLS - calls)
+        calls += step
         torch.cuda.synchronize()
     elapsed = time.perf_counter_ns() - started
-    return {"calls": calls, "host_elapsed_ns": elapsed, "utc_end": utc_now()}
+    return {"calls": calls, "host_elapsed_ns": elapsed,
+            "minimum_duration_ns": min_ns, "utc_end": utc_now()}
 
 
 def run_worker(request_path):
     request = json.loads(Path(request_path).read_text())
     output = Path(request["output"])
-    if request["protocol"] != PROTOCOL or request["input_format"] != INPUT_FORMAT:
+    if request["protocol"] not in (PROTOCOL, BOOTSTRAP_PROTOCOL, FORMAL_PROTOCOL,
+                                   CHALLENGE_BOOTSTRAP_PROTOCOL, CHALLENGE_PROTOCOL) or request["input_format"] != INPUT_FORMAT:
         raise ValueError("O1 worker request protocol/input format mismatch")
-    if request["config_id"] not in BY_ID or request["mode"] not in ("G0", "GE", "P", "R"):
+    catalog = (BY_ID if request["protocol"] == PROTOCOL else
+               CHALLENGE_BY_ID if request["protocol"] in (CHALLENGE_BOOTSTRAP_PROTOCOL, CHALLENGE_PROTOCOL)
+               else FORMAL_BY_ID)
+    if request["config_id"] not in catalog or request["mode"] not in ("G0", "GE", "P", "R"):
         raise ValueError("O1 worker config or mode is invalid")
     status = {"status": "started", "errors": [], "trace_integrity": "not_applicable"}
     write_json(output / "quality.json", status)
@@ -148,11 +206,19 @@ def run_worker(request_path):
         with torch.inference_mode(), torch.autocast(device_type="cuda", enabled=False):
             op, reference, operands = load_operation(torch, request)
             status["correctness"] = correctness(torch, op, reference)
-            warm = warmup(torch, op)
+            zero_gpu_view = (request["protocol"] in (CHALLENGE_BOOTSTRAP_PROTOCOL, CHALLENGE_PROTOCOL)
+                             and request["config_id"] == ZERO_GPU_VIEW_ID)
+            warm = warmup(torch, op,
+                          FORMAL_WARMUP_MAX_CALLS if request["protocol"] != PROTOCOL
+                          else WARMUP_MAX_CALLS,
+                          min_ns=0 if zero_gpu_view else WARMUP_MIN_NS)
             status["warmup"] = warm
             reps = request["measurement_repetitions"]
-            if not isinstance(reps, int) or not (MIN_CALLS_PER_GROUP <= reps <= MAX_CALLS_PER_GROUP):
-                raise ValueError("O1 measurement_repetitions must be a fixed integer in [100,8192]")
+            max_reps = (MAX_CALLS_PER_GROUP if request["protocol"] == PROTOCOL else
+                        CHALLENGE_MAX_CALLS_PER_GROUP if request["protocol"] in
+                        (CHALLENGE_BOOTSTRAP_PROTOCOL, CHALLENGE_PROTOCOL) else FORMAL_MAX_CALLS_PER_GROUP)
+            if not isinstance(reps, int) or not (MIN_CALLS_PER_GROUP <= reps <= max_reps):
+                raise ValueError(f"O1 measurement_repetitions must be a fixed integer in [100,{max_reps}]")
             status["repetitions_per_group"] = reps
             if request["mode"] in ("P", "R"):
                 torch.cuda.profiler.start()
@@ -219,6 +285,12 @@ def run_worker(request_path):
             if capturing:
                 # Nsight on GB10 needs time to drain after the final synchronization.
                 time.sleep(1.0)
+                status["profile_finalization"] = {
+                    "scope": "worker_process_cuda_context_only",
+                    "cuda_device_reset_before_profiler_stop": True,
+                    "cuda_device_reset_code": reset_cuda_context_for_trace(torch.version.cuda),
+                    "utc": utc_now(),
+                }
                 torch.cuda.profiler.stop()
                 capturing = False
             status.update({"status": "completed", "group_count": len(group_rows),

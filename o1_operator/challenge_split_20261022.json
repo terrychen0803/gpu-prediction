@@ -1,0 +1,22 @@
+{
+  "protocol": "o1_challenge_calibrated_v2_20261022",
+  "purpose": "predeclared_diagnostic_roles_not_model_scores",
+  "validation_ids": [
+    "challenge_conv_1_16_32_32_k1_s1_p0",
+    "challenge_relu_65536"
+  ],
+  "test_ids": [
+    "challenge_gemm_64_64_64",
+    "challenge_bmm_1_64_64_64",
+    "challenge_softmax_32_256",
+    "challenge_transpose_view_256_256",
+    "challenge_transpose_copy_256_256"
+  ],
+  "equivalent_call_groups": [
+    ["challenge_gemm_64_64_64", "challenge_bmm_1_64_64_64"],
+    ["challenge_transpose_view_256_256", "challenge_transpose_copy_256_256"]
+  ],
+  "unknown_validation_families": ["relu"],
+  "unknown_test_families": ["softmax", "transpose_view", "transpose_copy"],
+  "formal_139_usage": "diagnostic_only; exclude challenge cells from formal split and model fitting"
+}
