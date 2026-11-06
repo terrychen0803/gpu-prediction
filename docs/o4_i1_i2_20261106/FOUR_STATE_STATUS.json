@@ -1,0 +1,45 @@
+{
+  "GPU_measured": {
+    "A_configurations": 7,
+    "GI_P_R_cells_completed": 21,
+    "measured_GI_samples": 21,
+    "measured_profiled_samples": 42,
+    "reference_parameter_replicas": 2,
+    "native_NVTX_clock_controls": 3,
+    "YO_raw_head_diagnostic": true
+  },
+  "engineering_implemented": [
+    "7A adapters",
+    "software-only collector",
+    "preparation scope accounting",
+    "v4 eight quality gates and union closure",
+    "standalone memset callback observer",
+    "numeric-only P export",
+    "portable native software control",
+    "shared asset hash verification"
+  ],
+  "planned_only": [
+    "I3 controlled taxonomy data",
+    "block/stage transfer",
+    "recognizer/N0/ITER retraining",
+    "OOF and GI model comparison",
+    "remaining B/C configurations",
+    "new confirmation set",
+    "RTX4090/3090 execution"
+  ],
+  "reference_unverified": {
+    "strict_verified": 0,
+    "historical_RNA_270_unmatched_API_not_relabelled": true,
+    "NVTX_warning_on_all_14_A_traces": true,
+    "clock_and_PDL_remain_unresolved": true,
+    "no_formal_training_eligibility": true
+  },
+  "initial_failed_launches": {
+    "count": 21,
+    "reason": "vendored import path bootstrap, before model forward; no latency produced",
+    "preserved": true,
+    "followup_fix": "fresh-process import regression + new smoke outputs"
+  },
+  "models_trained": 0,
+  "hardware_GPU_tests_this_run": 0
+}

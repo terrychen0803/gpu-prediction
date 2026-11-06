@@ -1,0 +1,33 @@
+{
+  "protocol_id": "o4_yolo_raw_head_parity_v1_20261106",
+  "weights_sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef",
+  "input_sha256": "cfb2c2c3f439b495618f897e41c4f5ab7214504a8b0b090a73ad619604db34a9",
+  "native_export_tensor_parity_exact": true,
+  "raw_anchor_aligned_precision": {
+    "boxes": {
+      "shape": [
+        1,
+        4,
+        8400
+      ],
+      "relative_l2": 0.0012326035648584366,
+      "max_abs_over_scale": 0.0049446504563093185,
+      "passed_0_02_rule": true
+    },
+    "scores": {
+      "shape": [
+        1,
+        80,
+        8400
+      ],
+      "relative_l2": 0.0006339834071695805,
+      "max_abs_over_scale": 0.00838923268020153,
+      "passed_0_02_rule": true
+    }
+  },
+  "raw_anchor_precision_passed": true,
+  "topk_rowwise_relative_l2": 0.32900962233543396,
+  "interpretation": "raw pre-topk tensor comparison is anchor-aligned; discrete ranked output rows may change. Does not prove selected detection set equivalence or task accuracy. Original smoke correctness rule unchanged.",
+  "task_accuracy_verified": false,
+  "strict_verified": 0
+}

@@ -1,0 +1,18 @@
+{
+  "historical_hardware_captures": 5,
+  "recorded_kernels": 0,
+  "known_expected_kernels": 80,
+  "diagnostic": "incomplete CUPTI events dropped; GPU timestamp information not retrieved at session stop",
+  "new_hardware_captures_this_run": 0,
+  "default_GB10_trace_backend": "cuda-sw",
+  "200ms_drain_not_repeated": true,
+  "same_flush_test_not_repeated": true,
+  "effective_flush_path": "unverified; requested flag and exported metadata disagree",
+  "versions": {
+    "driver": "580.159.03",
+    "Nsys": "2026.4.1.191",
+    "Nsys_bundled_CUPTI": "13.3"
+  },
+  "status": "known toolchain limitation; no driver/tool upgrades, reboot or service changes",
+  "future_only": "a separately justified control of capture lifetime/internal flush evidence or an explicitly chosen tool version; not an automatic retry"
+}

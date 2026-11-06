@@ -1,0 +1,8 @@
+workload,GPU_smoke,GI_measured_samples,GI_median_us_development_only,repeat_stability,P_R_measured_signature_matches,reference_ops_per_matched_iteration,zero_recorded_work_ops_per_iteration,max_events_per_op,ops_over_L4_per_iteration,P_measured_events,P_preparation_GPU_records_all4windows,R_preparation_GPU_records_all4windows,P_unmatched_APIs_all4windows,R_unmatched_APIs_all4windows,P_NVTX_warning,R_NVTX_warning,strict_verified
+RN-A,completed,3,1873.8240003585815,not_evaluated_1process_3samples,3,175.0,1.0,5,9.0,1050,0,0,4,4,True,True,0
+MV-A,completed,3,1758.687973022461,not_evaluated_1process_3samples,3,187.0,2.0,3,0.0,888,0,0,48,48,True,True,0
+SW-A,completed,3,2814.4640922546387,not_evaluated_1process_3samples,3,782.0,434.0,3,0.0,1200,0,0,192,192,True,True,0
+UN-A,completed,3,1940.1919841766357,not_evaluated_1process_3samples,3,49.0,0.0,6,17.0,363,0,0,0,0,True,True,0
+YO-A,completed,3,4616.256237030029,not_evaluated_1process_3samples,3,465.0,44.0,16,3.0,2427,0,0,0,0,True,True,0
+QP-A,completed,3,16875.58364868164,not_evaluated_1process_3samples,3,2543.0,720.0,2,0.0,5478,8,8,0,0,True,True,0
+QD-A,completed,3,15979.616165161133,not_evaluated_1process_3samples,3,2403.0,608.0,2,0.0,5394,7324,7324,0,0,True,True,0

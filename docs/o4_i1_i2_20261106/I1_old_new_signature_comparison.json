@@ -1,0 +1,56 @@
+{
+  "old_new_ATen_shape_dtype_signature_exact": true,
+  "old_op_count": 175,
+  "new_op_count": 175,
+  "old_op140": {
+    "scope": "o4.op/measure/000000/0140",
+    "stage": "measure",
+    "iteration": 0,
+    "op_index": 140,
+    "aten": "aten.conv2d.default",
+    "input_shapes": [
+      [
+        1,
+        1024,
+        14,
+        14
+      ],
+      [
+        512,
+        1024,
+        1,
+        1
+      ]
+    ],
+    "input_dtypes": [
+      "torch.float16",
+      "torch.float16"
+    ]
+  },
+  "new_op140": {
+    "iteration": 0,
+    "op_index": 140,
+    "aten": "aten.conv2d.default",
+    "scope": "iteration0/op140/aten.conv2d.default",
+    "shapes": [
+      [
+        1,
+        1024,
+        14,
+        14
+      ],
+      [
+        512,
+        1024,
+        1,
+        1
+      ]
+    ],
+    "dtypes": [
+      "torch.float16",
+      "torch.float16"
+    ]
+  },
+  "interpretation": "same observed ATen/shape/dtype sequence, separate no-Nsight callback replica; cannot recover missing count from old captures",
+  "historical_submitted_work_coverage": "unverified"
+}
