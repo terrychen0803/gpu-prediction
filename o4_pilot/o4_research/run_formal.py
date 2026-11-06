@@ -247,7 +247,8 @@ def main():
                 raise RuntimeError("Collector source changed during active session")
             if sha(manifest) != args.expected_manifest_sha256:
                 raise RuntimeError("Asset manifest changed during session")
-            gpu_guard(folder, args.expect_gpu)
+            gpu_guard(folder, args.expect_gpu, idle_wait_seconds=60,
+                      check_interval_seconds=3, idle_checks_required=2)
             cmd = [python, "-m", "o4_research.formal_worker",
                    "--request", str(folder / "request.json")]
             if j["mode"] != "GI":
