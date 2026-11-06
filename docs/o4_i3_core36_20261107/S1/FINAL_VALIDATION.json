@@ -1,0 +1,19 @@
+{
+  "CPU_tests_passed": 173,
+  "GPU_cells_completed": 36,
+  "formal_measured": 1080,
+  "all_measured": 1107,
+  "runtime_parameter_rows_checked": 417,
+  "old_raw_byte_exact_artifacts": 29,
+  "new_raw_trace_replays": 24,
+  "new_pair_replays": 12,
+  "new_byte_exact_artifacts": 1086,
+  "preserved_A0_source_files_unchanged": 155,
+  "new_source_files_frozen": 165,
+  "unique_worker_PIDs": 36,
+  "monitor_issues": 0,
+  "bundles_checked": 2,
+  "strict_reference_verified": false,
+  "formal_training_eligible": false,
+  "models_trained": 0
+}

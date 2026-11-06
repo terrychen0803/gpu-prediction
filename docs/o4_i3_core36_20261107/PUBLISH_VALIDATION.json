@@ -1,0 +1,20 @@
+{
+  "CPU_tests": {
+    "v2": 18,
+    "A0": 16,
+    "O4": 85,
+    "legacy": 54
+  },
+  "all_173_passed": true,
+  "source_files_byte_exact": 165,
+  "asset_sets_SHA_verified": 2,
+  "RTX_plan_only_combinations": 16,
+  "RTX_GPU_executed": false,
+  "new_GPU_experiments": 0,
+  "models_trained": 0,
+  "strict_reference_verified": false,
+  "formal_training_eligible": false,
+  "raw_uploaded": false,
+  "main_merged": false,
+  "note": "Original GB10 execution evidence is in curated S1/S2 reports. This publication independently verified source/assets and repeated CPU tests; no reference upgrade."
+}

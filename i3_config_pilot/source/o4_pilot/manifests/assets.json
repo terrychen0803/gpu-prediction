@@ -1,0 +1,90 @@
+{
+  "operators": {
+    "gemm_16_64_64": {
+      "a": {
+        "path": "assets/operators/gemm_16_64_64/a.bin",
+        "shape": [
+          16,
+          64
+        ],
+        "bytes": 2048,
+        "sha256": "5b4bf0138a3e3f688944b849848c7b56b29a32638a10a13dfe6a7c07764a3982",
+        "seed_material": "o1_shake256_lut_fp16_le_v1|seed=42|config=gemm_16_64_64|operand=a|shape=16,64"
+      },
+      "b": {
+        "path": "assets/operators/gemm_16_64_64/b.bin",
+        "shape": [
+          64,
+          64
+        ],
+        "bytes": 8192,
+        "sha256": "d935b792c4da1ed5a941a6b5b5ba217ef5c685d405e5dca562de93c88f41b3cc",
+        "seed_material": "o1_shake256_lut_fp16_le_v1|seed=42|config=gemm_16_64_64|operand=b|shape=64,64"
+      }
+    },
+    "bmm_2_16_64_64": {
+      "a": {
+        "path": "assets/operators/bmm_2_16_64_64/a.bin",
+        "shape": [
+          2,
+          16,
+          64
+        ],
+        "bytes": 4096,
+        "sha256": "3963f0bea95c9c2dcafa1fe4801db38197f57c958f2ef862063d74c7f6c47e45",
+        "seed_material": "o1_shake256_lut_fp16_le_v1|seed=42|config=bmm_2_16_64_64|operand=a|shape=2,16,64"
+      },
+      "b": {
+        "path": "assets/operators/bmm_2_16_64_64/b.bin",
+        "shape": [
+          2,
+          64,
+          64
+        ],
+        "bytes": 16384,
+        "sha256": "5962d03b9fe3fb08d0e8f12c7835962ad601744825f0ea01d797af15a5954ca2",
+        "seed_material": "o1_shake256_lut_fp16_le_v1|seed=42|config=bmm_2_16_64_64|operand=b|shape=2,64,64"
+      }
+    },
+    "conv_1_16_32_32_k3_s1_p1": {
+      "input": {
+        "path": "assets/operators/conv_1_16_32_32_k3_s1_p1/input.bin",
+        "shape": [
+          1,
+          16,
+          32,
+          32
+        ],
+        "bytes": 32768,
+        "sha256": "6da9a3bb86675952b9678360f934ebdd798faea9ac47e1c8f7344400d760990e",
+        "seed_material": "o1_shake256_lut_fp16_le_v1|seed=42|config=conv_1_16_32_32_k3_s1_p1|operand=input|shape=1,16,32,32"
+      },
+      "weight": {
+        "path": "assets/operators/conv_1_16_32_32_k3_s1_p1/weight.bin",
+        "shape": [
+          32,
+          16,
+          3,
+          3
+        ],
+        "bytes": 9216,
+        "sha256": "e5b05ef51ce0d113b0260cccc8fd76f14e39d8a0d70573a047df480edf922002",
+        "seed_material": "o1_shake256_lut_fp16_le_v1|seed=42|config=conv_1_16_32_32_k3_s1_p1|operand=weight|shape=32,16,3,3"
+      }
+    }
+  },
+  "resnet": {
+    "weights": {
+      "path": "assets/resnet50_imagenet1k_v2.pth",
+      "sha256": "72f27a9ddb2f3c57258816e525b12701cb0216f0e17192b780111c45ca8a8597"
+    },
+    "sidecar": {
+      "path": "assets/resnet50_imagenet1k_v2.pth.json",
+      "sha256": "524b5f9af81a86770840a364061c4ea861132da349883c3065f85ef4b8498a49"
+    },
+    "input": {
+      "path": "assets/e1_shared_fp16_b32_seed42_20261020.bin",
+      "sha256": "0082e5f18717dcc379d22cf44250c8497c3f8ccc41763301ee8f67d7cfe7b152"
+    }
+  }
+}

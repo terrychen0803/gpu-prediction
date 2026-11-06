@@ -1,6 +1,6 @@
 # GPU 跨設備 inference 預測研究
 
-**I3 可執行交付（2026-11-07）**：[RTX4090／RTX3090 共用收集手冊](docs/O4_I3_NODE_RUNBOOK_20261107.md) · [工具](i3_pilot/README.md) · [174配置／Context／40×3後續計畫](docs/o4_i3_collection_plan_20261107/PLAN_ZH_TW.md)。固定release `o4-i3-a0-dev-v1-20261107` 包含GB10已驗證A0 Smoke source與固定資產下載；新174配置與I3 40×3尚待實作。使用此tag可在兩節點各自開始A0，不必等待main合併。
+**I3 最新可執行交付（2026-11-07）**：[GB10 S1＋S2 36配置結果](docs/o4_i3_core36_20261107/README.md) · [RTX4090／3090 Core36 40×3手冊](docs/O4_I3_CORE36_NODE_RUNBOOK_20261107.md) · [新版工具](i3_config_pilot/README.md) · [S3分批／耗時建議](docs/O4_I3_S3_STAGING_20261107.md)。固定release `o4-i3-core36-40x3-dev-v1-20261107` 提供實際執行的165檔source與兩套固定資產。36配置完成GB10收集，174配置catalog／adapter已實作但未全量GPU測試；Context尚未實作。全部Reference仍未verified。舊A0 release與[i3_pilot](i3_pilot/README.md)保留，不能混用為40×3。
 
 > **O4 統一工程候選版：** 七A／Native操作請從 [三節點 Quickstart](docs/O4_QUICKSTART_ZH_TW.md) 開始，當前實測進度以 [節點狀態](docs/O4_NODE_STATUS.md) 為準。歷史固定 tag `o4-unified-engineering-v1-20261106` 保留原版本，不代表後續所有collector修訂。I3新入口見上方；strict verified仍為0。舊分支以同名 tag 保存，見 [封存表](docs/BRANCH_ARCHIVE_20261106.md)。
 
