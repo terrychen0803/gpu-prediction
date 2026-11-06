@@ -3,6 +3,32 @@
 本文件區分歷史GPU實測、統一版工程實作、尚未執行與Reference資格。
 
 
+## 2026-11-07：RTX4090 MV-A 40×3 與 RN-A unmatched Memset 診斷
+
+RTX4090 新增 MV-A（MobileNetV3）`MV_A_20261106T190225Z` 正式 40×3 工程實測（操作者在 2026-11-07 提供 `SUMMARY.json`、Collector 輸出與 `du`）：
+
+| 指標 | RTX4090 MV-A |
+|---|---|
+| Status / quality | `completed_engineering` / `engineering_accepted` |
+| Cells | 9/9 complete；0 failed |
+| Measured | 360（GI/P/R 各 120） |
+| P/R exact pairs | 3/3 |
+| Trace structural passes | 6/6 |
+| Spread | `all_three_process_spreads_pass=true` |
+| Nsight | 2026.5.2.323，SQLite Schema 3.29.0 |
+| P/R work | 六份 capture 各 13,455 個 GPU records、各 135 個 unmatched Work API |
+| Diagnostics | 六份 P/R 皆有已知 `Not all NVTX events might have been collected.`；工程接受 `warning_accepted`，0 blockers |
+| 資料大小 | 119 MB |
+| Reference | `strict_reference_verified=false`、`training_eligible=false` |
+
+此時 RTX4090 七組 A 已有 **RN-A、MV-A 共 2/7 models、18/18 Cells、720 measured iterations、6/6 exact P/R pairs、12/12 structural passes**。其他五組尚未有正式 40×3 成功交付。
+
+原 RN-A `RN_A_20261106T185740Z` 六份 P/R 各 630 筆 unmatched API，操作者新提供 `audit/unmatched_work_APIs.csv` 的名稱分布顯示**全部為 `cudaMemsetAsync_v3020`，且 API `returnValue=0`**。630/45 = 14 unmatched API per transition/measured iteration。MV-A 的 135/45 = 3 unmatched API per iteration，**但尚未交付 MV-A API 名稱分類，不能推斷皆為 Memset**。RN-A API 成功返回並不代表 Memset `count=0`；對這些 API 尚無直接 Bytes 的 Callback 證據，保留 unmatched，不補事件、不升級 Reference。與 GB10 RN-A op140 零 Bytes 的歷史證據也不得混同不同裝置的實際行為。
+
+資料來源為操作者日誌，GitHub 未獨立存放 raw Trace；原始診斷與成功資料應留在 4090 節點。建議接續 UN-A 收集並優先做 RN-A Memset count observer 診斷，不阻塞其他工程收集。
+
+---
+
 ## 2026-11-07：RTX4090 RN-A 40×3 首組正式工程收集
 
 操作者於 `iccl_resilient@iccl-WHITLEY` 使用既有分支 `o4/unified-engineering-20261106`（節點 commit `c988163a0acf186874ea64e4957284b87f999d43`）、PyTorch 2.8.0+cu128、Nsight Systems 2026.5.2.323 及相同 frozen_A，完成 RN-A 正式 40×3：
