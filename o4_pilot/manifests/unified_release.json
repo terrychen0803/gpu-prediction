@@ -1,6 +1,6 @@
 {
-  "release_id": "o4-unified-engineering-v1-20261106",
-  "status": "offline_validated_candidate_GPU_canary_pending",
+  "release_id": "o4-unified-engineering-v1-20261106-guard-retry-patch1",
+  "status": "source_guard_retry_patch_pending_node_validation",
   "protocol_id": "o4_seven_A_40x3_engineering_v2_20261106",
   "asset_manifest_sha256": "55300ee1eb51a481421a7318ec8fbf9c1b2bffdce9e31d77d37f7383cf69cec4",
   "historical_release_manifests_preserved": true,
@@ -49,7 +49,7 @@
     "o4_research/adapters.py": "097825c1ff1c38e0184ce82f62eed4036e48d2ab268a53a958e5ea612e3862fc",
     "o4_research/audit.py": "d11754ea5ff929bff91ede402992614ad1288d5fffb81c8ae4db3b995b59e415",
     "o4_research/audit_v5.py": "8d85e5afc84f81577671d4b4c4ed351896f8d6cfc15bfe1202a83bab8ee20774",
-    "o4_research/common.py": "f78de5d4e8d94e07f5b1d49885a1c7a2ae7d51086d82a5b81eabcfce13397005",
+    "o4_research/common.py": "118deeace442c573af327fc518a22280f3d28bf02d167d577cd87670a9fd1110",
     "o4_research/download_assets.py": "cc46b8b34d2e94bbac3052f78bec1732aad210eda0f78113fd02381439a77fd2",
     "o4_research/formal_protocol.py": "11c7473c87db7187f01cba794ef6786730f3628e83f13af024571c3067c7b771",
     "o4_research/formal_worker.py": "44f3d554df0d95706b7d4e277877ac1d4d7341482775294d2a802392a3bf1496",
@@ -64,7 +64,7 @@
     "o4_research/provenance.py": "6f5201ef19f4e2eaa3a82196358b4f63cea0f26fe9d0d63f2dee15bf4322493f",
     "o4_research/quality_v4.py": "f925f234859690bb7fec4609afdfd3b2ec987e97ae44c8defc7a9885b778c498",
     "o4_research/replay.py": "89796f3e90c35bd411efa542df29488b23ba32b2d667a75b73a3bb4bcdb2e6b7",
-    "o4_research/run_formal.py": "a920357587ab4591a888f538702e10d84e0aa30cff851bf69c7cbf5c0c08e45e",
+    "o4_research/run_formal.py": "62695a7318467d81600947c5bc3f710b78b5501b2ea61beaf172bfca61e23b14",
     "o4_research/run_smoke.py": "99a4269083bf4e2e12f8f9d2a796bc60fce9d0a007db383d8609d4d4a678d92b",
     "o4_research/static_inventory.py": "d077e091e680240d7a734bdb4b440fa7380864cec2cc75495357af00d7add975",
     "o4_research/trace_contract.py": "846fc0fc22d83f8a2629a3941b2b397f730aed3a8adb6a87d419b7aa8c04cf10",
@@ -74,7 +74,7 @@
     "requirements-i1-i2.txt": "8d9879bbeb7280c491aa37d02ffca3a21b1fc78410fc300415a9bd971d4f3022",
     "requirements-runtime.txt": "a93ce74f042ce30ec0cf7cc7d23a954bc651463817acf2aa9297bb5aa7863842",
     "scripts/build_memset_observer.sh": "9fab221d2fea7ce26874add79ac94ddd555d57b3cc40b081f3d1bdd966579c56",
-    "scripts/build_unified_release.py": "fc72eae0d2ebbd5afd599adae761cb6b263cb0cfd829564e4f47097d5b8fe0c3",
+    "scripts/build_unified_release.py": "f9634a0d3e92e3e872af61c8912a2700d1f91c4a73cc65088cbdbd4e847aa1a0",
     "scripts/import_shared_assets.py": "19643ba2c3c75205e24b5d8c2789ed23d11f81eb8c4e4d9ef8f02766a6d96db6",
     "scripts/o4_node.sh": "d064fc71abffa71b067535a8f5f91f2d26ac651ba679049c68cede8eb3879b06",
     "scripts/run_node.sh": "587ca573d8c1ebc54d95c9ed78fc2e79517fd31329543d6c5601512ea428288f",
@@ -85,7 +85,7 @@
     "tests/test_research_adapters.py": "603276e457eed33c482a220beb2dfdb5747365fba5bdda911bb8305634811fbf",
     "tests/test_research_assets.py": "fa821bae488636642e97e3479ac747d61037abbd05fbf82c108bcef1ef4cb67f",
     "tests/test_research_formal40.py": "438fa8ead79c11c347851cb3744812b6aa5e6d441f1488b6ca92fa73c20da2fd",
-    "tests/test_research_guard.py": "794ef603072a156dd1e930278756337406fc96f5f56ab11287689a203d751749",
+    "tests/test_research_guard.py": "91f8815fc9bea69c5d17adb08cbd49983c9fdae5c83c856861a5f9f3e748f000",
     "tests/test_research_memset_transfer.py": "07c284d59108842162d062164d80cbd72364d93e7fbe4efdf1c59029cb1e7601",
     "tests/test_research_nsys_schema.py": "670d36a23652bd4b26c0a2bd6ae4072d39188d9d52e7c7252ed8d52f63df499b",
     "tests/test_research_observer.py": "f4b4697294dc8dab4ab60de57a956391dc633ff9e041577a24e6b3794ec7f31e",
@@ -145,5 +145,7 @@
     "vendor/legacy/tests/test_o1_operator.py": "cf62c3048d4a9bc96ab4b428107078db0b98b93b2b1330d99886aec2bedcecd8",
     "vendor/legacy/tests/test_o2_collection.py": "1bb6457122794832d33849398d1305ab767ca223257dc5cab1e399f4e561140b",
     "vendor/legacy/tests/test_plots.py": "00e79ff4efef2fbd03a9052f70e83c0c3d9f3e255214ee27b6de94ed773467ed"
-  }
+  },
+  "previous_immutable_release_tag": "o4-unified-engineering-v1-20261106",
+  "guard_policy": "40x3: up to 60 seconds cooldown at 3s intervals; require two idle readings; never bypass foreign GPU processes"
 }
