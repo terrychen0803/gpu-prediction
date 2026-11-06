@@ -3,6 +3,28 @@
 本文件區分歷史GPU實測、統一版工程實作、尚未執行與Reference資格。
 
 
+## 2026-11-07：RTX4090 RN-A 40×3 首組正式工程收集
+
+操作者於 `iccl_resilient@iccl-WHITLEY` 使用既有分支 `o4/unified-engineering-20261106`（節點 commit `c988163a0acf186874ea64e4957284b87f999d43`）、PyTorch 2.8.0+cu128、Nsight Systems 2026.5.2.323 及相同 frozen_A，完成 RN-A 正式 40×3：
+
+| 項目 | 結果 |
+|---|---|
+| 協定 | `o4_seven_A_40x3_engineering_v2_20261106` |
+| 完成 | 9/9 Cells；Failed 0 |
+| 有效時間量測 | 360（GI/P/R 各 120） |
+| P/R 精確配對 | 3/3 |
+| 結構通過 | P/R 6/6 |
+| 穩定度 | `all_three_process_spreads_pass=true` |
+| 工程品質 | `completed_engineering`、`engineering_accepted` |
+| 原始大小 | 133 MB（`RN_A_20261106T185740Z`） |
+| 診斷警告 | 六份 P/R 均保留已知 `Not all NVTX events might have been collected.` |
+| Unmatched API | 六份 P/R **各 630**，待分類，不能視為已證明漏記 Kernel 或零 Bytes Memset |
+| Reference / 訓練 | `strict_reference_verified=false`、`training_eligible=false`、`models_trained=0` |
+
+這份資料**已完成工程驗收，不等於正式逐算子 Reference 驗證完成**。RTX4090 接下來優先分析 unmatched Work API 的 API name/correlation/bytes 與事件對應，再決定是否擴大 RN-A 類似的來源追蹤。其他六組正式 40×3 目前尚無新實測交付。以上來自操作者貼出的 `SUMMARY.json` 與 `du`，尚未從 RTX4090 節點獨立讀取 raw data。
+
+---
+
 ## 2026-11-07：RTX4090 RN-A Smoke 與 Nsight 3.29.0 結構相容性
 
 RTX4090 目前為 `iccl_resilient@iccl-WHITLEY`、Ubuntu 22.04、RTX4090、NVIDIA Driver 580.178.04。使用 Nsight Systems 2026.5.2.323（以使用者目錄解壓套件執行）、PyTorch 2.8.0+cu128、TorchVision 0.23.0+cu128、Transformers 4.57.1、Ultralytics 8.4.55。操作者已提供 82/82 O4 tests 與 54/54 Legacy tests 通過、frozen assets Verify 和 Preflight 通過的日誌；Manifest SHA256 `55300ee1eb51a481421a7318ec8fbf9c1b2bffdce9e31d77d37f7383cf69cec4`。
