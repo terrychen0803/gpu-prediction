@@ -1,4 +1,6 @@
-# O4 工作包後續建議（GB10 v3 Trace 診斷更新）
+# O4 工作包後續建議（GB10 v4 Native Control 更新）
+
+最新實測：[GB10 Native Controls v4](../../docs/O4_GB10_NATIVE_CONTROL_V4_STATUS_20261106.md)。本地原生 Software capture 48/48 正 Kernel、Hardware capture 0/80，Hardware 失敗伴隨明確 incomplete CUPTI events dropped；目前暫停用 Hardware 作正式資料收集。已知 0B no-op 不足以說明 RN-A 未匹配 memset。所有嚴格 Reference 仍未驗證。
 
 目前 GB10 GI/P/R 與 RN-A 盤點屬 engineering pilot，**不等於已完成正式 Reference 或完整跨 GPU 時間模型**。見 [GB10 品質修訂摘要](../../docs/O4_GB10_TRACE_QUALITY_UPDATE_20261106.md)。保留所有 O1/O2/O3/O4 原始資料、原 quality 與凍結協定，另存唯讀重新分析結果。
 
