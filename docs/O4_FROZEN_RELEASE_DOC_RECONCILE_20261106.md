@@ -110,3 +110,27 @@ PYTHON="$PYTHON" bash scripts/run_node.sh 3090 single
 另一方面，新 I2 七 A 的獨立 3-measured engineering smoke 已完成 21/21 Cells、7/7 inventory、14/14 trace replay，見 [RTX3090 I1/I2 紀錄](https://github.com/terrychen0803/gpu-prediction/blob/o4/rtx3090-evidence-compat-20261106/docs/O4_RTX3090_I1_I2_20261106.md)，**不是此原版 40×3 Pilot**。
 
 後續順序：保留與唯讀審查 GEMM R 三程序失穩及所有 NVTX/CUPTI 事件警告；對 MV/SW/YO 未匹配 `cudaMemsetAsync` 作獨立參數診斷，不猜測 0B；再為七 A 新 Collector 制定版本化 40×3 協定與不可洩漏資料分割。RTX4090 的主來源 P 是下階段獨立收集任務，不將目標 GPU Reference 或 GI 倒灌入 predictor。
+
+## 2026-11-06 臨時研究決策：NVTX Warning 於 Engineering 階段暫時不阻擋（未確認軟體 Bug）
+
+研究者目前**懷疑** Nsight Systems 的 `Not all NVTX events might have been collected.` 是軟體／工具層面的非預期警告，但**尚無可確認根因的修復版本、NVIDIA Issue 或事件完整性獨立證據**。以下為研究進度上的**暫行風險接受決策**，**不是**已證實 Nsight 有 Bug，亦非證明所有 NVTX/CUDA events 已完整收集。
+
+- Engineering 層級：**暫不將這個單一 NVTX Warning 當作阻擋 GPU 收集、既有 Trace 結構分析、P/R 簽章檢查、穩定性診斷與後續探索的硬性失敗條件**。在其他獨立檢查皆通過時，可標記 `warning_accepted_for_engineering`（**只作文字紀錄，不竄改原始 JSON 狀態或程式 Gate**）。
+- Evidence 層級：原始 `DIAGNOSTIC_EVENT`、`warnings`、`trace_status=warning_accepted`、`reference_gate=not_verified`、`strict_verified_operations=0` **全部維持原樣**。不能因暫時忽略 Warning 就推論無 Event Loss、提高 Reference 級別、把 R 的時間視為 GI，或將資料升級成正式可用的嚴格 Operation Ground Truth。
+- 其他品質問題**不在豁免範圍**：MV/SW/YO 未匹配 `cudaMemsetAsync` 的 `count_bytes` 尚未驗證；部分 capture 的 SQLite/Event completeness 限制、Operation→Kernel mapping、未知或缺失 GPU work 仍需個案審核。對新設備、新 Nsight 版本、新 workload 不得自動沿用本決策。
+- 將來如果 NVTX scope 缺失、P/R 簽章不一致、明確 CUPTI event dropped、trace 結構或 clock/correlation 故障，**必須另行 FAIL／Unverified**，不能用本註記概括忽略。
+- 在寫論文與對外報告時應描述為「Nsight NVTX warning was provisionally accepted for engineering exploration; strict reference completeness remains unverified」，不得描述為「confirmed NVIDIA software bug」或「lossless trace」。
+
+### GEMM R 三程序失穩仍維持 FAIL
+
+`o4_3090_three_20261106T141407Z` 的三次 `gemm_16_64_64` R Process 詳細資料：
+
+| Repeat | 40 measured 中位數 (µs) | P10 (µs) | P90 (µs) | Warmup | Trace status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| 1 | **69.055997** | 67.520000 | 74.336000 | 60 | warning_accepted |
+| 2 | 53.088000 | 52.191999 | 57.344001 | 60 | warning_accepted |
+| 3 | 53.472001 | 52.096002 | 57.824001 | 60 | warning_accepted |
+
+Repeat 1 的程序整體偏慢，而 repeats 2、3 相近；三程序 `spread=(max(medians)-min(medians))/median(medians)` = **29.862351%**，仍超過 5% 門檻。當前沒有證據能將這個執行時間差直接歸因於 NVTX 警告；**暫時忽略警告不等於忽略 GEMM R Stability Failure**。保留所有 120 筆 measured 原始資料，不剔除 repeat 1，也不改寫三程序穩定性報表。
+
+**影響範圍：** 本決策只改變工程階段對已知警告的處理政策；**不修改 Frozen Collector、Protocol、Release Manifest、測量數值或 Strict Quality Gate**。如需程式支援 explicit warning-policy，必須另開版本與對照測試。
