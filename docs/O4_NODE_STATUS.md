@@ -2,6 +2,23 @@
 
 本文件區分歷史GPU實測、統一版工程實作、尚未執行與Reference資格。
 
+## 2026-11-07：RTX3090 Unified v2 七組 A 正式長度工程量測更新
+
+操作者已交付七組 A `40×3` 摘要：**7/7 工作負載、63/63 Cells、2,520 valid measured iterations、21/21 P/R exact pairs、42/42 P/R trace structural passes**。六組 `engineering_accepted`；UN-A 全部9 Cells完成但 P repeat spread **5.7697%**，因此 `quality_status=review_required`。
+
+| Node | v2 七組 A 工程實測進度 | 嚴格 Reference |
+|---|---|---|
+| RTX3090 | RN-A、UN-A、MV-A、YO-A、QD-A、QP-A、SW-A 都已完成 9/9；詳見獨立收集報告 | `strict_reference_verified=false`；未證明 training eligible |
+| GB10 | 此批無新增 v2 40×3 實測證據 | 仍依原報告 |
+| RTX4090 | 此批無新增 v2 40×3 實測證據 | 仍依原報告 |
+
+所有 P/R capture 保留既知 NVTX 警告；MV-A、YO-A、SW-A 的 unmatched Work API 仍需分類。RN-A 已在最新 GPU Guard cooldown 修正版收集 9/9；原失敗 session 不刪除。QD-A 有一次 SSH 中斷的 0/9 session、後來以 tmux 成功重收 9/9。GB10 大型 raw 傳輸與獨立 re-audit 尚待操作者執行。來源為操作者提供的 `SUMMARY.json`，**不是**直接讀取 RTX3090 節點或 GB10 原始 trace 的獨立驗證。
+
+詳細表格、品質限制和分析交接：**[RTX3090 七組 A 收集結果與 GB10 交接](O4_RTX3090_SEVEN_A_COLLECTION_20261107.md)**。
+
+---
+
+
 | 節點 | 已記錄 GPU 實測 | 統一版 v2 GPU canary | Reference |
 |---|---|---|---|
 | GB10 | Native software48/48；hardware0/80；七A短版21cells；舊single/three/RN-A pilot | 未執行 | strict0；NVTX/clock/overlap/部分API待解 |
