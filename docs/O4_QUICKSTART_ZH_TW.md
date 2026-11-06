@@ -4,6 +4,20 @@
 
 Release：`o4-unified-engineering-v1-20261106`。這是離線驗證的候選工程版；新 GPU canary 尚未執行，Reference strict verified=0。主方向維持 RTX4090 P → GB10／3090 GI。建議共用 tag/commit 與 frozen_A 作可比較基準，但不要求各節點執行相同模型清單；可先選當地支援的 workload，記錄實際版本與差異。舊 O1/O2/O3/O4 session 不改版。
 
+> **2026-11-07 GPU Guard 修正（已直接提交到統一分支，未建立新分支）：** 原固定 Tag `o4-unified-engineering-v1-20261106` 保持唯讀歷史版本，並**不包含**此修正。最新版 `o4/unified-engineering-20261106` 分支中，40×3 Collector 的 `gpu_guard` 遇到 **僅 GPU Utilization >5%、且無其他非允許 Compute Process** 時，改成每 3 秒再次查詢、最多 60 秒，連續兩次 ≤5% 才執行。若有外部 Compute Process、GPU 身分不符、查詢失敗或持續高使用率，仍會阻擋。原始與重試取樣全部存 `gpu_guard.json` 的 `samples`。原 `preflight` 與 `smoke` 的一次檢查政策不變，未改動七 A 的 GI/P/R 計時與 Protocol。這是**尚待 RTX3090 節點測試**的分支修正，不代表已重新完成 GPU Canary。
+
+已在舊 Tag Checkout 的節點，先確保 `git status --short` 為空，再從原 repo 根目錄執行：
+
+```bash
+git fetch origin o4/unified-engineering-20261106
+git switch --detach FETCH_HEAD
+git rev-parse HEAD
+(cd o4_pilot && python -m unittest discover -s tests -v)
+# 再以全新 --out 執行 o4_node.sh verify 與 preflight；不得覆寫既有原始 run
+```
+
+若專案仍要重現 2026-11-06 的原結果，仍請使用上方固定 Tag 與當時的原始資料；不要把新分支的結果標成原 Tag。最新版分發 `unified_release.json` 的 release_id 已加入 `guard-retry-patch1` 後綴，避免混淆來源。
+
 ## 1. 取得同一程式
 
 ```bash
