@@ -70,24 +70,38 @@ $$
 
 ## 4. 為何算子加總不等於完整 iteration
 
-### 4.1 單 stream 下的觀測恆等式
+### 4.1 Event-index 分段不要求 GPU 時間區間互斥
 
-在同一 P trace 中，假設每個 GPU 工作恰好分配一次，片段時間區間不重疊，且已處理所有 copy/memset：
+Semi-Markov 對來源 P 的有序事件序列做**事件索引上**非重疊且唯一的片段分割；這不等於不同片段的 GPU 執行時間不能重疊。GB10 RN-A 新的唯讀診斷找到 123 對同一 stream、跨 ATen 邊界的 kernel-kernel interval overlap，但 event/API 序列未反轉；因此現有 event-index 分段仍有適用可能。真正多 stream、非連續或交錯事件、漏記和未知類仍須另定 coverage／拒絕策略。詳見 [GB10 品質更新](O4_GB10_TRACE_QUALITY_UPDATE_20261106.md)。
 
-$$
-U_t^P=\sum_i d_{i,t}^P+G_t^P,
-\qquad G_t^P=\sum_{i=1}^{m-1}(start_{i+1,t}-end_{i,t}).
-$$
-
-U 是第一個實際 GPU 工作到最後一個完成的 span。d 已包含片段內 gap，只補片段間 gap，不能再加 kernel gap 全總和。驗證閉合差應只在 timestamp 精度範圍內；若差大，先查重複計數、漏工作、重疊、scope，不能用回歸把解析錯誤掩蓋。
-
-這個恆等式不表示 GI=U：GI 邊界是 CUDA events，且不開 profiler；P 有 profiler 擾動及可能不同的首尾空檔。因此以下是需要驗證的統計映射：
+對同一 P trace，令每個非零 GPU 工作片段的 Contextual Span 區間為 `I_i=[a_i,b_i]`，`d_i^P=b_i-a_i`（含片段內部 gap）。假設所有**已記錄** GPU 工作皆唯一分配，且片段端點完整，定義：
 
 $$
-Y_t^{GI}=f\left(\{d_{i,t}^{P}\},G_t^P,\text{timing policy, platform state}\right)+\epsilon.
+U^P=\max_i b_i-\min_i a_i,\qquad C^P=\left|\bigcup_i I_i\right|,
 $$
 
-不假定 f 為常數加法，也不要求校正一定為正。Profiler 影響／overlap／漏工作等因素必須分開診斷。
+$$
+O^P=\sum_i d_i^P-C^P,\qquad G_+^P=U^P-C^P.
+$$
+
+其中 `O^P` 是片段 Span 重複覆蓋的時間總量，必須用 interval union/sweep 計算，**不能在可能多重重疊的情況下直接加總相鄰 pair overlap**；`G_+^P` 是未被任何片段 Span 覆蓋的正 gap，**不能再加上已包含在單片段 Span 內的 kernel gap**。
+
+因此存在一般化**觀測閉合恆等式**：
+
+$$
+\boxed{U^P=\sum_i d_i^P+G_+^P-O^P.}
+$$
+
+無時間重疊時 `O^P=0`，退化為原本的非重疊 SUM+gap。此式只說明同一份 P trace **已記錄區間**的算術閉合；不驗證 submitted GPU 工作全收集、R reference 正確、clock mapping 正確，也不是跨 GPU 真實排程／資源模型。GB10 本地報告中 270 iterations 的 union-aware 殘差為零，但仍有 270 個 unmatched `cudaMemsetAsync` API 與 NVTX 完整性 warning。
+
+**GI 主標籤不是 `U^P`**：GI 為無 profiler 的 CUDA-event whole-forward interval，包含不同 event 邊界、host 提交空隙與 profiler 擾動差異；R 的 TorchDispatch/NVTX 時序也可能與 P 不同。因此仍需統計映射：
+
+$$
+Y_t^{GI}=f\left(\{d_{i,t}^{P}\},G_{+,t}^{P},O_t^{P},
+\text{timing policy, platform state}\right)+\epsilon.
+$$
+
+這是訓練／evaluator 可定義的關係，**部署不得輸入目標 test P 的 `G_+^P` 或 `O^P`**。PDL 是目前 overlap 的相容解釋，但欠缺真正 launch attribute 證據；GPU end 早於 CPU API start 的 clock inversion 應獨立審查，不能平移 timestamp 冒稱修復。
 
 ### 4.2 三個組合層次
 
@@ -114,7 +128,7 @@ $$
 \widehat Y_t^{GI}=\widehat S_t\exp\left[A_\xi(v_{s\to t})\right].
 $$
 
-其中 v 只包含：log(S/τ)、預測片段數、預測時間分布統計、來源 iteration span／inter-segment gap／短 kernel 比例、合法來源 launch 統計、兩端硬體校正；新增 target launch/host profile 必須是獨立 microbenchmark。初版不使用真實類型、shape、模型 ID，也不使用 test target gap 或 P span。
+其中 v（T-ITER Base）只包含：log(S/τ)、預測片段數、預測時間分布統計、來源 iteration span／inter-segment gap／短 kernel 比例、合法來源 launch 統計、兩端硬體校正；新增 target launch/host profile 必須是獨立 microbenchmark。**T-ITER Overlap** 作為另一個預先聲明的 feature ablation，僅增加從合法**來源 P 數值事件**求得的 overlap count、union-based overlap duration／ratio、positive gap 等；它是新的 feature/model 版本，不能說原 Base 已支援。兩個版本都不使用真實類型、shape、模型 ID 或 test target gap／overlap／P span。
 
 建議 A 為小型 `d_iter→32→16→1` MLP，與 operation 時間頭分開。完整事件覆蓋未確認、S≤0、缺片段或 artifact 不相容時回傳 incomplete；不能以 epsilon 補成可預測。若通用 unknown residual 能給時間但語意不明，另列 fallback 成績。
 
@@ -131,6 +145,14 @@ k 是配置／獨立群的明示權重單位，D_k 為有效設備方向。固�
 ITER 第一版先凍結 θ、φ，只訓練 ξ。候選 Adam 0.001、clip5、120 epochs、每5 epochs validation；依 GI time20 最大、P90 APE 最小、MdAPE 最小、較早 epoch 選模。這是新候選規則，正式收集前凍結；wrapper／direct 等方法用相同候選數與規則。相同表面容量不保證完全相同有效容量，報參數量與各階段成本。
 
 訓練資料增多後若研究 end-to-end loss，可另立版本；不能讓 GI loss 補償錯誤語意後宣稱 operation-aware 全部成功。q 消融暫不支持重新增加必經 F 或複雜 q 路徑。
+
+### 4.3 I5 模型及品質判定分離
+
+- `nonoverlap_sum_supported=false` 只意味舊非重疊公式不適用，**不等於** event-index segmentation 必須失敗。
+- `overlap_aware_closure_supported=true` 只是 recorded-span 的算術一致性，**不等於** `strict_reference_verified=true`。Submitted-work coverage（CUDA API→GPU Activity）、NVTX 警告、clock 仍需獨立驗證。
+- P/R 完整 ordered signature 可以轉移 event-index reference，但不能把 R 時間或 R overlap 當作 P duration。
+- T-SUM 是未校正基準；T-ITER Base／Overlap 使用不同 feature set，同訓練群組、OOF、GI label、測試分母和調參預算。訓練集可讀合法 target GI；測試時只有 evaluator 可以讀 target P/GI/reference，predictor 不得在 test 選取最佳版本。
+- 若語意辨識、來源工作 coverage 或預測不完整，輸出 incomplete 並計入失敗分母；不能用 ITER GI 誤差小來替 Reference 辯護。
 
 ## 5. 多階段訓練與 OOF
 
