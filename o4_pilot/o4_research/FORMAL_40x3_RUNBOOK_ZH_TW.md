@@ -39,17 +39,34 @@ export ASSETS="$HOME/RTchen/o4-data-3090/frozen_A/ASSETS.json"
 
 cd "$NEW"
 git status --short
-# 只有無本地修改時才切換：
+# 建議獨立 worktree；完全不切換既有 I1/I2 或 frozen checkout：
 git fetch origin o4/seven-a-40x3-collector-20261106
-git switch --detach FETCH_HEAD
+git worktree add --detach "$HOME/RTchen/gpu-prediction-o4-40x3" FETCH_HEAD
+export NEW40="$HOME/RTchen/gpu-prediction-o4-40x3"
+cd "$NEW40"
 git rev-parse HEAD
 
-cd "$NEW/o4_pilot"
+cd "$NEW40/o4_pilot"
 python -m unittest discover -s tests -v
 (cd vendor/legacy && python -m unittest discover -s tests -v)
 python -m o4_research.verify_assets --manifest "$ASSETS" \
   --expected-manifest-sha256 55300ee1eb51a481421a7318ec8fbf9c1b2bffdce9e31d77d37f7383cf69cec4
 ```
+
+**先對已完成的 I2 3-measured Trace 做唯讀回歸 replay**，檢查新版 NVTX ScopeIndex + 動態 iteration 個數沒有破壞原始 1+3 audit 輸出。這一步不啟動 GPU，也不能改寫來源 run：
+
+```bash
+export DATA="$HOME/RTchen/o4-data-3090"
+export REPLAY_REG="$DATA/i2_newparser_replay_$(date -u +%Y%m%dT%H%M%SZ)"
+python -m o4_research.replay \
+  --runs \
+    "$DATA/rna_i2_pr_20261106T132904Z" \
+    "$DATA/i2_3090_vision_20261106T133528Z" \
+    "$DATA/i2_3090_yolo_qwen_20261106T133649Z" \
+  --out "$REPLAY_REG"
+```
+
+預期對 14 個 P/R Capture 報 **`PASS replay files: 188`**（與原始 stdout 一致），若產生 byte mismatch 必須保留 error 並查原因，不可刪改既有 audit。這是 Regression Gate；未通過不要開始 40×3。
 
 **先 plan-only**（不執行 GPU），會建立新的 manifest/output 目錄：
 
