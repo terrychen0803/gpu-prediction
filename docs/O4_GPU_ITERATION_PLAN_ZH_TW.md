@@ -104,15 +104,25 @@ P/R 沿用與 GI 相同的 iteration 級完成政策；可用已知 iteration �
 | 階段 | 具體工作 | 主要輸出 | 可前進的條件 |
 |---|---|---|---|
 | **I0 狀態凍結** | 保護節點 O2/O3、固定目前 N0/辨識器、版本及 hash；列新主標籤 | inventory、artifact index、protocol draft | 能追溯每個來源模型與資料；未收錄 Git 的程式不可假裝已有 CLI |
-| **I1 量測與 reference gate** | 三設備少量 GI/P/R，核對完整窗口、事件、單 stream、對齊與 profiler 干擾 | GI samples、quality、R→P audit、失敗分類 | GI 可驗證；逐算子正式評分另須 reference 可驗證，warning-accepted 只能 pilot |
-| **I2 六任務盤點** | 每模型先一個小配置，列 atomic/fused 執行單位、零 GPU 操作與未支援類 | operation inventory、事件／時間涵蓋率、候選長度分布 | 不漏 unknown；能決定下一批需補算子，不能只看 op 數 |
+| **I1 量測與 reference gate** | 三設備 GI/P/R；對 recorded-event、submitted-work、NVTX/ATen 對應、clock、Overlap 及 GI 獨立判定；先做 native 最小控制 | GI 樣本、reverse API audit、品質 overlay、控制組報告 | 已記錄事件完整不等於提交完整；Reference 未驗證只能作 pilot；合法 overlap 不自動失敗 |
+| **I2 六任務盤點** | 按每模型小配置盤點 atomic/fused、零 GPU、event-index 連續性與 temporal overlap、未覆蓋類別／L | event/semantic/時間分項 coverage、op inventory、候選長度 | event-index 唯一連續分段不要求 wall-clock 非重疊；未知與非連續分開記錄 |
 | **I3 擴充受控資料** | 新家族與實際 shape 範圍、依賴子圖、正確性、balanced 訓練 | 新 taxonomy、配置群、模型版本、分類／時間對照 | 每類有訓練與留出配置；不強制將新類判入舊三類 |
 | **I4 子圖轉移** | 已見 shape＋新上下文；未見 shape＋新上下文分開；先凍結模型 | 零調整／上下文校正兩張表 | reference 與候選覆蓋有效；兩種轉移不能混稱一種泛化 |
-| **I5 迭代組合** | SUM、SPAN 診斷、ITER MLP、直接 request 基線與 wrapper 對照 | 4090→GB10／3090 的 GI 預測、OOF provenance、gap/校正診斷 | 所有方法同 GI、資料切分及失敗分母；未識別不補零 |
+| **I5 迭代組合** | T-SUM、union-based P-SPAN 閉合、T-ITER Base、T-ITER Overlap 消融、DIRECT 與 wrapper 基線 | 4090→GB10／3090 GI、OOF provenance、gap/overlap 診斷 | 同 GI／split／失敗分母；來源 P 特徵 only，target test GI/P/reference 禁止進 predictor；低 GI 誤差不能替代 Reference gate |
 | **I6 完整模型** | ResNet-50 block→stage→完整；其餘逐類擴充 | 兩個主方向／模型／配置結果與 coverage | 僅對實際完成且明定的任務範圍宣稱成果 |
 | **I7 新確認集** | 方法凍結後新配置／日期；模型內與模型留出分開 | 完整報告、配對區間、limitations、可重現腳本 | 未用 test 調參；是否達標依預註冊門檻，失敗如實報告 |
 
 I1 與 I2 可交錯做小型 pilot；reference 未解時可做整體 GI 工程檢查，但不能發表正式逐算子辨識與時間結論。不需先把所有 q／joint 變體做完才開始 I4。
+
+### 4.0 來自 GB10 v3 診斷的 I1／I2 修訂（2026-11-06）
+
+最新的 [GB10 O4 Trace 品質摘要](O4_GB10_TRACE_QUALITY_UPDATE_20261106.md) 顯示，同一 default stream 的 123 對跨 ATen kernel-kernel 時間重疊並未造成 event/API 的先後順序反轉。後繼 cuLaunchKernelEx 與 PDL 相容，但實際 launch attributes 尚未驗證，不能直接認定已證實 PDL。**單 stream 並不保證 GPU 時間非重疊；time overlap 也不自動破壞 event-index semi-Markov 分段。**
+
+新增分開記錄的品質 gate：recorded_event_integrity（GPU→API、scope）、submitted_work_coverage（API→GPU reverse audit）、reference_semantic_alignment、timestamp_consistency、event_index_partition_supported、nonoverlap_sum_supported、overlap_aware_closure_supported、strict_reference_verified。每項含 passed／warning_accepted／failed／unverified 與對應證據。270 個成功但尚未匹配 GPU activity 的 cudaMemsetAsync 可能為 0-byte/no-op，**尚未證實**；不可以「已記錄事件 100% 對上」代替提交覆蓋驗證。全部 NVTX warning 仍需釐清。
+
+I1 先執行最小 native 控制（serial/no-PDL、64-byte／0-byte memset；SW／auto × P/R），保留實際使用的 Nsight trace backend 與 fallback 狀態。只在必要時補 PDL attribute、device completion 錨點或 op140 1×1 Conv 實驗。原本 smoke_v2 protocol、raw、quality 不改寫；新診斷用 versioned audit overlay，改 collector 才另立 protocol。RTX4090／3090 先 single smoke 再擴大 three／RN-A。
+
+I2／I3 的 semi-Markov 候選分段互斥性只要求事件索引不重疊／無重複分配，而不要求片段時間區間互斥；multi-stream 交錯或非連續片段仍需另外定義 unsupported 或擴充表示，不能用 ITER 最後的 GI 低誤差替代辨識驗證。
 
 ### 4.1 Reference 具體關卡
 
@@ -152,6 +162,10 @@ I1 與 I2 可交錯做小型 pilot；reference 未解時可做整體 GI 工程�
 - 完整迭代校正使用 OOF 上游特徵；若分組數不足以產生有效 OOF，就用獨立上下游訓練／校正集，標記資料不足，不借 test。
 - 完整迭代 MLP 的候選訓練設定與選模順序見數學規格；只在 development validation 選擇。不得 test 逐方向挑 SUM/ITER/W。
 - 舊測試資料全列 development/exploratory。同一資料換 seed、重訓或換文件日期不會恢復成未見確認集。
+
+### 5.2a I5 Overlap-aware 比較（需開發集凍結）
+
+保留原 T-SUM、T-ITER Base；另立 T-ITER Overlap 特徵消融，僅增加從**來源 RTX4090 P numeric events**計算的 overlap count、duration／union ratio、positive gaps 等，並保存 feature/model hash。P/R signature 一致不表示兩者時間相同；R 的量測不可替代 P 的 CTX span。目標 test P、overlap、GI、reference 僅可由 evaluator 在預測封存後作分層評分；分組 OOF 的上游預測供 ITER 訓練，未知／漏工作輸出 incomplete，不補零，也不在 test 上選 Base 或 Overlap 版本。
 
 ### 5.3 評分要同時包含 operation 與 iteration
 
