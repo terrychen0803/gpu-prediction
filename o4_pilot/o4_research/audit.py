@@ -3,6 +3,7 @@ import collections,json,re,sqlite3
 from pathlib import Path
 from .common import read,write,csvwrite,sha
 from .quality_v4 import interval_closure,overlapping_pairs,partition_supported,gate,strict_gate,VERSION
+from .nsys_schema import validate_export_schema
 ITER=re.compile(r'^o4\.iter/(transition|measure)/(\d{6})$');PREP=re.compile(r'^o4\.prepare/(transition|measure)/(\d{6})$');OP=re.compile(r'^o4\.op/(transition|measure)/(\d{6})/(\d{4})$')
 SAFE={'event_kind','start_ns','end_ns','api_start_ns','api_end_ns','grid_xyz','block_xyz','dynamic_shared_memory_bytes','bytes','copy_kind','memory_kind','memset_value','event_id','api_event_id','correlation_id','stream_id','context_id','process_id'}
 def safe(e,i):
@@ -15,7 +16,10 @@ def audit(folder,out):
   tables={x[0] for x in c.execute("select name from sqlite_master where type='table'")}
   def rows(t):return [dict(x) for x in c.execute('select rowid as _rowid,* from "'+t+'"')] if t in tables else []
   schema={t:[dict(x) for x in c.execute('pragma table_info("'+t+'")')] for t in sorted(tables)};write(out/'schema.json',schema);export=rows('META_DATA_EXPORT');version=next(x['value'] for x in export if x['name']=='EXPORT_SCHEMA_VERSION')
-  if version!='3.28.0':raise ValueError('Unknown schema, investigate: '+version)
+  compat=validate_export_schema(version,schema)
+  integrity=c.execute('pragma quick_check').fetchone()[0]
+  if integrity!='ok':raise ValueError('Nsight SQLite integrity check failed: '+str(integrity))
+  compat['sqlite_integrity']=integrity;write(out/'schema_compatibility.json',compat)
   strings={x['id']:x['value'] for x in rows('StringIds')};diags=rows('DIAGNOSTIC_EVENT');write(out/'diagnostics.json',diags);warnings=[x['text'] for x in diags if x.get('severity',0)>=2];iters=[];preps=[];ops=[]
   for n in rows('NVTX_EVENTS'):
    if ((n['globalTid']>>24)&0xffffff)!=pid:continue
@@ -67,7 +71,7 @@ def audit(folder,out):
   gs['overlap_aware_closure_supported']=gate('passed' if closures and all(x['closure_error_ns']==0 for x in closures) else 'unverified',['iteration_audit.json'],'generalized union arithmetic only')
   gs['strict_reference_verified']=gate('unverified',['diagnostics.json','iteration_audit.json'],'no formal reference upgrade; all engineering inventory')
   write(out/'v4_quality.json',{'version':VERSION,'gates':gs,'strict_verified':0,'formal_training_eligible':False})
-  summary={'status':'recorded_structure_complete' if gs['recorded_event_integrity']['status']=='passed' else 'failed','mode':req['mode'],'schema':version,'sqlite_sha256':sha(folder/'trace.sqlite'),'GPU_records':len(events),'iteration_GPU_records':sum(bool(e['iteration_scope']) for e in events),'preparation_GPU_records':sum(bool(e['preparation_scope']) for e in events),'GPU_kind_counts':dict(collections.Counter(e['event_kind'] for e in events)),'iteration_count':len(iters),'reference_op_count':len(references),'zero_recorded_GPU_ops':sum(x['zero_recorded_GPU_work'] for x in references),'maximum_op_event_count':max((x['recorded_GPU_event_count'] for x in references),default=None),'operations_over_L4':sum(x['recorded_GPU_event_count']>4 for x in references),'unmatched_work_APIs':len(orphans),'clock_start_before_API_entry':start_inv,'clock_end_before_API_entry':end_inv,'overlap_pairs':len(overlapping_pairs(events)),'warnings':warnings,'actual_backend':[x['text'] for x in diags if 'trace was collected' in x['text'] or 'tracing used' in x['text']],'strict_verified':0};write(out/'SUMMARY.json',summary);return summary
+  summary={'status':'recorded_structure_complete' if gs['recorded_event_integrity']['status']=='passed' else 'failed','mode':req['mode'],'schema':version,'sqlite_sha256':sha(folder/'trace.sqlite'),'GPU_records':len(events),'iteration_GPU_records':sum(bool(e['iteration_scope']) for e in events),'preparation_GPU_records':sum(bool(e['preparation_scope']) for e in events),'GPU_kind_counts':dict(collections.Counter(e['event_kind'] for e in events)),'iteration_count':len(iters),'reference_op_count':len(references),'zero_recorded_GPU_ops':sum(x['zero_recorded_GPU_work'] for x in references),'maximum_op_event_count':max((x['recorded_GPU_event_count'] for x in references),default=None),'operations_over_L4':sum(x['recorded_GPU_event_count']>4 for x in references),'unmatched_work_APIs':len(orphans),'clock_start_before_API_entry':start_inv,'clock_end_before_API_entry':end_inv,'overlap_pairs':len(overlapping_pairs(events)),'warnings':warnings,'actual_backend':[x['text'] for x in diags if 'trace was collected' in x['text'] or 'tracing used' in x['text']],'strict_verified':0,'schema_compatibility':'structural_contract_passed_semantics_unverified'};write(out/'SUMMARY.json',summary);return summary
  finally:c.close()
 def pair(paudit,raudit,out):
  paudit=Path(paudit);raudit=Path(raudit);out=Path(out);out.mkdir(exist_ok=False);p=list(__import__('csv').DictReader((paudit/'events_diagnostic.csv').open()));r=list(__import__('csv').DictReader((raudit/'events_diagnostic.csv').open()));refs=read(raudit/'reference_operations.json');results=[]
