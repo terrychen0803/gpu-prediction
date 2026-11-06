@@ -5,6 +5,8 @@
 
 **2026-11-07 規劃補充：** 以盡量收集有用資料為優先，各設備不必逐模型／配置嚴格對齊或跑齊同一矩陣；跨設備分析再選可比較子集。見[最新收集原則](docs/O4_COLLECTION_POLICY_20261107.md)。
 
+**2026-11-07 I3 進度（文件 PR）**：[原文 GB10 I3-0／I3-1 報告](docs/o4_i3_progress_20261107/REPORT_ZH_TW2.md) · [原文 RTX Portable Runbook](docs/o4_i3_progress_20261107/PORTABLE_RUNBOOK_ZH_TW.md) · [詳細狀態摘要](docs/o4_i3_progress_20261107/STATUS_AND_HANDOFF_ZH_TW.md) · [I3→I5 下一步及務實 Development 資料品質政策](docs/o4_i3_progress_20261107/ROADMAP_AND_PRAGMATIC_DATA_POLICY_ZH_TW.md)。本輪 GB10 九類受控算子完成 27 個選定 GI/P/R Cells，I4／I5 尚未訓練；可對未達 strict Reference 的資料先做有條件的探索分析／訓練，但不改寫 strict gate，也不忽略已知 GPU 工作缺失。原 I3 程式／assets／raw 不在本文件 PR。
+
 ## 最新主線（2026-11-06）：operation → GPU inference 迭代時間
 
 **主要方向：RTX4090→GB10、RTX4090→RTX3090。** 由4090來源dry-run trace辨識算子邊界／類型，以MLP預測各片段時間，再組合一次完整forward的GPU迭代時間；其他方向選配。
