@@ -3,6 +3,31 @@
 本文件區分歷史GPU實測、統一版工程實作、尚未執行與Reference資格。
 
 
+## 2026-11-07：RTX4090 Unified v2 七組 A 全部完成（7/7）
+
+操作者於 RTX4090 節點 `iccl_resilient@iccl-WHITLEY` 提供 QP-A、SW-A 原始 `SUMMARY.json`，連同本日先前的 RN-A、MV-A、UN-A、YO-A、QD-A 摘要，目前**RTX4090 七組 A 的 40×3 工程收集全部完成**。Collector 既有固定版本為 `c988163a0acf186874ea64e4957284b87f999d43`、Protocol `o4_seven_A_40x3_engineering_v2_20261106`，未因後續文件 Commit 改變。來源為操作者日誌，並非獨立讀取節點原始 SQLite。
+
+| Workload | Session | Cells | Valid iterations | Exact P/R | Structural traces | Stable | Quality | Unmatched API / P或R capture | `du -sh` |
+|---|---|---:|---:|---:|---:|---|---|---:|---:|
+| RN-A | `RN_A_20261106T185740Z` | 9/9 | 360 | 3/3 | 6/6 | PASS | accepted | 630 | 133M |
+| MV-A | `MV_A_20261106T190225Z` | 9/9 | 360 | 3/3 | 6/6 | PASS | accepted | 135 | 119M |
+| UN-A | `UN_A_20261106T190759Z` | 9/9 | 360 | 3/3 | 6/6 | PASS | accepted | 0 | 43M |
+| YO-A | `YO_A_20261106T191227Z` | 9/9 | 360 | 3/3 | 6/6 | PASS | accepted | 1035 | 307M |
+| QD-A | `QD_A_20261106T191623Z` | 9/9 | 360 | 3/3 | 6/6 | PASS | accepted | 0 | 1.2G |
+| QP-A | `QP_A_20261106T192142Z` | 9/9 | 360 | 3/3 | 6/6 | PASS | accepted | 0 | 847M |
+| SW-A | `SW_A_20261106T192527Z` | 9/9 | 360 | 3/3 | 6/6 | PASS | accepted | **1845** | 206M |
+| **總計** | 7 個 Session | **63/63** | **2,520** | **21/21** | **42/42** | **7/7** | **7/7 accepted** | — | 約 2.9G |
+
+QP-A `SUMMARY.json` 記錄 `utc_end=2026-11-06T19:24:31.358064+00:00`；SW-A `utc_end=2026-11-06T19:27:02.606514+00:00`，兩份皆 `status=completed_engineering`、`failed_cells=0`、`all_three_process_spreads_pass=true`、`stability_failed_groups=[]`、`unmatched_work_API_captures` 分別為空與六份各 1845 筆。兩份的 P/R 各六次 Capture 均保留 `Not all NVTX events might have been collected.`。
+
+**不可升級 Reference**：全部 Summary 仍為 `strict_reference_verified=false`、`training_eligible=false`、`models_trained=0`，已知 NVTX 警告仍在，不能用 42/42 structural passes 取代完整 CUDA submission／op reference 證明。
+
+Unmatched 調查更新：RN-A 各 630、MV-A 的 P/R repeat 1 各 135、YO-A 六份各 1035 在既有調查中已確認為 `cudaMemsetAsync_v3020`；**SW-A 六份各 1845 尚未分類**。這些只是 unmatched API 名稱與數量，不能推定 `count=0` 或補填 GPU Activity，需獨立 CUPTI Callback Byte Count 驗證。
+
+當時 GPU 節點根檔案系統尚有 **158G** 可用；七組 Session 總原始量約 2.9G。建議接續封包原始 Trace、frozen assets、執行版本與 SHA256 清單，傳 GB10 後重驗完整性，並進行 source→target 分析。所有 session 原始資料應保留；本次只更新文件，不建立新分支。
+
+---
+
 ## 2026-11-07：RTX4090 QD-A 40×3 完成與 YO-A Memset API 分類
 
 操作者在 `iccl_resilient@iccl-WHITLEY` 提供 QD-A（Qwen Decode）正式工程收集 `SUMMARY.json` 與容量紀錄：
