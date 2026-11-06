@@ -3,6 +3,33 @@
 本文件區分歷史GPU實測、統一版工程實作、尚未執行與Reference資格。
 
 
+## 2026-11-07：RTX4090 QD-A 40×3 完成與 YO-A Memset API 分類
+
+操作者在 `iccl_resilient@iccl-WHITLEY` 提供 QD-A（Qwen Decode）正式工程收集 `SUMMARY.json` 與容量紀錄：
+
+| 項目 | RTX4090 QD-A |
+|---|---|
+| Session | `/home/iccl_resilient/RTchen/o4-data-4090/unified_v2/QD_A_20261106T191623Z` |
+| Protocol | `o4_seven_A_40x3_engineering_v2_20261106` |
+| 結束時間 UTC | `2026-11-06T19:19:45.920235+00:00` |
+| Status / quality | `completed_engineering` / `engineering_accepted` |
+| Cells | 9/9 completed；0 failed |
+| Valid measured iterations | 360（GI / P / R 各 120） |
+| Exact P/R pairs | 3/3 |
+| Trace structural passes | 6/6 |
+| Three-process stability | `all_three_process_spreads_pass=true`，無失敗組 |
+| P/R unmatched Work APIs | 摘要清單為空 |
+| Warning | 六份 P/R 皆有已知 `Not all NVTX events might have been collected.` |
+| Reference 資格 | `strict_reference_verified=false`，`training_eligible=false` |
+| 原始資料容量 | `du -sh` 為 1.2G |
+| 磁碟剩餘 | 當時約 159G |
+
+YO-A（`YO_A_20261106T191227Z`）進一步取得六份 P/R `audit/unmatched_work_APIs.csv` 的名稱分布：**每份各 1,035 筆全部是 `cudaMemsetAsync_v3020`**。與 RN-A（各 630 筆）及 MV-A（各 135 筆）類型一致。以 5 次 Transition + 40 次 Measured 計算，YO-A 平均每次 23 筆，RN-A 平均 14 筆，MV-A 平均 3 筆。這是總數平均，**不代表已查驗每次迭代均相同，更不代表 Memset count=0 或 GPU Activity 未漏記**。沒有收到 4090 相應的 CUPTI Callback byte-count 直接證據，故仍保留 unmatched，沒有修補 trace 或提升 Reference 資格。
+
+目前 RTX4090 **5/7 組**（RN-A、MV-A、UN-A、YO-A、QD-A）、**45/45 completed Cells、1,800 valid measured iterations、15/15 exact P/R pairs、30/30 P/R structural passes**；已回報五組皆工程驗收通過。待收 QP-A、SW-A。本段僅根據操作者 SUMMARY、CSV 名稱計數與 `du` 日誌，不代表對原始 SQLite 做了額外獨立稽核。Collector 仍可使用本次實際收集的固定 commit；本次僅更新現有 GitHub 分支文件，未建立新分支。
+
+---
+
 ## 2026-11-07：RTX4090 YO-A 40×3 正式工程收集
 
 操作者於 `iccl_resilient@iccl-WHITLEY` 提供 YO-A（YOLO26n）Unified v2 `40×3` 全量 SUMMARY 與容量：
