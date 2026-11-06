@@ -16,8 +16,8 @@ class GuardTests(unittest.TestCase):
    with self.assertRaises(RuntimeError):gpu_guard(d,'4090')
 
  def test_retry_stale_busy_without_active_compute_process(self):
-  readings=['NVIDIA GeForce RTX 4090, 83 %\\n','NVIDIA GeForce RTX 4090, 83 %\\n',
-            'NVIDIA GeForce RTX 4090, 0 %\\n','NVIDIA GeForce RTX 4090, 0 %\\n']
+  readings=['NVIDIA GeForce RTX 4090, 83 %\n','NVIDIA GeForce RTX 4090, 83 %\n',
+            'NVIDIA GeForce RTX 4090, 0 %\n','NVIDIA GeForce RTX 4090, 0 %\n']
   replies=[]
   for reading in readings:
    replies.extend([subprocess.CompletedProcess([],0,reading,''),
@@ -34,7 +34,7 @@ class GuardTests(unittest.TestCase):
  def test_persistently_busy_blocks_after_bounded_wait(self):
   replies=[]
   for _ in range(4):
-   replies.extend([subprocess.CompletedProcess([],0,'NVIDIA GeForce RTX 4090, 83 %\\n',''),
+   replies.extend([subprocess.CompletedProcess([],0,'NVIDIA GeForce RTX 4090, 83 %\n',''),
                    subprocess.CompletedProcess([],0,'','')])
   with tempfile.TemporaryDirectory() as d:
    with patch('o4_research.common.subprocess.run',side_effect=replies),patch('o4_research.common.time.sleep') as sleep:
@@ -45,8 +45,8 @@ class GuardTests(unittest.TestCase):
    self.assertEqual(sleep.call_count,3)
    self.assertFalse(evidence['recovered_after_high_utilization'])
  def test_external_process_blocks_even_with_idle_retry_enabled(self):
-  replies=[subprocess.CompletedProcess([],0,'NVIDIA GeForce RTX 4090, 83 %\\n',''),
-           subprocess.CompletedProcess([],0,f'{os.getpid()}, python_fixture, 1 MiB\\n','')]
+  replies=[subprocess.CompletedProcess([],0,'NVIDIA GeForce RTX 4090, 83 %\n',''),
+           subprocess.CompletedProcess([],0,f'{os.getpid()}, python_fixture, 1 MiB\n','')]
   with tempfile.TemporaryDirectory() as d:
    with patch('o4_research.common.subprocess.run',side_effect=replies) as query,patch('o4_research.common.time.sleep') as sleep:
     with self.assertRaisesRegex(RuntimeError,'Other GPU workload present'):
@@ -56,7 +56,7 @@ class GuardTests(unittest.TestCase):
  def test_single_idle_sample_is_insufficient_when_retry_policy_enabled(self):
   replies=[]
   for _ in range(2):
-   replies.extend([subprocess.CompletedProcess([],0,'NVIDIA GeForce RTX 4090, 0 %\\n',''),
+   replies.extend([subprocess.CompletedProcess([],0,'NVIDIA GeForce RTX 4090, 0 %\n',''),
                    subprocess.CompletedProcess([],0,'','')])
   with tempfile.TemporaryDirectory() as d:
    with patch('o4_research.common.subprocess.run',side_effect=replies),patch('o4_research.common.time.sleep') as sleep:
