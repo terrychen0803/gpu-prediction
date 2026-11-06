@@ -3,6 +3,8 @@
 > **O4 統一工程候選版：** GB10／3090／4090 請從 [三節點 Quickstart](docs/O4_QUICKSTART_ZH_TW.md) 開始。固定 tag `o4-unified-engineering-v1-20261106`；新 v2 GPU canary 未執行、strict verified=0。分支已收斂為 main 與統一候選，舊版以同名 tag 保存，見 [封存表](docs/BRANCH_ARCHIVE_20261106.md)。
 
 
+**2026-11-07 規劃補充：** 以盡量收集有用資料為優先，各設備不必逐模型／配置嚴格對齊或跑齊同一矩陣；跨設備分析再選可比較子集。見[最新收集原則](docs/O4_COLLECTION_POLICY_20261107.md)。
+
 ## 最新主線（2026-11-06）：operation → GPU inference 迭代時間
 
 **主要方向：RTX4090→GB10、RTX4090→RTX3090。** 由4090來源dry-run trace辨識算子邊界／類型，以MLP預測各片段時間，再組合一次完整forward的GPU迭代時間；其他方向選配。

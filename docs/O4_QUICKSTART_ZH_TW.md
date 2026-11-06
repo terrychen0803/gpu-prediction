@@ -1,6 +1,8 @@
 # O4 三節點統一工程版
 
-Release：`o4-unified-engineering-v1-20261106`。這是離線驗證的候選工程版；新 GPU canary 尚未執行，Reference strict verified=0。主方向維持 RTX4090 P → GB10／3090 GI。所有節點使用同一 tag/commit、同一 frozen_A bytes；舊 O1/O2/O3/O4 session 不改版。
+**2026-11-07 收集原則更新：以收集有用資料為優先，各設備可獨立選模型／配置，不要求三台跑齊相同矩陣或同步進度。** 跨設備評估時才分方向核對可比配對，缺項與環境差異照實記錄。詳見[收集優先原則](O4_COLLECTION_POLICY_20261107.md)；以下舊版完整矩陣／對齊要求應依此調整。
+
+Release：`o4-unified-engineering-v1-20261106`。這是離線驗證的候選工程版；新 GPU canary 尚未執行，Reference strict verified=0。主方向維持 RTX4090 P → GB10／3090 GI。建議共用 tag/commit 與 frozen_A 作可比較基準，但不要求各節點執行相同模型清單；可先選當地支援的 workload，記錄實際版本與差異。舊 O1/O2/O3/O4 session 不改版。
 
 ## 1. 取得同一程式
 
@@ -66,7 +68,7 @@ bash o4_pilot/scripts/o4_node.sh collect --gpu "$O4_GPU" \
   --assets-manifest "$O4_ASSETS" --out "$O4_DATA/RN_A_40x3_001" --workload RN-A
 ```
 
-檢查 SUMMARY.json 的 collection status、quality_status、三程序 spread、3個45-window P/R pairs、每 cell engineering_acceptance.json 和 v4_quality.json。`quality_status=review_required` 會非零退出，保留全部收集結果；strict/training永遠不自動放行。RN-A驗收後，分新run收MV/SW/UN，再YO/QP/QD；本版本發行不表示已跑這些新 GPU 工作。
+檢查 SUMMARY.json 的 collection status、quality_status、三程序 spread、3個45-window P/R pairs、每 cell engineering_acceptance.json 和 v4_quality.json。`quality_status=review_required` 會非零退出，保留全部收集結果；strict/training永遠不自動放行。先選當地可執行且有資訊價值的配置；RN-A可作起點，MV/SW/UN/YO/QP/QD依支援情況分新run選收，不必等七項全齊或其他設備完成。某項不支援時保留原因並繼續其他項；本版本發行不表示已跑這些新 GPU 工作。
 
 可選 `smoke` 保留舊8/1/3協定，另寫 unified_audit 與 UNIFIED_SMOKE_REVIEW.json。已完成短版不必重跑。`replay --runs <舊根目錄...>` 用於舊 audit 同版數值回歸，動態計算 capture 數；v5 acceptance 額外檔不等於舊格式 byte-exact，須分開比對。
 

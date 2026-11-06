@@ -19,3 +19,5 @@
 - 原始 trace、模型權重、results/、analysis_runs/ 不提交 Git。可追溯的程式、計畫與經整理的研究報告可依使用者授權提交。
 
 - 新 O4 節點統一入口為 docs/O4_QUICKSTART_ZH_TW.md；固定release tag與full source/asset index。歷史分支以同名封存tag保存，`origin/<歷史名>` 改為 `refs/tags/<歷史名>`。不要在節點重建release manifest來繞過驗證。
+
+- 2026-11-07 使用者調整：優先收集有用、可追溯資料，不要求每台設備的每個模型／配置／環境或進度嚴格一致。可先完成可執行的子集，失敗留原因後繼續；跨設備評估時才分方向檢查可比較交集。依 docs/O4_COLLECTION_POLICY_20261107.md；原品質判定、資料隔離與舊資料保存不因放寬收集對齊而自動解除。
