@@ -1,0 +1,11 @@
+{
+  "utc": "2026-11-06T23:24:06.514050+00:00",
+  "test_capture_started": false,
+  "validation_configs_seen": 12,
+  "R_parameter_rows_checked": 6810,
+  "runtime_mismatches": [],
+  "exact_runtime_cross_split_collisions": [],
+  "model_scores_read": false,
+  "limitations": "Full metadata equality audit only; mathematical equivalence / nearest-neighbor exposure / historical DNN pretraining not excluded; final complete formal audit still required",
+  "strict_reference_verified": false
+}

@@ -1,0 +1,14 @@
+{
+  "scope": "publication_only_no_new_GPU",
+  "source_files_byte_exact": 165,
+  "assets_configurations": 36,
+  "asset_operand_files": 74,
+  "RTX_plan_only_cases": 12,
+  "RTX_GPU_executed": false,
+  "prior_GB10_CPU_tests_passed": 181,
+  "S4_work_count_checked": 14,
+  "S4_adapter_implemented": false,
+  "S4_GPU_executed": false,
+  "strict_reference_verified": false,
+  "formal_training_eligible": false
+}

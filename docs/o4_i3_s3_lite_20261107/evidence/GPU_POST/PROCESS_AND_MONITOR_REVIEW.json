@@ -1,0 +1,16 @@
+{
+  "cells_checked": 432,
+  "worker_PIDs": 432,
+  "distinct_worker_PIDs": 432,
+  "remaining_worker_PIDs": [],
+  "guard_blocked_cells": 0,
+  "monitor_foreign_cells": 0,
+  "monitor_error_cells": 0,
+  "monitor_samples": 432,
+  "allowed_background_process_samples": 12,
+  "foreign_process_samples": 0,
+  "earliest_monitor_UTC": "2026-11-06T23:05:03.052116+00:00",
+  "latest_monitor_UTC": "2026-11-06T23:49:09.524866+00:00",
+  "preflight_RustDesk_pid_no_longer_exists": true,
+  "note": "Preflight had RustDesk compute PID; it is absent post-run, cause unknown. No service/pod/process stop/delete command was issued by this experiment. Sampled absence does not prove absence between samples; background state should not be assumed identical to S1/S2."
+}

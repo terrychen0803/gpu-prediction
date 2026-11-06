@@ -1,0 +1,26 @@
+{
+  "test_batch": "sealed_test_02",
+  "purpose": "exploratory unseen controlled configuration; not a new confirmatory set",
+  "policy_frozen_before_collection": true,
+  "allowed_audits": [
+    "correctness",
+    "warmup",
+    "stability",
+    "raw coverage",
+    "runtime R signatures",
+    "P/R mapping",
+    "ownership",
+    "warnings",
+    "source and asset hash"
+  ],
+  "forbidden": [
+    "test prediction scores for selection",
+    "test-driven feature selection",
+    "moving configurations after observing model scores",
+    "predictor access to R or test-target GI/trace"
+  ],
+  "model_prediction_or_selection_executed": false,
+  "report_test_only_data_quality_no_model_scores": true,
+  "sealing": "logical evaluator-only manifest, not encryption or independent access control",
+  "runtime_cross_split_collision_policy": "report connected groups; do not evaluate split as independent; preserve raw and original split manifest"
+}

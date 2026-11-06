@@ -1,0 +1,3989 @@
+{
+  "scope": "S3-lite36 not full138",
+  "source_release_tag": "o4-i3-core36-40x3-dev-v1-20261107",
+  "source_release_commit": "29c513aa34844ca2cba833c7e9ed6d58834953fc",
+  "source_index_sha256": "007c47332cba7e13ba67f051a4946328c2c7171dcf1c3ab518395433b1c0a7f5",
+  "assets_manifest_sha256": "d4f23e62e97a21e2e0a45a019bd20339d6aea53a3d19333a5ce923e5c5f048ad",
+  "catalog_sha256": "5bb4f0904f4a8c4e8c99dd4870fd4f5c630382df314db9999e0964647d088aa0",
+  "protocol_id": "o4_i3_config_context_40x3_v1_20261107",
+  "actual_backend_observed": [
+    "cuda-sw"
+  ],
+  "configs": [
+    {
+      "config_id": "I3_conv_00_control1",
+      "family_is_catalog_group": "conv",
+      "split": "train",
+      "leakage_group": "conv_anchor_00",
+      "definition": {
+        "family": "conv",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              16,
+              112,
+              112
+            ],
+            "stride": [
+              200704,
+              12544,
+              112,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              32,
+              16,
+              3,
+              3
+            ],
+            "stride": [
+              144,
+              9,
+              3,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "stride": [
+            2,
+            2
+          ],
+          "padding": [
+            1,
+            1
+          ],
+          "dilation": [
+            1,
+            1
+          ],
+          "groups": 1,
+          "bias": false
+        },
+        "output_shape": [
+          1,
+          32,
+          56,
+          56
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "281c0100d70570e4588ed1c421691b1d3d92b9226e59a6f11ede056120598061",
+      "operands": {
+        "x": {
+          "path": "I3_conv_00_control1/x.fp16.bin",
+          "shape": [
+            1,
+            16,
+            112,
+            112
+          ],
+          "bytes": 401408,
+          "sha256": "35c98cc88d48ede303f4ddafe86ccf139873ea880bfb07068046ffdf7684f9fb",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_conv_00_control1/weight.fp16.bin",
+          "shape": [
+            32,
+            16,
+            3,
+            3
+          ],
+          "bytes": 9216,
+          "sha256": "efb594c0c4c7bd7f3e6f7b7d3c4ab0c3a418bddd5ab14b6c17f7b7af22129175",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_conv_00_control1",
+        "family": "conv",
+        "anchor": "0",
+        "GI_development_use": "limited_use",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "review_required",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.009944751381215478",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "193",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "4",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_conv_00_control2",
+      "family_is_catalog_group": "conv",
+      "split": "train",
+      "leakage_group": "conv_anchor_00",
+      "definition": {
+        "family": "conv",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              16,
+              112,
+              112
+            ],
+            "stride": [
+              200704,
+              1,
+              1792,
+              16
+            ],
+            "layout": "channels_last",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              32,
+              16,
+              3,
+              3
+            ],
+            "stride": [
+              144,
+              9,
+              3,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "stride": [
+            1,
+            1
+          ],
+          "padding": [
+            1,
+            1
+          ],
+          "dilation": [
+            1,
+            1
+          ],
+          "groups": 1,
+          "bias": false
+        },
+        "output_shape": [
+          1,
+          32,
+          112,
+          112
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "fd5b19b2079f02cf65ff2a1d48c66f412ef767cced2fe26dcec80584a37473b2",
+      "operands": {
+        "x": {
+          "path": "I3_conv_00_control2/x.fp16.bin",
+          "shape": [
+            1,
+            16,
+            112,
+            112
+          ],
+          "bytes": 401408,
+          "sha256": "35c98cc88d48ede303f4ddafe86ccf139873ea880bfb07068046ffdf7684f9fb",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_conv_00_control2/weight.fp16.bin",
+          "shape": [
+            32,
+            16,
+            3,
+            3
+          ],
+          "bytes": 9216,
+          "sha256": "efb594c0c4c7bd7f3e6f7b7d3c4ab0c3a418bddd5ab14b6c17f7b7af22129175",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_conv_00_control2",
+        "family": "conv",
+        "anchor": "0",
+        "GI_development_use": "limited_use",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "review_required",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.03342618384401117",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "86",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "2",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_conv_00_kernel1",
+      "family_is_catalog_group": "conv",
+      "split": "train",
+      "leakage_group": "conv_anchor_00",
+      "definition": {
+        "family": "conv",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              16,
+              112,
+              112
+            ],
+            "stride": [
+              200704,
+              12544,
+              112,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              32,
+              16,
+              1,
+              1
+            ],
+            "stride": [
+              16,
+              1,
+              1,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "stride": [
+            1,
+            1
+          ],
+          "padding": [
+            0,
+            0
+          ],
+          "dilation": [
+            1,
+            1
+          ],
+          "groups": 1,
+          "bias": false
+        },
+        "output_shape": [
+          1,
+          32,
+          112,
+          112
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "ae5bf76ecab4f46b249fd319f6e59501d98651e455c668c00202bc03edee4281",
+      "operands": {
+        "x": {
+          "path": "I3_conv_00_kernel1/x.fp16.bin",
+          "shape": [
+            1,
+            16,
+            112,
+            112
+          ],
+          "bytes": 401408,
+          "sha256": "35c98cc88d48ede303f4ddafe86ccf139873ea880bfb07068046ffdf7684f9fb",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_conv_00_kernel1/weight.fp16.bin",
+          "shape": [
+            32,
+            16,
+            1,
+            1
+          ],
+          "bytes": 1024,
+          "sha256": "430ba3b3b60409e63d746ec0ca215cc2ce588717b28b1e953fdbef11515cfc04",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_conv_00_kernel1",
+        "family": "conv",
+        "anchor": "0",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "review_required",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.041095890410958756",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "186",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_conv_00_groups4",
+      "family_is_catalog_group": "conv",
+      "split": "train",
+      "leakage_group": "conv_anchor_00",
+      "definition": {
+        "family": "conv",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              16,
+              112,
+              112
+            ],
+            "stride": [
+              200704,
+              12544,
+              112,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              32,
+              4,
+              3,
+              3
+            ],
+            "stride": [
+              36,
+              9,
+              3,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "stride": [
+            1,
+            1
+          ],
+          "padding": [
+            1,
+            1
+          ],
+          "dilation": [
+            1,
+            1
+          ],
+          "groups": 4,
+          "bias": false
+        },
+        "output_shape": [
+          1,
+          32,
+          112,
+          112
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "7e829bee624092b32b024f9978c5e4a0e5528c811f61dcf852133d646e58eea2",
+      "operands": {
+        "x": {
+          "path": "I3_conv_00_groups4/x.fp16.bin",
+          "shape": [
+            1,
+            16,
+            112,
+            112
+          ],
+          "bytes": 401408,
+          "sha256": "35c98cc88d48ede303f4ddafe86ccf139873ea880bfb07068046ffdf7684f9fb",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_conv_00_groups4/weight.fp16.bin",
+          "shape": [
+            32,
+            4,
+            3,
+            3
+          ],
+          "bytes": 2304,
+          "sha256": "7e0662c5ea9cf722d6b1225f1d12b378c7060a6bff5d8e81c53d8008f3af722f",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_conv_00_groups4",
+        "family": "conv",
+        "anchor": "0",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.03813171341649509",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "27",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_depthwise_00_control1",
+      "family_is_catalog_group": "depthwise",
+      "split": "train",
+      "leakage_group": "depthwise_anchor_00",
+      "definition": {
+        "family": "depthwise",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              16,
+              112,
+              112
+            ],
+            "stride": [
+              200704,
+              12544,
+              112,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              16,
+              2,
+              3,
+              3
+            ],
+            "stride": [
+              18,
+              9,
+              3,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "stride": [
+            1,
+            1
+          ],
+          "padding": [
+            1,
+            1
+          ],
+          "dilation": [
+            1,
+            1
+          ],
+          "groups": 8,
+          "bias": false
+        },
+        "output_shape": [
+          1,
+          16,
+          112,
+          112
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "d0f65a6050345f5e32f1a0f84d05dab53c8eeeb4a0162172dc12825df512dc2f",
+      "operands": {
+        "x": {
+          "path": "I3_depthwise_00_control1/x.fp16.bin",
+          "shape": [
+            1,
+            16,
+            112,
+            112
+          ],
+          "bytes": 401408,
+          "sha256": "f6396ec5fd46f78d4b7781aa9b6cbeaa06f6d70622dcf589c0adcec1b6c80a7c",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_depthwise_00_control1/weight.fp16.bin",
+          "shape": [
+            16,
+            2,
+            3,
+            3
+          ],
+          "bytes": 576,
+          "sha256": "3ddd6c32bd5e38ee47c4044123e9cf33833a84006c56f29f1bba9776a0fb8d8d",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_depthwise_00_control1",
+        "family": "depthwise",
+        "anchor": "0",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.0031695721077654544",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "17",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_gemm_00_control1",
+      "family_is_catalog_group": "gemm",
+      "split": "train",
+      "leakage_group": "gemm_anchor_00",
+      "definition": {
+        "family": "gemm",
+        "tensors": {
+          "x": {
+            "shape": [
+              32,
+              64
+            ],
+            "stride": [
+              64,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              64,
+              48
+            ],
+            "stride": [
+              1,
+              64
+            ],
+            "layout": "transpose_last2_view",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {},
+        "output_shape": [
+          32,
+          48
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "4b55d701cbbe5aa0f06152fe0dc733903574bf394c77a9c9b86431ae7d5d4f3f",
+      "operands": {
+        "x": {
+          "path": "I3_gemm_00_control1/x.fp16.bin",
+          "shape": [
+            32,
+            64
+          ],
+          "bytes": 4096,
+          "sha256": "905141432537c4186741fdb3553635cd940ca2fd4884c64a38e4b02086948f9e",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_gemm_00_control1/weight.fp16.bin",
+          "shape": [
+            64,
+            48
+          ],
+          "bytes": 6144,
+          "sha256": "f2ea2f9035359e8eeefe0a5923706412ff12a0ca1f72efa492c4410d68c395da",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_gemm_00_control1",
+        "family": "gemm",
+        "anchor": "0",
+        "GI_development_use": "limited_use",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "limited_use",
+        "GI_stability_status": "review_required",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "review_required",
+        "P_CTX_spread_fraction": "0.05851063829787239",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "422",
+        "clock_end_before_API_entry": "137",
+        "max_events_per_op": "2",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_bmm_00_control1",
+      "family_is_catalog_group": "bmm",
+      "split": "train",
+      "leakage_group": "bmm_anchor_00",
+      "definition": {
+        "family": "bmm",
+        "tensors": {
+          "x": {
+            "shape": [
+              4,
+              32,
+              64
+            ],
+            "stride": [
+              2048,
+              64,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              4,
+              64,
+              48
+            ],
+            "stride": [
+              3072,
+              1,
+              64
+            ],
+            "layout": "transpose_last2_view",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {},
+        "output_shape": [
+          4,
+          32,
+          48
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "8e96e593aa52707d802e9cdd1ea362000c570a0aa588b000a968df6a13165ad5",
+      "operands": {
+        "x": {
+          "path": "I3_bmm_00_control1/x.fp16.bin",
+          "shape": [
+            4,
+            32,
+            64
+          ],
+          "bytes": 16384,
+          "sha256": "33694c0bf7018663b41c82cece7aeb1d4013b54b1c1ec2e91020098c2b46bbf4",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_bmm_00_control1/weight.fp16.bin",
+          "shape": [
+            4,
+            64,
+            48
+          ],
+          "bytes": 24576,
+          "sha256": "96c62aa182b8a5f1c65c347d1f6d17caf75468efd224a0d2ebc6440f1b3bf63c",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_bmm_00_control1",
+        "family": "bmm",
+        "anchor": "0",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.038461538461538367",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "190",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_linear_00_control1",
+      "family_is_catalog_group": "linear",
+      "split": "train",
+      "leakage_group": "linear_anchor_00",
+      "definition": {
+        "family": "linear",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              32,
+              64
+            ],
+            "stride": [
+              2048,
+              64,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              48,
+              64
+            ],
+            "stride": [
+              64,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "bias": false
+        },
+        "output_shape": [
+          1,
+          32,
+          48
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "0b3cc04535f1bc2cbe664db462014de3739fae3ad4e899aabd01f7d930d79f45",
+      "operands": {
+        "x": {
+          "path": "I3_linear_00_control1/x.fp16.bin",
+          "shape": [
+            1,
+            32,
+            64
+          ],
+          "bytes": 4096,
+          "sha256": "4ca3bc54ae34b7ae6b358e72c7d9cff9e0b5c7289dc7a778c59566a9f9cb7400",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_linear_00_control1/weight.fp16.bin",
+          "shape": [
+            48,
+            64
+          ],
+          "bytes": 6144,
+          "sha256": "64b7b072c799af761fc18c1c9f0a310b729be7d9ecf7b7667390e7559af85bac",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_linear_00_control1",
+        "family": "linear",
+        "anchor": "0",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "limited_use",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "review_required",
+        "P_CTX_spread_fraction": "0.060913705583756396",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "415",
+        "clock_end_before_API_entry": "114",
+        "max_events_per_op": "2",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_batchnorm_eval_00_control2",
+      "family_is_catalog_group": "batchnorm_eval",
+      "split": "train",
+      "leakage_group": "batchnorm_eval_anchor_00",
+      "definition": {
+        "family": "batchnorm_eval",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              16,
+              112,
+              112
+            ],
+            "stride": [
+              200704,
+              1,
+              1792,
+              16
+            ],
+            "layout": "channels_last",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              16
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "bias": {
+            "shape": [
+              16
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "running_mean": {
+            "shape": [
+              16
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "running_var": {
+            "shape": [
+              16
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "training": false,
+          "momentum": 0.1,
+          "eps": 1e-05
+        },
+        "output_shape": [
+          1,
+          16,
+          112,
+          112
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "c636d6674813611ab389cafc2bfa1c1a47615bde15ac21b0f34c037945b225b0",
+      "operands": {
+        "x": {
+          "path": "I3_batchnorm_eval_00_control2/x.fp16.bin",
+          "shape": [
+            1,
+            16,
+            112,
+            112
+          ],
+          "bytes": 401408,
+          "sha256": "2cc65d2b079e1329650344a29b619263be160414e02987dbc015a0e87662e71f",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_batchnorm_eval_00_control2/weight.fp16.bin",
+          "shape": [
+            16
+          ],
+          "bytes": 32,
+          "sha256": "5fa4862712bdc6d89bf3ee0ba139de4f8b96a06c761baf3366e6bfea8ce3e50b",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "bias": {
+          "path": "I3_batchnorm_eval_00_control2/bias.fp16.bin",
+          "shape": [
+            16
+          ],
+          "bytes": 32,
+          "sha256": "87fa0587c1fe7ba639ce4b94d2d2dbd4af6d8ea45d4f6e7d13a18a519caa99ba",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "running_mean": {
+          "path": "I3_batchnorm_eval_00_control2/running_mean.fp16.bin",
+          "shape": [
+            16
+          ],
+          "bytes": 32,
+          "sha256": "354edafdb8ddd87c60386b062d2ae33824f98d2d96c877b6544b8b4c4aaf642d",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "running_var": {
+          "path": "I3_batchnorm_eval_00_control2/running_var.fp16.bin",
+          "shape": [
+            16
+          ],
+          "bytes": 32,
+          "sha256": "98b9dbf9c6a198319d471c1f36078b02d0a3197faef13bc810d1b5413558663a",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_batchnorm_eval_00_control2",
+        "family": "batchnorm_eval",
+        "anchor": "0",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.03887399463806974",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "220",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "3",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_add_00_control1",
+      "family_is_catalog_group": "add",
+      "split": "train",
+      "leakage_group": "add_anchor_00",
+      "definition": {
+        "family": "add",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              16,
+              112,
+              112
+            ],
+            "stride": [
+              200704,
+              12544,
+              112,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "other": {
+            "shape": [
+              1,
+              16,
+              1,
+              1
+            ],
+            "stride": [
+              16,
+              1,
+              1,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "alpha": 1,
+          "broadcast": true,
+          "inplace": false
+        },
+        "output_shape": [
+          1,
+          16,
+          112,
+          112
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "5328be4df693d653d9e53400e04be6cb40ad963d21f74b936921f9a76467fb12",
+      "operands": {
+        "x": {
+          "path": "I3_add_00_control1/x.fp16.bin",
+          "shape": [
+            1,
+            16,
+            112,
+            112
+          ],
+          "bytes": 401408,
+          "sha256": "1516a890d908a003e5206b630f1d193a9a0971c2ea93c6eb3d1d0c215ac117a8",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "other": {
+          "path": "I3_add_00_control1/other.fp16.bin",
+          "shape": [
+            1,
+            16,
+            1,
+            1
+          ],
+          "bytes": 32,
+          "sha256": "aa3564145f1dcaeef5f41d85e0c19f40344f507d0cc811764995ff10df0d1901",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_add_00_control1",
+        "family": "add",
+        "anchor": "0",
+        "GI_development_use": "limited_use",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "review_required",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.0",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "9",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_bilinear_resize_00_control1",
+      "family_is_catalog_group": "bilinear_resize",
+      "split": "train",
+      "leakage_group": "bilinear_resize_anchor_00",
+      "definition": {
+        "family": "bilinear_resize",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              16,
+              112,
+              112
+            ],
+            "stride": [
+              200704,
+              12544,
+              112,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "size": [
+            224,
+            224
+          ],
+          "mode": "bilinear",
+          "align_corners": true,
+          "antialias": false
+        },
+        "output_shape": [
+          1,
+          16,
+          224,
+          224
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "03ecc1b4f83f404f10484f429c8747dc27af8fd39b0c7439ec2377f0fb5a5c74",
+      "operands": {
+        "x": {
+          "path": "I3_bilinear_resize_00_control1/x.fp16.bin",
+          "shape": [
+            1,
+            16,
+            112,
+            112
+          ],
+          "bytes": 401408,
+          "sha256": "e3948542ba836454ff3cbb27d11a5d2ee09afcbdd643a6bac9dc6fd0093c741a",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_bilinear_resize_00_control1",
+        "family": "bilinear_resize",
+        "anchor": "0",
+        "GI_development_use": "limited_use",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "limited_use",
+        "GI_stability_status": "review_required",
+        "P_stability_status": "review_required",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "review_required",
+        "P_CTX_spread_fraction": "0.10557768924302798",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "43",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_concat_00_control2",
+      "family_is_catalog_group": "concat",
+      "split": "train",
+      "leakage_group": "concat_anchor_00",
+      "definition": {
+        "family": "concat",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              16,
+              112,
+              112
+            ],
+            "stride": [
+              200704,
+              1,
+              1792,
+              16
+            ],
+            "layout": "channels_last",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "other": {
+            "shape": [
+              1,
+              8,
+              112,
+              112
+            ],
+            "stride": [
+              100352,
+              1,
+              896,
+              8
+            ],
+            "layout": "channels_last",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "dim": 1
+        },
+        "output_shape": [
+          1,
+          24,
+          112,
+          112
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "fa7b6d660bfc03f155958790763021d3b7ddf36f772ae4ffd4c987fda7415f68",
+      "operands": {
+        "x": {
+          "path": "I3_concat_00_control2/x.fp16.bin",
+          "shape": [
+            1,
+            16,
+            112,
+            112
+          ],
+          "bytes": 401408,
+          "sha256": "c7379330430f2b00ba15ac7ac31585eeae5b12722be27df24ad1d5a1e8d7feb3",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "other": {
+          "path": "I3_concat_00_control2/other.fp16.bin",
+          "shape": [
+            1,
+            8,
+            112,
+            112
+          ],
+          "bytes": 200704,
+          "sha256": "6f91a77a2650b0904998ca783714a5d0250967fc604f7035e139e92a4c33462a",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_concat_00_control2",
+        "family": "concat",
+        "anchor": "0",
+        "GI_development_use": "limited_use",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "review_required",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.018099547511312233",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "4",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_conv_01_base",
+      "family_is_catalog_group": "conv",
+      "split": "validation",
+      "leakage_group": "conv_anchor_01",
+      "definition": {
+        "family": "conv",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              24,
+              96,
+              96
+            ],
+            "stride": [
+              221184,
+              9216,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              48,
+              24,
+              3,
+              3
+            ],
+            "stride": [
+              216,
+              9,
+              3,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "stride": [
+            1,
+            1
+          ],
+          "padding": [
+            1,
+            1
+          ],
+          "dilation": [
+            1,
+            1
+          ],
+          "groups": 1,
+          "bias": false
+        },
+        "output_shape": [
+          1,
+          48,
+          96,
+          96
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "133c554796e2131601719c1a9aa4ae0b0740d4cb293b22379ed99d856934ef80",
+      "operands": {
+        "x": {
+          "path": "I3_conv_01_base/x.fp16.bin",
+          "shape": [
+            1,
+            24,
+            96,
+            96
+          ],
+          "bytes": 442368,
+          "sha256": "52c36580be0d6f21d1d7150893d32a302169def5a8c6cf678055f196339575b3",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_conv_01_base/weight.fp16.bin",
+          "shape": [
+            48,
+            24,
+            3,
+            3
+          ],
+          "bytes": 20736,
+          "sha256": "886393938d1f9863caf175c670971a27fb235de12fc61b03c9d2e635ff79746f",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_conv_01_base",
+        "family": "conv",
+        "anchor": "1",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.002969596258000952",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "344",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "4",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_depthwise_01_base",
+      "family_is_catalog_group": "depthwise",
+      "split": "validation",
+      "leakage_group": "depthwise_anchor_01",
+      "definition": {
+        "family": "depthwise",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              24,
+              96,
+              96
+            ],
+            "stride": [
+              221184,
+              9216,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              24,
+              1,
+              3,
+              3
+            ],
+            "stride": [
+              9,
+              9,
+              3,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "stride": [
+            1,
+            1
+          ],
+          "padding": [
+            1,
+            1
+          ],
+          "dilation": [
+            1,
+            1
+          ],
+          "groups": 24,
+          "bias": false
+        },
+        "output_shape": [
+          1,
+          24,
+          96,
+          96
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "2f0a40ba708950d979b1f27da11ac90e595815955ecae48bda71d8b8886e559c",
+      "operands": {
+        "x": {
+          "path": "I3_depthwise_01_base/x.fp16.bin",
+          "shape": [
+            1,
+            24,
+            96,
+            96
+          ],
+          "bytes": 442368,
+          "sha256": "50daab9e8199122d22793ab06cbdda2f458f5cf7148abb191ef44d11dea06329",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_depthwise_01_base/weight.fp16.bin",
+          "shape": [
+            24,
+            1,
+            3,
+            3
+          ],
+          "bytes": 432,
+          "sha256": "56d7e3724220e4cb2e6b4d37dd657c1bd2121205d585b389e8f1adc9b006a26d",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_depthwise_01_base",
+        "family": "depthwise",
+        "anchor": "1",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.0",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "6",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_gemm_01_base",
+      "family_is_catalog_group": "gemm",
+      "split": "validation",
+      "leakage_group": "gemm_anchor_01",
+      "definition": {
+        "family": "gemm",
+        "tensors": {
+          "x": {
+            "shape": [
+              48,
+              96
+            ],
+            "stride": [
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              96,
+              64
+            ],
+            "stride": [
+              64,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {},
+        "output_shape": [
+          48,
+          64
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "08dc4c84c0ae29511909fe967f204f5f5b9851e228bfe62cd4fb15cc0899a8e3",
+      "operands": {
+        "x": {
+          "path": "I3_gemm_01_base/x.fp16.bin",
+          "shape": [
+            48,
+            96
+          ],
+          "bytes": 9216,
+          "sha256": "9385cfb7bda6a315821439c89456f052f785de6fb011124e2d1ec3ca7797fb63",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_gemm_01_base/weight.fp16.bin",
+          "shape": [
+            96,
+            64
+          ],
+          "bytes": 12288,
+          "sha256": "8ab8eb1c8b09cfb0c504416b3b7015fbc961d0a14c3ea58108bac8724384d602",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_gemm_01_base",
+        "family": "gemm",
+        "anchor": "1",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.019607843137254784",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "435",
+        "clock_end_before_API_entry": "35",
+        "max_events_per_op": "2",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_bmm_01_base",
+      "family_is_catalog_group": "bmm",
+      "split": "validation",
+      "leakage_group": "bmm_anchor_01",
+      "definition": {
+        "family": "bmm",
+        "tensors": {
+          "x": {
+            "shape": [
+              4,
+              48,
+              96
+            ],
+            "stride": [
+              4608,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              4,
+              96,
+              64
+            ],
+            "stride": [
+              6144,
+              64,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {},
+        "output_shape": [
+          4,
+          48,
+          64
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "464985121a18e716e28ff3678cd765a099fc5d615a65fa1909e68e09bd2ef37e",
+      "operands": {
+        "x": {
+          "path": "I3_bmm_01_base/x.fp16.bin",
+          "shape": [
+            4,
+            48,
+            96
+          ],
+          "bytes": 36864,
+          "sha256": "8d73b5676bae41127e195b62cea9e55715b0bba58cb62f5754e9d229957974a6",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_bmm_01_base/weight.fp16.bin",
+          "shape": [
+            4,
+            96,
+            64
+          ],
+          "bytes": 49152,
+          "sha256": "307cfc421c8b5843b97843d6f225e86b196c4d6e8748b5fbaa2500b3f1296db8",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_bmm_01_base",
+        "family": "bmm",
+        "anchor": "1",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.017241379310344723",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "192",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_linear_01_base",
+      "family_is_catalog_group": "linear",
+      "split": "validation",
+      "leakage_group": "linear_anchor_01",
+      "definition": {
+        "family": "linear",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              48,
+              96
+            ],
+            "stride": [
+              4608,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              64,
+              96
+            ],
+            "stride": [
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "bias": {
+            "shape": [
+              64
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "bias": true
+        },
+        "output_shape": [
+          1,
+          48,
+          64
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "5159b7d7acec3cd9c6e6f28e1b05633a59a6d0374c33d1faa05c00911d68c331",
+      "operands": {
+        "x": {
+          "path": "I3_linear_01_base/x.fp16.bin",
+          "shape": [
+            1,
+            48,
+            96
+          ],
+          "bytes": 9216,
+          "sha256": "7d90634c51ab0e8fe2a7bfd1affbbb212079263930522b2cbae5ecb40ebc8a97",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_linear_01_base/weight.fp16.bin",
+          "shape": [
+            64,
+            96
+          ],
+          "bytes": 12288,
+          "sha256": "85516dcb5a357991fdc25e6c9998e371e4a38624dac1e570b806d138077a4cef",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "bias": {
+          "path": "I3_linear_01_base/bias.fp16.bin",
+          "shape": [
+            64
+          ],
+          "bytes": 128,
+          "sha256": "330dae3bc7e79fbed79037adb5d61e48df48fdd352b8266e1791d6047a45e9f3",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_linear_01_base",
+        "family": "linear",
+        "anchor": "1",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "limited_use",
+        "P_CTX_development_use": "limited_use",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "review_required",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.0",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "270",
+        "submitted_work_coverage": "unverified",
+        "clock_start_before_API_entry": "197",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification; unmatched API byte-count unknown, do not infer 0B",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_batchnorm_eval_01_base",
+      "family_is_catalog_group": "batchnorm_eval",
+      "split": "validation",
+      "leakage_group": "batchnorm_eval_anchor_01",
+      "definition": {
+        "family": "batchnorm_eval",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              24,
+              96,
+              96
+            ],
+            "stride": [
+              221184,
+              9216,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              24
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "bias": {
+            "shape": [
+              24
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "running_mean": {
+            "shape": [
+              24
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "running_var": {
+            "shape": [
+              24
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "training": false,
+          "momentum": 0.1,
+          "eps": 1e-05
+        },
+        "output_shape": [
+          1,
+          24,
+          96,
+          96
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "4c5ddf5b6012d65fddc2f0850e328c38377f506e38012f08948fc8c706097a3e",
+      "operands": {
+        "x": {
+          "path": "I3_batchnorm_eval_01_base/x.fp16.bin",
+          "shape": [
+            1,
+            24,
+            96,
+            96
+          ],
+          "bytes": 442368,
+          "sha256": "c8e78e459550353b58f03bf0dd239146fb803270eb6b5c3735eeef17a9a974dd",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_batchnorm_eval_01_base/weight.fp16.bin",
+          "shape": [
+            24
+          ],
+          "bytes": 48,
+          "sha256": "a8a7a25e156f0c57555e0c1de4bdc82fcec5d20d4efb9021e3e4ea4ba77fd17c",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "bias": {
+          "path": "I3_batchnorm_eval_01_base/bias.fp16.bin",
+          "shape": [
+            24
+          ],
+          "bytes": 48,
+          "sha256": "8c80cc026008be72f87abd98995a9f364637c017b9804eaab6b87d8a5696b9af",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "running_mean": {
+          "path": "I3_batchnorm_eval_01_base/running_mean.fp16.bin",
+          "shape": [
+            24
+          ],
+          "bytes": 48,
+          "sha256": "12f66b3dd44d9c7d290c878f7d145690bf78c7f18c60876cf92ad78ac792186d",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "running_var": {
+          "path": "I3_batchnorm_eval_01_base/running_var.fp16.bin",
+          "shape": [
+            24
+          ],
+          "bytes": 48,
+          "sha256": "7e4c1b970b9a146bd0c99f2d66d42f226ef8d3365c8c773132ef61e899341c73",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_batchnorm_eval_01_base",
+        "family": "batchnorm_eval",
+        "anchor": "1",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.011169488227281534",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "81",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "3",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_relu_01_base",
+      "family_is_catalog_group": "relu",
+      "split": "validation",
+      "leakage_group": "relu_anchor_01",
+      "definition": {
+        "family": "relu",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              24,
+              96,
+              96
+            ],
+            "stride": [
+              221184,
+              9216,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "inplace": false
+        },
+        "output_shape": [
+          1,
+          24,
+          96,
+          96
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "179da6e1514b8612fe395e51d3a2ca0a0bcc25b4efeff40770186b50f3032b4c",
+      "operands": {
+        "x": {
+          "path": "I3_relu_01_base/x.fp16.bin",
+          "shape": [
+            1,
+            24,
+            96,
+            96
+          ],
+          "bytes": 442368,
+          "sha256": "b33f8b8c5d287b29edc1c3611eb5ff63ebe551453716b244caefda316f7287b4",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_relu_01_base",
+        "family": "relu",
+        "anchor": "1",
+        "GI_development_use": "limited_use",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "review_required",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.0",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "31",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_add_01_base",
+      "family_is_catalog_group": "add",
+      "split": "validation",
+      "leakage_group": "add_anchor_01",
+      "definition": {
+        "family": "add",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              24,
+              96,
+              96
+            ],
+            "stride": [
+              221184,
+              9216,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "other": {
+            "shape": [
+              1,
+              24,
+              96,
+              96
+            ],
+            "stride": [
+              221184,
+              9216,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "alpha": 1,
+          "broadcast": false,
+          "inplace": false
+        },
+        "output_shape": [
+          1,
+          24,
+          96,
+          96
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "1bb70dfbbafc2333a83c36b5e6a7d89ff5c2fe753256299f495ed4816633e6f3",
+      "operands": {
+        "x": {
+          "path": "I3_add_01_base/x.fp16.bin",
+          "shape": [
+            1,
+            24,
+            96,
+            96
+          ],
+          "bytes": 442368,
+          "sha256": "3b83faa5a62f568c986ba811a57f4f8c497ec23ee45cbb0f0a1eff7c09db9e0f",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "other": {
+          "path": "I3_add_01_base/other.fp16.bin",
+          "shape": [
+            1,
+            24,
+            96,
+            96
+          ],
+          "bytes": 442368,
+          "sha256": "b970e3f7508ba560565abd505cbc7ffe6e57424bbf88e8f3b45acb0b2b1e534f",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_add_01_base",
+        "family": "add",
+        "anchor": "1",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.023809523809523662",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "97",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_maxpool_01_base",
+      "family_is_catalog_group": "maxpool",
+      "split": "validation",
+      "leakage_group": "maxpool_anchor_01",
+      "definition": {
+        "family": "maxpool",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              24,
+              96,
+              96
+            ],
+            "stride": [
+              221184,
+              9216,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "kernel_size": [
+            3,
+            3
+          ],
+          "stride": [
+            2,
+            2
+          ],
+          "padding": [
+            1,
+            1
+          ],
+          "dilation": [
+            1,
+            1
+          ],
+          "ceil_mode": false
+        },
+        "output_shape": [
+          1,
+          24,
+          48,
+          48
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "d570f42dd0fcdc0fc6b70336d484937635f87b8ef3d839b8ddafde18dafc2dab",
+      "operands": {
+        "x": {
+          "path": "I3_maxpool_01_base/x.fp16.bin",
+          "shape": [
+            1,
+            24,
+            96,
+            96
+          ],
+          "bytes": 442368,
+          "sha256": "5169d4e2a9bbcc774bb59882280e78c4a2509ea290f37ff0e3bd0e056aca4397",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_maxpool_01_base",
+        "family": "maxpool",
+        "anchor": "1",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.010000000000000009",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "90",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_adaptive_average_pool_01_base",
+      "family_is_catalog_group": "adaptive_average_pool",
+      "split": "validation",
+      "leakage_group": "adaptive_average_pool_anchor_01",
+      "definition": {
+        "family": "adaptive_average_pool",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              24,
+              96,
+              96
+            ],
+            "stride": [
+              221184,
+              9216,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "output_size": [
+            1,
+            1
+          ]
+        },
+        "output_shape": [
+          1,
+          24,
+          1,
+          1
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "0bdd582e0564815a15a74c0c6ee8770748e92c8926330bff72afa902f60cf8b4",
+      "operands": {
+        "x": {
+          "path": "I3_adaptive_average_pool_01_base/x.fp16.bin",
+          "shape": [
+            1,
+            24,
+            96,
+            96
+          ],
+          "bytes": 442368,
+          "sha256": "d0db025aa4eca2bfdbf575d5386377a2a512793b0e3afd8bbaf3af09ec92b414",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_adaptive_average_pool_01_base",
+        "family": "adaptive_average_pool",
+        "anchor": "1",
+        "GI_development_use": "limited_use",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "review_required",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.0",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "19",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_bilinear_resize_01_base",
+      "family_is_catalog_group": "bilinear_resize",
+      "split": "validation",
+      "leakage_group": "bilinear_resize_anchor_01",
+      "definition": {
+        "family": "bilinear_resize",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              24,
+              96,
+              96
+            ],
+            "stride": [
+              221184,
+              9216,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "size": [
+            192,
+            192
+          ],
+          "mode": "bilinear",
+          "align_corners": false,
+          "antialias": false
+        },
+        "output_shape": [
+          1,
+          24,
+          192,
+          192
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "b61d586c3abdcc8350e6b345e989d216719df1288a7536a1f8541fd07b1cda3b",
+      "operands": {
+        "x": {
+          "path": "I3_bilinear_resize_01_base/x.fp16.bin",
+          "shape": [
+            1,
+            24,
+            96,
+            96
+          ],
+          "bytes": 442368,
+          "sha256": "b12d3a6a15cc125dba6190b2f4a83ed606b93dccdff88ae19c74c6471e47ebfc",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_bilinear_resize_01_base",
+        "family": "bilinear_resize",
+        "anchor": "1",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.005208333333333338",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "14",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_concat_01_base",
+      "family_is_catalog_group": "concat",
+      "split": "validation",
+      "leakage_group": "concat_anchor_01",
+      "definition": {
+        "family": "concat",
+        "tensors": {
+          "x": {
+            "shape": [
+              1,
+              24,
+              96,
+              96
+            ],
+            "stride": [
+              221184,
+              9216,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "other": {
+            "shape": [
+              1,
+              12,
+              96,
+              96
+            ],
+            "stride": [
+              110592,
+              9216,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "dim": 1
+        },
+        "output_shape": [
+          1,
+          36,
+          96,
+          96
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "cd51c2a94574640efda9c3144806ac5f7cd285ca5899b06be7954d35869c148f",
+      "operands": {
+        "x": {
+          "path": "I3_concat_01_base/x.fp16.bin",
+          "shape": [
+            1,
+            24,
+            96,
+            96
+          ],
+          "bytes": 442368,
+          "sha256": "89df45c6b8631162410f18820b78a187854ec517231151e14e7f7d5cba61c4b2",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "other": {
+          "path": "I3_concat_01_base/other.fp16.bin",
+          "shape": [
+            1,
+            12,
+            96,
+            96
+          ],
+          "bytes": 221184,
+          "sha256": "61d73a00088784124eaaf45598e07d134427b9766618d878517566561ec27894",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_concat_01_base",
+        "family": "concat",
+        "anchor": "1",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.01923654944394351",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "3",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_conv_02_base",
+      "family_is_catalog_group": "conv",
+      "split": "test_exploratory",
+      "leakage_group": "conv_anchor_02",
+      "definition": {
+        "family": "conv",
+        "tensors": {
+          "x": {
+            "shape": [
+              2,
+              32,
+              80,
+              80
+            ],
+            "stride": [
+              204800,
+              6400,
+              80,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              64,
+              32,
+              3,
+              3
+            ],
+            "stride": [
+              288,
+              9,
+              3,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "stride": [
+            1,
+            1
+          ],
+          "padding": [
+            1,
+            1
+          ],
+          "dilation": [
+            1,
+            1
+          ],
+          "groups": 1,
+          "bias": false
+        },
+        "output_shape": [
+          2,
+          64,
+          80,
+          80
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "31f9b1826340e05215dd95339572c9ab1c1bbe86a33c57518fd76ef6f422a3b3",
+      "operands": {
+        "x": {
+          "path": "I3_conv_02_base/x.fp16.bin",
+          "shape": [
+            2,
+            32,
+            80,
+            80
+          ],
+          "bytes": 819200,
+          "sha256": "590fe25141188e6b950ca21aeeff571f4a747c0744d1d3086d43162ddba3e1c3",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_conv_02_base/weight.fp16.bin",
+          "shape": [
+            64,
+            32,
+            3,
+            3
+          ],
+          "bytes": 36864,
+          "sha256": "ceb07a83cdf4ffc664dcc24882b97d1b4ac4ec3e7b63452a7be7c0d0efb3c8e2",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_conv_02_base",
+        "family": "conv",
+        "anchor": "2",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.0043914680050187544",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "66",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "4",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_depthwise_02_base",
+      "family_is_catalog_group": "depthwise",
+      "split": "test_exploratory",
+      "leakage_group": "depthwise_anchor_02",
+      "definition": {
+        "family": "depthwise",
+        "tensors": {
+          "x": {
+            "shape": [
+              2,
+              32,
+              80,
+              80
+            ],
+            "stride": [
+              204800,
+              6400,
+              80,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              32,
+              1,
+              3,
+              3
+            ],
+            "stride": [
+              9,
+              9,
+              3,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "stride": [
+            1,
+            1
+          ],
+          "padding": [
+            1,
+            1
+          ],
+          "dilation": [
+            1,
+            1
+          ],
+          "groups": 32,
+          "bias": false
+        },
+        "output_shape": [
+          2,
+          32,
+          80,
+          80
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "0ff0abd0289510f470e00bbd91d8e726f046cdb360ce93c0ee3b0c3e0912e0be",
+      "operands": {
+        "x": {
+          "path": "I3_depthwise_02_base/x.fp16.bin",
+          "shape": [
+            2,
+            32,
+            80,
+            80
+          ],
+          "bytes": 819200,
+          "sha256": "53863b55f75c5c1604cac2f1d5a1eac91be0cce31e6dadcf1595c03198e2779a",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_depthwise_02_base/weight.fp16.bin",
+          "shape": [
+            32,
+            1,
+            3,
+            3
+          ],
+          "bytes": 576,
+          "sha256": "d2f0d3f0ec2a87d9170da64bc84b655016afcc5939fcd51c522d25ea3d3dbc06",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_depthwise_02_base",
+        "family": "depthwise",
+        "anchor": "2",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.0416666666666667",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "141",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_gemm_02_base",
+      "family_is_catalog_group": "gemm",
+      "split": "test_exploratory",
+      "leakage_group": "gemm_anchor_02",
+      "definition": {
+        "family": "gemm",
+        "tensors": {
+          "x": {
+            "shape": [
+              64,
+              128
+            ],
+            "stride": [
+              128,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              128,
+              96
+            ],
+            "stride": [
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {},
+        "output_shape": [
+          64,
+          96
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "4f8c9fe2f7175696fa4cdd08f36493581638a698cc397b465660f01b5c047064",
+      "operands": {
+        "x": {
+          "path": "I3_gemm_02_base/x.fp16.bin",
+          "shape": [
+            64,
+            128
+          ],
+          "bytes": 16384,
+          "sha256": "b297353972aae8f0cd96a1cb310d36307993702e88be30719f39b1caa38c25e1",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_gemm_02_base/weight.fp16.bin",
+          "shape": [
+            128,
+            96
+          ],
+          "bytes": 24576,
+          "sha256": "3b641556eb0bfb8198731f87c15440c4e4f46e2b9cd06765147f147823ab0b75",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_gemm_02_base",
+        "family": "gemm",
+        "anchor": "2",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.014634146341463292",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "434",
+        "clock_end_before_API_entry": "25",
+        "max_events_per_op": "2",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_bmm_02_base",
+      "family_is_catalog_group": "bmm",
+      "split": "test_exploratory",
+      "leakage_group": "bmm_anchor_02",
+      "definition": {
+        "family": "bmm",
+        "tensors": {
+          "x": {
+            "shape": [
+              8,
+              64,
+              128
+            ],
+            "stride": [
+              8192,
+              128,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              8,
+              128,
+              96
+            ],
+            "stride": [
+              12288,
+              96,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {},
+        "output_shape": [
+          8,
+          64,
+          96
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "6439590d15690b3c08807d199ed08077e44b6fc52809c4a3834c10cfaef33b7b",
+      "operands": {
+        "x": {
+          "path": "I3_bmm_02_base/x.fp16.bin",
+          "shape": [
+            8,
+            64,
+            128
+          ],
+          "bytes": 131072,
+          "sha256": "fa6e447e59aae213e234eb44e4766e43e0a8b8a99ad8ca6ffa3a4aa759727686",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_bmm_02_base/weight.fp16.bin",
+          "shape": [
+            8,
+            128,
+            96
+          ],
+          "bytes": 196608,
+          "sha256": "101fac84aa0a28912c6e0aced88c2e16610311c556d44a968cfbd775864cab58",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_bmm_02_base",
+        "family": "bmm",
+        "anchor": "2",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.0",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "197",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_linear_02_base",
+      "family_is_catalog_group": "linear",
+      "split": "test_exploratory",
+      "leakage_group": "linear_anchor_02",
+      "definition": {
+        "family": "linear",
+        "tensors": {
+          "x": {
+            "shape": [
+              2,
+              64,
+              128
+            ],
+            "stride": [
+              8192,
+              128,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              96,
+              128
+            ],
+            "stride": [
+              128,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "bias": {
+            "shape": [
+              96
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "bias": true
+        },
+        "output_shape": [
+          2,
+          64,
+          96
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "2beba2a6f6c0e3a54d9a031d4dd37f1b94d15b711a9e912bce30ffb09f0a06d3",
+      "operands": {
+        "x": {
+          "path": "I3_linear_02_base/x.fp16.bin",
+          "shape": [
+            2,
+            64,
+            128
+          ],
+          "bytes": 32768,
+          "sha256": "f4f5a2fb92d3cf0d148e73aff0cfb103cc3120825f8bb86438a3f62780299dd2",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_linear_02_base/weight.fp16.bin",
+          "shape": [
+            96,
+            128
+          ],
+          "bytes": 24576,
+          "sha256": "cfc7e0a56dccfa272a56414db8bfc78e2146c5f64367ec50878f60147de26bd6",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "bias": {
+          "path": "I3_linear_02_base/bias.fp16.bin",
+          "shape": [
+            96
+          ],
+          "bytes": 192,
+          "sha256": "fa2800fe83ed6eea2a459b94726862f78e94b29cb9af6fc5d631cb5eef1f6266",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_linear_02_base",
+        "family": "linear",
+        "anchor": "2",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "limited_use",
+        "P_CTX_development_use": "limited_use",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "review_required",
+        "P_CTX_spread_fraction": "0.05970149253731348",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "270",
+        "submitted_work_coverage": "unverified",
+        "clock_start_before_API_entry": "180",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification; unmatched API byte-count unknown, do not infer 0B",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_batchnorm_eval_02_base",
+      "family_is_catalog_group": "batchnorm_eval",
+      "split": "test_exploratory",
+      "leakage_group": "batchnorm_eval_anchor_02",
+      "definition": {
+        "family": "batchnorm_eval",
+        "tensors": {
+          "x": {
+            "shape": [
+              2,
+              32,
+              80,
+              80
+            ],
+            "stride": [
+              204800,
+              6400,
+              80,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "weight": {
+            "shape": [
+              32
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "bias": {
+            "shape": [
+              32
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "running_mean": {
+            "shape": [
+              32
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "running_var": {
+            "shape": [
+              32
+            ],
+            "stride": [
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "training": false,
+          "momentum": 0.1,
+          "eps": 1e-05
+        },
+        "output_shape": [
+          2,
+          32,
+          80,
+          80
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "ca6977706b35a8b02f724c57ca57286237fe52fdc5bccc8a308b34b50eb3e35d",
+      "operands": {
+        "x": {
+          "path": "I3_batchnorm_eval_02_base/x.fp16.bin",
+          "shape": [
+            2,
+            32,
+            80,
+            80
+          ],
+          "bytes": 819200,
+          "sha256": "4d47396d9b9fca0117c851855972d13ab8f689192c6a56fc5a1f1d724b9ceef2",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "weight": {
+          "path": "I3_batchnorm_eval_02_base/weight.fp16.bin",
+          "shape": [
+            32
+          ],
+          "bytes": 64,
+          "sha256": "087db255c375ec48ca09620d3a92e2c1edf843f02cda359de1fd1cd53f680551",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "bias": {
+          "path": "I3_batchnorm_eval_02_base/bias.fp16.bin",
+          "shape": [
+            32
+          ],
+          "bytes": 64,
+          "sha256": "6a85bae97dbcebb8f48a3ea6100f0fbdbce96f615b57eefeeb826e60c41824cb",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "running_mean": {
+          "path": "I3_batchnorm_eval_02_base/running_mean.fp16.bin",
+          "shape": [
+            32
+          ],
+          "bytes": 64,
+          "sha256": "342a1b5717e2ff0f58ea9ae2ae51fbf59f447e612be8c40443a955f9290f46f4",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "running_var": {
+          "path": "I3_batchnorm_eval_02_base/running_var.fp16.bin",
+          "shape": [
+            32
+          ],
+          "bytes": 64,
+          "sha256": "6ecbc91e39ae0ce0a8a0044250c516868a1cc64f9a01f19519ecd6e6c1565929",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_batchnorm_eval_02_base",
+        "family": "batchnorm_eval",
+        "anchor": "2",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.018494055482166462",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "113",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "3",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_relu_02_base",
+      "family_is_catalog_group": "relu",
+      "split": "test_exploratory",
+      "leakage_group": "relu_anchor_02",
+      "definition": {
+        "family": "relu",
+        "tensors": {
+          "x": {
+            "shape": [
+              2,
+              32,
+              80,
+              80
+            ],
+            "stride": [
+              204800,
+              6400,
+              80,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "inplace": false
+        },
+        "output_shape": [
+          2,
+          32,
+          80,
+          80
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "f466acc8d46ccfaae2e8f2a6b9a6009fa4e0acf36f1a62414da6f2502dcded11",
+      "operands": {
+        "x": {
+          "path": "I3_relu_02_base/x.fp16.bin",
+          "shape": [
+            2,
+            32,
+            80,
+            80
+          ],
+          "bytes": 819200,
+          "sha256": "47f408fac250f425e3b4807991e86abd9db1a3f310734ffd57cfe8d6654be906",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_relu_02_base",
+        "family": "relu",
+        "anchor": "2",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.0",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "23",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_add_02_base",
+      "family_is_catalog_group": "add",
+      "split": "test_exploratory",
+      "leakage_group": "add_anchor_02",
+      "definition": {
+        "family": "add",
+        "tensors": {
+          "x": {
+            "shape": [
+              2,
+              32,
+              80,
+              80
+            ],
+            "stride": [
+              204800,
+              6400,
+              80,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "other": {
+            "shape": [
+              2,
+              32,
+              80,
+              80
+            ],
+            "stride": [
+              204800,
+              6400,
+              80,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "alpha": 1,
+          "broadcast": false,
+          "inplace": false
+        },
+        "output_shape": [
+          2,
+          32,
+          80,
+          80
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "750dd6c4a01b245ec1dd171570f3b78c38a765251c0878c1a1b35ad8b911191e",
+      "operands": {
+        "x": {
+          "path": "I3_add_02_base/x.fp16.bin",
+          "shape": [
+            2,
+            32,
+            80,
+            80
+          ],
+          "bytes": 819200,
+          "sha256": "1234426ab39e39ed770f983c2c5c3e6562918a2bb1d024b11034aff3311d6917",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "other": {
+          "path": "I3_add_02_base/other.fp16.bin",
+          "shape": [
+            2,
+            32,
+            80,
+            80
+          ],
+          "bytes": 819200,
+          "sha256": "c06a8e21f2fe7918c45f8329795b1b71769e71d2b66384f20119a25b242b3c21",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_add_02_base",
+        "family": "add",
+        "anchor": "2",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.017857142857142873",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "57",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_maxpool_02_base",
+      "family_is_catalog_group": "maxpool",
+      "split": "test_exploratory",
+      "leakage_group": "maxpool_anchor_02",
+      "definition": {
+        "family": "maxpool",
+        "tensors": {
+          "x": {
+            "shape": [
+              2,
+              32,
+              80,
+              80
+            ],
+            "stride": [
+              204800,
+              6400,
+              80,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "kernel_size": [
+            3,
+            3
+          ],
+          "stride": [
+            2,
+            2
+          ],
+          "padding": [
+            1,
+            1
+          ],
+          "dilation": [
+            1,
+            1
+          ],
+          "ceil_mode": false
+        },
+        "output_shape": [
+          2,
+          32,
+          40,
+          40
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "b58bf1c37efb1bbbd2ceb756dad1d264b350dbcfa43c865dcae04e1ffc9c0c7e",
+      "operands": {
+        "x": {
+          "path": "I3_maxpool_02_base/x.fp16.bin",
+          "shape": [
+            2,
+            32,
+            80,
+            80
+          ],
+          "bytes": 819200,
+          "sha256": "a7af1da17b9e9be59f5da62208a4b8fe220449ea469e558ced12d4f05e8bc749",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_maxpool_02_base",
+        "family": "maxpool",
+        "anchor": "2",
+        "GI_development_use": "limited_use",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "review_required",
+        "P_stability_status": "review_required",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.0034013605442176904",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "73",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_adaptive_average_pool_02_base",
+      "family_is_catalog_group": "adaptive_average_pool",
+      "split": "test_exploratory",
+      "leakage_group": "adaptive_average_pool_anchor_02",
+      "definition": {
+        "family": "adaptive_average_pool",
+        "tensors": {
+          "x": {
+            "shape": [
+              2,
+              32,
+              80,
+              80
+            ],
+            "stride": [
+              204800,
+              6400,
+              80,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "output_size": [
+            1,
+            1
+          ]
+        },
+        "output_shape": [
+          2,
+          32,
+          1,
+          1
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "c4a5a2139ca3db920306fade744a7c62e43c250ae8ed8095d12ffe974c3be09a",
+      "operands": {
+        "x": {
+          "path": "I3_adaptive_average_pool_02_base/x.fp16.bin",
+          "shape": [
+            2,
+            32,
+            80,
+            80
+          ],
+          "bytes": 819200,
+          "sha256": "46218d1db74de2eeb0c582f575987eaf888d47aeb9abb80248dc00b8a56dfa05",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_adaptive_average_pool_02_base",
+        "family": "adaptive_average_pool",
+        "anchor": "2",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.005555555555555561",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "21",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_bilinear_resize_02_base",
+      "family_is_catalog_group": "bilinear_resize",
+      "split": "test_exploratory",
+      "leakage_group": "bilinear_resize_anchor_02",
+      "definition": {
+        "family": "bilinear_resize",
+        "tensors": {
+          "x": {
+            "shape": [
+              2,
+              32,
+              80,
+              80
+            ],
+            "stride": [
+              204800,
+              6400,
+              80,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "size": [
+            160,
+            160
+          ],
+          "mode": "bilinear",
+          "align_corners": false,
+          "antialias": false
+        },
+        "output_shape": [
+          2,
+          32,
+          160,
+          160
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "c3d77f866d7cb4ea649c736d3fada987650292221be512f71b7ed9b4e32f193d",
+      "operands": {
+        "x": {
+          "path": "I3_bilinear_resize_02_base/x.fp16.bin",
+          "shape": [
+            2,
+            32,
+            80,
+            80
+          ],
+          "bytes": 819200,
+          "sha256": "81e2f4ae2d827d1c3aeef3309896ab02e3fa031680b2f9dcac52da79dce50b44",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_bilinear_resize_02_base",
+        "family": "bilinear_resize",
+        "anchor": "2",
+        "GI_development_use": "development_usable",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "stable",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.00460829493087558",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "2",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    },
+    {
+      "config_id": "I3_concat_02_base",
+      "family_is_catalog_group": "concat",
+      "split": "test_exploratory",
+      "leakage_group": "concat_anchor_02",
+      "definition": {
+        "family": "concat",
+        "tensors": {
+          "x": {
+            "shape": [
+              2,
+              32,
+              80,
+              80
+            ],
+            "stride": [
+              204800,
+              6400,
+              80,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          },
+          "other": {
+            "shape": [
+              2,
+              16,
+              80,
+              80
+            ],
+            "stride": [
+              102400,
+              6400,
+              80,
+              1
+            ],
+            "layout": "contiguous",
+            "storage_offset": 0,
+            "dtype": "float16"
+          }
+        },
+        "parameters": {
+          "dim": 1
+        },
+        "output_shape": [
+          2,
+          48,
+          80,
+          80
+        ],
+        "execution": "eager_unfused",
+        "inplace": false
+      },
+      "catalog_semantic_sha256": "ae4260609dca8fb6c38b1d7ee5318cc01422b1d13ad62b21dd4039b64c948241",
+      "operands": {
+        "x": {
+          "path": "I3_concat_02_base/x.fp16.bin",
+          "shape": [
+            2,
+            32,
+            80,
+            80
+          ],
+          "bytes": 819200,
+          "sha256": "06061b8005713b19e4ac1f7e1f2701203a67d3fa8014bd85924a9fffdb195fd1",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        },
+        "other": {
+          "path": "I3_concat_02_base/other.fp16.bin",
+          "shape": [
+            2,
+            16,
+            80,
+            80
+          ],
+          "bytes": 409600,
+          "sha256": "aa1ee3facc1fd5f48d21eb40b57d9eb052cd279e9bee2e97d3b504a42a4f3ace",
+          "serialization": "logical_contiguous_FP16_little_endian"
+        }
+      },
+      "development_use": {
+        "config_id": "I3_concat_02_base",
+        "family": "concat",
+        "anchor": "2",
+        "GI_development_use": "limited_use",
+        "monitor_all_formal_cells_ok": "True",
+        "runtime_all_formal_rows_matched": "True",
+        "recorded_boundary_class_use": "development_usable",
+        "P_CTX_development_use": "development_usable",
+        "GI_stability_status": "review_required",
+        "P_stability_status": "stable",
+        "R_stability_status": "stable",
+        "P_CTX_stability_status": "stable",
+        "P_CTX_spread_fraction": "0.013793103448275876",
+        "formal_PR_measured_exact": "120",
+        "expected_formal_PR_measured": "120",
+        "unmatched_work_API_count": "0",
+        "submitted_work_coverage": "recorded_reverse_audit_passed_not_strict",
+        "clock_start_before_API_entry": "0",
+        "clock_end_before_API_entry": "0",
+        "max_events_per_op": "1",
+        "known_limitations": "NVTX warning; CPU-GPU clock mapping unverified; no strict certification",
+        "strict_reference_verified": "False",
+        "formal_training_eligible": "False"
+      },
+      "strict_reference_verified": false,
+      "formal_training_eligible": false
+    }
+  ],
+  "pairing_policy": "Each direction uses a comparable intersection; input/weight bytes and scope/label kind checked; kernel names/counts need not match. Device/seed/date never split the same configuration into a new group. Per-cell environment and source snapshot complete execution provenance.",
+  "target_test_policy": "evaluator-only; no model scores calculated",
+  "strict_reference_verified": false
+}

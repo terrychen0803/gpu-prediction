@@ -1,0 +1,9 @@
+{
+  "local_run_id": "o4_i3_s3_lite_gb10_20261106T230230Z",
+  "original_report_sha256": "e5e7930ea94a080541f6c657113f1a774002a5f4c2cb5be5ebcf10f746025b14",
+  "original_delivery_manifest_sha256": "caace8c528a4e4e0d0929f68c8cfcc0452d0dfb7ef1826aa0202ab7434befc99",
+  "original_manifest_file_count": 34520,
+  "raw_uploaded": false,
+  "closed_run_unchanged": true,
+  "note": "Original report and FINAL_VALIDATION retain their closure-time not-published status. This separate publication supplies the release. Uncopied raw/evidence links remain node-local."
+}

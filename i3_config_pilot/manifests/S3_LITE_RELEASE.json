@@ -1,0 +1,20 @@
+{
+  "tag": "o4-i3-s3-lite-40x3-dev-v1-20261107",
+  "source_equal_to_core36_release": true,
+  "source_files": 165,
+  "assets": [
+    {
+      "name": "o4_i3_S3_lite_source_v1_20261107.tar.gz",
+      "sha256": "a516002523d96ea1ae51fe8fc5102833c157e1232ca196515ba9630345326b3b",
+      "bytes": 260746
+    },
+    {
+      "name": "o4_i3_S3_lite_assets_v1_20261107.tar.gz",
+      "sha256": "ee39b22c08b15ccf4711247c37e398727e8546ea3d72e78d161b0bec2869f99a",
+      "bytes": 16390139
+    }
+  ],
+  "asset_manifest_sha256": "d4f23e62e97a21e2e0a45a019bd20339d6aea53a3d19333a5ce923e5c5f048ad",
+  "strict_reference_verified": false,
+  "formal_training_eligible": false
+}

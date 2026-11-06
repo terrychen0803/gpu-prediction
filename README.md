@@ -1,5 +1,7 @@
 # GPU 跨設備 inference 預測研究
 
+**S3最新交付（2026-11-07）**：[GB10 S3-lite結果與合併72配置](docs/o4_i3_s3_lite_20261107/README.md) · [RTX4090／3090 S3操作手冊](docs/O4_I3_S3_NODE_RUNBOOK_20261107.md) · [S4縮減規劃](docs/O4_I3_S4_STAGING_20261107.md)。固定release `o4-i3-s3-lite-40x3-dev-v1-20261107` 含S3固定資產與相同165檔source。S3完成36配置40×3，Reference仍未verified，沒有模型訓練。S4建議先14工作，Context Adapter尚未實作。
+
 **I3 最新可執行交付（2026-11-07）**：[GB10 S1＋S2 36配置結果](docs/o4_i3_core36_20261107/README.md) · [RTX4090／3090 Core36 40×3手冊](docs/O4_I3_CORE36_NODE_RUNBOOK_20261107.md) · [新版工具](i3_config_pilot/README.md) · [S3分批／耗時建議](docs/O4_I3_S3_STAGING_20261107.md)。固定release `o4-i3-core36-40x3-dev-v1-20261107` 提供實際執行的165檔source與兩套固定資產。36配置完成GB10收集，174配置catalog／adapter已實作但未全量GPU測試；Context尚未實作。全部Reference仍未verified。舊A0 release與[i3_pilot](i3_pilot/README.md)保留，不能混用為40×3。
 
 > **O4 統一工程候選版：** 七A／Native操作請從 [三節點 Quickstart](docs/O4_QUICKSTART_ZH_TW.md) 開始，當前實測進度以 [節點狀態](docs/O4_NODE_STATUS.md) 為準。歷史固定 tag `o4-unified-engineering-v1-20261106` 保留原版本，不代表後續所有collector修訂。I3新入口見上方；strict verified仍為0。舊分支以同名 tag 保存，見 [封存表](docs/BRANCH_ARCHIVE_20261106.md)。
