@@ -150,6 +150,19 @@ def summarize(root, jobs, workloads):
         ),
         "P_R_pairs_exact": sum(p["status"] == "exact" for p in pairs),
         "P_R_pairs_planned": len(pairs),
+        "trace_structural_passes": sum(
+            j.get("trace_structure") == "recorded_structure_complete" for j in jobs
+        ),
+        "NVTX_warning_captures": [
+            {"workload": j["workload"], "mode": j["mode"],
+             "repeat": j["repeat"], "warnings": j["NVTX_warnings"]}
+            for j in jobs if j.get("NVTX_warnings")
+        ],
+        "unmatched_work_API_captures": [
+            {"workload": j["workload"], "mode": j["mode"],
+             "repeat": j["repeat"], "count": j["unmatched_work_APIs"]}
+            for j in jobs if j.get("unmatched_work_APIs", 0) > 0
+        ],
         "all_three_process_spreads_pass": all(g["repeat_stability_passed"] for g in groups),
         "stability_failed_groups": [
             {"workload": g["workload"], "mode": g["mode"],
@@ -257,6 +270,9 @@ def main():
                 from .audit import audit
                 audit_summary = audit(folder, folder / "audit")
                 j["trace_structure"] = audit_summary["status"]
+                j["schema"] = audit_summary["schema"]
+                j["GPU_records"] = audit_summary["GPU_records"]
+                j["preparation_GPU_records"] = audit_summary["preparation_GPU_records"]
                 j["NVTX_warnings"] = audit_summary["warnings"]
                 j["unmatched_work_APIs"] = audit_summary["unmatched_work_APIs"]
                 if j["trace_structure"] != "recorded_structure_complete":
