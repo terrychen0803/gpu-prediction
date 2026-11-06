@@ -1,0 +1,17 @@
+{
+  "status": "passed_offline_design_validation",
+  "operator_shapes_checked": 174,
+  "context_node_shapes_checked": 84,
+  "cell_plan_rows_checked": 2646,
+  "local_evidence_hashes_verified": 7,
+  "upstream_git_blobs_verified": 5,
+  "GPU_executed": false,
+  "new_collectors_or_adapters_tested": false,
+  "pending": [
+    "actual tensor correctness/stride",
+    "full runtime ATen equivalence collision audit",
+    "asset generation",
+    "GPU resource/cost measurements",
+    "reference verification"
+  ]
+}

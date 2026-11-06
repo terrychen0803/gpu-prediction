@@ -1,0 +1,113 @@
+{
+  "status": "published_copy_of_local_plan",
+  "files": [
+    {
+      "path": "CONTEXTS_ZH_TW.md",
+      "sha256": "0281b1dde53381deaa25706db566291912fa46c2801fc3203bcfd7d3fa84221e"
+    },
+    {
+      "path": "CONTEXT_PLAN.json",
+      "sha256": "67b66efc7c45bed2a7973fe6be3b7492b9b986bc1f493ae4b4436d67907cba16"
+    },
+    {
+      "path": "GB10_CELL_PLAN.csv",
+      "sha256": "eedee127cc85b15499962f371e14a77163b2d80d46c8144d34b1ff408b010919"
+    },
+    {
+      "path": "IMPLEMENTATION_HANDOFF_ZH_TW.md",
+      "sha256": "1429d6bb59cf34d00da6c66d4b3ad5faff8c1bac69ff85dc8dcc3e187854e0ca"
+    },
+    {
+      "path": "OPERATOR_CONFIGS.json",
+      "sha256": "5bb4f0904f4a8c4e8c99dd4870fd4f5c630382df314db9999e0964647d088aa0"
+    },
+    {
+      "path": "OPERATOR_MATRIX.csv",
+      "sha256": "57a3c45d380136fc5cd51836d135f7c6ecae0a0cf949b0087e6a720cd4148916"
+    },
+    {
+      "path": "PLAN_COUNTS.json",
+      "sha256": "e1c5f4e899ff7d2cc4ce288529a7ba64f48c9c8d227eefe02a33c6f435f95922"
+    },
+    {
+      "path": "PLAN_ZH_TW.md",
+      "sha256": "1709a780c5df907e1dc2474e07b3a57e4af0b0b4860983409be3c7ecb3ffaa24"
+    },
+    {
+      "path": "PROTOCOL_DRAFT.json",
+      "sha256": "35b8856ff3b7caa38ac0527cc5070ec3bb7cd829e3651e0e86a845b7aed1ab55"
+    },
+    {
+      "path": "PROTOCOL_ZH_TW.md",
+      "sha256": "05a3759fa0737c5095c64ace166ecfd75bf149a64d10c8d56f7e8f64eb239a08"
+    },
+    {
+      "path": "QUALITY_POLICY.json",
+      "sha256": "3d4f9cc3634624026d11529f2e99015be3dd1488eee9bc0467d326cce52c5768"
+    },
+    {
+      "path": "README.md",
+      "sha256": "963c3fd95ed2a46cb1eb1da49c95b71fdc90e6ea039a77ccba239b7c2cd282fd"
+    },
+    {
+      "path": "REPRODUCIBILITY_CHECK.json",
+      "sha256": "f20b4bbbd98308be9918cd7c428a58af0dd2becddd8f2161bb5192d83244bc31"
+    },
+    {
+      "path": "SOURCE_REVIEW.json",
+      "sha256": "cb3a8661f0c7b3a3da99b204f53b5fdb928b1066dbdf03f2be933ffc26abbfc8"
+    },
+    {
+      "path": "SPLITS_ZH_TW.md",
+      "sha256": "89fe6d7a0436874d7c583e280e900a3431fc89453892fdcc76a8111b6974e0c4"
+    },
+    {
+      "path": "STATUS.json",
+      "sha256": "d48c190bd0100c8a1b650fe006561abb123c178d26547f0b19916a00519508d5"
+    },
+    {
+      "path": "VALIDATION.json",
+      "sha256": "1258ed094e2324662e1112e599871448153e715c23daf0f2629368b337d0d53b"
+    },
+    {
+      "path": "VALIDATION_INDEPENDENT.json",
+      "sha256": "1a0a5215a7820ef56a679f84ccea208eac5a649c46f25a50a7dffca6df586348"
+    },
+    {
+      "path": "WORK_ITEMS.csv",
+      "sha256": "ebbee600fdceafb827ab9662208e0085d54e8d8e71c86f4cfe7f566b54414548"
+    },
+    {
+      "path": "build_plan.py",
+      "sha256": "37d37cba480aaf4eb78e0c3ca729262df80c27625740cd9b47ffaa28d6e89609"
+    },
+    {
+      "path": "upstream/EXPECTED_GIT_BLOBS.json",
+      "sha256": "9a679e15bb78753ab4eda9aa4784ba527acc2f552d1cc4d6142e3a5c264ddcde"
+    },
+    {
+      "path": "upstream/VERIFIED.json",
+      "sha256": "65cdf6f1071f0a3cfd30123e487c63d0b0c45360424ef9f6e718540e48254adc"
+    },
+    {
+      "path": "upstream/docs/O4_COLLECTION_POLICY_20261107.md",
+      "sha256": "1fee35dab4e0b31c219bc511794fc3c5ec28546c1d9a43e3bcefd17d2c659f10"
+    },
+    {
+      "path": "upstream/docs/O4_GPU_ITERATION_PLAN_ZH_TW.md",
+      "sha256": "cb2298c36ceaf8e27349fdf3a77d8fb6c62b1e7c8ef1e8838d576c842e2c9c7e"
+    },
+    {
+      "path": "upstream/docs/O4_WORKLOAD_MATRIX.md",
+      "sha256": "932c0addaaad27325b23069e4bc123705e94041c549eaf7cea2ecfdbdc3dbba5"
+    },
+    {
+      "path": "upstream/docs/o4_i3_progress_20261107/ROADMAP_AND_PRAGMATIC_DATA_POLICY_ZH_TW.md",
+      "sha256": "7ce916080a25344a72d3bc2291085221ffeef67efc8f6936f9c975906735c1e7"
+    },
+    {
+      "path": "upstream/docs/o4_i3_progress_20261107/STATUS_AND_HANDOFF_ZH_TW.md",
+      "sha256": "654ad8666d8841b7ac1324ee37b67ead53fe537356e992ffd6303094d952b2c8"
+    }
+  ]
+}

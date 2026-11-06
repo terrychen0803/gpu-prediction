@@ -1,11 +1,13 @@
 # GPU 跨設備 inference 預測研究
 
-> **O4 統一工程候選版：** GB10／3090／4090 請從 [三節點 Quickstart](docs/O4_QUICKSTART_ZH_TW.md) 開始。固定 tag `o4-unified-engineering-v1-20261106`；新 v2 GPU canary 未執行、strict verified=0。分支已收斂為 main 與統一候選，舊版以同名 tag 保存，見 [封存表](docs/BRANCH_ARCHIVE_20261106.md)。
+**I3 可執行交付（2026-11-07）**：[RTX4090／RTX3090 共用收集手冊](docs/O4_I3_NODE_RUNBOOK_20261107.md) · [工具](i3_pilot/README.md) · [174配置／Context／40×3後續計畫](docs/o4_i3_collection_plan_20261107/PLAN_ZH_TW.md)。固定release `o4-i3-a0-dev-v1-20261107` 包含GB10已驗證A0 Smoke source與固定資產下載；新174配置與I3 40×3尚待實作。使用此tag可在兩節點各自開始A0，不必等待main合併。
+
+> **O4 統一工程候選版：** 七A／Native操作請從 [三節點 Quickstart](docs/O4_QUICKSTART_ZH_TW.md) 開始，當前實測進度以 [節點狀態](docs/O4_NODE_STATUS.md) 為準。歷史固定 tag `o4-unified-engineering-v1-20261106` 保留原版本，不代表後續所有collector修訂。I3新入口見上方；strict verified仍為0。舊分支以同名 tag 保存，見 [封存表](docs/BRANCH_ARCHIVE_20261106.md)。
 
 
 **2026-11-07 規劃補充：** 以盡量收集有用資料為優先，各設備不必逐模型／配置嚴格對齊或跑齊同一矩陣；跨設備分析再選可比較子集。見[最新收集原則](docs/O4_COLLECTION_POLICY_20261107.md)。
 
-**2026-11-07 I3 進度（文件 PR）**：[原文 GB10 I3-0／I3-1 報告](docs/o4_i3_progress_20261107/REPORT_ZH_TW2.md) · [原文 RTX Portable Runbook](docs/o4_i3_progress_20261107/PORTABLE_RUNBOOK_ZH_TW.md) · [詳細狀態摘要](docs/o4_i3_progress_20261107/STATUS_AND_HANDOFF_ZH_TW.md) · [I3→I5 下一步及務實 Development 資料品質政策](docs/o4_i3_progress_20261107/ROADMAP_AND_PRAGMATIC_DATA_POLICY_ZH_TW.md)。本輪 GB10 九類受控算子完成 27 個選定 GI/P/R Cells，I4／I5 尚未訓練；可對未達 strict Reference 的資料先做有條件的探索分析／訓練，但不改寫 strict gate，也不忽略已知 GPU 工作缺失。原 I3 程式／assets／raw 不在本文件 PR。
+**2026-11-07 I3 進度**：[原文 GB10 I3-0／I3-1 報告](docs/o4_i3_progress_20261107/REPORT_ZH_TW2.md) · [原文 RTX Portable Runbook](docs/o4_i3_progress_20261107/PORTABLE_RUNBOOK_ZH_TW.md) · [詳細狀態摘要](docs/o4_i3_progress_20261107/STATUS_AND_HANDOFF_ZH_TW.md) · [I3→I5 下一步及務實 Development 資料品質政策](docs/o4_i3_progress_20261107/ROADMAP_AND_PRAGMATIC_DATA_POLICY_ZH_TW.md)。GB10 九類受控算子完成27個選定GI/P/R Cells，I4／I5尚未訓練。早先四份原文／摘要保留發布時狀態；後續本分支已追加原始碼與Release資產，當前指令以上方共用手冊為準。raw與模型權重仍留節點，Reference資格未升級。
 
 ## 最新主線（2026-11-06）：operation → GPU inference 迭代時間
 

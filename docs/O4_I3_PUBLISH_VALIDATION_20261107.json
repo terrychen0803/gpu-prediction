@@ -1,0 +1,59 @@
+{
+  "status": "offline_validation_passed_no_new_GPU",
+  "tests": [
+    {
+      "log": "test_i3_pilot.log",
+      "test_counts": [
+        16,
+        4,
+        85,
+        54
+      ],
+      "sha256": "6e643b7ee60982b8fcb1a381f8a5b2fa7c5d2b657f5b642a55f787234f96132c",
+      "passed": true
+    },
+    {
+      "log": "test_root.log",
+      "test_counts": [
+        65
+      ],
+      "sha256": "9fc5a85bd04f84725f9e24d08a23b1ecb8ebce0364cda2dc5a88608bbc8ef1e6",
+      "passed": true
+    },
+    {
+      "log": "test_native.log",
+      "test_counts": [
+        14
+      ],
+      "sha256": "8d83b5d5a1099311e1ee062313a3561e79472077e40b1b7d790842f82dc9a58b",
+      "passed": true
+    }
+  ],
+  "test_total": 238,
+  "source_files_unchanged": 155,
+  "O4_base_files_unchanged": 141,
+  "asset_operand_files_verified": 38,
+  "plan_only_nodes": [
+    {
+      "node": "4090",
+      "planned_cells": 27,
+      "status": "planned_only",
+      "GPU_executed": false
+    },
+    {
+      "node": "3090",
+      "planned_cells": 27,
+      "status": "planned_only",
+      "GPU_executed": false
+    }
+  ],
+  "new_GPU_executions": 0,
+  "new_models_trained": 0,
+  "strict_reference_verified": false,
+  "new_174_config_collectors_implemented": false,
+  "new_I3_40x3_implemented": false,
+  "github_checks_at_review": 0,
+  "baseline_main": "b204ae63ee2dff2bbc161bb5cc8f9aaecfb68c01",
+  "unified_head": "b28144163e1ff08fc22913f5f05e75bdb561eea0",
+  "I3_previous_head": "1711a5f1d27c282d640218611c01d9948c13cbd6"
+}
