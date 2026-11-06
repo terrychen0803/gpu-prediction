@@ -24,6 +24,17 @@
 
 新增 [GB10 Trace 品質分析與 O4 修訂](docs/O4_GB10_TRACE_QUALITY_UPDATE_20261106.md)：同 stream overlap 不等於 event-index 分段失效；submitted-work、NVTX、clock gate 仍待驗證；I5 比較 T-ITER Base／Overlap 消融。這是規劃與品質診斷文件更新，未增加 GPU 實測或訓練結果。
 
+## O1／O2 歷史方法與 RTX3090 G0 V4（待整合）
+
+本整合候選分支從 [歷史 O2 G0 Window 分支](https://github.com/terrychen0803/gpu-prediction/tree/o2-g0-window-pilot-20261101) 的 `9c1421eb72935522cae16604ccd986ef94735a41` 精確帶入 O1/O2 受控實驗程式、資料配置、測試與舊方法文件。**這是版本化 legacy 工具，不是新的 O4 正式模型或已證實 Reference。**
+
+- `o1_operator/`：O1 V4／Formal139／Challenge 原本的版本；變更根目錄的 O1 runner 與舊 Pilot 命令，請使用對應 Protocol／Commit 和原始實驗記錄重現。
+- `o2_sequence/`：O2 Mixed Sequence V3 與獨立 G0 Window／Adaptive V4；`docs/O2_G0_ADAPTIVE_125MS_20261101.md` 記錄 56/60 模板達 5% 穩定標準，並非全部通過。
+- `scripts/package_rtx3090_o2_formal.sh`：封裝／SCP SHA 驗證用的歷史節點腳本；需要本機環境與指定路徑，不能把它當作 O4 收集器。
+- `o4_pilot/` **保持原狀**；O4 GI 是無 profiler、單次完整 forward 的 CUDA Event 時間，與 O2 G0 host amortized sequence timing **不是同一個標籤**。O2 P/R 的 NVTX 可能漏記警告與 strict verified=0 也未被 G0 V4 解決。
+
+根目錄最新的 O4 計畫、六任務矩陣、Reference Quality Gate 與全部既有研究策略文件保留為目前主線。對照測試與正式節點收集應使用各自協定，不可默默把 legacy G0 當成 O4 GI。
+
 ## 歷史主線說明（2026-10-21／10-28，以下保留原狀供追溯）
 
 以下舊「服務時間／O2尚未實作／joint為現行主線」是當時狀態；新工作以上方入口為準。舊工具命令只重現原協定，不會產生新GI標籤。

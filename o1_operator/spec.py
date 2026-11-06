@@ -8,7 +8,7 @@ import sys
 from array import array
 from pathlib import Path
 
-PROTOCOL = "o1_operator_pilot_v2_fixed_repetitions_20261021"
+PROTOCOL = "o1_operator_pilot_v4_calibrated_repetitions_cuda_reset_20261022"
 INPUT_FORMAT = "o1_shake256_lut_fp16_le_v1"
 MODES = ("G0", "GE", "P", "R")
 CONFIGS = (
@@ -35,6 +35,14 @@ def operand_shapes(config):
     if op == "conv":
         return {"input": [config["b"], config["cin"], config["h"], config["h"]],
                 "weight": [config["cout"], config["cin"], config["k"], config["k"]]}
+    if op == "add":
+        return {"a": [config["elements"]], "b": [config["elements"]]}
+    if op == "layernorm":
+        return {"input": [config["rows"], config["d"]]}
+    if op == "relu":
+        return {"input": [config["elements"]]}
+    if op in ("softmax", "transpose_view", "transpose_copy"):
+        return {"input": [config["rows"], config["d"]]}
     raise ValueError(f"Unsupported O1 op: {op}")
 
 
