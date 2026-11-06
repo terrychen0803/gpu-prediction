@@ -40,6 +40,23 @@ nvidia-smi
 PYTHON="$PYTHON" bash scripts/run_node.sh 3090 single
 ```
 
-只在新 `single` 的三個 Cell 與獨立 Quality Report 審核後，才執行 `three`（27 Cell）與 `resnet`（9 Cell）。單一程序 40 measured／5 transition 和三程序 repeated 40 值均按照原版 Protocol，不以凍結八 warmup/三 measured 的 I2 Smoke 替代。**這份文件不是新的 GPU 實測結果**；RTX3090 尚未完成上述 `single/three/resnet`。
+只在新 `single` 的三個 Cell 與獨立 Quality Report 審核後，才執行 `three`（27 Cell）與 `resnet`（9 Cell）。單一程序 40 measured／5 transition 和三程序 repeated 40 值均按照原版 Protocol，不以凍結八 warmup/三 measured 的 I2 Smoke 替代。**當時此文件建立時尚無 single GPU 結果；實測最新進度見下節，three/resnet 尚未執行。**
 
 若 fail：保留新 run `analysis_runs/o4_3090_*`、`reports` 與 error log；不修改 driver 或底層程式、也不消除 warning 並改寫 verified。所有 CLI 結果的 `collector_git_commit` 應指向**勘誤分支**實際 commit，不能在報告中稱使用未修改的 b204 commit。
+
+## 2026-11-06 RTX3090 節點後續驗證及 Single Pilot 實績
+
+使用者在獨立 frozen checkout 更新至 `2ca671ad8c4d5b73d92efcb07c31ed62971edf0b`，與原 b204 code/protocol/assets `git diff` **空白**。實際 RTX3090 驗證結果：
+
+- `scripts/verify_assets.py`：**PASS: 9 shared asset hashes; release code checked when available; no CUDA work**。
+- O4 offline tests：**25/25 PASS**；Legacy tests：**54/54 PASS**；`pip check` 無 broken requirements。
+- Preflight：NVIDIA RTX3090，driver 580.178.04，CUDA 13.0；GPU 0% utilization、無 compute processes。
+- `bash scripts/run_node.sh 3090 single`：**3/3 completed**、0 failed，P/R Trace **2/2 structural passes**、**1/1 exact ordered P/R signature**，120 valid measured iterations（GI/P/R × 40），GPU overlap 0、clock inversions 0。
+- 原始 run：`analysis_runs/o4_3090_single_20261106T141008Z`（保存在節點，未上傳 Git）。
+- `collector_git_commit=2ca671ad8c4d5b73d92efcb07c31ed62971edf0b`；`protocol_id=o4_gpu_iteration_smoke_v2_20261106`。
+- Single GEMM `gemm_16_64_64` 的單程序 40 iterations 中位數：GI **13.312 µs**，P **25.040 µs**，R **56.544 µs**。不可將 P/R 的 profiler interval 與 GI 相互代替。
+- `process spread=0.00%` 僅因 repeats=1，Reporter 已註明 **未通過／重複不足**，**不是跨程序穩定性 PASS**。
+- P/R 警告 **`Not all NVTX events might have been collected.`** 保留；`reference_gate=not_verified`、`strict_verified_operations=0`，不是正式 Reference。
+- `REPORT.md` 標題仍寫「O4 GB10」，且模板文字寫「未取得4090／3090新資料」；這與當次 `inventory.json.expected_gpu=3090`、實測輸出不一致，屬報告模板過時。此次**不修改凍結報告生成程式**；統計以當次 inventory/snapshot/trace 為準。
+
+**接續門檻：** 可以開始工程 `three`（三小算子 × GI/P/R × 3 independent processes = 27 Cells）；需查所有 27 Cell、重複 spread、P/R 9 對結構／NVTX／clock、正式 Reference gate。通過工程品質審核再做 `resnet`（9 Cells）。不更改 release assets、工作負載、計時協定、不混用 I2 3-measured smoke，也不會因 warning-accepted 自動升級 strict Reference。
