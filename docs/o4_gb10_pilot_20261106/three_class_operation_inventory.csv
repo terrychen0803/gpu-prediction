@@ -1,0 +1,4 @@
+workload,category,aten_names,operations,zero_gpu_operations,P_events,P_event_pct,P_busy_pct,P_span_sum_us,max_events_per_operation
+gemm_16_64_64,gemm,aten.mm.default,120,0,120,100.0,100.0,190.68800000000002,1
+bmm_2_16_64_64,bmm,aten.bmm.default,120,0,120,100.0,100.0,194.976,1
+conv_1_16_32_32_k3_s1_p1,conv,aten.conv2d.default,120,0,480,100.0,100.0,1694.241,4

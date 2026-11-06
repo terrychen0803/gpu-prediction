@@ -1,0 +1,69 @@
+{
+  "schema": "o4_node_alignment_v1",
+  "status": "engineering_pilot_not_formal_reference",
+  "primary_source": "rtx4090",
+  "primary_targets": [
+    "gb10",
+    "rtx3090"
+  ],
+  "supported_live_platform": "Linux/POSIX",
+  "windows_live": "not_implemented",
+  "workloads": [
+    "gemm_16_64_64",
+    "bmm_2_16_64_64",
+    "conv_1_16_32_32_k3_s1_p1",
+    "RN-A"
+  ],
+  "modes": [
+    "GI",
+    "P",
+    "R"
+  ],
+  "repeats": 3,
+  "measured_iterations_per_process": 40,
+  "transition_iterations_per_process": 5,
+  "protocol_id": "o4_gpu_iteration_smoke_v2_20261106",
+  "protocol_sha256": "28c25fe1af6935b517d8372d9a078b30f26237d1a1471a60c7038fd43022617d",
+  "asset_manifest_sha256": "0a078f3d8bd2ed790d71c518a3f295e81d78e841d0e990bb47d3a45d3f431ca3",
+  "github_workspace": "o4_pilot",
+  "code_release_manifest": "o4_pilot/manifests/code_release.json",
+  "shared_assets_manifest": "o4_pilot/manifests/assets.json",
+  "source_local_release_commit": "fb74b6f589b83e348a98e21d0a2ebf1d96bd4528",
+  "source_local_measurement_commit": "6a997013bebe939090152b3f1ed818898cadfe0b",
+  "actual_node_commit": "record git rev-parse HEAD of this GitHub checkout; local commit IDs above are provenance only",
+  "assets_in_git": false,
+  "node_bundle_sha256": "8506d01447ead75a22ce74960651ad74d70df65d4246f0c155b6c6e6ca16f849",
+  "node_bundle_bytes": 105083782,
+  "GB10_environment": {
+    "machine": "aarch64",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu130",
+    "torchvision": "0.28.0+cu130",
+    "cuda_runtime": "13.0",
+    "cudnn": 92000,
+    "driver": "580.159.03",
+    "nsys": "2026.4.1.191",
+    "trace_backend": "cuda-sw"
+  },
+  "required_flags": {
+    "dtype": "float16",
+    "eval": true,
+    "inference_mode": true,
+    "eager": true,
+    "autocast": false,
+    "compile": false,
+    "cuda_graph": false,
+    "tf32": "ieee",
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": false,
+    "fp16_reduced_precision_reduction": false
+  },
+  "source_policy": "raw individual iteration numeric P export; no new source-view aggregation frozen",
+  "reference_policy": "warnings retained; no automatic strict verified upgrade",
+  "test_target_isolation": "test GI/target trace/reference/shape evaluator-only",
+  "next_collection_cells_per_device": {
+    "single": 3,
+    "three": 27,
+    "RN_A": 9
+  }
+}

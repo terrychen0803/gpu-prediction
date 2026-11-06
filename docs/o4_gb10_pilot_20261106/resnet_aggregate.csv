@@ -1,0 +1,4 @@
+workload,mode,valid_processes,expected_processes,median_of_process_medians_us,process_spread_pct,repeat_stability_passed,target_kind
+RN-A,GI,3,3,1921.9200015068054,1.892271936143339,True,iteration_device_event_us
+RN-A,P,3,3,2591.104030609131,1.268959773011806,True,profiled_iteration_event_us
+RN-A,R,3,3,5069.999933242798,2.410101499069768,True,profiled_iteration_event_us

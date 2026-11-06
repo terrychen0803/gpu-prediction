@@ -1,0 +1,51 @@
+{
+  "utc": "2026-11-06T05:34:57.711529+00:00",
+  "status": "engineering_work_package_complete_quality_gates_not_all_passed",
+  "implementation_commit": "6a99701",
+  "upstream_spec_commit": "891d04aeb74043e23e5309bca2856b61e01057a5",
+  "main_three_class_cells": 27,
+  "main_resnet_cells": 9,
+  "main_completed_measured_iterations": 1440,
+  "all_attempt_states": {
+    "completed": 39,
+    "failed": 2,
+    "not_started": 10
+  },
+  "all_completed_measured_iterations_including_single_smoke": 1560,
+  "failed_attempts_preserved": 2,
+  "main_pairs_ordered_signature_matched": 12,
+  "formal_reference_verified": false,
+  "strict_verified_operations": 0,
+  "GI_stability": {
+    "bmm_2_16_64_64": false,
+    "conv_1_16_32_32_k3_s1_p1": true,
+    "gemm_16_64_64": false,
+    "RN-A": true
+  },
+  "RN_A_direct_composition_supported": false,
+  "RN_A_new_models_trained": false,
+  "cross_device_experiment_completed": false,
+  "new_confirmation_data": false,
+  "local_tests": 22,
+  "legacy_tests": 54,
+  "parser_replays": 4,
+  "original_source_files_preserved": 53,
+  "O3_model_files_preserved": 30,
+  "limitations": [
+    "NVTX warning remains",
+    "Tiny GEMM and BMM process spread exceeds 5%",
+    "same-stream recorded intervals overlap; cause unresolved; no timestamp repair",
+    "historical O3 L4 insufficient for some RN-A operations",
+    "only GB10 new data; 4090/3090 pending",
+    "no DNN time predictor or new confirmation dataset"
+  ],
+  "workspace_validation": "PASS",
+  "parser_replay_validation": "PASS",
+  "live_platform": "Linux/POSIX",
+  "run_ids": {
+    "three_class": "o4_gb10_three_class_20261106T052209Z",
+    "resnet": "o4_gb10_resnet_inventory_v2_20261106T052818Z"
+  },
+  "local_release_commit": "fb74b6f589b83e348a98e21d0a2ebf1d96bd4528",
+  "local_commits_are_not_remote_refs": true
+}

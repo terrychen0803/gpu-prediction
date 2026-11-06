@@ -1,0 +1,8 @@
+workload,category,aten_names,operations,zero_gpu_operations,P_events,P_event_pct,P_busy_pct,P_span_sum_us,max_events_per_operation
+RN-A,batchnorm_eval,aten.batch_norm.default,6360,0,19080,45.42857142857143,26.978419337033937,74093.961,3
+RN-A,conv,aten.conv2d.default,6360,0,14760,35.142857142857146,63.83657050074228,120036.485,5
+RN-A,layout_or_view,aten.flatten.using_ints,120,120,0,0.0,0.0,0,0
+RN-A,linear_bias,aten.linear.default,120,0,120,0.2857142857142857,1.2818056735264776,2137.473,1
+RN-A,pooling,aten.adaptive_avg_pool2d.default;aten.max_pool2d.default,240,0,240,0.5714285714285714,0.8604757738965778,1434.885,1
+RN-A,relu,aten.relu_.default,5880,0,5880,14.0,5.023585522315274,8377.072,1
+RN-A,residual_add,aten.add_.Tensor,1920,0,1920,4.571428571428571,2.141996598119731,3571.883,1

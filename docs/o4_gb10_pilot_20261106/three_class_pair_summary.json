@@ -1,0 +1,92 @@
+[
+  {
+    "workload": "gemm_16_64_64",
+    "repeat": 1,
+    "matched_iterations": 40,
+    "expected_iterations": 40,
+    "exact_all_measured": true,
+    "warning_count": 2,
+    "strict_verified_operations": 0,
+    "alignment_assumption": "known iteration + equal complete ordered event signature; no duration matching; not proof against profiler loss"
+  },
+  {
+    "workload": "gemm_16_64_64",
+    "repeat": 2,
+    "matched_iterations": 40,
+    "expected_iterations": 40,
+    "exact_all_measured": true,
+    "warning_count": 2,
+    "strict_verified_operations": 0,
+    "alignment_assumption": "known iteration + equal complete ordered event signature; no duration matching; not proof against profiler loss"
+  },
+  {
+    "workload": "gemm_16_64_64",
+    "repeat": 3,
+    "matched_iterations": 40,
+    "expected_iterations": 40,
+    "exact_all_measured": true,
+    "warning_count": 2,
+    "strict_verified_operations": 0,
+    "alignment_assumption": "known iteration + equal complete ordered event signature; no duration matching; not proof against profiler loss"
+  },
+  {
+    "workload": "bmm_2_16_64_64",
+    "repeat": 1,
+    "matched_iterations": 40,
+    "expected_iterations": 40,
+    "exact_all_measured": true,
+    "warning_count": 2,
+    "strict_verified_operations": 0,
+    "alignment_assumption": "known iteration + equal complete ordered event signature; no duration matching; not proof against profiler loss"
+  },
+  {
+    "workload": "bmm_2_16_64_64",
+    "repeat": 2,
+    "matched_iterations": 40,
+    "expected_iterations": 40,
+    "exact_all_measured": true,
+    "warning_count": 2,
+    "strict_verified_operations": 0,
+    "alignment_assumption": "known iteration + equal complete ordered event signature; no duration matching; not proof against profiler loss"
+  },
+  {
+    "workload": "bmm_2_16_64_64",
+    "repeat": 3,
+    "matched_iterations": 40,
+    "expected_iterations": 40,
+    "exact_all_measured": true,
+    "warning_count": 2,
+    "strict_verified_operations": 0,
+    "alignment_assumption": "known iteration + equal complete ordered event signature; no duration matching; not proof against profiler loss"
+  },
+  {
+    "workload": "conv_1_16_32_32_k3_s1_p1",
+    "repeat": 1,
+    "matched_iterations": 40,
+    "expected_iterations": 40,
+    "exact_all_measured": true,
+    "warning_count": 2,
+    "strict_verified_operations": 0,
+    "alignment_assumption": "known iteration + equal complete ordered event signature; no duration matching; not proof against profiler loss"
+  },
+  {
+    "workload": "conv_1_16_32_32_k3_s1_p1",
+    "repeat": 2,
+    "matched_iterations": 40,
+    "expected_iterations": 40,
+    "exact_all_measured": true,
+    "warning_count": 2,
+    "strict_verified_operations": 0,
+    "alignment_assumption": "known iteration + equal complete ordered event signature; no duration matching; not proof against profiler loss"
+  },
+  {
+    "workload": "conv_1_16_32_32_k3_s1_p1",
+    "repeat": 3,
+    "matched_iterations": 40,
+    "expected_iterations": 40,
+    "exact_all_measured": true,
+    "warning_count": 2,
+    "strict_verified_operations": 0,
+    "alignment_assumption": "known iteration + equal complete ordered event signature; no duration matching; not proof against profiler loss"
+  }
+]

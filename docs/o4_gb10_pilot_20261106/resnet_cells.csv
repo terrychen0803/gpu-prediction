@@ -1,0 +1,10 @@
+correctness_passed,error,median_us,mode,p10_us,p90_us,repeat,sample_count,status,target_kind,trace_status,warmup_iterations,workload
+True,,2620.751976966858,P,2597.0239639282227,2704.3840885162354,3,40,completed,profiled_iteration_event_us,warning_accepted,60,RN-A
+True,,5100.832223892212,R,5038.75207901001,5260.8962059021,2,40,completed,profiled_iteration_event_us,warning_accepted,60,RN-A
+True,,1926.9919991493225,GI,1911.9999408721924,1937.7599954605103,2,40,completed,iteration_device_event_us,,80,RN-A
+True,,5069.999933242798,R,5004.831790924072,5237.215995788574,3,40,completed,profiled_iteration_event_us,warning_accepted,60,RN-A
+True,,1890.6240463256836,GI,1880.288004875183,2086.591958999634,3,40,completed,iteration_device_event_us,,60,RN-A
+True,,4978.640079498291,R,4902.8801918029785,5117.119789123535,1,40,completed,profiled_iteration_event_us,warning_accepted,60,RN-A
+True,,2591.104030609131,P,2571.455955505371,2684.6721172332764,2,40,completed,profiled_iteration_event_us,warning_accepted,60,RN-A
+True,,1921.9200015068054,GI,1898.8159894943237,2988.7681007385254,1,40,completed,iteration_device_event_us,,60,RN-A
+True,,2587.8719091415405,P,2577.3439407348633,2613.6960983276367,1,40,completed,profiled_iteration_event_us,warning_accepted,60,RN-A

@@ -1,0 +1,2 @@
+workload,mapped_gpu_operations,zero_gpu_operations,old_three_family_event_pct,old_three_family_busy_pct,max_events_per_operation,operations_over_L4,event_pct_in_operations_over_L4,note
+RN-A,20880,120,35.142857142857146,63.83657050074228,5,1080,12.857142857142858,family relation only; does not establish shape/model support; warning-accepted

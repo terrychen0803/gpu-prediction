@@ -1,0 +1,10 @@
+workload,mode,valid_processes,expected_processes,median_of_process_medians_us,process_spread_pct,repeat_stability_passed,target_kind
+bmm_2_16_64_64,GI,3,3,10.288000106811523,9.175736077958796,False,iteration_device_event_us
+bmm_2_16_64_64,P,3,3,13.279999606311321,2.4096359349142955,True,profiled_iteration_event_us
+bmm_2_16_64_64,R,3,3,24.49600026011467,1.6982417560692225,True,profiled_iteration_event_us
+conv_1_16_32_32_k3_s1_p1,GI,3,3,20.70399932563305,3.2457474444182046,True,iteration_device_event_us
+conv_1_16_32_32_k3_s1_p1,P,3,3,23.423999547958374,1.5710343406121536,True,profiled_iteration_event_us
+conv_1_16_32_32_k3_s1_p1,R,3,3,40.41599854826927,0.7521738926049722,True,profiled_iteration_event_us
+gemm_16_64_64,GI,3,3,8.528000209480524,9.568481939326324,False,iteration_device_event_us
+gemm_16_64_64,P,3,3,11.103999800980091,1.2968272882216125,True,profiled_iteration_event_us
+gemm_16_64_64,R,3,3,22.255999967455864,6.2544947738224375,False,profiled_iteration_event_us

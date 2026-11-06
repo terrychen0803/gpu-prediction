@@ -1,0 +1,4 @@
+workload,mapped_gpu_operations,zero_gpu_operations,old_three_family_event_pct,old_three_family_busy_pct,max_events_per_operation,operations_over_L4,event_pct_in_operations_over_L4,note
+gemm_16_64_64,120,0,100.0,100.0,1,0,0.0,family relation only; does not establish shape/model support; warning-accepted
+bmm_2_16_64_64,120,0,100.0,100.0,1,0,0.0,family relation only; does not establish shape/model support; warning-accepted
+conv_1_16_32_32_k3_s1_p1,120,0,100.0,100.0,4,0,0.0,family relation only; does not establish shape/model support; warning-accepted

@@ -3,7 +3,7 @@
 接手先讀 README.md、docs/O4_GPU_ITERATION_PLAN_ZH_TW.md、docs/O4_GPU_ITERATION_MATH.md、docs/O4_GPU_ITERATION_HANDOFF.md，再參考 docs/CODEX_HANDOFF.md、docs/NEXT_EXPERIMENTS.md 與 inference_pilot/VALIDATION.md 的歷史背景。使用繁體中文報告結果。使用者最新指示優先於舊方案。
 
 - 最新主場景是 RTX4090 來源 trace → GB10／RTX3090，其他方向選配；5090非必要。六任務為ResNet-50、MobileNetV3、Swin-T、U-Net、YOLO26、Qwen3-0.6B，全部inference。從trace/metrics辨識算子邊界／類型，逐片段MLP預測再組合一次固定forward的GPU迭代時間；不能以整模型回歸取代主方法。
-- 主線Git有E1～E3/O1工具與後續文件；節點O2/O3及q消融已完成探索，但全部程式／資料未收錄主線。先保護盤點本地E4/O2/O3，不能因主線缺模組覆蓋它們。O4文件是待實作規格，planned manifest不是可執行CLI。舊O1重現依原runbook，新的O4依最新交接，記錄實際collector commit與input hash。
+- 主線Git有E1～E3/O1工具與後續文件；節點O2/O3及q消融已完成探索，但全部程式／資料未收錄主線。先保護盤點本地E4/O2/O3，不能因主線缺模組覆蓋它們。O4第一個GB10工程工作包已完成，獨立實作在o4_pilot/；接手再讀docs/O4_NODE_ALIGNMENT_20261106.md及docs/O4_GB10_PILOT_STATUS_20261106.md。原21配置planned manifest仍不是現有CLI設定。舊O1重現依原runbook，新的O4依節點對齊清單及o4_pilot操作手冊，記錄實際collector commit與input hash。
 - GPU 實測、合成 fixture、CLI planned_only 必須區分。缺資料時列出缺項，不產生假 latency、counter 或成功結果。
 - 保存原始 session 與失敗資料。重新 parse 會寫入衍生檔，應使用副本；分析輸出用新的 analysis_runs/ 子目錄，保留來源 checksum 與分析 commit。
 - Nsight parser 通過不代表無事件遺失。保留 manual review 狀態並核對 log／report；未知 schema 先調查，不以猜測 join 或補零繞過檢查。

@@ -1,0 +1,22 @@
+{
+  "new_tests": 22,
+  "legacy_tests": 54,
+  "parser_replays": 4,
+  "parser_replay_scope": "RN-A P/R byte-exact all audit files; three-class P/R old audit fields equal with added schema fields",
+  "original_source_files_unchanged": 53,
+  "O3_model_files_unchanged": 30,
+  "source_export_oracle_poison_checks": "PASS",
+  "reference_verified": false,
+  "strict_verified_operations": 0,
+  "remote_GPU_validation": "pending; GB10-only measurements",
+  "published_distribution_validation": {
+    "status": "PASS",
+    "new_test_count": 25,
+    "legacy_test_count": 54,
+    "additional_tests": "3 shared-asset import checks; original GB10 had22",
+    "shared_asset_hashes": 9,
+    "source_release_hashes": "PASS",
+    "CLI_help_and_4090_planned_only": "PASS",
+    "new_GPU_measurements": false
+  }
+}

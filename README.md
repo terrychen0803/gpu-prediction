@@ -6,7 +6,7 @@
 
 新主標籤 **GI / `iteration_device_event_us`** 是無profiler的整次forward CUDA event elapsed，包含interval內可能的提交空隙，不是純kernel busy。舊G0 host服務時間留作輔助；排隊、網路、輸入準備與完整LLM生成不在第一版主線。
 
-六任務為 **ResNet-50、MobileNetV3、Swin-T、U-Net、YOLO26、Qwen3-0.6B**；LLM prefill/decode分開。六任務七iteration群、21配置均為規劃，尚非實測。
+六任務為 **ResNet-50、MobileNetV3、Swin-T、U-Net、YOLO26、Qwen3-0.6B**；LLM prefill/decode分開。完整六任務七iteration群、21配置矩陣仍為規劃；GB10已先完成三類smoke與RN-A量測，見下方實測更新。
 
 建議閱讀順序：
 
@@ -16,7 +16,9 @@
 4. **[本地三節點實作交接](docs/O4_GPU_ITERATION_HANDOFF.md)**
 5. [O3 q消融證據與限制](docs/O3_Q_ABLATION_STATUS_20261106.md)
 
-節點已有O2/O3受控實驗與q消融，主線尚未收錄全部節點程式／資料。**固定辨識器＋N0 scalar時間MLP是開發候選**，joint／q／F/V保留對照；reference警告未解除。本次新增O4文件與planned manifest，**沒有新增可執行O4 CLI**。先保護當地O2/O3，做GI/reference smoke與ResNet完整盤點，再擴矩陣。
+節點已有O2/O3受控實驗與q消融，主線尚未收錄全部節點程式／資料。**固定辨識器＋N0 scalar時間MLP是開發候選**，joint／q／F/V保留對照；reference警告未解除。**現已加入獨立可執行的 [O4 pilot](o4_pilot/README.md)**：GB10三類27cell與RN-A9cell完成；reference與直接組合gate未全過。其他節點先按 [對齊與執行清單](docs/O4_NODE_ALIGNMENT_20261106.md) 取得相同資產並做single smoke，不直接展開567cell矩陣。
+
+本輪結果：[GB10實測報告](docs/O4_GB10_PILOT_STATUS_20261106.md) · [對齊manifest](docs/o4_gb10_pilot_20261106/alignment_manifest.json) · [共用資產checksums](o4_pilot/manifests/assets.json)。Linux/POSIX live已在GB10驗證，4090／3090待測，Windows live待實作；權重／原始trace及105MB交接包不在Git。
 
 ## 歷史主線說明（2026-10-21／10-28，以下保留原狀供追溯）
 

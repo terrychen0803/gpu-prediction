@@ -1,0 +1,38 @@
+[
+  {
+    "workload": "RN-A",
+    "repeat": 1,
+    "matched_iterations": 40,
+    "expected_iterations": 40,
+    "exact_all_measured": true,
+    "warning_count": 2,
+    "strict_verified_operations": 0,
+    "P_composition_supported": false,
+    "R_composition_supported": false,
+    "alignment_assumption": "known iteration + equal complete ordered event signature; no duration matching; not proof against profiler loss"
+  },
+  {
+    "workload": "RN-A",
+    "repeat": 2,
+    "matched_iterations": 40,
+    "expected_iterations": 40,
+    "exact_all_measured": true,
+    "warning_count": 2,
+    "strict_verified_operations": 0,
+    "P_composition_supported": false,
+    "R_composition_supported": false,
+    "alignment_assumption": "known iteration + equal complete ordered event signature; no duration matching; not proof against profiler loss"
+  },
+  {
+    "workload": "RN-A",
+    "repeat": 3,
+    "matched_iterations": 40,
+    "expected_iterations": 40,
+    "exact_all_measured": true,
+    "warning_count": 2,
+    "strict_verified_operations": 0,
+    "P_composition_supported": false,
+    "R_composition_supported": true,
+    "alignment_assumption": "known iteration + equal complete ordered event signature; no duration matching; not proof against profiler loss"
+  }
+]
