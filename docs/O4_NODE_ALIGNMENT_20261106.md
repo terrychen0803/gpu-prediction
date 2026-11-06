@@ -42,7 +42,7 @@ RN權重SHA為`72f27a9ddb2f3c57258816e525b12701cb0216f0e17192b780111c45ca8a8597`
 
 4090／3090 在放大 three／RN-A 前，先核對 GB10 本地最小控制程式及輸入 SHA，完成 serial/no-PDL、64B／0B memset 對照，依 native control 計畫執行 SW／auto × P/R 四 captures（各 8 measured）。要記錄 **actual trace backend** 及 fallback，不能只根據 CLI 要求旗標認定後端獨立。必要時再加 PDL launch attribute、device completion 錨點或 op140 1×1 Conv 診斷。**這些 native MRE 的原始碼目前仍在 GB10 本地，不要假裝 GitHub 已有可執行命令。**
 
-各台必須分別輸出 GPU→API recorded-event integrity、API→GPU submitted-work coverage（0-byte/no-op 必須有證據）、ATen／NVTX semantic alignment、clock consistency、event-index partition、nonoverlap SUM、overlap-aware union closure、strict Reference verified 等 gate，保留 passed／warning_accepted／failed／unverified 和 evidence path。若結果仍未解釋，維持 warning-accepted／unverified，不用原封不動的已收集 trace 憑空升級品質。
+各台必須分別輸出 `recorded_event_integrity`（GPU→API）、`submitted_work_coverage`（API→GPU；0-byte/no-op 必須有證據）、`reference_semantic_alignment`（ATen／NVTX）、`timestamp_consistency`、`event_index_partition_supported`、`nonoverlap_sum_supported`、`overlap_aware_closure_supported`、`strict_reference_verified` 等 gate，保留 passed／warning_accepted／failed／unverified 和 evidence path。若結果仍未解釋，維持 warning-accepted／unverified，不用原封不動的已收集 trace 憑空升級品質。
 
 這是新增診斷層，不更動已凍結的 `o4_gpu_iteration_smoke_v2_20261106`。只讀重解析採新 audit/quality overlay 版本；真正變更 Collector 行為需新 protocol ID／SHA。每台都要保留舊 O1/O2/O3 與失敗 records，先 single smoke 再決定是否擴大。
 
