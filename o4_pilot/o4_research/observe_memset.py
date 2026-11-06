@@ -22,7 +22,7 @@ def summarize_resnet_arguments(enters, operations):
     signatures.append([(x['aten'],x['shapes'],x['dtypes']) for x in ops])
     calls=[]
     for row in enters:
-      match=re.search(r'iteration(\\d+)/op(\\d+)/',row['scope'])
+      match=re.search(r'iteration(\d+)/op(\d+)/',row['scope'])
       if match and int(match.group(1))==iteration:
         calls.append({'op_index':int(match.group(2)),'count_bytes':int(row['count_bytes'])})
     calls.sort(key=lambda x:(x['op_index'],x['count_bytes']))
