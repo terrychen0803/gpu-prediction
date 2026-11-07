@@ -1,0 +1,123 @@
+{
+  "report_id": "rtx3090_o4_i3_s4_scale0_20261107_development",
+  "provenance": "Values transcribed from user-provided RTX3090 terminal output; actual on-node SUMMARY.json and raw files have not been independently transferred or fetched by this PR.",
+  "source_release_tag": "o4-i3-s4-scale0-dis-dev-v1-20261107",
+  "frozen_source_commit": "3db5871d43abd87fefbdadc21371beee59ac6b88",
+  "gpu": "NVIDIA GeForce RTX 3090",
+  "stack": {
+    "torch": "2.13.0+cu130",
+    "cuda": "13.0",
+    "cudnn": 92000
+  },
+  "scope": "six controlled context graphs, context_scale_0 only, D/I/S development collection",
+  "native_derived_input_manifests_sha256": {
+    "A": "6048d5568a99caf6fbfe55de686c82e4df60a593e03ac5d57b682b9c98870236",
+    "BC": "3326f71e335ddc40a5b3bdc69e7d9dea81d29b6fc2111ccd0c81fd2e78952091"
+  },
+  "batches": [
+    {
+      "stage": "A",
+      "batch": "cbr",
+      "work_items": 5,
+      "smoke_cells": 15,
+      "formal_cells": 45,
+      "formal_measured": 1800,
+      "formal_PR_pairs": 15,
+      "stable_modes": 7,
+      "review_modes": 8,
+      "formal_engineering_warning_accepted": 30
+    },
+    {
+      "stage": "A",
+      "batch": "residual",
+      "work_items": 9,
+      "smoke_cells": 27,
+      "formal_cells": 81,
+      "formal_measured": 3240,
+      "formal_PR_pairs": 27,
+      "stable_modes": 11,
+      "review_modes": 16,
+      "formal_engineering_warning_accepted": 54
+    },
+    {
+      "stage": "BC",
+      "batch": "depthwise_pointwise",
+      "work_items": 6,
+      "smoke_cells": 18,
+      "formal_cells": 54,
+      "formal_measured": 2160,
+      "formal_PR_pairs": 18,
+      "stable_modes": 7,
+      "review_modes": 11,
+      "formal_engineering_warning_accepted": 36
+    },
+    {
+      "stage": "BC",
+      "batch": "se_gate",
+      "work_items": 8,
+      "smoke_cells": 24,
+      "formal_cells": 72,
+      "formal_measured": 2880,
+      "formal_PR_pairs": 24,
+      "stable_modes": 8,
+      "review_modes": 16,
+      "formal_engineering_warning_accepted": 48
+    },
+    {
+      "stage": "BC",
+      "batch": "resize_concat_conv",
+      "work_items": 6,
+      "smoke_cells": 18,
+      "formal_cells": 54,
+      "formal_measured": 2160,
+      "formal_PR_pairs": 18,
+      "stable_modes": 7,
+      "review_modes": 11,
+      "formal_engineering_warning_accepted": 36
+    },
+    {
+      "stage": "BC",
+      "batch": "attention_eager",
+      "work_items": 6,
+      "smoke_cells": 18,
+      "formal_cells": 54,
+      "formal_measured": 2160,
+      "formal_PR_pairs": 18,
+      "stable_modes": 9,
+      "review_modes": 9,
+      "formal_engineering_warning_accepted": 36
+    }
+  ],
+  "final_audit_terminal_result": {
+    "status": "PASS",
+    "work_items": 40,
+    "smoke_cells": 120,
+    "smoke_measured": 360,
+    "formal_cells": 360,
+    "formal_measured": 14400,
+    "smoke_exact_PR_pairs": 40,
+    "formal_exact_PR_pairs": 120,
+    "mode_stability": {
+      "stable": 49,
+      "review_required": 71
+    },
+    "engineering_acceptance": {
+      "warning_accepted": 320
+    },
+    "R_parameter_rows_checked": 11676,
+    "R_parameter_mismatches": 0,
+    "batch_issues": 0,
+    "relative_path": "analysis/final_s4_scale0_3090_v1/SUMMARY.json"
+  },
+  "limits": {
+    "strict_reference_verified": false,
+    "formal_training_eligible": false,
+    "independent_context_groups": 1,
+    "out_of_fold_ready": false,
+    "model_validation_performed": false,
+    "measured_P_CTX_postanalysis_included": false,
+    "fully_traced_six_model_forward": false,
+    "raw_nsys_trace_files_in_git": false
+  },
+  "archive_status": "full and analysis-lite archives must be generated and SHA256-verified on RTX3090; final archive names and hashes cannot be known from pasted terminal logs"
+}
