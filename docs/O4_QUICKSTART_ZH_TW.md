@@ -1,5 +1,7 @@
 # O4 三節點統一工程版
 
+**2026-11-07 S4最新進度：** GB10 scale0六圖D/I/S共40工作已完成；見[結果](o4_i3_s4_scale0_20261107/README.md)及[RTX操作手冊](O4_I3_S4_NODE_RUNBOOK_20261107.md)。A/BC source與shared base分開，各GPU須派生本地D中間輸入。Reference仍未verified，scale1/2與模型訓練未執行；以下舊版狀態保留歷史背景。
+
 **2026-11-07 收集原則更新：以收集有用資料為優先，各設備可獨立選模型／配置，不要求三台跑齊相同矩陣或同步進度。** 跨設備評估時才分方向核對可比配對，缺項與環境差異照實記錄。詳見[收集優先原則](O4_COLLECTION_POLICY_20261107.md)；以下舊版完整矩陣／對齊要求應依此調整。
 
 Release：`o4-unified-engineering-v1-20261106`。這是離線驗證的候選工程版；新 GPU canary 尚未執行，Reference strict verified=0。主方向維持 RTX4090 P → GB10／3090 GI。建議共用 tag/commit 與 frozen_A 作可比較基準，但不要求各節點執行相同模型清單；可先選當地支援的 workload，記錄實際版本與差異。舊 O1/O2/O3/O4 session 不改版。

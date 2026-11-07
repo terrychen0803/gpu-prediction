@@ -1,0 +1,195 @@
+{
+  "version": "o4_A_assets_v1_20261106",
+  "workloads": {
+    "RN-A": {
+      "status": "ready",
+      "weights": {
+        "path": "resnet50_imagenet1k_v2.pth",
+        "sha256": "72f27a9ddb2f3c57258816e525b12701cb0216f0e17192b780111c45ca8a8597",
+        "bytes": 102546585
+      },
+      "weights_kind": "pretrained",
+      "input": {
+        "path": "image224_shared_fp16.bin",
+        "sha256": "c6105d609934198afaeaf5a6badca3d8bf057321e31a3de07ed95840a94d29e2",
+        "bytes": 301056
+      },
+      "spec": {
+        "model": "torchvision.resnet50",
+        "weights": "IMAGENET1K_V2",
+        "shape": [
+          1,
+          3,
+          224,
+          224
+        ],
+        "output": "1000 logits"
+      }
+    },
+    "MV-A": {
+      "status": "ready",
+      "weights": {
+        "path": "mobilenet_v3_large-5c1a4163.pth",
+        "sha256": "5c1a416349c4cf298f2a6a5e2600ed0ee55e604713578f5e74e6bc8bcaef7997",
+        "bytes": 22132113
+      },
+      "weights_kind": "pretrained",
+      "input": {
+        "path": "image224_shared_fp16.bin",
+        "sha256": "c6105d609934198afaeaf5a6badca3d8bf057321e31a3de07ed95840a94d29e2",
+        "bytes": 301056
+      },
+      "spec": {
+        "model": "torchvision.mobilenet_v3_large",
+        "weights": "IMAGENET1K_V2",
+        "shape": [
+          1,
+          3,
+          224,
+          224
+        ],
+        "output": "1000 logits"
+      }
+    },
+    "SW-A": {
+      "status": "ready",
+      "weights": {
+        "path": "swin_t-704ceda3.pth",
+        "sha256": "704ceda373461b0a224fcdddd75cd2a5e9f8064512ed47adbddef7f343fd147b",
+        "bytes": 113445839
+      },
+      "weights_kind": "pretrained",
+      "input": {
+        "path": "image224_shared_fp16.bin",
+        "sha256": "c6105d609934198afaeaf5a6badca3d8bf057321e31a3de07ed95840a94d29e2",
+        "bytes": 301056
+      },
+      "spec": {
+        "model": "torchvision.swin_t",
+        "weights": "IMAGENET1K_V1",
+        "shape": [
+          1,
+          3,
+          224,
+          224
+        ],
+        "output": "1000 logits"
+      }
+    },
+    "YO-A": {
+      "status": "ready",
+      "weights": {
+        "path": "yolo26n.pt",
+        "sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef",
+        "bytes": 5544453
+      },
+      "weights_kind": "pretrained",
+      "input": {
+        "path": "image640_shared_fp16.bin",
+        "sha256": "cfb2c2c3f439b495618f897e41c4f5ab7214504a8b0b090a73ad619604db34a9",
+        "bytes": 2457600
+      },
+      "spec": {
+        "model": "ultralytics.yolo26n.detect",
+        "weights": "yolo26n.pt",
+        "shape": [
+          1,
+          3,
+          640,
+          640
+        ],
+        "output": "native one2one decoded/topk tensor, no external NMS"
+      }
+    },
+    "UN-A": {
+      "status": "ready",
+      "weights": {
+        "path": "unet2d_v1_initialized_seed61106.pth",
+        "sha256": "d5292a67f7a4936f702722322110a8997754238096f080fbfe5ba5af6c78656b",
+        "bytes": 31399441
+      },
+      "weights_kind": "initialized_performance_only",
+      "input": {
+        "path": "unet256_shared_fp16.bin",
+        "sha256": "9b8845b17ec316c516c74b986e5bc01a0d1c216c49c3b0722d48c1acc9198121",
+        "bytes": 131072
+      },
+      "spec": {
+        "model": "unet2d_v1",
+        "weights": "initialized_performance_only",
+        "shape": [
+          1,
+          1,
+          256,
+          256
+        ],
+        "output": "2 class spatial logits"
+      },
+      "task_segmentation_quality_validated": false
+    },
+    "QP-A": {
+      "status": "ready",
+      "weights": {
+        "path": "qwen3_0_6b/model.safetensors",
+        "sha256": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+        "bytes": 1503300328
+      },
+      "weights_kind": "pretrained",
+      "config": {
+        "path": "qwen3_0_6b/config.json",
+        "sha256": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+        "bytes": 726
+      },
+      "input": {
+        "path": "qwen128_tokens.json",
+        "sha256": "d951082ae71c1271b3c6e5bfd16f67db71d0559b9fe29029c8381700f6bfa203",
+        "bytes": 1233
+      },
+      "spec": {
+        "model": "Qwen/Qwen3-0.6B",
+        "weights": "pretrained",
+        "shape": [
+          1,
+          128
+        ],
+        "output": "last position logits + fresh KV length128"
+      },
+      "source_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+      "transformers_required": "4.57.1"
+    },
+    "QD-A": {
+      "status": "ready",
+      "weights": {
+        "path": "qwen3_0_6b/model.safetensors",
+        "sha256": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+        "bytes": 1503300328
+      },
+      "weights_kind": "pretrained",
+      "config": {
+        "path": "qwen3_0_6b/config.json",
+        "sha256": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+        "bytes": 726
+      },
+      "input": {
+        "path": "qwen128_tokens.json",
+        "sha256": "d951082ae71c1271b3c6e5bfd16f67db71d0559b9fe29029c8381700f6bfa203",
+        "bytes": 1233
+      },
+      "spec": {
+        "model": "Qwen/Qwen3-0.6B",
+        "weights": "pretrained",
+        "shape": [
+          1,
+          1
+        ],
+        "cache_before": 128,
+        "output": "last position logits + KV length129"
+      },
+      "source_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+      "transformers_required": "4.57.1"
+    }
+  },
+  "shared_bytes_required": true,
+  "copy_not_regenerate_on_other_nodes": true,
+  "weights_and_inputs_not_in_Git": true
+}

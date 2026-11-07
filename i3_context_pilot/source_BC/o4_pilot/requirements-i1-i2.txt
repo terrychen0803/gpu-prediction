@@ -1,0 +1,7 @@
+# Install only in a new environment layered on an existing compatible CUDA torch.
+# Do not upgrade driver/CUDA/torch blindly to satisfy these versions.
+transformers==4.57.1
+ultralytics==8.4.55
+huggingface-hub==0.36.2
+tokenizers==0.22.2
+safetensors==0.8.0

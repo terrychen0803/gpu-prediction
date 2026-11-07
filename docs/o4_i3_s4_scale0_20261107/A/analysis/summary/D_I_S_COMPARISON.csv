@@ -1,0 +1,3 @@
+graph_id,D_GI_us,I_GI_us,sum_S_GI_us,D_minus_I_pct,sum_S_minus_D_pct,all_GI_groups_stable,scope
+CTX_conv_bn_relu_0,36.70400008559227,36.83200106024742,46.59199994057417,-0.3475265284820561,26.93984261095106,False,"descriptive same-device medians; not pure dependency causality, not predictor performance"
+CTX_residual_0,73.11999797821045,72.49600067734718,101.21599840931594,0.860733412923631,38.42450931067862,False,"descriptive same-device medians; not pure dependency causality, not predictor performance"

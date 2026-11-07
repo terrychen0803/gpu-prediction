@@ -1,0 +1,26 @@
+[
+  {
+    "path": "SCOPE.json",
+    "sha256": "78b408def034fcf11dec25d1d70e9790da54d80be215e1a9feca74b9e4e21458"
+  },
+  {
+    "path": "run_s4.py",
+    "sha256": "883a9e1e9f4334ef7c7c87f5c6b487a1adfcec3241ec4949af4d2ec88ae2a5c3"
+  },
+  {
+    "path": "test_orchestrator.py",
+    "sha256": "30d095baeed97cebc79aa895954410a90e16a6f5eb4c8397c43f93cc21785973"
+  },
+  {
+    "path": "base_assets/BASE.json",
+    "sha256": "3dbff981696132cc5e70a3b76f98c1dbe6625839ed8542c78eb5db360e50472e"
+  },
+  {
+    "path": "assets_context_local/ASSETS.json",
+    "sha256": "3368508f4966d7315f9fc1af53aa166a23f1587a778ebbc40276bff5a9665aef"
+  },
+  {
+    "path": "evidence/FROZEN_SOURCE.json",
+    "sha256": "64ef0147b79a2af0131bbc91276a143235fb5ced658852f81f178b3ac6685138"
+  }
+]

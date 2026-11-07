@@ -1,0 +1,26 @@
+[
+  {
+    "path": "bundles/o4_i3_S4A_source_v1_20261107.tar.gz",
+    "bytes": 272859,
+    "sha256": "7f42e849c44d8a325ba4dee0b01a0f15720b1f2b82b18b48b214d9ce4e9e6670",
+    "verified_members": 173,
+    "published": false,
+    "RTX_policy": "shared frozen bytes"
+  },
+  {
+    "path": "bundles/o4_i3_S4A_shared_base_v1_20261107.tar.gz",
+    "bytes": 119494,
+    "sha256": "dda78ba94d5657264c3c0627310e8c66ca0d84899a3826cd8351cba982b663cb",
+    "verified_members": 18,
+    "published": false,
+    "RTX_policy": "shared frozen bytes"
+  },
+  {
+    "path": "bundles/o4_i3_S4A_GB10_local_inputs_v1_20261107.tar.gz",
+    "bytes": 1062678,
+    "sha256": "d624a9a8933480a5185674478c62200a1375c32dd79d582d3ae81d56ccc16d5b",
+    "verified_members": 40,
+    "published": false,
+    "RTX_policy": "derive own local D inputs; do not use GB10_local_inputs on RTX"
+  }
+]

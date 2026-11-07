@@ -1,0 +1,150 @@
+[
+  {
+    "semantic_sha256": "d455d0c0a55cac3bb0644467a0abbf58c96a7c44d16ab33e3949a7873afb20fe",
+    "positions": [
+      [
+        "CTX_residual_0",
+        "c2"
+      ],
+      [
+        "IND_residual_0",
+        "c2"
+      ],
+      [
+        "ISO_residual_0_c2",
+        "c2"
+      ],
+      [
+        "ISO_conv_bn_relu_0_c",
+        "c"
+      ],
+      [
+        "CTX_residual_0",
+        "c1"
+      ],
+      [
+        "IND_residual_0",
+        "c1"
+      ],
+      [
+        "ISO_residual_0_c1",
+        "c1"
+      ],
+      [
+        "IND_conv_bn_relu_0",
+        "c"
+      ],
+      [
+        "CTX_conv_bn_relu_0",
+        "c"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "5bcb96a92b801f967229edce35818083b14c0b2af255a64e348429fefa1b9581",
+    "positions": [
+      [
+        "CTX_residual_0",
+        "n2"
+      ],
+      [
+        "IND_residual_0",
+        "n2"
+      ],
+      [
+        "IND_conv_bn_relu_0",
+        "n"
+      ],
+      [
+        "CTX_residual_0",
+        "n1"
+      ],
+      [
+        "ISO_residual_0_n2",
+        "n2"
+      ],
+      [
+        "CTX_conv_bn_relu_0",
+        "n"
+      ],
+      [
+        "ISO_residual_0_n1",
+        "n1"
+      ],
+      [
+        "IND_residual_0",
+        "n1"
+      ],
+      [
+        "ISO_conv_bn_relu_0_n",
+        "n"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "025b4880a629cdf6e95395c3cee18f213b3f6124a9e5aad10038362dfe9713eb",
+    "positions": [
+      [
+        "ISO_conv_bn_relu_0_r",
+        "r"
+      ],
+      [
+        "IND_conv_bn_relu_0",
+        "r"
+      ],
+      [
+        "ISO_residual_0_r2",
+        "r2"
+      ],
+      [
+        "CTX_residual_0",
+        "r2"
+      ],
+      [
+        "IND_residual_0",
+        "r2"
+      ],
+      [
+        "ISO_residual_0_r1",
+        "r1"
+      ],
+      [
+        "CTX_conv_bn_relu_0",
+        "r"
+      ],
+      [
+        "CTX_residual_0",
+        "r1"
+      ],
+      [
+        "IND_residual_0",
+        "r1"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "cc2844d9d0e9f11f70a07a4a10db12c654888ea48af504847ee48f188adf928a",
+    "positions": [
+      [
+        "ISO_residual_0_a",
+        "a"
+      ],
+      [
+        "CTX_residual_0",
+        "a"
+      ],
+      [
+        "IND_residual_0",
+        "a"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  }
+]

@@ -1,0 +1,1 @@
+原GB10 evaluator程式快照供核對，需完整原始run路徑與raw，非RTX入口。其他節點依上層runbook執行套件collector/report；勿直接在此目錄執行。

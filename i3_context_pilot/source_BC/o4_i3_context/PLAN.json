@@ -1,0 +1,866 @@
+{
+  "status": "engineering_implementation_before_GPU",
+  "graphs": [
+    {
+      "id": "CTX_depthwise_pointwise_0",
+      "family": "depthwise_pointwise",
+      "scale": 0,
+      "split_B": "train",
+      "leakage_group": "context_scale_0",
+      "external_inputs": {
+        "x": [
+          1,
+          20,
+          36,
+          36
+        ]
+      },
+      "nodes": [
+        {
+          "id": "dw",
+          "op": "depthwise",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              1,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 20,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "n",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "dw"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "hs",
+          "op": "hardswish",
+          "input_edges": [
+            "n"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "pw",
+          "op": "conv",
+          "input_edges": [
+            "hs"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              40,
+              20,
+              1,
+              1
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              0,
+              0
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            40,
+            36,
+            36
+          ]
+        }
+      ],
+      "output_nodes": [
+        "pw"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_depthwise_pointwise_0",
+      "isolated_control_ids": [
+        "ISO_depthwise_pointwise_0_dw",
+        "ISO_depthwise_pointwise_0_n",
+        "ISO_depthwise_pointwise_0_hs",
+        "ISO_depthwise_pointwise_0_pw"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_se_gate_0",
+      "family": "se_gate",
+      "scale": 0,
+      "split_B": "train",
+      "leakage_group": "context_scale_0",
+      "external_inputs": {
+        "x": [
+          1,
+          20,
+          36,
+          36
+        ]
+      },
+      "nodes": [
+        {
+          "id": "pool",
+          "op": "adaptive_average_pool",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "output_size": [
+              1,
+              1
+            ]
+          },
+          "output_shape": [
+            1,
+            20,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "reduce",
+          "op": "conv",
+          "input_edges": [
+            "pool"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              5,
+              20,
+              1,
+              1
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              0,
+              0
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": true
+          },
+          "output_shape": [
+            1,
+            5,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "r",
+          "op": "relu",
+          "input_edges": [
+            "reduce"
+          ],
+          "input_shapes": [
+            [
+              1,
+              5,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            5,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "expand",
+          "op": "conv",
+          "input_edges": [
+            "r"
+          ],
+          "input_shapes": [
+            [
+              1,
+              5,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              5,
+              1,
+              1
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              0,
+              0
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": true
+          },
+          "output_shape": [
+            1,
+            20,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "gate",
+          "op": "hardsigmoid",
+          "input_edges": [
+            "expand"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "scale",
+          "op": "mul",
+          "input_edges": [
+            "x",
+            "gate"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ],
+            [
+              1,
+              20,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "broadcast": true
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        }
+      ],
+      "output_nodes": [
+        "scale"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_se_gate_0",
+      "isolated_control_ids": [
+        "ISO_se_gate_0_pool",
+        "ISO_se_gate_0_reduce",
+        "ISO_se_gate_0_r",
+        "ISO_se_gate_0_expand",
+        "ISO_se_gate_0_gate",
+        "ISO_se_gate_0_scale"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_resize_concat_conv_0",
+      "family": "resize_concat_conv",
+      "scale": 0,
+      "split_B": "train",
+      "leakage_group": "context_scale_0",
+      "external_inputs": {
+        "x": [
+          1,
+          20,
+          36,
+          36
+        ],
+        "skip": [
+          1,
+          20,
+          72,
+          72
+        ]
+      },
+      "nodes": [
+        {
+          "id": "up",
+          "op": "bilinear_resize",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "size": [
+              72,
+              72
+            ],
+            "align_corners": false,
+            "antialias": false,
+            "mode": "bilinear"
+          },
+          "output_shape": [
+            1,
+            20,
+            72,
+            72
+          ]
+        },
+        {
+          "id": "cat",
+          "op": "concat",
+          "input_edges": [
+            "up",
+            "skip"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              72,
+              72
+            ],
+            [
+              1,
+              20,
+              72,
+              72
+            ]
+          ],
+          "parameters": {
+            "dim": 1
+          },
+          "output_shape": [
+            1,
+            40,
+            72,
+            72
+          ]
+        },
+        {
+          "id": "c",
+          "op": "conv",
+          "input_edges": [
+            "cat"
+          ],
+          "input_shapes": [
+            [
+              1,
+              40,
+              72,
+              72
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              40,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            20,
+            72,
+            72
+          ]
+        },
+        {
+          "id": "r",
+          "op": "relu",
+          "input_edges": [
+            "c"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              72,
+              72
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            72,
+            72
+          ]
+        }
+      ],
+      "output_nodes": [
+        "r"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_resize_concat_conv_0",
+      "isolated_control_ids": [
+        "ISO_resize_concat_conv_0_up",
+        "ISO_resize_concat_conv_0_cat",
+        "ISO_resize_concat_conv_0_c",
+        "ISO_resize_concat_conv_0_r"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_attention_eager_0",
+      "family": "attention_eager",
+      "scale": 0,
+      "split_B": "train",
+      "leakage_group": "context_scale_0",
+      "external_inputs": {
+        "q": [
+          4,
+          32,
+          32
+        ],
+        "kt": [
+          4,
+          32,
+          32
+        ],
+        "v": [
+          4,
+          32,
+          32
+        ]
+      },
+      "nodes": [
+        {
+          "id": "qk",
+          "op": "bmm",
+          "input_edges": [
+            "q",
+            "kt"
+          ],
+          "input_shapes": [
+            [
+              4,
+              32,
+              32
+            ],
+            [
+              4,
+              32,
+              32
+            ]
+          ],
+          "parameters": {},
+          "output_shape": [
+            4,
+            32,
+            32
+          ]
+        },
+        {
+          "id": "scale",
+          "op": "mul_scalar",
+          "input_edges": [
+            "qk"
+          ],
+          "input_shapes": [
+            [
+              4,
+              32,
+              32
+            ]
+          ],
+          "parameters": {
+            "value": 0.1767766952966369
+          },
+          "output_shape": [
+            4,
+            32,
+            32
+          ]
+        },
+        {
+          "id": "softmax",
+          "op": "softmax",
+          "input_edges": [
+            "scale"
+          ],
+          "input_shapes": [
+            [
+              4,
+              32,
+              32
+            ]
+          ],
+          "parameters": {
+            "dim": -1,
+            "dtype": "float16"
+          },
+          "output_shape": [
+            4,
+            32,
+            32
+          ]
+        },
+        {
+          "id": "av",
+          "op": "bmm",
+          "input_edges": [
+            "softmax",
+            "v"
+          ],
+          "input_shapes": [
+            [
+              4,
+              32,
+              32
+            ],
+            [
+              4,
+              32,
+              32
+            ]
+          ],
+          "parameters": {},
+          "output_shape": [
+            4,
+            32,
+            32
+          ]
+        }
+      ],
+      "output_nodes": [
+        "av"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_attention_eager_0",
+      "isolated_control_ids": [
+        "ISO_attention_eager_0_qk",
+        "ISO_attention_eager_0_scale",
+        "ISO_attention_eager_0_softmax",
+        "ISO_attention_eager_0_av"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    }
+  ],
+  "work_items": [
+    {
+      "id": "CTX_depthwise_pointwise_0",
+      "kind": "dependent_graph",
+      "graph_id": "CTX_depthwise_pointwise_0"
+    },
+    {
+      "id": "IND_depthwise_pointwise_0",
+      "kind": "independent_sequence",
+      "graph_id": "CTX_depthwise_pointwise_0"
+    },
+    {
+      "id": "ISO_depthwise_pointwise_0_dw",
+      "kind": "isolated_position",
+      "graph_id": "CTX_depthwise_pointwise_0",
+      "node_id": "dw"
+    },
+    {
+      "id": "ISO_depthwise_pointwise_0_n",
+      "kind": "isolated_position",
+      "graph_id": "CTX_depthwise_pointwise_0",
+      "node_id": "n"
+    },
+    {
+      "id": "ISO_depthwise_pointwise_0_hs",
+      "kind": "isolated_position",
+      "graph_id": "CTX_depthwise_pointwise_0",
+      "node_id": "hs"
+    },
+    {
+      "id": "ISO_depthwise_pointwise_0_pw",
+      "kind": "isolated_position",
+      "graph_id": "CTX_depthwise_pointwise_0",
+      "node_id": "pw"
+    },
+    {
+      "id": "CTX_se_gate_0",
+      "kind": "dependent_graph",
+      "graph_id": "CTX_se_gate_0"
+    },
+    {
+      "id": "IND_se_gate_0",
+      "kind": "independent_sequence",
+      "graph_id": "CTX_se_gate_0"
+    },
+    {
+      "id": "ISO_se_gate_0_pool",
+      "kind": "isolated_position",
+      "graph_id": "CTX_se_gate_0",
+      "node_id": "pool"
+    },
+    {
+      "id": "ISO_se_gate_0_reduce",
+      "kind": "isolated_position",
+      "graph_id": "CTX_se_gate_0",
+      "node_id": "reduce"
+    },
+    {
+      "id": "ISO_se_gate_0_r",
+      "kind": "isolated_position",
+      "graph_id": "CTX_se_gate_0",
+      "node_id": "r"
+    },
+    {
+      "id": "ISO_se_gate_0_expand",
+      "kind": "isolated_position",
+      "graph_id": "CTX_se_gate_0",
+      "node_id": "expand"
+    },
+    {
+      "id": "ISO_se_gate_0_gate",
+      "kind": "isolated_position",
+      "graph_id": "CTX_se_gate_0",
+      "node_id": "gate"
+    },
+    {
+      "id": "ISO_se_gate_0_scale",
+      "kind": "isolated_position",
+      "graph_id": "CTX_se_gate_0",
+      "node_id": "scale"
+    },
+    {
+      "id": "CTX_resize_concat_conv_0",
+      "kind": "dependent_graph",
+      "graph_id": "CTX_resize_concat_conv_0"
+    },
+    {
+      "id": "IND_resize_concat_conv_0",
+      "kind": "independent_sequence",
+      "graph_id": "CTX_resize_concat_conv_0"
+    },
+    {
+      "id": "ISO_resize_concat_conv_0_up",
+      "kind": "isolated_position",
+      "graph_id": "CTX_resize_concat_conv_0",
+      "node_id": "up"
+    },
+    {
+      "id": "ISO_resize_concat_conv_0_cat",
+      "kind": "isolated_position",
+      "graph_id": "CTX_resize_concat_conv_0",
+      "node_id": "cat"
+    },
+    {
+      "id": "ISO_resize_concat_conv_0_c",
+      "kind": "isolated_position",
+      "graph_id": "CTX_resize_concat_conv_0",
+      "node_id": "c"
+    },
+    {
+      "id": "ISO_resize_concat_conv_0_r",
+      "kind": "isolated_position",
+      "graph_id": "CTX_resize_concat_conv_0",
+      "node_id": "r"
+    },
+    {
+      "id": "CTX_attention_eager_0",
+      "kind": "dependent_graph",
+      "graph_id": "CTX_attention_eager_0"
+    },
+    {
+      "id": "IND_attention_eager_0",
+      "kind": "independent_sequence",
+      "graph_id": "CTX_attention_eager_0"
+    },
+    {
+      "id": "ISO_attention_eager_0_qk",
+      "kind": "isolated_position",
+      "graph_id": "CTX_attention_eager_0",
+      "node_id": "qk"
+    },
+    {
+      "id": "ISO_attention_eager_0_scale",
+      "kind": "isolated_position",
+      "graph_id": "CTX_attention_eager_0",
+      "node_id": "scale"
+    },
+    {
+      "id": "ISO_attention_eager_0_softmax",
+      "kind": "isolated_position",
+      "graph_id": "CTX_attention_eager_0",
+      "node_id": "softmax"
+    },
+    {
+      "id": "ISO_attention_eager_0_av",
+      "kind": "isolated_position",
+      "graph_id": "CTX_attention_eager_0",
+      "node_id": "av"
+    }
+  ],
+  "work_count": 26,
+  "formal_cells": 234,
+  "formal_measured": 9360,
+  "smoke_cells": 78,
+  "smoke_measured": 234,
+  "strict_reference_verified": false,
+  "single_context_leakage_group": "context_scale_0"
+}

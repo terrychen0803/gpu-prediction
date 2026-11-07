@@ -1,0 +1,25 @@
+{
+  "source_A_files_byte_exact": 173,
+  "source_BC_files_byte_exact": 174,
+  "release_archives_SHA_passed": 6,
+  "prior_CPU_tests_per_version": 196,
+  "derive_helper_positive_plan_checks": 4,
+  "derive_helper_wrong_base_checks": 2,
+  "RTX_collector_plan_only_cases": 24,
+  "RTX_GPU_executed": false,
+  "closed_runs": [
+    {
+      "run_id": "o4_i3_s4a_gb10_20261107T000028Z",
+      "files_verified_unchanged": 16537
+    },
+    {
+      "run_id": "o4_i3_s4bc_gb10_20261107T021058Z",
+      "files_verified_unchanged": 26407
+    }
+  ],
+  "raw_uploaded": false,
+  "strict_reference_verified": false,
+  "formal_training_eligible": false,
+  "scale1_2_collected": false,
+  "models_trained": 0
+}
