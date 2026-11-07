@@ -1,0 +1,63 @@
+{
+  "dataset": "RTX4090 O4 I3 S1-S4 scale0",
+  "status": "engineering_collection_complete_with_versioned_groups4_recovery",
+  "reported_date": "2026-11-07",
+  "source_release_tag": "o4-i3-s4-scale0-dis-dev-v1-20261107",
+  "host": "iccl-WHITLEY",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "torch": "2.8.0+cu128",
+  "nsight": "2026.5.2.323-265239015215v0",
+  "formal_protocol": "40 measured iterations x 3 independent processes x GI/P/R",
+  "selected_formal_cells": 1008,
+  "measured_iterations_per_cell": 40,
+  "selected_iteration_measurements": 40320,
+  "stages": {
+    "S1": {
+      "configs": 3,
+      "formal_cells": 27,
+      "completed": 27
+    },
+    "S2": {
+      "configs": 33,
+      "formal_cells": 297,
+      "completed": 297
+    },
+    "S3": {
+      "configs": 36,
+      "formal_cells": 324,
+      "selected_completed": 324,
+      "original_completed": 316,
+      "original_failed": 2,
+      "original_deferred": 6,
+      "groups4_recovery_completed": 9,
+      "groups4_recovery_supersedes_original_GI_repeat1": true,
+      "groups4_multistream_P_R_conditional_pairs_exact": "3/3",
+      "GI_all_stream_completion_verified": false
+    },
+    "S4": {
+      "work_items": 40,
+      "formal_cells": 360,
+      "completed": 360,
+      "p_r_pairs_exact": 120,
+      "p_r_pairs_total": 120,
+      "stable_mode_groups": 91,
+      "review_required_mode_groups": 29,
+      "derived_native_on_RTX4090": true
+    }
+  },
+  "reference_status": {
+    "strict_reference_verified": false,
+    "formal_training_eligible": false,
+    "groups4_versioned_conditional_multistream": true
+  },
+  "archive_sources": [
+    "/home/iccl_resilient/RTchen/i3-data-4090/core36_20261107T072354Z",
+    "/home/iccl_resilient/RTchen/i3-data-4090/s3_lite_20261107T075927Z",
+    "/home/iccl_resilient/RTchen/i3-data-4090/s4_scale0_20261107T092142Z",
+    "/home/iccl_resilient/RTchen/fix_i3_groups4_4090.sh"
+  ],
+  "planned_scp_destination": "good_egg@140.113.179.4:/home/good_egg/RTchen/RTX4090_archives",
+  "raw_archives_uploaded_to_github": false,
+  "raw_archives_transferred_to_gb10": "awaiting_4090_side_execution",
+  "provenance": "Summary transcribed from user-provided terminal outputs; original raw trace bytes are not accessible to this GitHub connector."
+}
