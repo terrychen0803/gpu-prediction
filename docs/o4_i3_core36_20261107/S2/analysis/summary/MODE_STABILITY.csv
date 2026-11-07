@@ -1,0 +1,217 @@
+source,config_id,mode,completed_processes,process_medians_us,median_of_process_medians_us,spread_fraction,stability_status,target_kind
+S1_smoke,I3_batchnorm_eval_00_base,GI,1,[18.94400082528591],18.94400082528591,,not_evaluated_smoke,iteration_device_event_us
+S1_smoke,I3_batchnorm_eval_00_base,P,1,[31.231999397277832],31.231999397277832,,not_evaluated_smoke,profiled_iteration_event_us
+S1_smoke,I3_batchnorm_eval_00_base,R,1,[70.88000327348709],70.88000327348709,,not_evaluated_smoke,profiled_iteration_event_us
+S1_smoke,I3_gemm_00_base,GI,1,[11.296000331640244],11.296000331640244,,not_evaluated_smoke,iteration_device_event_us
+S1_smoke,I3_gemm_00_base,P,1,[16.831999644637108],16.831999644637108,,not_evaluated_smoke,profiled_iteration_event_us
+S1_smoke,I3_gemm_00_base,R,1,[36.99199855327606],36.99199855327606,,not_evaluated_smoke,profiled_iteration_event_us
+S1_smoke,I3_bilinear_resize_00_base,GI,1,[15.71200042963028],15.71200042963028,,not_evaluated_smoke,iteration_device_event_us
+S1_smoke,I3_bilinear_resize_00_base,P,1,[18.144000321626663],18.144000321626663,,not_evaluated_smoke,profiled_iteration_event_us
+S1_smoke,I3_bilinear_resize_00_base,R,1,[39.07199949026108],39.07199949026108,,not_evaluated_smoke,profiled_iteration_event_us
+S1_formal,I3_batchnorm_eval_00_base,GI,3,"[19.872000440955162, 19.840000197291374, 19.888000562787056]",19.872000440955162,0.002415477276095239,stable,iteration_device_event_us
+S1_formal,I3_batchnorm_eval_00_base,P,3,"[27.51999907195568, 27.63199992477894, 27.55199931561947]",27.55199931561947,0.004065071704606322,stable,profiled_iteration_event_us
+S1_formal,I3_batchnorm_eval_00_base,R,3,"[51.98400095105171, 51.791999489068985, 52.14399844408035]",51.98400095105171,0.006771294024536723,stable,profiled_iteration_event_us
+S1_formal,I3_gemm_00_base,GI,3,"[11.19999960064888, 11.408000253140926, 11.42400037497282]",11.408000253140926,0.01963541105832873,stable,iteration_device_event_us
+S1_formal,I3_gemm_00_base,P,3,"[15.359999611973763, 15.279999934136868, 15.279999934136868]",15.279999934136868,0.00523558103283552,stable,profiled_iteration_event_us
+S1_formal,I3_gemm_00_base,R,3,"[32.52799995243549, 32.56000019609928, 31.920000910758972]",32.52799995243549,0.019675334674008754,stable,profiled_iteration_event_us
+S1_formal,I3_bilinear_resize_00_base,GI,3,"[15.647999942302704, 15.568000264465809, 15.615999698638916]",15.615999698638916,0.005122930288213807,stable,iteration_device_event_us
+S1_formal,I3_bilinear_resize_00_base,P,3,"[17.20000058412552, 17.11999997496605, 16.991999931633472]",17.11999997496605,0.012149570840899423,stable,profiled_iteration_event_us
+S1_formal,I3_bilinear_resize_00_base,R,3,"[34.912001341581345, 35.10399907827377, 35.42400151491165]",35.10399907827377,0.014585237772729694,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_conv_00_base,GI,3,"[22.880000062286854, 22.880000062286854, 22.71999977529049]",22.880000062286854,0.006993019517517107,stable,iteration_device_event_us
+S2_anchor_00_formal,I3_conv_00_base,P,3,"[27.583999559283257, 27.327999472618103, 27.74399984627962]",27.583999559283257,0.015081220283790038,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_conv_00_base,R,3,"[55.71199953556061, 55.39200082421303, 55.584000423550606]",55.584000423550606,0.005757029161434707,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_depthwise_00_base,GI,3,"[14.783999882638454, 14.655999839305878, 14.047999866306782]",14.655999839305878,0.05021834227630084,review_required,iteration_device_event_us
+S2_anchor_00_formal,I3_depthwise_00_base,P,3,"[17.59999990463257, 17.487999983131886, 17.456000670790672]",17.487999983131886,0.008234173946751546,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_depthwise_00_base,R,3,"[45.61600089073181, 44.624000787734985, 45.53599841892719]",45.53599841892719,0.021784964367543062,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_bmm_00_base,GI,3,"[10.879999957978725, 11.136000044643879, 10.672000236809254]",10.879999957978725,0.042647041325984215,stable,iteration_device_event_us
+S2_anchor_00_formal,I3_bmm_00_base,P,3,"[13.856000266969204, 13.887999579310417, 13.488000258803368]",13.856000266969204,0.028868310681300493,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_bmm_00_base,R,3,"[30.271999537944794, 30.784000642597675, 31.87199868261814]",30.784000642597675,0.05197502310532479,review_required,profiled_iteration_event_us
+S2_anchor_00_formal,I3_linear_00_base,GI,3,"[9.600000455975533, 9.440000168979168, 9.680000133812428]",9.600000455975533,0.024999995149361822,stable,iteration_device_event_us
+S2_anchor_00_formal,I3_linear_00_base,P,3,"[12.512000277638435, 12.624000199139118, 12.527999933809042]",12.527999933809042,0.008939968238539903,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_linear_00_base,R,3,"[31.39200061559677, 31.66399896144867, 31.968001276254654]",31.66399896144867,0.018191027019650013,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_relu_00_base,GI,3,"[6.927999900653958, 6.927999900653958, 6.87999976798892]",6.927999900653958,0.00692842571497543,stable,iteration_device_event_us
+S2_anchor_00_formal,I3_relu_00_base,P,3,"[9.903999976813793, 9.728000033646822, 9.79200005531311]",9.79200005531311,0.017973850303592897,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_relu_00_base,R,3,"[24.639999493956566, 24.912000633776188, 24.54400062561035]",24.639999493956566,0.014935065573199197,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_add_00_base,GI,3,"[6.87999976798892, 7.2480000089854, 7.135999854654074]",7.135999854654074,0.05156954154875319,review_required,iteration_device_event_us
+S2_anchor_00_formal,I3_add_00_base,P,3,"[9.40799992531538, 9.472000412642956, 9.360000025480986]",9.40799992531538,0.011904803151687482,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_add_00_base,R,3,"[27.343999594449997, 27.696000412106514, 27.744000777602196]",27.696000412106514,0.014442561279618906,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_maxpool_00_base,GI,3,"[10.064000263810158, 10.511999949812889, 10.143999941647053]",10.143999941647053,0.04416400715495183,stable,iteration_device_event_us
+S2_anchor_00_formal,I3_maxpool_00_base,P,3,"[13.055999763309956, 13.104000128805637, 13.008000329136848]",13.055999763309956,0.0073529259657746085,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_maxpool_00_base,R,3,"[39.8080013692379, 39.32800143957138, 39.53600116074085]",39.53600116074085,0.012140831535161878,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_adaptive_average_pool_00_base,GI,3,"[9.55200009047985, 9.02399979531765, 9.296000003814697]",9.296000003814697,0.0567986547919031,review_required,iteration_device_event_us
+S2_anchor_00_formal,I3_adaptive_average_pool_00_base,P,3,"[11.327999643981457, 11.487999930977821, 11.392000131309032]",11.392000131309032,0.014044968851135299,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_adaptive_average_pool_00_base,R,3,"[30.352000147104263, 30.352000147104263, 30.400000512599945]",30.352000147104263,0.0015814564201055213,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_concat_00_base,GI,3,"[7.85600021481514, 7.903999648988247, 7.791999960318208]",7.85600021481514,0.014256579125192228,stable,iteration_device_event_us
+S2_anchor_00_formal,I3_concat_00_base,P,3,"[9.952000342309475, 9.743999689817429, 9.8879998549819]",9.8879998549819,0.02103566500228545,stable,profiled_iteration_event_us
+S2_anchor_00_formal,I3_concat_00_base,R,3,"[29.695999808609486, 29.184000566601753, 29.16800044476986]",29.184000566601753,0.018092083113645158,stable,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_conv_00_base,GI,1,[23.19999970495701],23.19999970495701,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_00_smoke,I3_conv_00_base,P,1,[29.21600081026554],29.21600081026554,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_conv_00_base,R,1,[64.51199948787689],64.51199948787689,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_depthwise_00_base,GI,1,[15.296000055968761],15.296000055968761,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_00_smoke,I3_depthwise_00_base,P,1,[18.624000251293182],18.624000251293182,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_depthwise_00_base,R,1,[49.66399818658829],49.66399818658829,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_bmm_00_base,GI,1,[11.231999844312668],11.231999844312668,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_00_smoke,I3_bmm_00_base,P,1,[18.079999834299088],18.079999834299088,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_bmm_00_base,R,1,[36.99199855327606],36.99199855327606,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_linear_00_base,GI,1,[9.600000455975533],9.600000455975533,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_00_smoke,I3_linear_00_base,P,1,[14.303999952971935],14.303999952971935,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_linear_00_base,R,1,[40.54399952292442],40.54399952292442,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_relu_00_base,GI,1,[7.199999876320362],7.199999876320362,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_00_smoke,I3_relu_00_base,P,1,[10.463999584317207],10.463999584317207,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_relu_00_base,R,1,[28.736000880599022],28.736000880599022,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_add_00_base,GI,1,[7.519999984651804],7.519999984651804,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_00_smoke,I3_add_00_base,P,1,[10.111999697983265],10.111999697983265,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_add_00_base,R,1,[37.91999816894531],37.91999816894531,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_maxpool_00_base,GI,1,[10.400000028312206],10.400000028312206,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_00_smoke,I3_maxpool_00_base,P,1,[23.77600036561489],23.77600036561489,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_maxpool_00_base,R,1,[48.448000103235245],48.448000103235245,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_adaptive_average_pool_00_base,GI,1,[9.920000098645687],9.920000098645687,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_00_smoke,I3_adaptive_average_pool_00_base,P,1,[12.992000207304955],12.992000207304955,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_adaptive_average_pool_00_base,R,1,[43.136000633239746],43.136000633239746,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_concat_00_base,GI,1,[8.224000222980976],8.224000222980976,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_00_smoke,I3_concat_00_base,P,1,[11.136000044643879],11.136000044643879,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_00_smoke,I3_concat_00_base,R,1,[36.06399893760681],36.06399893760681,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_formal,I3_conv_03_base,GI,3,"[32.00000151991844, 31.808000057935715, 30.14400042593479]",31.808000057935715,0.05835013489069082,review_required,iteration_device_event_us
+S2_anchor_03_formal,I3_conv_03_base,P,3,"[37.26400062441826, 37.21600025892258, 36.320000886917114]",37.21600025892258,0.025365426991978253,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_conv_03_base,R,3,"[64.99200314283371, 65.23199751973152, 64.60800021886826]",64.99200314283371,0.009601139689323001,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_depthwise_03_base,GI,3,"[9.711999911814928, 9.64799989014864, 9.696000255644321]",9.696000255644321,0.00660066212653327,stable,iteration_device_event_us
+S2_anchor_03_formal,I3_depthwise_03_base,P,3,"[12.768000364303589, 12.815999798476696, 13.008000329136848]",12.815999798476696,0.018726589310791488,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_depthwise_03_base,R,3,"[42.94399917125702, 43.136000633239746, 42.65599884092808]",42.94399917125702,0.01117738919464538,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_gemm_03_base,GI,3,"[11.136000044643879, 11.648000217974186, 11.103999800980091]",11.136000044643879,0.0488506119623935,stable,iteration_device_event_us
+S2_anchor_03_formal,I3_gemm_03_base,P,3,"[15.359999611973763, 15.296000055968761, 15.60000004246831]",15.359999611973763,0.019791666287710532,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_gemm_03_base,R,3,"[32.416000962257385, 32.51200169324875, 32.655999064445496]",32.51200169324875,0.0073818310066693605,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_bmm_03_base,GI,3,"[11.103999800980091, 11.119999922811985, 11.183999944478273]",11.119999922811985,0.007194257558767334,stable,iteration_device_event_us
+S2_anchor_03_formal,I3_bmm_03_base,P,3,"[13.712000101804733, 14.208000153303146, 13.824000023305416]",13.824000023305416,0.03587963329443166,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_bmm_03_base,R,3,"[30.86400032043457, 31.26399964094162, 31.216000206768513]",31.216000206768513,0.01281391971609221,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_linear_03_base,GI,3,"[9.79200005531311, 9.600000455975533, 9.727999567985535]",9.727999567985535,0.019736801795246884,stable,iteration_device_event_us
+S2_anchor_03_formal,I3_linear_03_base,P,3,"[12.83199992030859, 12.80000014230609, 12.768000364303589]",12.80000014230609,0.004999965257302778,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_linear_03_base,R,3,"[32.287999987602234, 32.32000023126602, 30.751999467611313]",32.287999987602234,0.048562957267615864,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_batchnorm_eval_03_base,GI,3,"[16.335999593138695, 15.887999907135963, 16.16000011563301]",16.16000011563301,0.02772275264833329,stable,iteration_device_event_us
+S2_anchor_03_formal,I3_batchnorm_eval_03_base,P,3,"[23.264000192284584, 23.615999147295952, 23.344000801444054]",23.344000801444054,0.015078775827903212,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_batchnorm_eval_03_base,R,3,"[51.50400102138519, 52.41600051522255, 51.67999863624573]",51.67999863624573,0.017647049495038616,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_relu_03_base,GI,3,"[6.464000092819333, 6.895999889820814, 6.832000100985169]",6.832000100985169,0.06323181946955578,review_required,iteration_device_event_us
+S2_anchor_03_formal,I3_relu_03_base,P,3,"[9.584000334143639, 9.79200005531311, 9.64799989014864]",9.64799989014864,0.02155884365026327,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_relu_03_base,R,3,"[24.032000452280045, 24.240000173449516, 24.287999607622623]",24.240000173449516,0.010561021184437908,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_add_03_base,GI,3,"[7.023999933153391, 7.408000063151121, 6.943999789655209]",7.023999933153391,0.06605926507855217,review_required,iteration_device_event_us
+S2_anchor_03_formal,I3_add_03_base,P,3,"[9.312000125646591, 9.472000412642956, 9.312000125646591]",9.312000125646591,0.01718216117241029,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_add_03_base,R,3,"[27.263999916613102, 28.4000001847744, 27.328000403940678]",27.328000403940678,0.0415690958493065,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_maxpool_03_base,GI,3,"[8.799999952316284, 9.808000177145004, 9.775999933481216]",9.775999933481216,0.10310968000076214,review_required,iteration_device_event_us
+S2_anchor_03_formal,I3_maxpool_03_base,P,3,"[11.440000031143427, 11.42400037497282, 11.327999643981457]",11.42400037497282,0.009803955137058248,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_maxpool_03_base,R,3,"[39.95199874043465, 39.45599868893623, 38.88000175356865]",39.45599868893623,0.027169429807554043,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_adaptive_average_pool_03_base,GI,3,"[11.008000001311302, 11.07200002297759, 11.568000074476004]",11.07200002297759,0.0505780411852005,review_required,iteration_device_event_us
+S2_anchor_03_formal,I3_adaptive_average_pool_03_base,P,3,"[13.663999736309052, 13.807999901473522, 13.327999971807003]",13.663999736309052,0.035128801151175795,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_adaptive_average_pool_03_base,R,3,"[30.288000591099262, 30.49599938094616, 30.079999938607216]",30.288000591099262,0.013734793786988808,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_bilinear_resize_03_base,GI,3,"[17.872000113129616, 17.75999926030636, 17.839999869465828]",17.839999869465828,0.006278074755760131,stable,iteration_device_event_us
+S2_anchor_03_formal,I3_bilinear_resize_03_base,P,3,"[20.8320003002882, 20.447999238967896, 21.968000568449497]",20.8320003002882,0.07296473250629577,review_required,profiled_iteration_event_us
+S2_anchor_03_formal,I3_bilinear_resize_03_base,R,3,"[37.87200152873993, 38.704000413417816, 36.80000081658363]",37.87200152873993,0.05027459653510244,review_required,profiled_iteration_event_us
+S2_anchor_03_formal,I3_concat_03_base,GI,3,"[7.824000203981996, 7.791999960318208, 7.695999927818775]",7.791999960318208,0.016427140248341732,stable,iteration_device_event_us
+S2_anchor_03_formal,I3_concat_03_base,P,3,"[9.8879998549819, 9.839999955147505, 9.759999811649323]",9.839999955147505,0.013008134544311387,stable,profiled_iteration_event_us
+S2_anchor_03_formal,I3_concat_03_base,R,3,"[29.26400024443865, 29.199999757111073, 29.600000008940697]",29.26400024443865,0.01366867989640755,stable,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_conv_03_base,GI,1,[32.127998769283295],32.127998769283295,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_03_smoke,I3_conv_03_base,P,1,[38.11199963092804],38.11199963092804,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_conv_03_base,R,1,[74.01599735021591],74.01599735021591,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_depthwise_03_base,GI,1,[10.17600018531084],10.17600018531084,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_03_smoke,I3_depthwise_03_base,P,1,[14.208000153303146],14.208000153303146,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_depthwise_03_base,R,1,[51.552001386880875],51.552001386880875,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_gemm_03_base,GI,1,[11.359999887645245],11.359999887645245,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_03_smoke,I3_gemm_03_base,P,1,[43.935999274253845],43.935999274253845,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_gemm_03_base,R,1,[38.784001022577286],38.784001022577286,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_bmm_03_base,GI,1,[11.680000461637974],11.680000461637974,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_03_smoke,I3_bmm_03_base,P,1,[17.56799966096878],17.56799966096878,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_bmm_03_base,R,1,[36.896001547575],36.896001547575,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_linear_03_base,GI,1,[10.304000228643417],10.304000228643417,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_03_smoke,I3_linear_03_base,P,1,[13.919999822974205],13.919999822974205,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_linear_03_base,R,1,[47.839999198913574],47.839999198913574,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_batchnorm_eval_03_base,GI,1,[16.607999801635742],16.607999801635742,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_03_smoke,I3_batchnorm_eval_03_base,P,1,[46.14400118589401],46.14400118589401,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_batchnorm_eval_03_base,R,1,[58.04799869656563],58.04799869656563,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_relu_03_base,GI,1,[7.615999784320593],7.615999784320593,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_03_smoke,I3_relu_03_base,P,1,[10.528000071644783],10.528000071644783,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_relu_03_base,R,1,[29.37600016593933],29.37600016593933,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_add_03_base,GI,1,[6.816000211983919],6.816000211983919,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_03_smoke,I3_add_03_base,P,1,[12.44799979031086],12.44799979031086,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_add_03_base,R,1,[31.679999083280563],31.679999083280563,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_maxpool_03_base,GI,1,[9.279999881982803],9.279999881982803,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_03_smoke,I3_maxpool_03_base,P,1,[12.000000104308128],12.000000104308128,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_maxpool_03_base,R,1,[47.26399853825569],47.26399853825569,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_adaptive_average_pool_03_base,GI,1,[11.008000001311302],11.008000001311302,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_03_smoke,I3_adaptive_average_pool_03_base,P,1,[15.424000099301338],15.424000099301338,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_adaptive_average_pool_03_base,R,1,[36.80000081658363],36.80000081658363,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_bilinear_resize_03_base,GI,1,[17.59999990463257],17.59999990463257,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_03_smoke,I3_bilinear_resize_03_base,P,1,[21.888000890612602],21.888000890612602,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_bilinear_resize_03_base,R,1,[49.66399818658829],49.66399818658829,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_concat_03_base,GI,1,[7.840000092983246],7.840000092983246,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_03_smoke,I3_concat_03_base,P,1,[11.19999960064888],11.19999960064888,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_03_smoke,I3_concat_03_base,R,1,[36.41600161790848],36.41600161790848,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_formal,I3_conv_04_base,GI,3,"[41.58399999141693, 41.120000183582306, 40.89600034058094]",41.120000183582306,0.01673150894368633,stable,iteration_device_event_us
+S2_anchor_04_formal,I3_conv_04_base,P,3,"[36.25600039958954, 45.2479999512434, 45.69600149989128]",45.2479999512434,0.2086280301996494,review_required,profiled_iteration_event_us
+S2_anchor_04_formal,I3_conv_04_base,R,3,"[73.29599931836128, 73.03999736905098, 72.56000116467476]",73.03999736905098,0.010076645402487183,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_depthwise_04_base,GI,3,"[11.679999995976686, 11.776000261306763, 11.45600015297532]",11.679999995976686,0.02739726955836213,stable,iteration_device_event_us
+S2_anchor_04_formal,I3_depthwise_04_base,P,3,"[14.463999774307013, 13.887999579310417, 14.783999882638454]",14.463999774307013,0.061946924592714586,review_required,profiled_iteration_event_us
+S2_anchor_04_formal,I3_depthwise_04_base,R,3,"[44.015999883413315, 43.31200011074543, 44.08000037074089]",44.015999883413315,0.017448206607362984,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_gemm_04_base,GI,3,"[10.544000193476677, 10.751999914646149, 11.04000024497509]",10.751999914646149,0.046130957536818076,stable,iteration_device_event_us
+S2_anchor_04_formal,I3_gemm_04_base,P,3,"[12.223999947309494, 12.144000269472599, 5.071999970823526]",12.144000269472599,0.5889327913195584,review_required,profiled_iteration_event_us
+S2_anchor_04_formal,I3_gemm_04_base,R,3,"[29.7279991209507, 29.311999678611755, 29.85600009560585]",29.7279991209507,0.018299261069700198,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_bmm_04_base,GI,3,"[12.815999798476696, 12.768000364303589, 12.880000285804272]",12.815999798476696,0.008739070167119938,stable,iteration_device_event_us
+S2_anchor_04_formal,I3_bmm_04_base,P,3,"[15.984000638127327, 15.95200039446354, 11.663999874144793]",15.95200039446354,0.27081247850782886,review_required,profiled_iteration_event_us
+S2_anchor_04_formal,I3_bmm_04_base,R,3,"[31.360000371932983, 30.767999589443207, 31.072000041604042]",31.072000041604042,0.019052548329592998,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_linear_04_base,GI,3,"[11.024000123143196, 9.727999567985535, 11.440000031143427]",11.024000123143196,0.15529757293487417,review_required,iteration_device_event_us
+S2_anchor_04_formal,I3_linear_04_base,P,3,"[14.32000007480383, 14.32000007480383, 14.175999909639359]",14.32000007480383,0.01005587740309026,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_linear_04_base,R,3,"[33.1679992377758, 32.35200047492981, 31.984001398086548]",32.35200047492981,0.03659736097638715,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_batchnorm_eval_04_base,GI,3,"[16.464000567793846, 16.607999801635742, 16.095999628305435]",16.464000567793846,0.03109816300248794,stable,iteration_device_event_us
+S2_anchor_04_formal,I3_batchnorm_eval_04_base,P,3,"[24.111999198794365, 24.464000016450882, 23.96799996495247]",24.111999198794365,0.020570673025039492,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_batchnorm_eval_04_base,R,3,"[52.70400084555149, 52.59199999272823, 53.039999678730965]",52.70400084555149,0.00850029748814686,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_relu_04_base,GI,3,"[7.007999811321497, 7.055999943986535, 7.280000019818544]",7.055999943986535,0.03854878268938468,stable,iteration_device_event_us
+S2_anchor_04_formal,I3_relu_04_base,P,3,"[9.664000011980534, 9.711999911814928, 9.743999689817429]",9.711999911814928,0.0082371991930903,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_relu_04_base,R,3,"[24.783999659121037, 23.951999843120575, 24.383999407291412]",24.383999407291412,0.03412072819160557,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_add_04_base,GI,3,"[7.007999811321497, 7.536000106483698, 7.296000141650438]",7.296000141650438,0.07236846010295735,review_required,iteration_device_event_us
+S2_anchor_04_formal,I3_add_04_base,P,3,"[9.519999846816063, 9.343999903649092, 9.375999681651592]",9.375999681651592,0.018771325633830292,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_add_04_base,R,3,"[27.759999968111515, 26.575999334454536, 27.35999971628189]",27.35999971628189,0.043274877409899305,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_maxpool_04_base,GI,3,"[10.432000271975994, 10.431999806314707, 10.672000236809254]",10.432000271975994,0.023006175636255694,stable,iteration_device_event_us
+S2_anchor_04_formal,I3_maxpool_04_base,P,3,"[14.607999939471483, 13.75999953597784, 13.439999893307686]",13.75999953597784,0.08488372714765463,review_required,profiled_iteration_event_us
+S2_anchor_04_formal,I3_maxpool_04_base,R,3,"[39.24800083041191, 38.784001022577286, 39.21600058674812]",39.21600058674812,0.011831900267550998,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_adaptive_average_pool_04_base,GI,3,"[11.440000031143427, 11.04000024497509, 10.879999957978725]",11.04000024497509,0.05072464318282857,review_required,iteration_device_event_us
+S2_anchor_04_formal,I3_adaptive_average_pool_04_base,P,3,"[13.183999806642532, 13.295999728143215, 13.295999728143215]",13.295999728143215,0.00842358030916744,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_adaptive_average_pool_04_base,R,3,"[30.079999938607216, 30.368000268936157, 30.063999816775322]",30.079999938607216,0.010106398031293057,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_bilinear_resize_04_base,GI,3,"[32.287999987602234, 31.95200115442276, 32.287999987602234]",32.287999987602234,0.010406306779871434,stable,iteration_device_event_us
+S2_anchor_04_formal,I3_bilinear_resize_04_base,P,3,"[33.583998680114746, 33.93599949777126, 33.695999532938]",33.695999532938,0.010446368190159622,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_bilinear_resize_04_base,R,3,"[50.944000482559204, 51.56799964606762, 52.20799893140793]",51.56799964606762,0.024511294941127547,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_concat_04_base,GI,3,"[8.655999787151814, 8.36799992248416, 8.816000074148178]",8.655999787151814,0.05175602618763805,review_required,iteration_device_event_us
+S2_anchor_04_formal,I3_concat_04_base,P,3,"[9.824000298976898, 9.920000098645687, 10.015999898314476]",9.920000098645687,0.019354798127853876,stable,profiled_iteration_event_us
+S2_anchor_04_formal,I3_concat_04_base,R,3,"[27.82400045543909, 29.504000209271908, 28.36799994111061]",28.36799994111061,0.05922164965173237,review_required,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_conv_04_base,GI,1,[40.64000025391579],40.64000025391579,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_04_smoke,I3_conv_04_base,P,1,[47.42399975657463],47.42399975657463,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_conv_04_base,R,1,[77.02399790287018],77.02399790287018,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_depthwise_04_base,GI,1,[11.839999817311764],11.839999817311764,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_04_smoke,I3_depthwise_04_base,P,1,[15.87199978530407],15.87199978530407,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_depthwise_04_base,R,1,[6.976000033318996],6.976000033318996,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_gemm_04_base,GI,1,[10.688000358641148],10.688000358641148,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_04_smoke,I3_gemm_04_base,P,1,[13.98400031030178],13.98400031030178,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_gemm_04_base,R,1,[33.85600075125694],33.85600075125694,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_bmm_04_base,GI,1,[14.047999866306782],14.047999866306782,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_04_smoke,I3_bmm_04_base,P,1,[19.1040001809597],19.1040001809597,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_bmm_04_base,R,1,[39.29600119590759],39.29600119590759,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_linear_04_base,GI,1,[11.680000461637974],11.680000461637974,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_04_smoke,I3_linear_04_base,P,1,[15.039999969303608],15.039999969303608,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_linear_04_base,R,1,[39.93599861860275],39.93599861860275,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_batchnorm_eval_04_base,GI,1,[16.448000445961952],16.448000445961952,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_04_smoke,I3_batchnorm_eval_04_base,P,1,[31.26399964094162],31.26399964094162,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_batchnorm_eval_04_base,R,1,[60.99199876189232],60.99199876189232,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_relu_04_base,GI,1,[7.455999962985516],7.455999962985516,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_04_smoke,I3_relu_04_base,P,1,[10.304000228643417],10.304000228643417,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_relu_04_base,R,1,[29.759999364614487],29.759999364614487,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_add_04_base,GI,1,[7.615999784320593],7.615999784320593,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_04_smoke,I3_add_04_base,P,1,[10.528000071644783],10.528000071644783,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_add_04_base,R,1,[32.06399828195572],32.06399828195572,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_maxpool_04_base,GI,1,[10.784000158309937],10.784000158309937,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_04_smoke,I3_maxpool_04_base,P,1,[14.879999682307243],14.879999682307243,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_maxpool_04_base,R,1,[46.65600135922432],46.65600135922432,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_adaptive_average_pool_04_base,GI,1,[11.552000418305397],11.552000418305397,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_04_smoke,I3_adaptive_average_pool_04_base,P,1,[14.112000353634357],14.112000353634357,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_adaptive_average_pool_04_base,R,1,[46.431999653577805],46.431999653577805,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_bilinear_resize_04_base,GI,1,[31.647998839616776],31.647998839616776,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_04_smoke,I3_bilinear_resize_04_base,P,1,[34.55999866127968],34.55999866127968,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_bilinear_resize_04_base,R,1,[58.079998940229416],58.079998940229416,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_concat_04_base,GI,1,[8.287999778985977],8.287999778985977,,not_evaluated_smoke,iteration_device_event_us
+S2_anchor_04_smoke,I3_concat_04_base,P,1,[10.879999957978725],10.879999957978725,,not_evaluated_smoke,profiled_iteration_event_us
+S2_anchor_04_smoke,I3_concat_04_base,R,1,[33.88800099492073],33.88800099492073,,not_evaluated_smoke,profiled_iteration_event_us

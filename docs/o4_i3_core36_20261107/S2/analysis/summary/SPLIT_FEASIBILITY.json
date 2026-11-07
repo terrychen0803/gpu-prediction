@@ -1,0 +1,12 @@
+{
+  "status": "train_development_only",
+  "core_configs": 36,
+  "families": 12,
+  "anchors_per_family": 3,
+  "all_train": true,
+  "runtime_ATen_component_collisions": 0,
+  "collisions_cross_split": 0,
+  "train_validation_test_frozen": false,
+  "OOF_ready": false,
+  "reason": "only three preselected train anchors per family collected; val/test pool and context not collected; component collision audit retained"
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "path": "docs/O4_COLLECTION_POLICY_20261107.md",
+    "git_blob_sha": "c4e0a9f3fcb173694971fe70651143ac569ced29",
+    "sha256": "1fee35dab4e0b31c219bc511794fc3c5ec28546c1d9a43e3bcefd17d2c659f10",
+    "bytes": 3392,
+    "verified": true
+  },
+  {
+    "path": "docs/O4_GPU_ITERATION_PLAN_ZH_TW.md",
+    "git_blob_sha": "7daad8ad7520c663226a425b11683029a4e06557",
+    "sha256": "cb2298c36ceaf8e27349fdf3a77d8fb6c62b1e7c8ef1e8838d576c842e2c9c7e",
+    "bytes": 23596,
+    "verified": true
+  },
+  {
+    "path": "docs/O4_WORKLOAD_MATRIX.md",
+    "git_blob_sha": "44c51024a16861ea9beb4dcac633609d40c13e02",
+    "sha256": "932c0addaaad27325b23069e4bc123705e94041c549eaf7cea2ecfdbdc3dbba5",
+    "bytes": 11320,
+    "verified": true
+  },
+  {
+    "path": "docs/o4_i3_progress_20261107/ROADMAP_AND_PRAGMATIC_DATA_POLICY_ZH_TW.md",
+    "git_blob_sha": "28a144d6f5a341e6ee26a19f12aeb588c07ba1d0",
+    "sha256": "7ce916080a25344a72d3bc2291085221ffeef67efc8f6936f9c975906735c1e7",
+    "bytes": 13128,
+    "verified": true
+  },
+  {
+    "path": "docs/o4_i3_progress_20261107/STATUS_AND_HANDOFF_ZH_TW.md",
+    "git_blob_sha": "d0ba1e8169e9e3c030e2029ca124c7a0df04531a",
+    "sha256": "654ad8666d8841b7ac1324ee37b67ead53fe537356e992ffd6303094d952b2c8",
+    "bytes": 10641,
+    "verified": true
+  }
+]

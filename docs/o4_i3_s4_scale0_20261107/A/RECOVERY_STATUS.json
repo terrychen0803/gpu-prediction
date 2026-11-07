@@ -1,0 +1,91 @@
+{
+  "status": "completed_all_preselected_batches",
+  "original_execution": "EXECUTION_STATUS.json",
+  "reason": "conversation interruption terminated original process; no worker alive; original42 completed cells preserved byte-exact; recovery copy resumes remaining3",
+  "utc_start": "2026-11-07T00:14:58.906116+00:00",
+  "commands": [
+    {
+      "argv": [
+        "/home/good_egg/RTchen/O4/analysis_runs/o4_i1_reference_i2_adapters_20261106T091134Z/env/bin/python",
+        "-m",
+        "o4_i3_context.collect",
+        "--expect-gpu",
+        "GB10",
+        "--assets-manifest",
+        "/home/good_egg/RTchen/O4/analysis_runs/o4_i3_s4a_gb10_20261107T000028Z/assets_context_local/ASSETS.json",
+        "--kind",
+        "formal",
+        "--config",
+        "CTX_conv_bn_relu_0",
+        "IND_conv_bn_relu_0",
+        "ISO_conv_bn_relu_0_c",
+        "ISO_conv_bn_relu_0_n",
+        "ISO_conv_bn_relu_0_r",
+        "--out",
+        "/home/good_egg/RTchen/O4/analysis_runs/o4_i3_s4a_gb10_20261107T000028Z/collections/cbr_formal_recovery",
+        "--resume"
+      ],
+      "utc_start": "2026-11-07T00:14:58.906177+00:00",
+      "returncode": 0,
+      "utc_end": "2026-11-07T00:15:16.903666+00:00"
+    },
+    {
+      "argv": [
+        "/home/good_egg/RTchen/O4/analysis_runs/o4_i1_reference_i2_adapters_20261106T091134Z/env/bin/python",
+        "-m",
+        "o4_i3_context.collect",
+        "--expect-gpu",
+        "GB10",
+        "--assets-manifest",
+        "/home/good_egg/RTchen/O4/analysis_runs/o4_i3_s4a_gb10_20261107T000028Z/assets_context_local/ASSETS.json",
+        "--kind",
+        "smoke",
+        "--config",
+        "CTX_residual_0",
+        "IND_residual_0",
+        "ISO_residual_0_c1",
+        "ISO_residual_0_n1",
+        "ISO_residual_0_r1",
+        "ISO_residual_0_c2",
+        "ISO_residual_0_n2",
+        "ISO_residual_0_a",
+        "ISO_residual_0_r2",
+        "--out",
+        "/home/good_egg/RTchen/O4/analysis_runs/o4_i3_s4a_gb10_20261107T000028Z/collections/residual_smoke"
+      ],
+      "utc_start": "2026-11-07T00:15:16.903956+00:00",
+      "returncode": 0,
+      "utc_end": "2026-11-07T00:18:01.109595+00:00"
+    },
+    {
+      "argv": [
+        "/home/good_egg/RTchen/O4/analysis_runs/o4_i1_reference_i2_adapters_20261106T091134Z/env/bin/python",
+        "-m",
+        "o4_i3_context.collect",
+        "--expect-gpu",
+        "GB10",
+        "--assets-manifest",
+        "/home/good_egg/RTchen/O4/analysis_runs/o4_i3_s4a_gb10_20261107T000028Z/assets_context_local/ASSETS.json",
+        "--kind",
+        "formal",
+        "--config",
+        "CTX_residual_0",
+        "IND_residual_0",
+        "ISO_residual_0_c1",
+        "ISO_residual_0_n1",
+        "ISO_residual_0_r1",
+        "ISO_residual_0_c2",
+        "ISO_residual_0_n2",
+        "ISO_residual_0_a",
+        "ISO_residual_0_r2",
+        "--out",
+        "/home/good_egg/RTchen/O4/analysis_runs/o4_i3_s4a_gb10_20261107T000028Z/collections/residual_formal"
+      ],
+      "utc_start": "2026-11-07T00:18:01.110012+00:00",
+      "returncode": 0,
+      "utc_end": "2026-11-07T00:26:11.467152+00:00"
+    }
+  ],
+  "residual_excluded": [],
+  "utc_end": "2026-11-07T00:26:11.467422+00:00"
+}

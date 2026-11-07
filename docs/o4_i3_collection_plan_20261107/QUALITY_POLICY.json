@@ -1,0 +1,149 @@
+{
+  "policy_id": "o4_i3_development_use_v1_draft_20261107",
+  "status": "planned_only_not_implemented",
+  "preserve_legacy_flags": true,
+  "default_strict_reference_verified": false,
+  "fields": [
+    "source_snapshot_sha256",
+    "protocol_sha256",
+    "criteria_sha256",
+    "work_definition_signature",
+    "asset_signature",
+    "device",
+    "mode",
+    "process_repeat",
+    "iteration",
+    "label_kind",
+    "backend_requested",
+    "backend_actual",
+    "recorded_event_integrity",
+    "submitted_work_coverage",
+    "reference_semantic_alignment",
+    "timestamp_consistency",
+    "event_index_partition_supported",
+    "overlap_aware_closure_supported",
+    "correctness_status",
+    "stability_status",
+    "development_use",
+    "allowed_targets",
+    "reason_codes",
+    "evidence_paths",
+    "strict_reference_verified",
+    "formal_training_eligible"
+  ],
+  "categories": [
+    "development_usable",
+    "limited_use",
+    "reject_for_specific_label"
+  ],
+  "target_roles": [
+    "GI",
+    "P_numeric_inventory",
+    "boundary_class",
+    "P_CTX",
+    "cross_device_paired_CTX"
+  ],
+  "rules": [
+    {
+      "condition": "asset/source/scope untraceable or correctness failure",
+      "effects": {
+        "GI": "reject",
+        "boundary_class": "reject",
+        "P_CTX": "reject"
+      },
+      "preserve": "raw and failure diagnostics"
+    },
+    {
+      "condition": "known CUDA dropped activity / missing necessary GPU work",
+      "effects": {
+        "P_numeric_inventory": "limited",
+        "boundary_class": "reject_affected",
+        "P_CTX": "reject_affected",
+        "GI": "independent_review"
+      },
+      "note": "cannot infer missing-work extent -> entire affected iteration trace labels rejected; unprofiled GI considered independently"
+    },
+    {
+      "condition": "known NVTX warning only, necessary scopes and mappings checked; no known fatal missing work",
+      "effects": {
+        "boundary_class": "development_candidate",
+        "P_CTX": "development_candidate"
+      },
+      "note": "submitted coverage may remain unverified; require reviewer evidence, no automatic promotion; warning-free sensitivity unavailable if all warn"
+    },
+    {
+      "condition": "unknown submitted API work without byte/no-op proof",
+      "effects": {
+        "P_numeric_inventory": "limited",
+        "boundary_class": "review_affected",
+        "P_CTX": "review_affected"
+      },
+      "note": "never assume 0B; if no known missing activity and mapping usable, explicit development-only judgment may be recorded, otherwise limited; strict stays unverified"
+    },
+    {
+      "condition": "GPU activity has no ATen owner or nonunique R-to-P mapping",
+      "effects": {
+        "boundary_class": "reject_affected",
+        "P_CTX": "reject_affected",
+        "GI": "independent_review"
+      },
+      "note": "exclude affected units with explicit masks; cannot claim full coverage or assign 0us; retain iteration in attempted denominator"
+    },
+    {
+      "condition": "CPU/GPU inversion only, nonnegative coherent GPU intervals and unambiguous correlation",
+      "effects": {
+        "boundary_class": "development_candidate",
+        "P_CTX": "development_candidate"
+      },
+      "note": "CPU-GPU timing inference disallowed; preserve all timestamps; independent GPU domain evidence required"
+    },
+    {
+      "condition": "negative GPU duration or invalid GPU-domain interval for target",
+      "effects": {
+        "P_CTX": "reject_affected",
+        "boundary_class": "independent_event_index_review",
+        "GI": "independent_review"
+      }
+    },
+    {
+      "condition": "temporal overlap, unique contiguous event-index ownership",
+      "effects": {
+        "boundary_class": "development_candidate",
+        "P_CTX": "development_candidate"
+      },
+      "note": "union closure; nonoverlap sum not justified; no PDL causal claim"
+    },
+    {
+      "condition": "three-process spread >0.05",
+      "effects": {
+        "GI": "development_review",
+        "P_CTX": "development_review"
+      },
+      "note": "retain samples, per-mode flag; no automatic global discard or selecting fastest repeat"
+    },
+    {
+      "condition": "P/R signature mismatch",
+      "effects": {
+        "boundary_class": "reject_unmapped",
+        "P_CTX": "reject_unmapped",
+        "GI": "independent_review"
+      },
+      "note": "partial exact iterations remain denominated by all 40; cannot force matching"
+    },
+    {
+      "condition": "cross-node work semantics/assets inconsistent",
+      "effects": {
+        "cross_device_paired_CTX": "reject_pair"
+      },
+      "note": "single-node usable data retained; different internal kernel implementation alone not reason to reject"
+    },
+    {
+      "condition": "all recorded-event/PR/stability/union checks passed",
+      "effects": {
+        "strict_reference_verified": "not_proven"
+      },
+      "note": "no individual check or this conjunction is sufficient for strict reference completeness"
+    }
+  ],
+  "aggregation": "per iteration and per target; collection_completed, engineering_completed, development_use, strict_reference_verified and models_trained reported separately"
+}

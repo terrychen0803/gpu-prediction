@@ -1,0 +1,5 @@
+graph_id,D_GI_us,I_GI_us,sum_S_GI_us,D_minus_I_pct,sum_S_minus_D_pct,all_GI_groups_stable,scope
+CTX_depthwise_pointwise_0,35.711999982595444,35.840000957250595,45.567998895421624,-0.35714556706577527,27.59856327741259,False,"descriptive same-device medians; not pure dependency causality, not predictor performance"
+CTX_se_gate_0,43.79200004041195,42.9919995367527,58.43200068920851,1.8608125053019453,33.43076506048259,False,"descriptive same-device medians; not pure dependency causality, not predictor performance"
+CTX_resize_concat_conv_0,49.3599995970726,49.984000623226166,68.6879982240498,-1.2484015252344771,39.15720985565707,True,"descriptive same-device medians; not pure dependency causality, not predictor performance"
+CTX_attention_eager_0,27.744000777602196,27.375999838113785,35.727999871596694,1.3442465724158525,28.777389238108732,False,"descriptive same-device medians; not pure dependency causality, not predictor performance"

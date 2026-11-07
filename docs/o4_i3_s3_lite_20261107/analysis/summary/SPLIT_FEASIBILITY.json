@@ -1,0 +1,17 @@
+{
+  "status": "exploratory_configuration_split_runtime_audited_not_confirmatory",
+  "core_configs": 72,
+  "families": 12,
+  "base_anchors_per_family": 5,
+  "expected_train_validation_test_groups": [
+    36,
+    12,
+    12
+  ],
+  "all_train": false,
+  "runtime_ATen_component_collisions": 0,
+  "collisions_cross_split": 0,
+  "train_validation_test_frozen": true,
+  "OOF_ready": false,
+  "reason": "S3 01/02 precollection manifest; one validation and one exploratory test anchor per family only; no model scores; OOF folds not yet constructed; context not collected"
+}

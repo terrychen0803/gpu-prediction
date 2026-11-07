@@ -1,0 +1,5 @@
+assets/
+analysis_runs/
+artifacts/
+__pycache__/
+*.pyc

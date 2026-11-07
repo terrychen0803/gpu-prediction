@@ -1,0 +1,23 @@
+{
+  "release_tag": "o4-i3-a0-dev-v1-20261107",
+  "source_bundle": {
+    "sha256": "268b9729bc020b779a72ca886f573197fbc7bb5938b875c6dc8a5591c6e0c09f",
+    "bytes": 234653,
+    "role": "versioned GitHub release asset; unchanged original bytes",
+    "file": "o4_i3_source_v1_20261107.tar.gz",
+    "url": "https://github.com/terrychen0803/gpu-prediction/releases/download/o4-i3-a0-dev-v1-20261107/o4_i3_source_v1_20261107.tar.gz"
+  },
+  "asset_bundle": {
+    "sha256": "dbe8738ff76a5a9ecd3b4bb430b17c0d407970ea9f3cadd79ccdf5acfba372a1",
+    "bytes": 21374724,
+    "role": "versioned GitHub release asset; unchanged original bytes",
+    "file": "o4_i3_assets_A0_v1_20261107.tar.gz",
+    "url": "https://github.com/terrychen0803/gpu-prediction/releases/download/o4-i3-a0-dev-v1-20261107/o4_i3_assets_A0_v1_20261107.tar.gz"
+  },
+  "assets_manifest_sha256": "02e4fbe40f617d571d42b55d3e343c8ea4272b6f26febefa16f0de8bc4594e69",
+  "assets_kind": "initialized_performance_only_controlled_operands",
+  "protocol": "o4_i3_A0_smoke_v1_20261107",
+  "GB10_selected_cells": 27,
+  "RTX_new_I3_measured_in_this_release": false,
+  "new_I3_40x3_implemented": false
+}

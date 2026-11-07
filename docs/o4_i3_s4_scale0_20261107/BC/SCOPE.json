@@ -1,0 +1,216 @@
+{
+  "status": "frozen_before_collection",
+  "batches": [
+    {
+      "batch_id": "depthwise_pointwise",
+      "configs": [
+        "CTX_depthwise_pointwise_0",
+        "IND_depthwise_pointwise_0",
+        "ISO_depthwise_pointwise_0_dw",
+        "ISO_depthwise_pointwise_0_n",
+        "ISO_depthwise_pointwise_0_hs",
+        "ISO_depthwise_pointwise_0_pw"
+      ],
+      "split": "train"
+    },
+    {
+      "batch_id": "se_gate",
+      "configs": [
+        "CTX_se_gate_0",
+        "IND_se_gate_0",
+        "ISO_se_gate_0_pool",
+        "ISO_se_gate_0_reduce",
+        "ISO_se_gate_0_r",
+        "ISO_se_gate_0_expand",
+        "ISO_se_gate_0_gate",
+        "ISO_se_gate_0_scale"
+      ],
+      "split": "train"
+    },
+    {
+      "batch_id": "resize_concat_conv",
+      "configs": [
+        "CTX_resize_concat_conv_0",
+        "IND_resize_concat_conv_0",
+        "ISO_resize_concat_conv_0_up",
+        "ISO_resize_concat_conv_0_cat",
+        "ISO_resize_concat_conv_0_c",
+        "ISO_resize_concat_conv_0_r"
+      ],
+      "split": "train"
+    },
+    {
+      "batch_id": "attention_eager",
+      "configs": [
+        "CTX_attention_eager_0",
+        "IND_attention_eager_0",
+        "ISO_attention_eager_0_qk",
+        "ISO_attention_eager_0_scale",
+        "ISO_attention_eager_0_softmax",
+        "ISO_attention_eager_0_av"
+      ],
+      "split": "train"
+    }
+  ],
+  "work_items": [
+    {
+      "id": "CTX_depthwise_pointwise_0",
+      "kind": "dependent_graph",
+      "graph_id": "CTX_depthwise_pointwise_0"
+    },
+    {
+      "id": "IND_depthwise_pointwise_0",
+      "kind": "independent_sequence",
+      "graph_id": "CTX_depthwise_pointwise_0"
+    },
+    {
+      "id": "ISO_depthwise_pointwise_0_dw",
+      "kind": "isolated_position",
+      "graph_id": "CTX_depthwise_pointwise_0",
+      "node_id": "dw"
+    },
+    {
+      "id": "ISO_depthwise_pointwise_0_n",
+      "kind": "isolated_position",
+      "graph_id": "CTX_depthwise_pointwise_0",
+      "node_id": "n"
+    },
+    {
+      "id": "ISO_depthwise_pointwise_0_hs",
+      "kind": "isolated_position",
+      "graph_id": "CTX_depthwise_pointwise_0",
+      "node_id": "hs"
+    },
+    {
+      "id": "ISO_depthwise_pointwise_0_pw",
+      "kind": "isolated_position",
+      "graph_id": "CTX_depthwise_pointwise_0",
+      "node_id": "pw"
+    },
+    {
+      "id": "CTX_se_gate_0",
+      "kind": "dependent_graph",
+      "graph_id": "CTX_se_gate_0"
+    },
+    {
+      "id": "IND_se_gate_0",
+      "kind": "independent_sequence",
+      "graph_id": "CTX_se_gate_0"
+    },
+    {
+      "id": "ISO_se_gate_0_pool",
+      "kind": "isolated_position",
+      "graph_id": "CTX_se_gate_0",
+      "node_id": "pool"
+    },
+    {
+      "id": "ISO_se_gate_0_reduce",
+      "kind": "isolated_position",
+      "graph_id": "CTX_se_gate_0",
+      "node_id": "reduce"
+    },
+    {
+      "id": "ISO_se_gate_0_r",
+      "kind": "isolated_position",
+      "graph_id": "CTX_se_gate_0",
+      "node_id": "r"
+    },
+    {
+      "id": "ISO_se_gate_0_expand",
+      "kind": "isolated_position",
+      "graph_id": "CTX_se_gate_0",
+      "node_id": "expand"
+    },
+    {
+      "id": "ISO_se_gate_0_gate",
+      "kind": "isolated_position",
+      "graph_id": "CTX_se_gate_0",
+      "node_id": "gate"
+    },
+    {
+      "id": "ISO_se_gate_0_scale",
+      "kind": "isolated_position",
+      "graph_id": "CTX_se_gate_0",
+      "node_id": "scale"
+    },
+    {
+      "id": "CTX_resize_concat_conv_0",
+      "kind": "dependent_graph",
+      "graph_id": "CTX_resize_concat_conv_0"
+    },
+    {
+      "id": "IND_resize_concat_conv_0",
+      "kind": "independent_sequence",
+      "graph_id": "CTX_resize_concat_conv_0"
+    },
+    {
+      "id": "ISO_resize_concat_conv_0_up",
+      "kind": "isolated_position",
+      "graph_id": "CTX_resize_concat_conv_0",
+      "node_id": "up"
+    },
+    {
+      "id": "ISO_resize_concat_conv_0_cat",
+      "kind": "isolated_position",
+      "graph_id": "CTX_resize_concat_conv_0",
+      "node_id": "cat"
+    },
+    {
+      "id": "ISO_resize_concat_conv_0_c",
+      "kind": "isolated_position",
+      "graph_id": "CTX_resize_concat_conv_0",
+      "node_id": "c"
+    },
+    {
+      "id": "ISO_resize_concat_conv_0_r",
+      "kind": "isolated_position",
+      "graph_id": "CTX_resize_concat_conv_0",
+      "node_id": "r"
+    },
+    {
+      "id": "CTX_attention_eager_0",
+      "kind": "dependent_graph",
+      "graph_id": "CTX_attention_eager_0"
+    },
+    {
+      "id": "IND_attention_eager_0",
+      "kind": "independent_sequence",
+      "graph_id": "CTX_attention_eager_0"
+    },
+    {
+      "id": "ISO_attention_eager_0_qk",
+      "kind": "isolated_position",
+      "graph_id": "CTX_attention_eager_0",
+      "node_id": "qk"
+    },
+    {
+      "id": "ISO_attention_eager_0_scale",
+      "kind": "isolated_position",
+      "graph_id": "CTX_attention_eager_0",
+      "node_id": "scale"
+    },
+    {
+      "id": "ISO_attention_eager_0_softmax",
+      "kind": "isolated_position",
+      "graph_id": "CTX_attention_eager_0",
+      "node_id": "softmax"
+    },
+    {
+      "id": "ISO_attention_eager_0_av",
+      "kind": "isolated_position",
+      "graph_id": "CTX_attention_eager_0",
+      "node_id": "av"
+    }
+  ],
+  "planned_work_items": 26,
+  "smoke_cells": 78,
+  "formal_cells": 234,
+  "formal_measured": 9360,
+  "all_measured": 9594,
+  "leakage_group": "context_scale_0",
+  "models_trained": 0,
+  "strict_reference_verified": false,
+  "formal_training_eligible": false,
+  "scale1_2_excluded": true,
+  "utc_frozen": "2026-11-07T02:14:05.480511+00:00"
+}

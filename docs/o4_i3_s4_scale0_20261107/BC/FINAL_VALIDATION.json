@@ -1,0 +1,46 @@
+{
+  "all26_work_collected": true,
+  "smoke_cells": 78,
+  "formal_cells": 234,
+  "formal_measured": 9360,
+  "all_measured": 9594,
+  "CPU_tests_passed": 196,
+  "source_files_unchanged": 174,
+  "parser_unchanged": true,
+  "taxonomy_change": "exact out-of-place hardswish overload added; legacy overload retained",
+  "raw_replay": {
+    "traces": 208,
+    "pairs": 104,
+    "artifacts_identical": 9412
+  },
+  "R_rows_checked": 7506,
+  "R_rows_matched": 7506,
+  "P_CTX_positions_independently_verified": 54,
+  "historical_runs": [
+    {
+      "run_id": "o4_i3_s1_gb10_20261106T213722Z",
+      "files_verified_unchanged": 3545
+    },
+    {
+      "run_id": "o4_i3_s2_gb10_20261106T220336Z",
+      "files_verified_unchanged": 31342
+    },
+    {
+      "run_id": "o4_i3_s3_lite_gb10_20261106T230230Z",
+      "files_verified_unchanged": 34520
+    },
+    {
+      "run_id": "o4_i3_s4a_gb10_20261107T000028Z",
+      "files_verified_unchanged": 16537
+    }
+  ],
+  "remaining_active_worker_PIDs": [],
+  "monitor_foreign_cells": 0,
+  "monitor_error_cells": 0,
+  "context_independent_groups": 1,
+  "strict_reference_verified": false,
+  "formal_training_eligible": false,
+  "models_trained": 0,
+  "RTX_GPU_executed": false,
+  "github_published": false
+}

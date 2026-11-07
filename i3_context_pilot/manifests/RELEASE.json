@@ -1,0 +1,54 @@
+{
+  "tag": "o4-i3-s4-scale0-dis-dev-v1-20261107",
+  "archives": [
+    {
+      "name": "o4_i3_S4A_source_v1_20261107.tar.gz",
+      "sha256": "7f42e849c44d8a325ba4dee0b01a0f15720b1f2b82b18b48b214d9ce4e9e6670",
+      "bytes": 272859,
+      "stage": "A",
+      "RTX_policy": "shared frozen bytes"
+    },
+    {
+      "name": "o4_i3_S4A_shared_base_v1_20261107.tar.gz",
+      "sha256": "dda78ba94d5657264c3c0627310e8c66ca0d84899a3826cd8351cba982b663cb",
+      "bytes": 119494,
+      "stage": "A",
+      "RTX_policy": "shared frozen bytes"
+    },
+    {
+      "name": "o4_i3_S4A_GB10_local_inputs_v1_20261107.tar.gz",
+      "sha256": "d624a9a8933480a5185674478c62200a1375c32dd79d582d3ae81d56ccc16d5b",
+      "bytes": 1062678,
+      "stage": "A",
+      "RTX_policy": "derive own local D inputs; do not use GB10_local_inputs on RTX"
+    },
+    {
+      "name": "o4_i3_S4BC_source_v1_20261107.tar.gz",
+      "sha256": "3d9b45fd68ac9dfbed13d3c2688ddcc2219e72d3f8c38eb3f13634575a87f30e",
+      "bytes": 274912,
+      "stage": "BC",
+      "RTX_policy": "shared frozen bytes"
+    },
+    {
+      "name": "o4_i3_S4BC_shared_base_v1_20261107.tar.gz",
+      "sha256": "d2efba975402155f4a41d3b2f1eae7e355fc70095ba78a7a6a9ba99bb69896e7",
+      "bytes": 377623,
+      "stage": "BC",
+      "RTX_policy": "shared frozen bytes"
+    },
+    {
+      "name": "o4_i3_S4BC_GB10_local_inputs_v1_20261107.tar.gz",
+      "sha256": "76740f37fccddcc83257ea7995a1ba55ca2b239515dcbf9d5b1a4ecdfd3381e8",
+      "bytes": 2892639,
+      "stage": "BC",
+      "RTX_policy": "derive own local D inputs; do not use GB10_local_inputs on RTX"
+    }
+  ],
+  "source_directories": {
+    "A": "source_A",
+    "BC": "source_BC"
+  },
+  "GB10_local_inputs_not_for_RTX": true,
+  "strict_reference_verified": false,
+  "formal_training_eligible": false
+}

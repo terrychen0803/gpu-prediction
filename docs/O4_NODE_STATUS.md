@@ -1,5 +1,7 @@
 # O4 節點狀態：2026-11-06
 
+**2026-11-07 S4最新進度：** GB10 scale0六圖D/I/S共40工作已完成；見[結果](o4_i3_s4_scale0_20261107/README.md)及[RTX操作手冊](O4_I3_S4_NODE_RUNBOOK_20261107.md)。A/BC source與shared base分開，各GPU須派生本地D中間輸入。Reference仍未verified，scale1/2與模型訓練未執行；以下舊版狀態保留歷史背景。
+
 本文件區分歷史GPU實測、統一版工程實作、尚未執行與Reference資格。
 
 

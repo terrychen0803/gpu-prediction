@@ -1,0 +1,482 @@
+{
+  "status": "recommended_planning_only_adapter_not_implemented_GPU_not_run",
+  "source_context_plan_sha256": "67b66efc7c45bed2a7973fe6be3b7492b9b986bc1f493ae4b4436d67907cba16",
+  "first_batch": "CBR_and_residual_scale0",
+  "graphs": [
+    {
+      "id": "CTX_conv_bn_relu_0",
+      "family": "conv_bn_relu",
+      "scale": 0,
+      "split_B": "train",
+      "leakage_group": "context_scale_0",
+      "external_inputs": {
+        "x": [
+          1,
+          20,
+          36,
+          36
+        ]
+      },
+      "nodes": [
+        {
+          "id": "c",
+          "op": "conv",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              20,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "n",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "c"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "r",
+          "op": "relu",
+          "input_edges": [
+            "n"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        }
+      ],
+      "output_nodes": [
+        "r"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_conv_bn_relu_0",
+      "isolated_control_ids": [
+        "ISO_conv_bn_relu_0_c",
+        "ISO_conv_bn_relu_0_n",
+        "ISO_conv_bn_relu_0_r"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_residual_0",
+      "family": "residual",
+      "scale": 0,
+      "split_B": "train",
+      "leakage_group": "context_scale_0",
+      "external_inputs": {
+        "x": [
+          1,
+          20,
+          36,
+          36
+        ]
+      },
+      "nodes": [
+        {
+          "id": "c1",
+          "op": "conv",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              20,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "n1",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "c1"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "r1",
+          "op": "relu",
+          "input_edges": [
+            "n1"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "c2",
+          "op": "conv",
+          "input_edges": [
+            "r1"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              20,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "n2",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "c2"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "a",
+          "op": "add",
+          "input_edges": [
+            "n2",
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ],
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "alpha": 1,
+            "broadcast": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "r2",
+          "op": "relu",
+          "input_edges": [
+            "a"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        }
+      ],
+      "output_nodes": [
+        "r2"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_residual_0",
+      "isolated_control_ids": [
+        "ISO_residual_0_c1",
+        "ISO_residual_0_n1",
+        "ISO_residual_0_r1",
+        "ISO_residual_0_c2",
+        "ISO_residual_0_n2",
+        "ISO_residual_0_a",
+        "ISO_residual_0_r2"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    }
+  ],
+  "work_items": [
+    {
+      "id": "CTX_conv_bn_relu_0",
+      "kind": "dependent_graph",
+      "graph_id": "CTX_conv_bn_relu_0"
+    },
+    {
+      "id": "IND_conv_bn_relu_0",
+      "kind": "independent_sequence",
+      "graph_id": "CTX_conv_bn_relu_0"
+    },
+    {
+      "id": "ISO_conv_bn_relu_0_c",
+      "kind": "isolated_position",
+      "graph_id": "CTX_conv_bn_relu_0",
+      "node_id": "c"
+    },
+    {
+      "id": "ISO_conv_bn_relu_0_n",
+      "kind": "isolated_position",
+      "graph_id": "CTX_conv_bn_relu_0",
+      "node_id": "n"
+    },
+    {
+      "id": "ISO_conv_bn_relu_0_r",
+      "kind": "isolated_position",
+      "graph_id": "CTX_conv_bn_relu_0",
+      "node_id": "r"
+    },
+    {
+      "id": "CTX_residual_0",
+      "kind": "dependent_graph",
+      "graph_id": "CTX_residual_0"
+    },
+    {
+      "id": "IND_residual_0",
+      "kind": "independent_sequence",
+      "graph_id": "CTX_residual_0"
+    },
+    {
+      "id": "ISO_residual_0_c1",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "c1"
+    },
+    {
+      "id": "ISO_residual_0_n1",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "n1"
+    },
+    {
+      "id": "ISO_residual_0_r1",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "r1"
+    },
+    {
+      "id": "ISO_residual_0_c2",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "c2"
+    },
+    {
+      "id": "ISO_residual_0_n2",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "n2"
+    },
+    {
+      "id": "ISO_residual_0_a",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "a"
+    },
+    {
+      "id": "ISO_residual_0_r2",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "r2"
+    }
+  ],
+  "work_count": 14,
+  "formal_cells": 126,
+  "formal_measured": 5040,
+  "smoke_cells": 42,
+  "smoke_measured": 126,
+  "strict_reference_verified": false,
+  "single_context_leakage_group": "context_scale_0",
+  "confirmatory_test": false
+}

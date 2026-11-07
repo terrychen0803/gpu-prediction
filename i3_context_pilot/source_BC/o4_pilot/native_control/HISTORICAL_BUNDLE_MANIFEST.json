@@ -1,0 +1,22 @@
+{
+  "protocol_id": "o4_native_trace_diagnostic_v1_20261106",
+  "quality_version": "o4_quality_gates_v4_20261106",
+  "research_plan_commit": "d01924c2cbc0152c7dd78db55ecf3146824bfc75",
+  "source_sha256": {
+    "run_native_node.sh": "028577d7720e7f3a00452b7a0d11b315e3776b8f7b884f2c0151f98e8365c074",
+    "NODE_RUNBOOK_ZH_TW.md": "a51ada16e28716d29ddfe35b5089fb61292bc9262ac7eba77075c6b4f534217b",
+    "native/serial_mre.cu": "2800d1dc1a30f9fff17ca0ad9038be5e7eb54c7a67fd839cc17c72e95b9f584f",
+    "native/serial_mre_drain_v2.cu": "039b0744364138c9cf60824a1493e26b0f7920fdbc372d007254d9b9052fc13c",
+    "src/quality.py": "f925f234859690bb7fec4609afdfd3b2ec987e97ae44c8defc7a9885b778c498",
+    "src/collect_controls.py": "8de5e16b8d67fcf4b5722608327a32d05e22bbcdac064730386b5097505c9068",
+    "src/analyze_native.py": "8e0b3fbe6d915c1f12200b0a50cdcd991a3cad064aca11c8d426368257dd76b7",
+    "tests/test_quality.py": "db8238d7f000ad98519ecbd2555d8ce549e19211d04f4fa9677f78585d8aca7e",
+    "tests/test_collector.py": "9357cc09dbccc9e0a2b97a4fe65a440078d1d3b6c6bc2ebd57ae7f400d9e40cd"
+  },
+  "no_raw_no_binary_no_weights_no_environment_values": true,
+  "input_spec": "256 float32 ones, generated exactly by source; no random generator",
+  "expected_input_f32_le_sha256": "893a106828fbdb9521e1d868c985aab7ad2ae2f606edc55329265a5e7676006c",
+  "node_execution_status": "GB10 measured; RTX4090/3090 pending",
+  "node_script_initial_capture_budget": 4,
+  "correctness_processes_before_capture": 1
+}

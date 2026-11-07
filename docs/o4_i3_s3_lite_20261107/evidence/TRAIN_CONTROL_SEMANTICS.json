@@ -1,0 +1,254 @@
+[
+  {
+    "config_id": "I3_conv_00_control1",
+    "catalog_family_is_grouping_not_semantic_label": true,
+    "canonical_semantic_kind_from_definition": "conv",
+    "operand_comparisons": [
+      {
+        "operand": "x",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "weight",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      }
+    ],
+    "bias_removed": false
+  },
+  {
+    "config_id": "I3_conv_00_control2",
+    "catalog_family_is_grouping_not_semantic_label": true,
+    "canonical_semantic_kind_from_definition": "conv",
+    "operand_comparisons": [
+      {
+        "operand": "x",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "weight",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      }
+    ],
+    "bias_removed": false
+  },
+  {
+    "config_id": "I3_conv_00_kernel1",
+    "catalog_family_is_grouping_not_semantic_label": true,
+    "canonical_semantic_kind_from_definition": "conv",
+    "operand_comparisons": [
+      {
+        "operand": "x",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "weight",
+        "base_exists": true,
+        "same_shape": false,
+        "same_logical_bytes": false
+      }
+    ],
+    "bias_removed": false
+  },
+  {
+    "config_id": "I3_conv_00_groups4",
+    "catalog_family_is_grouping_not_semantic_label": true,
+    "canonical_semantic_kind_from_definition": "grouped_conv",
+    "operand_comparisons": [
+      {
+        "operand": "x",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "weight",
+        "base_exists": true,
+        "same_shape": false,
+        "same_logical_bytes": false
+      }
+    ],
+    "bias_removed": false
+  },
+  {
+    "config_id": "I3_depthwise_00_control1",
+    "catalog_family_is_grouping_not_semantic_label": true,
+    "canonical_semantic_kind_from_definition": "grouped_conv",
+    "operand_comparisons": [
+      {
+        "operand": "x",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "weight",
+        "base_exists": true,
+        "same_shape": false,
+        "same_logical_bytes": false
+      }
+    ],
+    "bias_removed": false
+  },
+  {
+    "config_id": "I3_gemm_00_control1",
+    "catalog_family_is_grouping_not_semantic_label": true,
+    "canonical_semantic_kind_from_definition": "gemm",
+    "operand_comparisons": [
+      {
+        "operand": "x",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "weight",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      }
+    ],
+    "bias_removed": false
+  },
+  {
+    "config_id": "I3_bmm_00_control1",
+    "catalog_family_is_grouping_not_semantic_label": true,
+    "canonical_semantic_kind_from_definition": "bmm",
+    "operand_comparisons": [
+      {
+        "operand": "x",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "weight",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      }
+    ],
+    "bias_removed": false
+  },
+  {
+    "config_id": "I3_linear_00_control1",
+    "catalog_family_is_grouping_not_semantic_label": true,
+    "canonical_semantic_kind_from_definition": "linear",
+    "operand_comparisons": [
+      {
+        "operand": "x",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "weight",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      }
+    ],
+    "bias_removed": true
+  },
+  {
+    "config_id": "I3_batchnorm_eval_00_control2",
+    "catalog_family_is_grouping_not_semantic_label": true,
+    "canonical_semantic_kind_from_definition": "batchnorm_eval",
+    "operand_comparisons": [
+      {
+        "operand": "x",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "weight",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "bias",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "running_mean",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "running_var",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      }
+    ],
+    "bias_removed": false
+  },
+  {
+    "config_id": "I3_add_00_control1",
+    "catalog_family_is_grouping_not_semantic_label": true,
+    "canonical_semantic_kind_from_definition": "add",
+    "operand_comparisons": [
+      {
+        "operand": "x",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "other",
+        "base_exists": true,
+        "same_shape": false,
+        "same_logical_bytes": false
+      }
+    ],
+    "bias_removed": false
+  },
+  {
+    "config_id": "I3_bilinear_resize_00_control1",
+    "catalog_family_is_grouping_not_semantic_label": true,
+    "canonical_semantic_kind_from_definition": "bilinear_resize",
+    "operand_comparisons": [
+      {
+        "operand": "x",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      }
+    ],
+    "bias_removed": false
+  },
+  {
+    "config_id": "I3_concat_00_control2",
+    "catalog_family_is_grouping_not_semantic_label": true,
+    "canonical_semantic_kind_from_definition": "concat",
+    "operand_comparisons": [
+      {
+        "operand": "x",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      },
+      {
+        "operand": "other",
+        "base_exists": true,
+        "same_shape": true,
+        "same_logical_bytes": true
+      }
+    ],
+    "bias_removed": false
+  }
+]

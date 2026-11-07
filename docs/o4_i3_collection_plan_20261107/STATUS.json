@@ -1,0 +1,10 @@
+{
+  "planning_completed": true,
+  "new_GPU_experiments": 0,
+  "new_collectors_or_adapters_implemented": false,
+  "models_trained": 0,
+  "github_modified": false,
+  "strict_reference_verified": false,
+  "next_execution_scope": "S0 engineering + S1 three-sentinel smoke and 40x3",
+  "future_pool_is_not_execution_quota": true
+}

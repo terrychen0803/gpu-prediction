@@ -1,0 +1,125 @@
+{
+  "status": "frozen_before_collection",
+  "plan_source": "o4_i3_s4_lite_plan_20261107.json",
+  "work_items": [
+    {
+      "id": "CTX_conv_bn_relu_0",
+      "kind": "dependent_graph",
+      "graph_id": "CTX_conv_bn_relu_0"
+    },
+    {
+      "id": "IND_conv_bn_relu_0",
+      "kind": "independent_sequence",
+      "graph_id": "CTX_conv_bn_relu_0"
+    },
+    {
+      "id": "ISO_conv_bn_relu_0_c",
+      "kind": "isolated_position",
+      "graph_id": "CTX_conv_bn_relu_0",
+      "node_id": "c"
+    },
+    {
+      "id": "ISO_conv_bn_relu_0_n",
+      "kind": "isolated_position",
+      "graph_id": "CTX_conv_bn_relu_0",
+      "node_id": "n"
+    },
+    {
+      "id": "ISO_conv_bn_relu_0_r",
+      "kind": "isolated_position",
+      "graph_id": "CTX_conv_bn_relu_0",
+      "node_id": "r"
+    },
+    {
+      "id": "CTX_residual_0",
+      "kind": "dependent_graph",
+      "graph_id": "CTX_residual_0"
+    },
+    {
+      "id": "IND_residual_0",
+      "kind": "independent_sequence",
+      "graph_id": "CTX_residual_0"
+    },
+    {
+      "id": "ISO_residual_0_c1",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "c1"
+    },
+    {
+      "id": "ISO_residual_0_n1",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "n1"
+    },
+    {
+      "id": "ISO_residual_0_r1",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "r1"
+    },
+    {
+      "id": "ISO_residual_0_c2",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "c2"
+    },
+    {
+      "id": "ISO_residual_0_n2",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "n2"
+    },
+    {
+      "id": "ISO_residual_0_a",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "a"
+    },
+    {
+      "id": "ISO_residual_0_r2",
+      "kind": "isolated_position",
+      "graph_id": "CTX_residual_0",
+      "node_id": "r2"
+    }
+  ],
+  "batches": [
+    {
+      "batch_id": "cbr",
+      "configs": [
+        "CTX_conv_bn_relu_0",
+        "IND_conv_bn_relu_0",
+        "ISO_conv_bn_relu_0_c",
+        "ISO_conv_bn_relu_0_n",
+        "ISO_conv_bn_relu_0_r"
+      ],
+      "split": "train"
+    },
+    {
+      "batch_id": "residual",
+      "configs": [
+        "CTX_residual_0",
+        "IND_residual_0",
+        "ISO_residual_0_c1",
+        "ISO_residual_0_n1",
+        "ISO_residual_0_r1",
+        "ISO_residual_0_c2",
+        "ISO_residual_0_n2",
+        "ISO_residual_0_a",
+        "ISO_residual_0_r2"
+      ],
+      "split": "train"
+    }
+  ],
+  "planned_work_items": 14,
+  "smoke_cells": 42,
+  "formal_cells": 126,
+  "formal_measured": 5040,
+  "all_measured": 5166,
+  "leakage_group": "context_scale_0",
+  "models_trained": 0,
+  "strict_reference_verified": false,
+  "formal_training_eligible": false,
+  "source_package": "o4_i3_context",
+  "derived_inputs_policy": "local native D position inputs; no in-capture regeneration"
+}

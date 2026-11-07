@@ -1,0 +1,4 @@
+# Use an existing CUDA-enabled PyTorch + compatible TorchVision build for this GPU.
+# Nsight Systems CLI is required for P/R; default backend is cuda-sw.
+# All parsing / reports / unit tests otherwise use the Python standard library.
+# Validated on GB10: Python 3.12, torch 2.13.0+cu130, torchvision 0.28.0+cu130.

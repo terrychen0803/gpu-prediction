@@ -1,0 +1,28 @@
+[
+  {
+    "semantic_sha256": "5bcb96a92b801f967229edce35818083b14c0b2af255a64e348429fefa1b9581",
+    "context_uses": [
+      [
+        "CTX_depthwise_pointwise_0",
+        "n"
+      ],
+      [
+        "IND_depthwise_pointwise_0",
+        "n"
+      ],
+      [
+        "ISO_depthwise_pointwise_0_n",
+        "n"
+      ]
+    ],
+    "prior_configs": [
+      "S4A/CTX_conv_bn_relu_0",
+      "S4A/CTX_residual_0",
+      "S4A/IND_conv_bn_relu_0",
+      "S4A/IND_residual_0",
+      "S4A/ISO_conv_bn_relu_0_n",
+      "S4A/ISO_residual_0_n1",
+      "S4A/ISO_residual_0_n2"
+    ]
+  }
+]

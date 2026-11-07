@@ -1,0 +1,33 @@
+{
+  "status": "planning_only_not_GPU_results",
+  "base_configs": 144,
+  "contrast_configs": 30,
+  "base_independent_groups": 144,
+  "base_groups_per_family": 12,
+  "graphs": 18,
+  "independent_sequences": 18,
+  "isolated_node_positions": 84,
+  "total_work_items": 294,
+  "formal_cells_upper_bound_per_node": 2646,
+  "formal_measured_upper_bound_per_node": 105840,
+  "formal_P_R_captures_upper_bound_per_node": 1764,
+  "minimum_warmup_iterations_per_cell": 60,
+  "sentinels": [
+    "I3_batchnorm_eval_00_base",
+    "I3_gemm_00_base",
+    "I3_bilinear_resize_00_base"
+  ],
+  "core_first_work_items": 36,
+  "core_first_cells_including_sentinels": 324,
+  "core_first_measured": 12960,
+  "remaining_core_work_items": 138,
+  "phase_work_items": {
+    "core_first": 36,
+    "core_expand": 138,
+    "contexts_train": 40,
+    "contexts_validation": 40,
+    "contexts_test_exploratory": 40
+  },
+  "count_scope": "upper bound if all planned supported work is collected GI/P/R x3; excludes smoke, retries, optional extensions and prior A0 data; not an execution quota",
+  "schedule": "repeat rounds; stable hash order within each phase/round; mode Latin rotation from table; emit actual sequence before launch"
+}

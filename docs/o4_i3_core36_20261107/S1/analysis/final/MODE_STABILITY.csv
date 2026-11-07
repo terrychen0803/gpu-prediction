@@ -1,0 +1,19 @@
+collection,config_id,mode,completed_processes,process_medians_us,median_of_process_medians_us,spread_fraction,stability_status,target_kind
+formal,I3_batchnorm_eval_00_base,GI,3,"[19.872000440955162, 19.840000197291374, 19.888000562787056]",19.872000440955162,0.002415477276095239,stable,iteration_device_event_us
+formal,I3_batchnorm_eval_00_base,P,3,"[27.51999907195568, 27.63199992477894, 27.55199931561947]",27.55199931561947,0.004065071704606322,stable,profiled_iteration_event_us
+formal,I3_batchnorm_eval_00_base,R,3,"[51.98400095105171, 51.791999489068985, 52.14399844408035]",51.98400095105171,0.006771294024536723,stable,profiled_iteration_event_us
+formal,I3_gemm_00_base,GI,3,"[11.19999960064888, 11.408000253140926, 11.42400037497282]",11.408000253140926,0.01963541105832873,stable,iteration_device_event_us
+formal,I3_gemm_00_base,P,3,"[15.359999611973763, 15.279999934136868, 15.279999934136868]",15.279999934136868,0.00523558103283552,stable,profiled_iteration_event_us
+formal,I3_gemm_00_base,R,3,"[32.52799995243549, 32.56000019609928, 31.920000910758972]",32.52799995243549,0.019675334674008754,stable,profiled_iteration_event_us
+formal,I3_bilinear_resize_00_base,GI,3,"[15.647999942302704, 15.568000264465809, 15.615999698638916]",15.615999698638916,0.005122930288213807,stable,iteration_device_event_us
+formal,I3_bilinear_resize_00_base,P,3,"[17.20000058412552, 17.11999997496605, 16.991999931633472]",17.11999997496605,0.012149570840899423,stable,profiled_iteration_event_us
+formal,I3_bilinear_resize_00_base,R,3,"[34.912001341581345, 35.10399907827377, 35.42400151491165]",35.10399907827377,0.014585237772729694,stable,profiled_iteration_event_us
+smoke,I3_batchnorm_eval_00_base,GI,1,[18.94400082528591],18.94400082528591,,not_evaluated_smoke,iteration_device_event_us
+smoke,I3_batchnorm_eval_00_base,P,1,[31.231999397277832],31.231999397277832,,not_evaluated_smoke,profiled_iteration_event_us
+smoke,I3_batchnorm_eval_00_base,R,1,[70.88000327348709],70.88000327348709,,not_evaluated_smoke,profiled_iteration_event_us
+smoke,I3_gemm_00_base,GI,1,[11.296000331640244],11.296000331640244,,not_evaluated_smoke,iteration_device_event_us
+smoke,I3_gemm_00_base,P,1,[16.831999644637108],16.831999644637108,,not_evaluated_smoke,profiled_iteration_event_us
+smoke,I3_gemm_00_base,R,1,[36.99199855327606],36.99199855327606,,not_evaluated_smoke,profiled_iteration_event_us
+smoke,I3_bilinear_resize_00_base,GI,1,[15.71200042963028],15.71200042963028,,not_evaluated_smoke,iteration_device_event_us
+smoke,I3_bilinear_resize_00_base,P,1,[18.144000321626663],18.144000321626663,,not_evaluated_smoke,profiled_iteration_event_us
+smoke,I3_bilinear_resize_00_base,R,1,[39.07199949026108],39.07199949026108,,not_evaluated_smoke,profiled_iteration_event_us

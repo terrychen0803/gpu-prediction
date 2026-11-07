@@ -1,0 +1,56 @@
+[
+  {
+    "batch_id": "train_controls",
+    "split": "train",
+    "configs": [
+      "I3_conv_00_control1",
+      "I3_conv_00_control2",
+      "I3_conv_00_kernel1",
+      "I3_conv_00_groups4",
+      "I3_depthwise_00_control1",
+      "I3_gemm_00_control1",
+      "I3_bmm_00_control1",
+      "I3_linear_00_control1",
+      "I3_batchnorm_eval_00_control2",
+      "I3_add_00_control1",
+      "I3_bilinear_resize_00_control1",
+      "I3_concat_00_control2"
+    ]
+  },
+  {
+    "batch_id": "validation_01",
+    "split": "validation",
+    "configs": [
+      "I3_conv_01_base",
+      "I3_depthwise_01_base",
+      "I3_gemm_01_base",
+      "I3_bmm_01_base",
+      "I3_linear_01_base",
+      "I3_batchnorm_eval_01_base",
+      "I3_relu_01_base",
+      "I3_add_01_base",
+      "I3_maxpool_01_base",
+      "I3_adaptive_average_pool_01_base",
+      "I3_bilinear_resize_01_base",
+      "I3_concat_01_base"
+    ]
+  },
+  {
+    "batch_id": "sealed_test_02",
+    "split": "test_exploratory",
+    "configs": [
+      "I3_conv_02_base",
+      "I3_depthwise_02_base",
+      "I3_gemm_02_base",
+      "I3_bmm_02_base",
+      "I3_linear_02_base",
+      "I3_batchnorm_eval_02_base",
+      "I3_relu_02_base",
+      "I3_add_02_base",
+      "I3_maxpool_02_base",
+      "I3_adaptive_average_pool_02_base",
+      "I3_bilinear_resize_02_base",
+      "I3_concat_02_base"
+    ]
+  }
+]

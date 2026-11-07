@@ -1,9 +1,17 @@
 # GPU 跨設備 inference 預測研究
 
-> **O4 統一工程候選版：** GB10／3090／4090 請從 [三節點 Quickstart](docs/O4_QUICKSTART_ZH_TW.md) 開始。固定 tag `o4-unified-engineering-v1-20261106`；新 v2 GPU canary 未執行、strict verified=0。分支已收斂為 main 與統一候選，舊版以同名 tag 保存，見 [封存表](docs/BRANCH_ARCHIVE_20261106.md)。
+**S4 scale0最新交付（2026-11-07）**：[GB10六張受控Context結果](docs/o4_i3_s4_scale0_20261107/README.md) · [RTX4090／3090 S4操作手冊](docs/O4_I3_S4_NODE_RUNBOOK_20261107.md) · [工具與版本](i3_context_pilot/README.md)。固定release `o4-i3-s4-scale0-dis-dev-v1-20261107`，六圖D/I/S共40工作已完成；scale1/2未收，Reference未verified，無模型訓練。A與BC source/base分開，共用base後各GPU派生本地D輸入，禁止RTX直接套GB10中間值。
+
+**S3最新交付（2026-11-07）**：[GB10 S3-lite結果與合併72配置](docs/o4_i3_s3_lite_20261107/README.md) · [RTX4090／3090 S3操作手冊](docs/O4_I3_S3_NODE_RUNBOOK_20261107.md) · [S4縮減規劃](docs/O4_I3_S4_STAGING_20261107.md)。固定release `o4-i3-s3-lite-40x3-dev-v1-20261107` 含S3固定資產與相同165檔source。S3完成36配置40×3，Reference仍未verified，沒有模型訓練。S4建議先14工作，Context Adapter尚未實作。
+
+**I3 最新可執行交付（2026-11-07）**：[GB10 S1＋S2 36配置結果](docs/o4_i3_core36_20261107/README.md) · [RTX4090／3090 Core36 40×3手冊](docs/O4_I3_CORE36_NODE_RUNBOOK_20261107.md) · [新版工具](i3_config_pilot/README.md) · [S3分批／耗時建議](docs/O4_I3_S3_STAGING_20261107.md)。固定release `o4-i3-core36-40x3-dev-v1-20261107` 提供實際執行的165檔source與兩套固定資產。36配置完成GB10收集，174配置catalog／adapter已實作但未全量GPU測試；Context尚未實作。全部Reference仍未verified。舊A0 release與[i3_pilot](i3_pilot/README.md)保留，不能混用為40×3。
+
+> **O4 統一工程候選版：** 七A／Native操作請從 [三節點 Quickstart](docs/O4_QUICKSTART_ZH_TW.md) 開始，當前實測進度以 [節點狀態](docs/O4_NODE_STATUS.md) 為準。歷史固定 tag `o4-unified-engineering-v1-20261106` 保留原版本，不代表後續所有collector修訂。I3新入口見上方；strict verified仍為0。舊分支以同名 tag 保存，見 [封存表](docs/BRANCH_ARCHIVE_20261106.md)。
 
 
 **2026-11-07 規劃補充：** 以盡量收集有用資料為優先，各設備不必逐模型／配置嚴格對齊或跑齊同一矩陣；跨設備分析再選可比較子集。見[最新收集原則](docs/O4_COLLECTION_POLICY_20261107.md)。
+
+**2026-11-07 I3 進度**：[原文 GB10 I3-0／I3-1 報告](docs/o4_i3_progress_20261107/REPORT_ZH_TW2.md) · [原文 RTX Portable Runbook](docs/o4_i3_progress_20261107/PORTABLE_RUNBOOK_ZH_TW.md) · [詳細狀態摘要](docs/o4_i3_progress_20261107/STATUS_AND_HANDOFF_ZH_TW.md) · [I3→I5 下一步及務實 Development 資料品質政策](docs/o4_i3_progress_20261107/ROADMAP_AND_PRAGMATIC_DATA_POLICY_ZH_TW.md)。GB10 九類受控算子完成27個選定GI/P/R Cells，I4／I5尚未訓練。早先四份原文／摘要保留發布時狀態；後續本分支已追加原始碼與Release資產，當前指令以上方共用手冊為準。raw與模型權重仍留節點，Reference資格未升級。
 
 ## 最新主線（2026-11-06）：operation → GPU inference 迭代時間
 

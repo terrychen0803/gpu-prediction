@@ -1,0 +1,3275 @@
+{
+  "status": "planned_only",
+  "graphs": [
+    {
+      "id": "CTX_conv_bn_relu_0",
+      "family": "conv_bn_relu",
+      "scale": 0,
+      "split_B": "train",
+      "leakage_group": "context_scale_0",
+      "external_inputs": {
+        "x": [
+          1,
+          20,
+          36,
+          36
+        ]
+      },
+      "nodes": [
+        {
+          "id": "c",
+          "op": "conv",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              20,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "n",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "c"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "r",
+          "op": "relu",
+          "input_edges": [
+            "n"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        }
+      ],
+      "output_nodes": [
+        "r"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_conv_bn_relu_0",
+      "isolated_control_ids": [
+        "ISO_conv_bn_relu_0_c",
+        "ISO_conv_bn_relu_0_n",
+        "ISO_conv_bn_relu_0_r"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_residual_0",
+      "family": "residual",
+      "scale": 0,
+      "split_B": "train",
+      "leakage_group": "context_scale_0",
+      "external_inputs": {
+        "x": [
+          1,
+          20,
+          36,
+          36
+        ]
+      },
+      "nodes": [
+        {
+          "id": "c1",
+          "op": "conv",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              20,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "n1",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "c1"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "r1",
+          "op": "relu",
+          "input_edges": [
+            "n1"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "c2",
+          "op": "conv",
+          "input_edges": [
+            "r1"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              20,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "n2",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "c2"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "a",
+          "op": "add",
+          "input_edges": [
+            "n2",
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ],
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "alpha": 1,
+            "broadcast": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "r2",
+          "op": "relu",
+          "input_edges": [
+            "a"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        }
+      ],
+      "output_nodes": [
+        "r2"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_residual_0",
+      "isolated_control_ids": [
+        "ISO_residual_0_c1",
+        "ISO_residual_0_n1",
+        "ISO_residual_0_r1",
+        "ISO_residual_0_c2",
+        "ISO_residual_0_n2",
+        "ISO_residual_0_a",
+        "ISO_residual_0_r2"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_depthwise_pointwise_0",
+      "family": "depthwise_pointwise",
+      "scale": 0,
+      "split_B": "train",
+      "leakage_group": "context_scale_0",
+      "external_inputs": {
+        "x": [
+          1,
+          20,
+          36,
+          36
+        ]
+      },
+      "nodes": [
+        {
+          "id": "dw",
+          "op": "depthwise",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              1,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 20,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "n",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "dw"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "hs",
+          "op": "hardswish",
+          "input_edges": [
+            "n"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        },
+        {
+          "id": "pw",
+          "op": "conv",
+          "input_edges": [
+            "hs"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              40,
+              20,
+              1,
+              1
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              0,
+              0
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            40,
+            36,
+            36
+          ]
+        }
+      ],
+      "output_nodes": [
+        "pw"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_depthwise_pointwise_0",
+      "isolated_control_ids": [
+        "ISO_depthwise_pointwise_0_dw",
+        "ISO_depthwise_pointwise_0_n",
+        "ISO_depthwise_pointwise_0_hs",
+        "ISO_depthwise_pointwise_0_pw"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_se_gate_0",
+      "family": "se_gate",
+      "scale": 0,
+      "split_B": "train",
+      "leakage_group": "context_scale_0",
+      "external_inputs": {
+        "x": [
+          1,
+          20,
+          36,
+          36
+        ]
+      },
+      "nodes": [
+        {
+          "id": "pool",
+          "op": "adaptive_average_pool",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "output_size": [
+              1,
+              1
+            ]
+          },
+          "output_shape": [
+            1,
+            20,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "reduce",
+          "op": "conv",
+          "input_edges": [
+            "pool"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              5,
+              20,
+              1,
+              1
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              0,
+              0
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": true
+          },
+          "output_shape": [
+            1,
+            5,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "r",
+          "op": "relu",
+          "input_edges": [
+            "reduce"
+          ],
+          "input_shapes": [
+            [
+              1,
+              5,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            5,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "expand",
+          "op": "conv",
+          "input_edges": [
+            "r"
+          ],
+          "input_shapes": [
+            [
+              1,
+              5,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              5,
+              1,
+              1
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              0,
+              0
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": true
+          },
+          "output_shape": [
+            1,
+            20,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "gate",
+          "op": "hardsigmoid",
+          "input_edges": [
+            "expand"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "scale",
+          "op": "mul",
+          "input_edges": [
+            "x",
+            "gate"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ],
+            [
+              1,
+              20,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "broadcast": true
+          },
+          "output_shape": [
+            1,
+            20,
+            36,
+            36
+          ]
+        }
+      ],
+      "output_nodes": [
+        "scale"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_se_gate_0",
+      "isolated_control_ids": [
+        "ISO_se_gate_0_pool",
+        "ISO_se_gate_0_reduce",
+        "ISO_se_gate_0_r",
+        "ISO_se_gate_0_expand",
+        "ISO_se_gate_0_gate",
+        "ISO_se_gate_0_scale"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_resize_concat_conv_0",
+      "family": "resize_concat_conv",
+      "scale": 0,
+      "split_B": "train",
+      "leakage_group": "context_scale_0",
+      "external_inputs": {
+        "x": [
+          1,
+          20,
+          36,
+          36
+        ],
+        "skip": [
+          1,
+          20,
+          72,
+          72
+        ]
+      },
+      "nodes": [
+        {
+          "id": "up",
+          "op": "bilinear_resize",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              36,
+              36
+            ]
+          ],
+          "parameters": {
+            "size": [
+              72,
+              72
+            ],
+            "align_corners": false,
+            "antialias": false,
+            "mode": "bilinear"
+          },
+          "output_shape": [
+            1,
+            20,
+            72,
+            72
+          ]
+        },
+        {
+          "id": "cat",
+          "op": "concat",
+          "input_edges": [
+            "up",
+            "skip"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              72,
+              72
+            ],
+            [
+              1,
+              20,
+              72,
+              72
+            ]
+          ],
+          "parameters": {
+            "dim": 1
+          },
+          "output_shape": [
+            1,
+            40,
+            72,
+            72
+          ]
+        },
+        {
+          "id": "c",
+          "op": "conv",
+          "input_edges": [
+            "cat"
+          ],
+          "input_shapes": [
+            [
+              1,
+              40,
+              72,
+              72
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              40,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            20,
+            72,
+            72
+          ]
+        },
+        {
+          "id": "r",
+          "op": "relu",
+          "input_edges": [
+            "c"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              72,
+              72
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            72,
+            72
+          ]
+        }
+      ],
+      "output_nodes": [
+        "r"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_resize_concat_conv_0",
+      "isolated_control_ids": [
+        "ISO_resize_concat_conv_0_up",
+        "ISO_resize_concat_conv_0_cat",
+        "ISO_resize_concat_conv_0_c",
+        "ISO_resize_concat_conv_0_r"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_attention_eager_0",
+      "family": "attention_eager",
+      "scale": 0,
+      "split_B": "train",
+      "leakage_group": "context_scale_0",
+      "external_inputs": {
+        "q": [
+          4,
+          32,
+          32
+        ],
+        "kt": [
+          4,
+          32,
+          32
+        ],
+        "v": [
+          4,
+          32,
+          32
+        ]
+      },
+      "nodes": [
+        {
+          "id": "qk",
+          "op": "bmm",
+          "input_edges": [
+            "q",
+            "kt"
+          ],
+          "input_shapes": [
+            [
+              4,
+              32,
+              32
+            ],
+            [
+              4,
+              32,
+              32
+            ]
+          ],
+          "parameters": {},
+          "output_shape": [
+            4,
+            32,
+            32
+          ]
+        },
+        {
+          "id": "scale",
+          "op": "mul_scalar",
+          "input_edges": [
+            "qk"
+          ],
+          "input_shapes": [
+            [
+              4,
+              32,
+              32
+            ]
+          ],
+          "parameters": {
+            "value": 0.1767766952966369
+          },
+          "output_shape": [
+            4,
+            32,
+            32
+          ]
+        },
+        {
+          "id": "softmax",
+          "op": "softmax",
+          "input_edges": [
+            "scale"
+          ],
+          "input_shapes": [
+            [
+              4,
+              32,
+              32
+            ]
+          ],
+          "parameters": {
+            "dim": -1,
+            "dtype": "float16"
+          },
+          "output_shape": [
+            4,
+            32,
+            32
+          ]
+        },
+        {
+          "id": "av",
+          "op": "bmm",
+          "input_edges": [
+            "softmax",
+            "v"
+          ],
+          "input_shapes": [
+            [
+              4,
+              32,
+              32
+            ],
+            [
+              4,
+              32,
+              32
+            ]
+          ],
+          "parameters": {},
+          "output_shape": [
+            4,
+            32,
+            32
+          ]
+        }
+      ],
+      "output_nodes": [
+        "av"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_attention_eager_0",
+      "isolated_control_ids": [
+        "ISO_attention_eager_0_qk",
+        "ISO_attention_eager_0_scale",
+        "ISO_attention_eager_0_softmax",
+        "ISO_attention_eager_0_av"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_conv_bn_relu_1",
+      "family": "conv_bn_relu",
+      "scale": 1,
+      "split_B": "validation",
+      "leakage_group": "context_scale_1",
+      "external_inputs": {
+        "x": [
+          2,
+          40,
+          24,
+          24
+        ]
+      },
+      "nodes": [
+        {
+          "id": "c",
+          "op": "conv",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              40,
+              40,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "n",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "c"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "r",
+          "op": "relu",
+          "input_edges": [
+            "n"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        }
+      ],
+      "output_nodes": [
+        "r"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_conv_bn_relu_1",
+      "isolated_control_ids": [
+        "ISO_conv_bn_relu_1_c",
+        "ISO_conv_bn_relu_1_n",
+        "ISO_conv_bn_relu_1_r"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_residual_1",
+      "family": "residual",
+      "scale": 1,
+      "split_B": "validation",
+      "leakage_group": "context_scale_1",
+      "external_inputs": {
+        "x": [
+          2,
+          40,
+          24,
+          24
+        ]
+      },
+      "nodes": [
+        {
+          "id": "c1",
+          "op": "conv",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              40,
+              40,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "n1",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "c1"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "r1",
+          "op": "relu",
+          "input_edges": [
+            "n1"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "c2",
+          "op": "conv",
+          "input_edges": [
+            "r1"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              40,
+              40,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "n2",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "c2"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "a",
+          "op": "add",
+          "input_edges": [
+            "n2",
+            "x"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ],
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "alpha": 1,
+            "broadcast": false
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "r2",
+          "op": "relu",
+          "input_edges": [
+            "a"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        }
+      ],
+      "output_nodes": [
+        "r2"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_residual_1",
+      "isolated_control_ids": [
+        "ISO_residual_1_c1",
+        "ISO_residual_1_n1",
+        "ISO_residual_1_r1",
+        "ISO_residual_1_c2",
+        "ISO_residual_1_n2",
+        "ISO_residual_1_a",
+        "ISO_residual_1_r2"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_depthwise_pointwise_1",
+      "family": "depthwise_pointwise",
+      "scale": 1,
+      "split_B": "validation",
+      "leakage_group": "context_scale_1",
+      "external_inputs": {
+        "x": [
+          2,
+          40,
+          24,
+          24
+        ]
+      },
+      "nodes": [
+        {
+          "id": "dw",
+          "op": "depthwise",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              40,
+              1,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 40,
+            "bias": false
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "n",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "dw"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "hs",
+          "op": "hardswish",
+          "input_edges": [
+            "n"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "pw",
+          "op": "conv",
+          "input_edges": [
+            "hs"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              80,
+              40,
+              1,
+              1
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              0,
+              0
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            2,
+            80,
+            24,
+            24
+          ]
+        }
+      ],
+      "output_nodes": [
+        "pw"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_depthwise_pointwise_1",
+      "isolated_control_ids": [
+        "ISO_depthwise_pointwise_1_dw",
+        "ISO_depthwise_pointwise_1_n",
+        "ISO_depthwise_pointwise_1_hs",
+        "ISO_depthwise_pointwise_1_pw"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_se_gate_1",
+      "family": "se_gate",
+      "scale": 1,
+      "split_B": "validation",
+      "leakage_group": "context_scale_1",
+      "external_inputs": {
+        "x": [
+          2,
+          40,
+          24,
+          24
+        ]
+      },
+      "nodes": [
+        {
+          "id": "pool",
+          "op": "adaptive_average_pool",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "output_size": [
+              1,
+              1
+            ]
+          },
+          "output_shape": [
+            2,
+            40,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "reduce",
+          "op": "conv",
+          "input_edges": [
+            "pool"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              10,
+              40,
+              1,
+              1
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              0,
+              0
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": true
+          },
+          "output_shape": [
+            2,
+            10,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "r",
+          "op": "relu",
+          "input_edges": [
+            "reduce"
+          ],
+          "input_shapes": [
+            [
+              2,
+              10,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            2,
+            10,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "expand",
+          "op": "conv",
+          "input_edges": [
+            "r"
+          ],
+          "input_shapes": [
+            [
+              2,
+              10,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              40,
+              10,
+              1,
+              1
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              0,
+              0
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": true
+          },
+          "output_shape": [
+            2,
+            40,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "gate",
+          "op": "hardsigmoid",
+          "input_edges": [
+            "expand"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            2,
+            40,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "scale",
+          "op": "mul",
+          "input_edges": [
+            "x",
+            "gate"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ],
+            [
+              2,
+              40,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "broadcast": true
+          },
+          "output_shape": [
+            2,
+            40,
+            24,
+            24
+          ]
+        }
+      ],
+      "output_nodes": [
+        "scale"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_se_gate_1",
+      "isolated_control_ids": [
+        "ISO_se_gate_1_pool",
+        "ISO_se_gate_1_reduce",
+        "ISO_se_gate_1_r",
+        "ISO_se_gate_1_expand",
+        "ISO_se_gate_1_gate",
+        "ISO_se_gate_1_scale"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_resize_concat_conv_1",
+      "family": "resize_concat_conv",
+      "scale": 1,
+      "split_B": "validation",
+      "leakage_group": "context_scale_1",
+      "external_inputs": {
+        "x": [
+          2,
+          40,
+          24,
+          24
+        ],
+        "skip": [
+          2,
+          40,
+          48,
+          48
+        ]
+      },
+      "nodes": [
+        {
+          "id": "up",
+          "op": "bilinear_resize",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "size": [
+              48,
+              48
+            ],
+            "align_corners": false,
+            "antialias": false,
+            "mode": "bilinear"
+          },
+          "output_shape": [
+            2,
+            40,
+            48,
+            48
+          ]
+        },
+        {
+          "id": "cat",
+          "op": "concat",
+          "input_edges": [
+            "up",
+            "skip"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              48,
+              48
+            ],
+            [
+              2,
+              40,
+              48,
+              48
+            ]
+          ],
+          "parameters": {
+            "dim": 1
+          },
+          "output_shape": [
+            2,
+            80,
+            48,
+            48
+          ]
+        },
+        {
+          "id": "c",
+          "op": "conv",
+          "input_edges": [
+            "cat"
+          ],
+          "input_shapes": [
+            [
+              2,
+              80,
+              48,
+              48
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              40,
+              80,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            2,
+            40,
+            48,
+            48
+          ]
+        },
+        {
+          "id": "r",
+          "op": "relu",
+          "input_edges": [
+            "c"
+          ],
+          "input_shapes": [
+            [
+              2,
+              40,
+              48,
+              48
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            2,
+            40,
+            48,
+            48
+          ]
+        }
+      ],
+      "output_nodes": [
+        "r"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_resize_concat_conv_1",
+      "isolated_control_ids": [
+        "ISO_resize_concat_conv_1_up",
+        "ISO_resize_concat_conv_1_cat",
+        "ISO_resize_concat_conv_1_c",
+        "ISO_resize_concat_conv_1_r"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_attention_eager_1",
+      "family": "attention_eager",
+      "scale": 1,
+      "split_B": "validation",
+      "leakage_group": "context_scale_1",
+      "external_inputs": {
+        "q": [
+          8,
+          64,
+          32
+        ],
+        "kt": [
+          8,
+          32,
+          64
+        ],
+        "v": [
+          8,
+          64,
+          32
+        ]
+      },
+      "nodes": [
+        {
+          "id": "qk",
+          "op": "bmm",
+          "input_edges": [
+            "q",
+            "kt"
+          ],
+          "input_shapes": [
+            [
+              8,
+              64,
+              32
+            ],
+            [
+              8,
+              32,
+              64
+            ]
+          ],
+          "parameters": {},
+          "output_shape": [
+            8,
+            64,
+            64
+          ]
+        },
+        {
+          "id": "scale",
+          "op": "mul_scalar",
+          "input_edges": [
+            "qk"
+          ],
+          "input_shapes": [
+            [
+              8,
+              64,
+              64
+            ]
+          ],
+          "parameters": {
+            "value": 0.1767766952966369
+          },
+          "output_shape": [
+            8,
+            64,
+            64
+          ]
+        },
+        {
+          "id": "softmax",
+          "op": "softmax",
+          "input_edges": [
+            "scale"
+          ],
+          "input_shapes": [
+            [
+              8,
+              64,
+              64
+            ]
+          ],
+          "parameters": {
+            "dim": -1,
+            "dtype": "float16"
+          },
+          "output_shape": [
+            8,
+            64,
+            64
+          ]
+        },
+        {
+          "id": "av",
+          "op": "bmm",
+          "input_edges": [
+            "softmax",
+            "v"
+          ],
+          "input_shapes": [
+            [
+              8,
+              64,
+              64
+            ],
+            [
+              8,
+              64,
+              32
+            ]
+          ],
+          "parameters": {},
+          "output_shape": [
+            8,
+            64,
+            32
+          ]
+        }
+      ],
+      "output_nodes": [
+        "av"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_attention_eager_1",
+      "isolated_control_ids": [
+        "ISO_attention_eager_1_qk",
+        "ISO_attention_eager_1_scale",
+        "ISO_attention_eager_1_softmax",
+        "ISO_attention_eager_1_av"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_conv_bn_relu_2",
+      "family": "conv_bn_relu",
+      "scale": 2,
+      "split_B": "test_exploratory",
+      "leakage_group": "context_scale_2",
+      "external_inputs": {
+        "x": [
+          1,
+          80,
+          12,
+          12
+        ]
+      },
+      "nodes": [
+        {
+          "id": "c",
+          "op": "conv",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              80,
+              80,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        },
+        {
+          "id": "n",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "c"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        },
+        {
+          "id": "r",
+          "op": "relu",
+          "input_edges": [
+            "n"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        }
+      ],
+      "output_nodes": [
+        "r"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_conv_bn_relu_2",
+      "isolated_control_ids": [
+        "ISO_conv_bn_relu_2_c",
+        "ISO_conv_bn_relu_2_n",
+        "ISO_conv_bn_relu_2_r"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_residual_2",
+      "family": "residual",
+      "scale": 2,
+      "split_B": "test_exploratory",
+      "leakage_group": "context_scale_2",
+      "external_inputs": {
+        "x": [
+          1,
+          80,
+          12,
+          12
+        ]
+      },
+      "nodes": [
+        {
+          "id": "c1",
+          "op": "conv",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              80,
+              80,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        },
+        {
+          "id": "n1",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "c1"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        },
+        {
+          "id": "r1",
+          "op": "relu",
+          "input_edges": [
+            "n1"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        },
+        {
+          "id": "c2",
+          "op": "conv",
+          "input_edges": [
+            "r1"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              80,
+              80,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        },
+        {
+          "id": "n2",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "c2"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        },
+        {
+          "id": "a",
+          "op": "add",
+          "input_edges": [
+            "n2",
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ],
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "alpha": 1,
+            "broadcast": false
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        },
+        {
+          "id": "r2",
+          "op": "relu",
+          "input_edges": [
+            "a"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        }
+      ],
+      "output_nodes": [
+        "r2"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_residual_2",
+      "isolated_control_ids": [
+        "ISO_residual_2_c1",
+        "ISO_residual_2_n1",
+        "ISO_residual_2_r1",
+        "ISO_residual_2_c2",
+        "ISO_residual_2_n2",
+        "ISO_residual_2_a",
+        "ISO_residual_2_r2"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_depthwise_pointwise_2",
+      "family": "depthwise_pointwise",
+      "scale": 2,
+      "split_B": "test_exploratory",
+      "leakage_group": "context_scale_2",
+      "external_inputs": {
+        "x": [
+          1,
+          80,
+          12,
+          12
+        ]
+      },
+      "nodes": [
+        {
+          "id": "dw",
+          "op": "depthwise",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              80,
+              1,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 80,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        },
+        {
+          "id": "n",
+          "op": "batchnorm_eval",
+          "input_edges": [
+            "dw"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "training": false,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "running_stats": true
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        },
+        {
+          "id": "hs",
+          "op": "hardswish",
+          "input_edges": [
+            "n"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        },
+        {
+          "id": "pw",
+          "op": "conv",
+          "input_edges": [
+            "hs"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              160,
+              80,
+              1,
+              1
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              0,
+              0
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            160,
+            12,
+            12
+          ]
+        }
+      ],
+      "output_nodes": [
+        "pw"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_depthwise_pointwise_2",
+      "isolated_control_ids": [
+        "ISO_depthwise_pointwise_2_dw",
+        "ISO_depthwise_pointwise_2_n",
+        "ISO_depthwise_pointwise_2_hs",
+        "ISO_depthwise_pointwise_2_pw"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_se_gate_2",
+      "family": "se_gate",
+      "scale": 2,
+      "split_B": "test_exploratory",
+      "leakage_group": "context_scale_2",
+      "external_inputs": {
+        "x": [
+          1,
+          80,
+          12,
+          12
+        ]
+      },
+      "nodes": [
+        {
+          "id": "pool",
+          "op": "adaptive_average_pool",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "output_size": [
+              1,
+              1
+            ]
+          },
+          "output_shape": [
+            1,
+            80,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "reduce",
+          "op": "conv",
+          "input_edges": [
+            "pool"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              20,
+              80,
+              1,
+              1
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              0,
+              0
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": true
+          },
+          "output_shape": [
+            1,
+            20,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "r",
+          "op": "relu",
+          "input_edges": [
+            "reduce"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            20,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "expand",
+          "op": "conv",
+          "input_edges": [
+            "r"
+          ],
+          "input_shapes": [
+            [
+              1,
+              20,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              80,
+              20,
+              1,
+              1
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              0,
+              0
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": true
+          },
+          "output_shape": [
+            1,
+            80,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "gate",
+          "op": "hardsigmoid",
+          "input_edges": [
+            "expand"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            80,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "scale",
+          "op": "mul",
+          "input_edges": [
+            "x",
+            "gate"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ],
+            [
+              1,
+              80,
+              1,
+              1
+            ]
+          ],
+          "parameters": {
+            "broadcast": true
+          },
+          "output_shape": [
+            1,
+            80,
+            12,
+            12
+          ]
+        }
+      ],
+      "output_nodes": [
+        "scale"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_se_gate_2",
+      "isolated_control_ids": [
+        "ISO_se_gate_2_pool",
+        "ISO_se_gate_2_reduce",
+        "ISO_se_gate_2_r",
+        "ISO_se_gate_2_expand",
+        "ISO_se_gate_2_gate",
+        "ISO_se_gate_2_scale"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_resize_concat_conv_2",
+      "family": "resize_concat_conv",
+      "scale": 2,
+      "split_B": "test_exploratory",
+      "leakage_group": "context_scale_2",
+      "external_inputs": {
+        "x": [
+          1,
+          80,
+          12,
+          12
+        ],
+        "skip": [
+          1,
+          80,
+          24,
+          24
+        ]
+      },
+      "nodes": [
+        {
+          "id": "up",
+          "op": "bilinear_resize",
+          "input_edges": [
+            "x"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              12,
+              12
+            ]
+          ],
+          "parameters": {
+            "size": [
+              24,
+              24
+            ],
+            "align_corners": false,
+            "antialias": false,
+            "mode": "bilinear"
+          },
+          "output_shape": [
+            1,
+            80,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "cat",
+          "op": "concat",
+          "input_edges": [
+            "up",
+            "skip"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              24,
+              24
+            ],
+            [
+              1,
+              80,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "dim": 1
+          },
+          "output_shape": [
+            1,
+            160,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "c",
+          "op": "conv",
+          "input_edges": [
+            "cat"
+          ],
+          "input_shapes": [
+            [
+              1,
+              160,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "weight_shape": [
+              80,
+              160,
+              3,
+              3
+            ],
+            "stride": [
+              1,
+              1
+            ],
+            "padding": [
+              1,
+              1
+            ],
+            "dilation": [
+              1,
+              1
+            ],
+            "groups": 1,
+            "bias": false
+          },
+          "output_shape": [
+            1,
+            80,
+            24,
+            24
+          ]
+        },
+        {
+          "id": "r",
+          "op": "relu",
+          "input_edges": [
+            "c"
+          ],
+          "input_shapes": [
+            [
+              1,
+              80,
+              24,
+              24
+            ]
+          ],
+          "parameters": {
+            "inplace": false
+          },
+          "output_shape": [
+            1,
+            80,
+            24,
+            24
+          ]
+        }
+      ],
+      "output_nodes": [
+        "r"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_resize_concat_conv_2",
+      "isolated_control_ids": [
+        "ISO_resize_concat_conv_2_up",
+        "ISO_resize_concat_conv_2_cat",
+        "ISO_resize_concat_conv_2_c",
+        "ISO_resize_concat_conv_2_r"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    },
+    {
+      "id": "CTX_attention_eager_2",
+      "family": "attention_eager",
+      "scale": 2,
+      "split_B": "test_exploratory",
+      "leakage_group": "context_scale_2",
+      "external_inputs": {
+        "q": [
+          4,
+          128,
+          32
+        ],
+        "kt": [
+          4,
+          32,
+          128
+        ],
+        "v": [
+          4,
+          128,
+          32
+        ]
+      },
+      "nodes": [
+        {
+          "id": "qk",
+          "op": "bmm",
+          "input_edges": [
+            "q",
+            "kt"
+          ],
+          "input_shapes": [
+            [
+              4,
+              128,
+              32
+            ],
+            [
+              4,
+              32,
+              128
+            ]
+          ],
+          "parameters": {},
+          "output_shape": [
+            4,
+            128,
+            128
+          ]
+        },
+        {
+          "id": "scale",
+          "op": "mul_scalar",
+          "input_edges": [
+            "qk"
+          ],
+          "input_shapes": [
+            [
+              4,
+              128,
+              128
+            ]
+          ],
+          "parameters": {
+            "value": 0.1767766952966369
+          },
+          "output_shape": [
+            4,
+            128,
+            128
+          ]
+        },
+        {
+          "id": "softmax",
+          "op": "softmax",
+          "input_edges": [
+            "scale"
+          ],
+          "input_shapes": [
+            [
+              4,
+              128,
+              128
+            ]
+          ],
+          "parameters": {
+            "dim": -1,
+            "dtype": "float16"
+          },
+          "output_shape": [
+            4,
+            128,
+            128
+          ]
+        },
+        {
+          "id": "av",
+          "op": "bmm",
+          "input_edges": [
+            "softmax",
+            "v"
+          ],
+          "input_shapes": [
+            [
+              4,
+              128,
+              128
+            ],
+            [
+              4,
+              128,
+              32
+            ]
+          ],
+          "parameters": {},
+          "output_shape": [
+            4,
+            128,
+            32
+          ]
+        }
+      ],
+      "output_nodes": [
+        "av"
+      ],
+      "dtype": "float16",
+      "layout": "contiguous",
+      "timing_scope": "all listed nodes; no per-op synchronization; all external assets preloaded",
+      "independent_control_id": "IND_attention_eager_2",
+      "isolated_control_ids": [
+        "ISO_attention_eager_2_qk",
+        "ISO_attention_eager_2_scale",
+        "ISO_attention_eager_2_softmax",
+        "ISO_attention_eager_2_av"
+      ],
+      "asset_status": "not_generated",
+      "adapter_status": "not_implemented",
+      "gpu_status": "not_run"
+    }
+  ],
+  "independent_control": "replace every intermediate edge by a precomputed same-node tensor outside capture; issue all nodes in the same order and stream, retaining all outputs until end; this removes data edges, not CUDA stream ordering",
+  "isolated_control": "one separate workload per node position, same precomputed inputs and params; no events inside the dependent graph",
+  "scope_limit": "six controlled templates, not full RN/MV/UN/YO/SW/Qwen forward or production fused attention"
+}

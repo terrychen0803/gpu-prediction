@@ -1,0 +1,79 @@
+{
+  "status": "running",
+  "utc_start": "2026-11-07T00:06:54.186712+00:00",
+  "batches": [
+    {
+      "batch_id": "cbr",
+      "split": "train",
+      "configs": [
+        "CTX_conv_bn_relu_0",
+        "IND_conv_bn_relu_0",
+        "ISO_conv_bn_relu_0_c",
+        "ISO_conv_bn_relu_0_n",
+        "ISO_conv_bn_relu_0_r"
+      ],
+      "stages": [
+        {
+          "kind": "smoke",
+          "status": "completed",
+          "argv": [
+            "/home/good_egg/RTchen/O4/analysis_runs/o4_i1_reference_i2_adapters_20261106T091134Z/env/bin/python",
+            "-m",
+            "o4_i3_context.collect",
+            "--kind",
+            "smoke",
+            "--expect-gpu",
+            "GB10",
+            "--assets-manifest",
+            "/home/good_egg/RTchen/O4/analysis_runs/o4_i3_s4a_gb10_20261107T000028Z/assets_context_local/ASSETS.json",
+            "--config",
+            "CTX_conv_bn_relu_0",
+            "IND_conv_bn_relu_0",
+            "ISO_conv_bn_relu_0_c",
+            "ISO_conv_bn_relu_0_n",
+            "ISO_conv_bn_relu_0_r",
+            "--out",
+            "/home/good_egg/RTchen/O4/analysis_runs/o4_i3_s4a_gb10_20261107T000028Z/collections/cbr_smoke"
+          ],
+          "utc_start": "2026-11-07T00:06:54.186823+00:00",
+          "monotonic_start_ns": 6633192160224857,
+          "returncode": 0,
+          "utc_end": "2026-11-07T00:08:24.491365+00:00",
+          "monotonic_end_ns": 6633282464775162
+        },
+        {
+          "kind": "formal",
+          "status": "running",
+          "argv": [
+            "/home/good_egg/RTchen/O4/analysis_runs/o4_i1_reference_i2_adapters_20261106T091134Z/env/bin/python",
+            "-m",
+            "o4_i3_context.collect",
+            "--kind",
+            "formal",
+            "--expect-gpu",
+            "GB10",
+            "--assets-manifest",
+            "/home/good_egg/RTchen/O4/analysis_runs/o4_i3_s4a_gb10_20261107T000028Z/assets_context_local/ASSETS.json",
+            "--config",
+            "CTX_conv_bn_relu_0",
+            "IND_conv_bn_relu_0",
+            "ISO_conv_bn_relu_0_c",
+            "ISO_conv_bn_relu_0_n",
+            "ISO_conv_bn_relu_0_r",
+            "--out",
+            "/home/good_egg/RTchen/O4/analysis_runs/o4_i3_s4a_gb10_20261107T000028Z/collections/cbr_formal"
+          ],
+          "utc_start": "2026-11-07T00:08:24.491866+00:00",
+          "monotonic_start_ns": 6633282465267757
+        }
+      ],
+      "smoke_excluded_configs": [],
+      "formal_excluded_configs": []
+    }
+  ],
+  "GPU_execution": true,
+  "models_trained": 0,
+  "strict_reference_verified": false,
+  "formal_training_eligible": false,
+  "test_model_scores_evaluated": false
+}

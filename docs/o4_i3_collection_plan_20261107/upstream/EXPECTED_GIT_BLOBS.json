@@ -1,0 +1,42 @@
+[
+  {
+    "path": "docs/O4_COLLECTION_POLICY_20261107.md",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "c4e0a9f3fcb173694971fe70651143ac569ced29",
+    "size": 3392,
+    "url": "https://api.github.com/repos/terrychen0803/gpu-prediction/git/blobs/c4e0a9f3fcb173694971fe70651143ac569ced29"
+  },
+  {
+    "path": "docs/O4_GPU_ITERATION_PLAN_ZH_TW.md",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "7daad8ad7520c663226a425b11683029a4e06557",
+    "size": 23596,
+    "url": "https://api.github.com/repos/terrychen0803/gpu-prediction/git/blobs/7daad8ad7520c663226a425b11683029a4e06557"
+  },
+  {
+    "path": "docs/O4_WORKLOAD_MATRIX.md",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "44c51024a16861ea9beb4dcac633609d40c13e02",
+    "size": 11320,
+    "url": "https://api.github.com/repos/terrychen0803/gpu-prediction/git/blobs/44c51024a16861ea9beb4dcac633609d40c13e02"
+  },
+  {
+    "path": "docs/o4_i3_progress_20261107/ROADMAP_AND_PRAGMATIC_DATA_POLICY_ZH_TW.md",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "28a144d6f5a341e6ee26a19f12aeb588c07ba1d0",
+    "size": 13128,
+    "url": "https://api.github.com/repos/terrychen0803/gpu-prediction/git/blobs/28a144d6f5a341e6ee26a19f12aeb588c07ba1d0"
+  },
+  {
+    "path": "docs/o4_i3_progress_20261107/STATUS_AND_HANDOFF_ZH_TW.md",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "d0ba1e8169e9e3c030e2029ca124c7a0df04531a",
+    "size": 10641,
+    "url": "https://api.github.com/repos/terrychen0803/gpu-prediction/git/blobs/d0ba1e8169e9e3c030e2029ca124c7a0df04531a"
+  }
+]

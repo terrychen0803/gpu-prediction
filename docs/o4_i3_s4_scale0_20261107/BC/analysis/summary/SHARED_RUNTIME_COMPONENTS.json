@@ -1,0 +1,337 @@
+[
+  {
+    "semantic_sha256": "fc6e01bd5f8cb03ab0f5b129e6e37672472169270ce576c1f47824c1743224cc",
+    "positions": [
+      [
+        "IND_attention_eager_0",
+        "softmax"
+      ],
+      [
+        "CTX_attention_eager_0",
+        "softmax"
+      ],
+      [
+        "ISO_attention_eager_0_softmax",
+        "softmax"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "a50adb40106e7aaf426df08a9661b646f220753168a5c98308a1ea86a0b70b6e",
+    "positions": [
+      [
+        "IND_attention_eager_0",
+        "qk"
+      ],
+      [
+        "CTX_attention_eager_0",
+        "qk"
+      ],
+      [
+        "ISO_attention_eager_0_qk",
+        "qk"
+      ],
+      [
+        "CTX_attention_eager_0",
+        "av"
+      ],
+      [
+        "IND_attention_eager_0",
+        "av"
+      ],
+      [
+        "ISO_attention_eager_0_av",
+        "av"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "edfbcf37c6b41027261198c7b7826bc70818c3314d9130beef9952421e5ab628",
+    "positions": [
+      [
+        "ISO_attention_eager_0_scale",
+        "scale"
+      ],
+      [
+        "CTX_attention_eager_0",
+        "scale"
+      ],
+      [
+        "IND_attention_eager_0",
+        "scale"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "649f2d74c890b1eeb712f06b65bb983465af6ed36bfcf0973ac11bdaf2d9847d",
+    "positions": [
+      [
+        "IND_depthwise_pointwise_0",
+        "pw"
+      ],
+      [
+        "ISO_depthwise_pointwise_0_pw",
+        "pw"
+      ],
+      [
+        "CTX_depthwise_pointwise_0",
+        "pw"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "0d69bf602eb8ef4f7bb4a577bb04ab5ba036670a7577b6aa54e8a6634d9d1175",
+    "positions": [
+      [
+        "IND_depthwise_pointwise_0",
+        "dw"
+      ],
+      [
+        "ISO_depthwise_pointwise_0_dw",
+        "dw"
+      ],
+      [
+        "CTX_depthwise_pointwise_0",
+        "dw"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "7c7c5899f8416ecc67d9045b0ab0f575ecffdb4a4ae8f47c846f6dca98f0b714",
+    "positions": [
+      [
+        "CTX_depthwise_pointwise_0",
+        "hs"
+      ],
+      [
+        "ISO_depthwise_pointwise_0_hs",
+        "hs"
+      ],
+      [
+        "IND_depthwise_pointwise_0",
+        "hs"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "5bcb96a92b801f967229edce35818083b14c0b2af255a64e348429fefa1b9581",
+    "positions": [
+      [
+        "CTX_depthwise_pointwise_0",
+        "n"
+      ],
+      [
+        "IND_depthwise_pointwise_0",
+        "n"
+      ],
+      [
+        "ISO_depthwise_pointwise_0_n",
+        "n"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "b275033109f26dda7413a9679d6053f160a24b05aa76a417933f8a7949c7394e",
+    "positions": [
+      [
+        "IND_resize_concat_conv_0",
+        "r"
+      ],
+      [
+        "ISO_resize_concat_conv_0_r",
+        "r"
+      ],
+      [
+        "CTX_resize_concat_conv_0",
+        "r"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "0b4844c7c97c8bb883e07cb12f76190c1cbde33b87a2195cf284c4c221c79c35",
+    "positions": [
+      [
+        "ISO_resize_concat_conv_0_up",
+        "up"
+      ],
+      [
+        "IND_resize_concat_conv_0",
+        "up"
+      ],
+      [
+        "CTX_resize_concat_conv_0",
+        "up"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "55ad0541f06a85a478a72ad81b98682b4456d8745beda77a29a18afac7decc2f",
+    "positions": [
+      [
+        "ISO_resize_concat_conv_0_cat",
+        "cat"
+      ],
+      [
+        "IND_resize_concat_conv_0",
+        "cat"
+      ],
+      [
+        "CTX_resize_concat_conv_0",
+        "cat"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "17203cb4c6d949b1a1e0c81e2f918506aa338e19d94b2431bb5626ee401054fc",
+    "positions": [
+      [
+        "IND_resize_concat_conv_0",
+        "c"
+      ],
+      [
+        "CTX_resize_concat_conv_0",
+        "c"
+      ],
+      [
+        "ISO_resize_concat_conv_0_c",
+        "c"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "66361109859530ba8d90ca89cd625acf3fdefef99188b40c1e03cbaf5181bf9f",
+    "positions": [
+      [
+        "ISO_se_gate_0_gate",
+        "gate"
+      ],
+      [
+        "CTX_se_gate_0",
+        "gate"
+      ],
+      [
+        "IND_se_gate_0",
+        "gate"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "7ba86e7ad4ff414e61b9c437baaad692fb1ae38805f4197ca9a250ff463d08dd",
+    "positions": [
+      [
+        "IND_se_gate_0",
+        "pool"
+      ],
+      [
+        "ISO_se_gate_0_pool",
+        "pool"
+      ],
+      [
+        "CTX_se_gate_0",
+        "pool"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "334558b9a935c51b94d8b0711cd14733277ce43fa8ff0c3b405941e2defc093a",
+    "positions": [
+      [
+        "ISO_se_gate_0_reduce",
+        "reduce"
+      ],
+      [
+        "CTX_se_gate_0",
+        "reduce"
+      ],
+      [
+        "IND_se_gate_0",
+        "reduce"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "4060cb47e302459f27c060b7bf9fc582d999c0406d1fd48bc305056d67645475",
+    "positions": [
+      [
+        "CTX_se_gate_0",
+        "r"
+      ],
+      [
+        "IND_se_gate_0",
+        "r"
+      ],
+      [
+        "ISO_se_gate_0_r",
+        "r"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "dcbf59fe10349c0a9f174e9b07b31e25b75a0b1e395f31cf2ffc9f0ce13e9dd8",
+    "positions": [
+      [
+        "IND_se_gate_0",
+        "expand"
+      ],
+      [
+        "ISO_se_gate_0_expand",
+        "expand"
+      ],
+      [
+        "CTX_se_gate_0",
+        "expand"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  },
+  {
+    "semantic_sha256": "d8eb2e4f517d9b1acda7971eba3fdcce4ddb03440326cbb1ec06712b07d0bc25",
+    "positions": [
+      [
+        "ISO_se_gate_0_scale",
+        "scale"
+      ],
+      [
+        "CTX_se_gate_0",
+        "scale"
+      ],
+      [
+        "IND_se_gate_0",
+        "scale"
+      ]
+    ],
+    "leakage_group": "context_scale_0",
+    "reason": "expected shared full runtime signature; controls/positions not independent groups"
+  }
+]

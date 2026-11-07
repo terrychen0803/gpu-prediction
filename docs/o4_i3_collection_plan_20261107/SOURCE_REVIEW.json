@@ -1,0 +1,50 @@
+{
+  "checked_utc": "2026-11-06T21:11:14Z",
+  "branches": [
+    {
+      "name": "docs/o4-i3-progress-pragmatic-20261107",
+      "commit": {
+        "sha": "1711a5f1d27c282d640218611c01d9948c13cbd6",
+        "url": "https://api.github.com/repos/terrychen0803/gpu-prediction/commits/1711a5f1d27c282d640218611c01d9948c13cbd6"
+      },
+      "protected": false
+    },
+    {
+      "name": "main",
+      "commit": {
+        "sha": "b204ae63ee2dff2bbc161bb5cc8f9aaecfb68c01",
+        "url": "https://api.github.com/repos/terrychen0803/gpu-prediction/commits/b204ae63ee2dff2bbc161bb5cc8f9aaecfb68c01"
+      },
+      "protected": false
+    },
+    {
+      "name": "o4/unified-engineering-20261106",
+      "commit": {
+        "sha": "b28144163e1ff08fc22913f5f05e75bdb561eea0",
+        "url": "https://api.github.com/repos/terrychen0803/gpu-prediction/commits/b28144163e1ff08fc22913f5f05e75bdb561eea0"
+      },
+      "protected": false
+    }
+  ],
+  "pull_requests": [
+    {
+      "number": 8,
+      "title": "docs(O4): publish I3 GB10 progress and pragmatic I3-I5 roadmap",
+      "head": "1711a5f1d27c282d640218611c01d9948c13cbd6",
+      "base": "o4/unified-engineering-20261106",
+      "draft": true,
+      "url": "https://github.com/terrychen0803/gpu-prediction/pull/8"
+    },
+    {
+      "number": 7,
+      "title": "O4: unify three-node engineering release and archive superseded branches",
+      "head": "b28144163e1ff08fc22913f5f05e75bdb561eea0",
+      "base": "main",
+      "draft": true,
+      "url": "https://github.com/terrychen0803/gpu-prediction/pull/7"
+    }
+  ],
+  "read_sha": "1711a5f1d27c282d640218611c01d9948c13cbd6",
+  "local_evidence": "/home/good_egg/RTchen/O4/analysis_runs/o4_i3_implementation_20261106T201414Z",
+  "status": "planning_only"
+}

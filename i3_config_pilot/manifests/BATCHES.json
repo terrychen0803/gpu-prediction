@@ -1,0 +1,62 @@
+[
+  {
+    "batch_id": "S1",
+    "asset_set": "S1",
+    "configs": [
+      "I3_batchnorm_eval_00_base",
+      "I3_gemm_00_base",
+      "I3_bilinear_resize_00_base"
+    ]
+  },
+  {
+    "batch_id": "anchor_00",
+    "configs": [
+      "I3_conv_00_base",
+      "I3_depthwise_00_base",
+      "I3_bmm_00_base",
+      "I3_linear_00_base",
+      "I3_relu_00_base",
+      "I3_add_00_base",
+      "I3_maxpool_00_base",
+      "I3_adaptive_average_pool_00_base",
+      "I3_concat_00_base"
+    ],
+    "asset_set": "S2"
+  },
+  {
+    "batch_id": "anchor_03",
+    "configs": [
+      "I3_conv_03_base",
+      "I3_depthwise_03_base",
+      "I3_gemm_03_base",
+      "I3_bmm_03_base",
+      "I3_linear_03_base",
+      "I3_batchnorm_eval_03_base",
+      "I3_relu_03_base",
+      "I3_add_03_base",
+      "I3_maxpool_03_base",
+      "I3_adaptive_average_pool_03_base",
+      "I3_bilinear_resize_03_base",
+      "I3_concat_03_base"
+    ],
+    "asset_set": "S2"
+  },
+  {
+    "batch_id": "anchor_04",
+    "configs": [
+      "I3_conv_04_base",
+      "I3_depthwise_04_base",
+      "I3_gemm_04_base",
+      "I3_bmm_04_base",
+      "I3_linear_04_base",
+      "I3_batchnorm_eval_04_base",
+      "I3_relu_04_base",
+      "I3_add_04_base",
+      "I3_maxpool_04_base",
+      "I3_adaptive_average_pool_04_base",
+      "I3_bilinear_resize_04_base",
+      "I3_concat_04_base"
+    ],
+    "asset_set": "S2"
+  }
+]

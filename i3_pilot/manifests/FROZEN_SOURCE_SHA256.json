@@ -1,0 +1,625 @@
+{
+  "origin_run": "o4_i3_implementation_20261106T201414Z",
+  "files": [
+    {
+      "path": "source/PORTABLE_RUNBOOK_ZH_TW.md",
+      "sha256": "c8f43dee7e5a29c097be8c1870bb35b2780a8520eb1172b69153296737a408a5"
+    },
+    {
+      "path": "source/o4_i3/__init__.py",
+      "sha256": "6eaa33ed75d72328d760e5d4b6bbf842d96c3fa7cd55880adb4f9038de38c431"
+    },
+    {
+      "path": "source/o4_i3/artifacts.py",
+      "sha256": "fa7ad225a22264878613d8ed62898b237d68ea96b6272203f16ce5645d0b621f"
+    },
+    {
+      "path": "source/o4_i3/collect.py",
+      "sha256": "272d081aeadd68185a71da8a8a893a485b6c0477df18a3629ce32d01c3c9ff57"
+    },
+    {
+      "path": "source/o4_i3/controlled.py",
+      "sha256": "7a55735f3115be6e72663aca4c24583255555e13c3c5fb9a3579d1c4bf02a76b"
+    },
+    {
+      "path": "source/o4_i3/dispatch.py",
+      "sha256": "b872ec53fee4902c693588fde28ca2f448c8fc02510045060ebd0f0d327a7888"
+    },
+    {
+      "path": "source/o4_i3/inventory.py",
+      "sha256": "11d14d13d948f151b24cc9cce6886956d1288195cfdf20ee42f1ac844e581b15"
+    },
+    {
+      "path": "source/o4_i3/replay_smoke.py",
+      "sha256": "6f4b87c53a304bce4383888d436c1585d783b47b51a1d7808dbe81fa7e6fd66a"
+    },
+    {
+      "path": "source/o4_i3/splits.py",
+      "sha256": "5bceec2a84ed4359c75c9f2f517b7432973f5dfeb0462be3c0ed155aac6579c7"
+    },
+    {
+      "path": "source/o4_i3/static_parameters.py",
+      "sha256": "5a188f81d7327f5d68c3002a9f2d170ead60f7e56ef8503f4227144fb21f6e73"
+    },
+    {
+      "path": "source/o4_i3/taxonomy.py",
+      "sha256": "ec42a18f2db1ff95f508263627d0bc6d7464523771a7ab1b4ed4127ff1182c8e"
+    },
+    {
+      "path": "source/o4_i3/worker.py",
+      "sha256": "a575b5d1541bb75a4166a8cc25b889cd0606c197b97500c250f624c533377503"
+    },
+    {
+      "path": "source/o4_pilot/.gitignore",
+      "sha256": "15c0527a13a6c6dbc2295054dbc68b9f3ecae0e4163e975f06389b8b02bab28d"
+    },
+    {
+      "path": "source/o4_pilot/README.md",
+      "sha256": "6b3017d03bb1b636b021f07cc3d54e5e493ccabbe117c0a05b4651ce3e9dc3bf"
+    },
+    {
+      "path": "source/o4_pilot/docs/DATA_SCHEMA_ZH_TW.md",
+      "sha256": "653e94af840591b0d6d0fd2dd1615639a5f9b9b205508788dac740e85a02daa9"
+    },
+    {
+      "path": "source/o4_pilot/docs/NEXT_STEPS_ZH_TW.md",
+      "sha256": "480dcf1fc0f3e26e18e1175b099776e88e8742a269d605feeb52a2b3b109b029"
+    },
+    {
+      "path": "source/o4_pilot/docs/NODE_RUNBOOK_ZH_TW.md",
+      "sha256": "560abdd89718d9e09aba55596e3b7212969c44843d2f8c3e0a36cec96c09ec8f"
+    },
+    {
+      "path": "source/o4_pilot/manifests/a_inventory_assets_20261106.json",
+      "sha256": "55300ee1eb51a481421a7318ec8fbf9c1b2bffdce9e31d77d37f7383cf69cec4"
+    },
+    {
+      "path": "source/o4_pilot/manifests/a_inventory_file_sha256_20261106.json",
+      "sha256": "9c58fce0edc150726dc9765394c9365bbcf796f19ebfe8ac4ed328fc4c92c794"
+    },
+    {
+      "path": "source/o4_pilot/manifests/assets.json",
+      "sha256": "0a078f3d8bd2ed790d71c518a3f295e81d78e841d0e990bb47d3a45d3f431ca3"
+    },
+    {
+      "path": "source/o4_pilot/manifests/code_release.json",
+      "sha256": "5a74a3bd35b900b28c126445481e1bba221b1b37733a45c7b3ba200fc5f79d9f"
+    },
+    {
+      "path": "source/o4_pilot/manifests/code_release_v1_historical.json",
+      "sha256": "bdc81bb2298f3dce87fd40f86dde11f6f6b7d3a610adea742fdd755f432b152c"
+    },
+    {
+      "path": "source/o4_pilot/manifests/protocol.json",
+      "sha256": "28c25fe1af6935b517d8372d9a078b30f26237d1a1471a60c7038fd43022617d"
+    },
+    {
+      "path": "source/o4_pilot/manifests/unified_release.json",
+      "sha256": "7cdce433942d2467d2ca5cc1ed4a71f0bcfc5954a998032dd3674e4a6c776db8"
+    },
+    {
+      "path": "source/o4_pilot/native_control/BUNDLE_MANIFEST.json",
+      "sha256": "770322f0226dcb426b9662d9aff3b78bd85f49a1fa73c940e2953d81ba65f2cf"
+    },
+    {
+      "path": "source/o4_pilot/native_control/BUNDLE_MANIFEST_v2_historical.json",
+      "sha256": "35f1fe5e3fa972fbbf0e160cbe9a9a4c365663c850617228c38a93fc26c78312"
+    },
+    {
+      "path": "source/o4_pilot/native_control/HISTORICAL_BUNDLE_MANIFEST.json",
+      "sha256": "9107813e3b8a11c3093e8193ccca50cfe557590abcc1272e25720a3862fbfcff"
+    },
+    {
+      "path": "source/o4_pilot/native_control/HISTORICAL_NODE_RUNBOOK_ZH_TW.md",
+      "sha256": "a51ada16e28716d29ddfe35b5089fb61292bc9262ac7eba77075c6b4f534217b"
+    },
+    {
+      "path": "source/o4_pilot/native_control/NODE_RUNBOOK_ZH_TW.md",
+      "sha256": "93b7a598c830990a870aa4a06643ac811e26e24733b72ece08a8eb3669b1e871"
+    },
+    {
+      "path": "source/o4_pilot/native_control/SOFTWARE_ONLY_DEFAULT_ZH_TW.md",
+      "sha256": "d77fe683372b93445c7f3a090d468dd002b5c0b2713f2b0c48975517c24b007b"
+    },
+    {
+      "path": "source/o4_pilot/native_control/native/serial_mre.cu",
+      "sha256": "2800d1dc1a30f9fff17ca0ad9038be5e7eb54c7a67fd839cc17c72e95b9f584f"
+    },
+    {
+      "path": "source/o4_pilot/native_control/native/serial_mre_drain_v2.cu",
+      "sha256": "039b0744364138c9cf60824a1493e26b0f7920fdbc372d007254d9b9052fc13c"
+    },
+    {
+      "path": "source/o4_pilot/native_control/run_native_node.sh",
+      "sha256": "fb1e7d05e7080355d5a21f23913b3252bbba069e77344c796a170ff9b0fe851d"
+    },
+    {
+      "path": "source/o4_pilot/native_control/src/analyze_native.py",
+      "sha256": "5045535c9f8674377eb752e99b9897e5e4186559f7dc05d84e1ab44657cb1924"
+    },
+    {
+      "path": "source/o4_pilot/native_control/src/collect_controls.py",
+      "sha256": "fd472593f720f6f1a7fad59bb223fa3dc9b51f09e5aa58f5615dfe56383968cf"
+    },
+    {
+      "path": "source/o4_pilot/native_control/src/nsys_schema.py",
+      "sha256": "3115388b3640af3fc0b161f75b6b12eda600ca800024a2196352884344d0c314"
+    },
+    {
+      "path": "source/o4_pilot/native_control/src/quality.py",
+      "sha256": "f925f234859690bb7fec4609afdfd3b2ec987e97ae44c8defc7a9885b778c498"
+    },
+    {
+      "path": "source/o4_pilot/native_control/src/runtime_guard.py",
+      "sha256": "f78de5d4e8d94e07f5b1d49885a1c7a2ae7d51086d82a5b81eabcfce13397005"
+    },
+    {
+      "path": "source/o4_pilot/native_control/src/trace_contract.py",
+      "sha256": "846fc0fc22d83f8a2629a3941b2b397f730aed3a8adb6a87d419b7aa8c04cf10"
+    },
+    {
+      "path": "source/o4_pilot/native_control/tests/test_collector.py",
+      "sha256": "9357cc09dbccc9e0a2b97a4fe65a440078d1d3b6c6bc2ebd57ae7f400d9e40cd"
+    },
+    {
+      "path": "source/o4_pilot/native_control/tests/test_quality.py",
+      "sha256": "db8238d7f000ad98519ecbd2555d8ce549e19211d04f4fa9677f78585d8aca7e"
+    },
+    {
+      "path": "source/o4_pilot/o4_iteration/__init__.py",
+      "sha256": "e7ff9396f183893896aa7c496dcdbe0fc7c9dd7e131fd1dfe6b56ba75f98585f"
+    },
+    {
+      "path": "source/o4_pilot/o4_iteration/__main__.py",
+      "sha256": "682f1728114e7428d58d280cdc1869fb1e8be6d5d7050741522c3ebbd46fac20"
+    },
+    {
+      "path": "source/o4_pilot/o4_iteration/adapters.py",
+      "sha256": "b488790ae5ffb6ca9df0ec9ea86801a8e4ce2c9d7f8dc9a74352a8d6595db427"
+    },
+    {
+      "path": "source/o4_pilot/o4_iteration/common.py",
+      "sha256": "c7e65cb43b05409349e7d8e9587cba49432def671e96d35d6ceab40244165b38"
+    },
+    {
+      "path": "source/o4_pilot/o4_iteration/manifest.py",
+      "sha256": "2ec2166c1a9fd56860d70345d6b7acffcb8a3b72e5b8e35503b79dc9c5555e3c"
+    },
+    {
+      "path": "source/o4_pilot/o4_iteration/report.py",
+      "sha256": "6771de187cd019def519987d421a8ec0ef66e8f008b7cf172b77f09c51b5a69b"
+    },
+    {
+      "path": "source/o4_pilot/o4_iteration/runner.py",
+      "sha256": "b9e3b4ac49704d78988db61b44667d652c884608d2048d85dd7cbff1db19b610"
+    },
+    {
+      "path": "source/o4_pilot/o4_iteration/timer.py",
+      "sha256": "d9b84b7c684d48f138151e488a6ffe37fb3bbcaa527a8c7dc4304bc776eb4815"
+    },
+    {
+      "path": "source/o4_pilot/o4_iteration/trace.py",
+      "sha256": "d8fb44f3c9fadb80cfe6a4543469bb7ee2e160599e7d1ea89fa327f809da9cad"
+    },
+    {
+      "path": "source/o4_pilot/o4_iteration/worker.py",
+      "sha256": "db660b2a709f90a1a4f8d0a1f22f30402fd9194cba32cdafa6ef32773dfb605f"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/FORMAL_40x3_RUNBOOK_ZH_TW.md",
+      "sha256": "0d42833881ad14c61fa3b0a0efc7196cc6e57b469bf02d0b77e3d1c6fda392c5"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/README.md",
+      "sha256": "86c336561f37a98739b46853d1a260f104de95318559f875a936aeddd9a4a662"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/__init__.py",
+      "sha256": "f1ef638a19a9d168462e3d6747883f5c97fb255bf04ed00b56d5016b5a36ae06"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/adapters.py",
+      "sha256": "097825c1ff1c38e0184ce82f62eed4036e48d2ab268a53a958e5ea612e3862fc"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/audit.py",
+      "sha256": "d11754ea5ff929bff91ede402992614ad1288d5fffb81c8ae4db3b995b59e415"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/audit_v5.py",
+      "sha256": "8d85e5afc84f81577671d4b4c4ed351896f8d6cfc15bfe1202a83bab8ee20774"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/common.py",
+      "sha256": "118deeace442c573af327fc518a22280f3d28bf02d167d577cd87670a9fd1110"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/download_assets.py",
+      "sha256": "cc46b8b34d2e94bbac3052f78bec1732aad210eda0f78113fd02381439a77fd2"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/formal_protocol.py",
+      "sha256": "11c7473c87db7187f01cba794ef6786730f3628e83f13af024571c3067c7b771"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/formal_worker.py",
+      "sha256": "44f3d554df0d95706b7d4e277877ac1d4d7341482775294d2a802392a3bf1496"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/inventory.py",
+      "sha256": "73c8545dac31af8efa1981d082f80470dde93a92e50ffdc8c677a1ca0970aeae"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/native/memset_observer.cpp",
+      "sha256": "773264cf9b56ecede727956b290c80625dde8493ecc54c97e3814c92dd9df062"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/native/nvtx_cpu_control.cpp",
+      "sha256": "28561870612c643cc63022b14080c70bcf7f7f050ca4974b6714d2600487d7bc"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/node.py",
+      "sha256": "9d23e4de5a2e13064e9804f6fb69a828f09c766d81627a9e911f023c7d5d3220"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/nsys_schema.py",
+      "sha256": "c9c36585fdcab2d8d4f83d573df0a3cb802befa8edfcc653dc0ecca8794ef395"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/nvtx_clock_controls.py",
+      "sha256": "10cc9bdf54a384ea972f516bb8393f029129c9e2f4a378a408d56d3f74cabb3b"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/observe_memset.py",
+      "sha256": "0548a9c11ffc54f7ffabd9db7c78156efb109cb8b81f52d4b2f67eb520a40b4e"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/prepare_assets.py",
+      "sha256": "86862228a1d112f7dff0419b1de73a4d7ebb717078fa704d0abd4381abbb1ba0"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/provenance.py",
+      "sha256": "6f5201ef19f4e2eaa3a82196358b4f63cea0f26fe9d0d63f2dee15bf4322493f"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/quality_v4.py",
+      "sha256": "f925f234859690bb7fec4609afdfd3b2ec987e97ae44c8defc7a9885b778c498"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/replay.py",
+      "sha256": "89796f3e90c35bd411efa542df29488b23ba32b2d667a75b73a3bb4bcdb2e6b7"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/run_formal.py",
+      "sha256": "62695a7318467d81600947c5bc3f710b78b5501b2ea61beaf172bfca61e23b14"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/run_smoke.py",
+      "sha256": "99a4269083bf4e2e12f8f9d2a796bc60fce9d0a007db383d8609d4d4a678d92b"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/static_inventory.py",
+      "sha256": "d077e091e680240d7a734bdb4b440fa7380864cec2cc75495357af00d7add975"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/trace_contract.py",
+      "sha256": "846fc0fc22d83f8a2629a3941b2b397f730aed3a8adb6a87d419b7aa8c04cf10"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/verify_assets.py",
+      "sha256": "7acab509d36f8a8dd1641a372d4f9db37169f93328ca3a9030108882f7c6a509"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/worker.py",
+      "sha256": "7d376291332eb051254e1be7d3f702417c68c3985f2ec6a139c9fd4cac81c14c"
+    },
+    {
+      "path": "source/o4_pilot/o4_research/yolo_precision_diagnostic.py",
+      "sha256": "d9cb44ca2aebe8be3478e5685e4f00ce8bb83602c6c9b524c591a72544799537"
+    },
+    {
+      "path": "source/o4_pilot/requirements-i1-i2.txt",
+      "sha256": "8d9879bbeb7280c491aa37d02ffca3a21b1fc78410fc300415a9bd971d4f3022"
+    },
+    {
+      "path": "source/o4_pilot/requirements-runtime.txt",
+      "sha256": "a93ce74f042ce30ec0cf7cc7d23a954bc651463817acf2aa9297bb5aa7863842"
+    },
+    {
+      "path": "source/o4_pilot/scripts/build_memset_observer.sh",
+      "sha256": "9fab221d2fea7ce26874add79ac94ddd555d57b3cc40b081f3d1bdd966579c56"
+    },
+    {
+      "path": "source/o4_pilot/scripts/build_unified_release.py",
+      "sha256": "88dfcace81a8cb70aff9862d67198f32e1266939ea48d790664b3a2971391b75"
+    },
+    {
+      "path": "source/o4_pilot/scripts/import_shared_assets.py",
+      "sha256": "19643ba2c3c75205e24b5d8c2789ed23d11f81eb8c4e4d9ef8f02766a6d96db6"
+    },
+    {
+      "path": "source/o4_pilot/scripts/o4_node.sh",
+      "sha256": "d064fc71abffa71b067535a8f5f91f2d26ac651ba679049c68cede8eb3879b06"
+    },
+    {
+      "path": "source/o4_pilot/scripts/run_node.sh",
+      "sha256": "587ca573d8c1ebc54d95c9ed78fc2e79517fd31329543d6c5601512ea428288f"
+    },
+    {
+      "path": "source/o4_pilot/scripts/verify_assets.py",
+      "sha256": "4eaf74d506e3a0ad11b34c9838e9417bc226672e11954284fc9ee3371f675692"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_copy_and_summary.py",
+      "sha256": "2d19523edc115c665d79363e6d5e90d6eb74ea4eafc09e85266c6f47f1bb8c2d"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_o4.py",
+      "sha256": "243aa2534a484511001c7d3e9912cd2765323d9d37f8e04f462b93371a80c183"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_reports.py",
+      "sha256": "1df4517f10a66d1632459b10405cb0fa052d04b9cee76b785ccbffea735d583c"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_research_adapters.py",
+      "sha256": "603276e457eed33c482a220beb2dfdb5747365fba5bdda911bb8305634811fbf"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_research_assets.py",
+      "sha256": "fa821bae488636642e97e3479ac747d61037abbd05fbf82c108bcef1ef4cb67f"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_research_formal40.py",
+      "sha256": "438fa8ead79c11c347851cb3744812b6aa5e6d441f1488b6ca92fa73c20da2fd"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_research_guard.py",
+      "sha256": "9bec5d959084dfae70f781cee605a08acd39c52376b158d4b1599416b1988ed9"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_research_memset_transfer.py",
+      "sha256": "07c284d59108842162d062164d80cbd72364d93e7fbe4efdf1c59029cb1e7601"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_research_nsys_schema.py",
+      "sha256": "2f7a66859dffd1c80ce04418a4f4487ff556227fd7aa3e39580fb5a957cd6058"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_research_observer.py",
+      "sha256": "f4b4697294dc8dab4ab60de57a956391dc633ff9e041577a24e6b3794ec7f31e"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_research_worker.py",
+      "sha256": "33dcd083817a50f9b5c55adf569ed63b490c8d4291e37cee9d1594235eefbb8f"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_shared_asset_import.py",
+      "sha256": "eda1cf6b325e944f3fd1f6dc5d3f724bbafd67ff2d611274b3af170026d3046f"
+    },
+    {
+      "path": "source/o4_pilot/tests/test_unified_contract.py",
+      "sha256": "68c4f6ae9422f993d675f1264af51794c96247ccb7332dcaf6bc020a6bcca768"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/e2_calibration/README.md",
+      "sha256": "86af4633cb49bea8b86b5fdd6c9875c97529a6394e98424e219c80d0339edd94"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/e2_calibration/__init__.py",
+      "sha256": "877ffb8a0e41381c16b0175d615247546490631b73904da877b3b532ffc40fb5"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/e2_calibration/__main__.py",
+      "sha256": "ca5c907c0d8146378dea2104527d699148279276bbc5e5d7b5d54951d7494211"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/e2_calibration/kernels.cu",
+      "sha256": "48bd47e6e7fa7ccebebcf17ff98c34981961cf81bf989b21126477a1e4b32083"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/e2_calibration/summarize.py",
+      "sha256": "a3599d04d434664035c359c78d08cb3783371bc0cd961ce9759977f1d3ccef5d"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/e2_calibration/trace_smoke.py",
+      "sha256": "898fb038c9a9c919076694008f850d4735c3e9a19fc2b732073ba5e86cf37502"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/e3_calibration/README.md",
+      "sha256": "bc1a17c2b7a5b9d491ea1f821c8fc2c87f8523beb361655cd9bd3f7fcfdd77c9"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/e3_calibration/__init__.py",
+      "sha256": "fcff43609cc7e06131c5f88c1f46af025f86135d8ef68b33ef68065b5303348e"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/e3_calibration/__main__.py",
+      "sha256": "ca7dcbb57ab5590496b3132149704e62eb8c113eae9c95d5ee1e340b92dfbe8f"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/inference_pilot/VALIDATION.md",
+      "sha256": "7633f78a7e09a6d86c9e3f900c675ef896478bd448adc1834f58f76dded495d2"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/inference_pilot/__init__.py",
+      "sha256": "dca24113ec20c8e643cfb56d42d2eeaf4d546203cf7f0a857fd9e3980fec0616"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/inference_pilot/__main__.py",
+      "sha256": "10c206101b9cb041cdce33a5e940887e57fce5028ceccb505e86d469057d4d61"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/inference_pilot/benchmark.py",
+      "sha256": "07d425aee4de2bb5e1623831bcf1d4448959598a38e19081278db8fbe72b153c"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/inference_pilot/common.py",
+      "sha256": "66e1552d136a4ed2d56a7ca0c74d3034ab33dd6836825475d74c57edbdbfd877"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/inference_pilot/input_data.py",
+      "sha256": "615112cc395b2873d5259c394f64345d28fc02fac16cc9298773dda250269671"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/inference_pilot/plots.py",
+      "sha256": "ad8bb918d92a770c5f52eab379e285fa675d569f9a1a284e6e176b7663265e5e"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/inference_pilot/report.py",
+      "sha256": "ba728a097cff41ef29d81906c21e00139334252509ab7799c3322b329a937559"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/inference_pilot/runner.py",
+      "sha256": "4c3fa9fabf0ba7584f855f06a894c524498708ba8eb264db3407d75dbd3a908d"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/inference_pilot/settings.json",
+      "sha256": "da2f5db42964c8b434b080822a5aa685e7662baec4ba4a12ce2d3b89652617b1"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/inference_pilot/trace.py",
+      "sha256": "485e531af6a6fe59cd00ecb067f333d84390d6b31aafc70087b8559c7d89d07c"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/README.md",
+      "sha256": "a1c7ead19140828d879c46aedcc1322fb7e38ef199231906e1d490c6612de672"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/__init__.py",
+      "sha256": "9f8dcb7783da0d1ce0d14e79d261ca3ad4387ecc966c51db82317a61827e92e6"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/__main__.py",
+      "sha256": "24974f6d7fdca27e96bc0b2e97456fa545c7cae030abbf35c5590aee9b5820a0"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/calibration.py",
+      "sha256": "d2184a600c1d68969d8e27dedf099d161ead30ea27723d68e014eeda040b0b95"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/calibration_gb10_20261022.json",
+      "sha256": "48d9d803a18b13a7cea16c03ae77e721fff506b2d2a5385c30150280683be3d1"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/challenge_matrix.py",
+      "sha256": "2e11df653321f9574d27617974014bbf02944ce043a57be1ce5bab9adf4a3f44"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/challenge_matrix_20261022.json",
+      "sha256": "8ac8e60c7379f038d9607a69d2aebf932c37179727c21b260b6cdcf176510657"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/challenge_split_20261022.json",
+      "sha256": "9cdc2eb912b9d782aa6c2bc717b2ef23f754274ef5d7306438092c14bc222413"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/formal_matrix_20261022.json",
+      "sha256": "add0e36dc510d09d4c2428cff4e2258cb82044bfb7cdd8b57786cb3a6085d9b5"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/formal_split_seed42_20261022.json",
+      "sha256": "96b41d65914e152a7573b8a2cba1eb627c2ddc1fb71ca4186b1bb8022efe384d"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/full_matrix.py",
+      "sha256": "90304e19537e70f9abefd9740fb2332b86abf66d58410e1daa5562684b4fe124"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/pilot_input_sha256.json",
+      "sha256": "e025d40edcb244d44cbae5f327d2401d6c1501955a826bc4e66655508514840d"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/runner.py",
+      "sha256": "a369e36c91540e743991aa59816ed2fd98e24ecb8d7c1146cee152155b634661"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/spec.py",
+      "sha256": "86798db5122fe0da0692227835457dd62ce36281ef6522a4d558c6a62b64d3b2"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/splits.py",
+      "sha256": "88e314b1ef5c8db05998815de6c4874efb0047fb989a12f13ca20e496800882d"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/summarize.py",
+      "sha256": "b69cbcda86b77556c07fab47367385edf3c808082add5c87d166ae8ac63256dd"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/trace_audit.py",
+      "sha256": "296f9a3d27c7fafa6c5ffeb8f06406d7686f49dc15fe7ded387af2291d011725"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o1_operator/worker.py",
+      "sha256": "b2f8931aec53ab1e2b68a663e0e3c5548c9957f966d7ce31cef39e34911864ba"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o2_sequence/README.md",
+      "sha256": "be86403f2fcd924bf9e5fe56482c2537e48d6e6d671c3241fcb2507bd3b65461"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o2_sequence/__init__.py",
+      "sha256": "d523e2a0832298c77f6a47e066b308f80dfa3eeee6cf3bed1fc0aa11a2765db7"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o2_sequence/__main__.py",
+      "sha256": "42c44e289fe8a3cf1825926c4e8d3d6470eaf5a69597c2cef4637828013ecd14"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o2_sequence/alignment.py",
+      "sha256": "c5302a9920aaa4662b7fcb31ba9605b9abac11e98a6836337df2764e415667e2"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o2_sequence/catalog.py",
+      "sha256": "0403f0e29288a2c6d5135ed85dd391c46595636ebbb043087ff49c23bfa46c57"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o2_sequence/formal_templates_v1.json",
+      "sha256": "3696763ee19d886146bec1c5a3f054b0d94c8e86ce2a225c921630b23787d0b4"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o2_sequence/runner.py",
+      "sha256": "7efe7c10331ed229aa3cb019f691a4381a707c2ac54156258ce3b36a9b7a35a6"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o2_sequence/trace.py",
+      "sha256": "3ca1d8b49d0b0baceae9ff353e3d043684bb2a124fa9cb74f0487bd42d72fc41"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/o2_sequence/worker.py",
+      "sha256": "6885e12df07034f54781c812992172450e7c2b17a84a2260cf38f75715aa07c7"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/tests/test_e2_calibration.py",
+      "sha256": "f0b9e2469aabbb7ed8c6c12e02cfe5f554e460feff83dfdf176e97a920c133bc"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/tests/test_e3_calibration.py",
+      "sha256": "2aa0f64533ea474148f0cc0552dad111e59fa9b00bebe935b50377fef8a9b37c"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/tests/test_inference_pilot.py",
+      "sha256": "e005ec036e9455355f4c72ca8d82a0653c6cafd302e410dee8f757d40af964bc"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/tests/test_o1_operator.py",
+      "sha256": "cf62c3048d4a9bc96ab4b428107078db0b98b93b2b1330d99886aec2bedcecd8"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/tests/test_o2_collection.py",
+      "sha256": "1bb6457122794832d33849398d1305ab767ca223257dc5cab1e399f4e561140b"
+    },
+    {
+      "path": "source/o4_pilot/vendor/legacy/tests/test_plots.py",
+      "sha256": "00e79ff4efef2fbd03a9052f70e83c0c3d9f3e255214ee27b6de94ed773467ed"
+    },
+    {
+      "path": "source/tests/fixtures/observed_ATen_names.json",
+      "sha256": "cce5406c48f0e1bba6d66f54aaa67920075e9be9cd85ad7d1df20afd9fbc0303"
+    },
+    {
+      "path": "source/tests/test_i3.py",
+      "sha256": "ea3b95c6f737a84f8fcfd286865264dc6c613be751bfbedb0c5b7b022effd9bb"
+    }
+  ]
+}

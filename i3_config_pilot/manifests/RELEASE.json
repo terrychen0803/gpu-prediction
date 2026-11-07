@@ -1,0 +1,24 @@
+{
+  "tag": "o4-i3-core36-40x3-dev-v1-20261107",
+  "assets": [
+    {
+      "name": "o4_i3_S2_source_v1_20261107.tar.gz",
+      "sha256": "a516002523d96ea1ae51fe8fc5102833c157e1232ca196515ba9630345326b3b",
+      "bytes": 260746
+    },
+    {
+      "name": "o4_i3_S1_assets_v1_20261107.tar.gz",
+      "sha256": "309fe4b667c27b5a5fa0bbe839a9e22d73d41d3ac1aa4be07003c712e8038f66",
+      "bytes": 752680
+    },
+    {
+      "name": "o4_i3_S2_assets_v1_20261107.tar.gz",
+      "sha256": "d0294f7c8aaa4850edb2c7c5d0cabde7d70b6802643137ca72c1d0b86d0c2e4c",
+      "bytes": 16473914
+    }
+  ],
+  "S1_assets_manifest_sha256": "7ab9ade8f3ec5bbccb44a4563f104711105e8f2dd1716899e14e5d49364c17f5",
+  "S2_assets_manifest_sha256": "04d99eceaebf84162a7276d95ca8177db9e7e03e40b9742f5ea8c79b3da28e9d",
+  "strict_reference_verified": false,
+  "formal_training_eligible": false
+}

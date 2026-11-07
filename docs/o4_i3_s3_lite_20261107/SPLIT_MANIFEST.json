@@ -1,0 +1,222 @@
+{
+  "status": "precollection_design_frozen_runtime_audit_pending",
+  "rows": [
+    {
+      "config_id": "I3_conv_00_control1",
+      "split": "train",
+      "leakage_group": "conv_anchor_00",
+      "semantic_sha256": "281c0100d70570e4588ed1c421691b1d3d92b9226e59a6f11ede056120598061"
+    },
+    {
+      "config_id": "I3_conv_00_control2",
+      "split": "train",
+      "leakage_group": "conv_anchor_00",
+      "semantic_sha256": "fd5b19b2079f02cf65ff2a1d48c66f412ef767cced2fe26dcec80584a37473b2"
+    },
+    {
+      "config_id": "I3_conv_00_kernel1",
+      "split": "train",
+      "leakage_group": "conv_anchor_00",
+      "semantic_sha256": "ae5bf76ecab4f46b249fd319f6e59501d98651e455c668c00202bc03edee4281"
+    },
+    {
+      "config_id": "I3_conv_00_groups4",
+      "split": "train",
+      "leakage_group": "conv_anchor_00",
+      "semantic_sha256": "7e829bee624092b32b024f9978c5e4a0e5528c811f61dcf852133d646e58eea2"
+    },
+    {
+      "config_id": "I3_depthwise_00_control1",
+      "split": "train",
+      "leakage_group": "depthwise_anchor_00",
+      "semantic_sha256": "d0f65a6050345f5e32f1a0f84d05dab53c8eeeb4a0162172dc12825df512dc2f"
+    },
+    {
+      "config_id": "I3_gemm_00_control1",
+      "split": "train",
+      "leakage_group": "gemm_anchor_00",
+      "semantic_sha256": "4b55d701cbbe5aa0f06152fe0dc733903574bf394c77a9c9b86431ae7d5d4f3f"
+    },
+    {
+      "config_id": "I3_bmm_00_control1",
+      "split": "train",
+      "leakage_group": "bmm_anchor_00",
+      "semantic_sha256": "8e96e593aa52707d802e9cdd1ea362000c570a0aa588b000a968df6a13165ad5"
+    },
+    {
+      "config_id": "I3_linear_00_control1",
+      "split": "train",
+      "leakage_group": "linear_anchor_00",
+      "semantic_sha256": "0b3cc04535f1bc2cbe664db462014de3739fae3ad4e899aabd01f7d930d79f45"
+    },
+    {
+      "config_id": "I3_batchnorm_eval_00_control2",
+      "split": "train",
+      "leakage_group": "batchnorm_eval_anchor_00",
+      "semantic_sha256": "c636d6674813611ab389cafc2bfa1c1a47615bde15ac21b0f34c037945b225b0"
+    },
+    {
+      "config_id": "I3_add_00_control1",
+      "split": "train",
+      "leakage_group": "add_anchor_00",
+      "semantic_sha256": "5328be4df693d653d9e53400e04be6cb40ad963d21f74b936921f9a76467fb12"
+    },
+    {
+      "config_id": "I3_bilinear_resize_00_control1",
+      "split": "train",
+      "leakage_group": "bilinear_resize_anchor_00",
+      "semantic_sha256": "03ecc1b4f83f404f10484f429c8747dc27af8fd39b0c7439ec2377f0fb5a5c74"
+    },
+    {
+      "config_id": "I3_concat_00_control2",
+      "split": "train",
+      "leakage_group": "concat_anchor_00",
+      "semantic_sha256": "fa7b6d660bfc03f155958790763021d3b7ddf36f772ae4ffd4c987fda7415f68"
+    },
+    {
+      "config_id": "I3_conv_01_base",
+      "split": "validation",
+      "leakage_group": "conv_anchor_01",
+      "semantic_sha256": "133c554796e2131601719c1a9aa4ae0b0740d4cb293b22379ed99d856934ef80"
+    },
+    {
+      "config_id": "I3_depthwise_01_base",
+      "split": "validation",
+      "leakage_group": "depthwise_anchor_01",
+      "semantic_sha256": "2f0a40ba708950d979b1f27da11ac90e595815955ecae48bda71d8b8886e559c"
+    },
+    {
+      "config_id": "I3_gemm_01_base",
+      "split": "validation",
+      "leakage_group": "gemm_anchor_01",
+      "semantic_sha256": "08dc4c84c0ae29511909fe967f204f5f5b9851e228bfe62cd4fb15cc0899a8e3"
+    },
+    {
+      "config_id": "I3_bmm_01_base",
+      "split": "validation",
+      "leakage_group": "bmm_anchor_01",
+      "semantic_sha256": "464985121a18e716e28ff3678cd765a099fc5d615a65fa1909e68e09bd2ef37e"
+    },
+    {
+      "config_id": "I3_linear_01_base",
+      "split": "validation",
+      "leakage_group": "linear_anchor_01",
+      "semantic_sha256": "5159b7d7acec3cd9c6e6f28e1b05633a59a6d0374c33d1faa05c00911d68c331"
+    },
+    {
+      "config_id": "I3_batchnorm_eval_01_base",
+      "split": "validation",
+      "leakage_group": "batchnorm_eval_anchor_01",
+      "semantic_sha256": "4c5ddf5b6012d65fddc2f0850e328c38377f506e38012f08948fc8c706097a3e"
+    },
+    {
+      "config_id": "I3_relu_01_base",
+      "split": "validation",
+      "leakage_group": "relu_anchor_01",
+      "semantic_sha256": "179da6e1514b8612fe395e51d3a2ca0a0bcc25b4efeff40770186b50f3032b4c"
+    },
+    {
+      "config_id": "I3_add_01_base",
+      "split": "validation",
+      "leakage_group": "add_anchor_01",
+      "semantic_sha256": "1bb70dfbbafc2333a83c36b5e6a7d89ff5c2fe753256299f495ed4816633e6f3"
+    },
+    {
+      "config_id": "I3_maxpool_01_base",
+      "split": "validation",
+      "leakage_group": "maxpool_anchor_01",
+      "semantic_sha256": "d570f42dd0fcdc0fc6b70336d484937635f87b8ef3d839b8ddafde18dafc2dab"
+    },
+    {
+      "config_id": "I3_adaptive_average_pool_01_base",
+      "split": "validation",
+      "leakage_group": "adaptive_average_pool_anchor_01",
+      "semantic_sha256": "0bdd582e0564815a15a74c0c6ee8770748e92c8926330bff72afa902f60cf8b4"
+    },
+    {
+      "config_id": "I3_bilinear_resize_01_base",
+      "split": "validation",
+      "leakage_group": "bilinear_resize_anchor_01",
+      "semantic_sha256": "b61d586c3abdcc8350e6b345e989d216719df1288a7536a1f8541fd07b1cda3b"
+    },
+    {
+      "config_id": "I3_concat_01_base",
+      "split": "validation",
+      "leakage_group": "concat_anchor_01",
+      "semantic_sha256": "cd51c2a94574640efda9c3144806ac5f7cd285ca5899b06be7954d35869c148f"
+    },
+    {
+      "config_id": "I3_conv_02_base",
+      "split": "test_exploratory",
+      "leakage_group": "conv_anchor_02",
+      "semantic_sha256": "31f9b1826340e05215dd95339572c9ab1c1bbe86a33c57518fd76ef6f422a3b3"
+    },
+    {
+      "config_id": "I3_depthwise_02_base",
+      "split": "test_exploratory",
+      "leakage_group": "depthwise_anchor_02",
+      "semantic_sha256": "0ff0abd0289510f470e00bbd91d8e726f046cdb360ce93c0ee3b0c3e0912e0be"
+    },
+    {
+      "config_id": "I3_gemm_02_base",
+      "split": "test_exploratory",
+      "leakage_group": "gemm_anchor_02",
+      "semantic_sha256": "4f8c9fe2f7175696fa4cdd08f36493581638a698cc397b465660f01b5c047064"
+    },
+    {
+      "config_id": "I3_bmm_02_base",
+      "split": "test_exploratory",
+      "leakage_group": "bmm_anchor_02",
+      "semantic_sha256": "6439590d15690b3c08807d199ed08077e44b6fc52809c4a3834c10cfaef33b7b"
+    },
+    {
+      "config_id": "I3_linear_02_base",
+      "split": "test_exploratory",
+      "leakage_group": "linear_anchor_02",
+      "semantic_sha256": "2beba2a6f6c0e3a54d9a031d4dd37f1b94d15b711a9e912bce30ffb09f0a06d3"
+    },
+    {
+      "config_id": "I3_batchnorm_eval_02_base",
+      "split": "test_exploratory",
+      "leakage_group": "batchnorm_eval_anchor_02",
+      "semantic_sha256": "ca6977706b35a8b02f724c57ca57286237fe52fdc5bccc8a308b34b50eb3e35d"
+    },
+    {
+      "config_id": "I3_relu_02_base",
+      "split": "test_exploratory",
+      "leakage_group": "relu_anchor_02",
+      "semantic_sha256": "f466acc8d46ccfaae2e8f2a6b9a6009fa4e0acf36f1a62414da6f2502dcded11"
+    },
+    {
+      "config_id": "I3_add_02_base",
+      "split": "test_exploratory",
+      "leakage_group": "add_anchor_02",
+      "semantic_sha256": "750dd6c4a01b245ec1dd171570f3b78c38a765251c0878c1a1b35ad8b911191e"
+    },
+    {
+      "config_id": "I3_maxpool_02_base",
+      "split": "test_exploratory",
+      "leakage_group": "maxpool_anchor_02",
+      "semantic_sha256": "b58bf1c37efb1bbbd2ceb756dad1d264b350dbcfa43c865dcae04e1ffc9c0c7e"
+    },
+    {
+      "config_id": "I3_adaptive_average_pool_02_base",
+      "split": "test_exploratory",
+      "leakage_group": "adaptive_average_pool_anchor_02",
+      "semantic_sha256": "c4a5a2139ca3db920306fade744a7c62e43c250ae8ed8095d12ffe974c3be09a"
+    },
+    {
+      "config_id": "I3_bilinear_resize_02_base",
+      "split": "test_exploratory",
+      "leakage_group": "bilinear_resize_anchor_02",
+      "semantic_sha256": "c3d77f866d7cb4ea649c736d3fada987650292221be512f71b7ed9b4e32f193d"
+    },
+    {
+      "config_id": "I3_concat_02_base",
+      "split": "test_exploratory",
+      "leakage_group": "concat_anchor_02",
+      "semantic_sha256": "ae4260609dca8fb6c38b1d7ee5318cc01422b1d13ad62b21dd4039b64c948241"
+    }
+  ],
+  "policy": "anchor00 controls stay train with S1/S2; 01 validation, 02 exploratory sealed test; all repeats/modes/devices share group; no model scores used for selection"
+}

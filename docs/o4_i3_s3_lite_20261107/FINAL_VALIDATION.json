@@ -1,0 +1,35 @@
+{
+  "collection_all_requested_completed": true,
+  "CPU_tests_passed": 181,
+  "source_files_unchanged": 165,
+  "historical_runs": [
+    {
+      "run_id": "o4_i3_s1_gb10_20261106T213722Z",
+      "historical_files_unchanged": 3545
+    },
+    {
+      "run_id": "o4_i3_s2_gb10_20261106T220336Z",
+      "historical_files_unchanged": 31342
+    }
+  ],
+  "S3_replay_traces": 288,
+  "S3_replay_pairs": 144,
+  "byte_exact_artifacts": 13048,
+  "S3_P_CTX_summaries_independently_checked": 36,
+  "S3_formal_cells_completed": 324,
+  "S3_formal_measured_saved": 12960,
+  "combined_configs": 72,
+  "runtime_rows_matched": 10008,
+  "runtime_rows_checked": 10008,
+  "cross_split_runtime_collisions": 0,
+  "strict_reference_verified": false,
+  "formal_training_eligible": false,
+  "models_trained": 0,
+  "test_model_scores_evaluated": false,
+  "github_published": false,
+  "S3_worker_processes": 432,
+  "remaining_worker_processes": 0,
+  "guard_blocked_cells": 0,
+  "monitor_foreign_cells": 0,
+  "monitor_error_cells": 0
+}

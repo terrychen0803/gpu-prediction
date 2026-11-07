@@ -1,0 +1,16 @@
+[
+  {
+    "path": "bundles/o4_i3_S3_lite_source_v1_20261107.tar.gz",
+    "bytes": 260746,
+    "sha256": "a516002523d96ea1ae51fe8fc5102833c157e1232ca196515ba9630345326b3b",
+    "verified_members": 165,
+    "published": false
+  },
+  {
+    "path": "bundles/o4_i3_S3_lite_assets_v1_20261107.tar.gz",
+    "bytes": 16390139,
+    "sha256": "ee39b22c08b15ccf4711247c37e398727e8546ea3d72e78d161b0bec2869f99a",
+    "verified_members": 75,
+    "published": false
+  }
+]

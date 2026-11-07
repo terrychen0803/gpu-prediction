@@ -1,0 +1,18 @@
+[
+  {
+    "path": "summarize_s3.py",
+    "sha256": "5bac07f14dd7eba6e9143180aa7883adf2c95db8dfafc3cfb8f639ee3481bfea"
+  },
+  {
+    "path": "pre_test_runtime_audit.py",
+    "sha256": "2b6cc603b12c921c10c8d396b4906cf2ccb8435e38a4203d0ebd7f9a29cfeca3"
+  },
+  {
+    "path": "run_s3.py",
+    "sha256": "b68e1e5e5581562bc3bd024609500cc03d6bdc02eef72242e80f58b98e74aff2"
+  },
+  {
+    "path": "test_orchestrator.py",
+    "sha256": "18e25ba41dcc2dc54494817a7b6c73c713611534a3eb1a32cb19061e034fa931"
+  }
+]
