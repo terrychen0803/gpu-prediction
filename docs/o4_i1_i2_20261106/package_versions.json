@@ -1,0 +1,14 @@
+{
+  "python": "3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:27:41) [GCC 14.3.0]",
+  "machine": "aarch64",
+  "packages": {
+    "torch": "2.13.0+cu130",
+    "torchvision": "0.28.0+cu130",
+    "ultralytics": "8.4.55",
+    "transformers": "4.57.1",
+    "huggingface-hub": "0.36.2",
+    "safetensors": "0.8.0",
+    "tokenizers": "0.22.2",
+    "numpy": "2.4.4"
+  }
+}

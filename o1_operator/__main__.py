@@ -8,6 +8,7 @@ def main():
     parser = argparse.ArgumentParser(description="O1 operator pilot")
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("run")
+    sub.add_parser("calibrate")
     worker = sub.add_parser("worker")
     worker.add_argument("--request", required=True)
     summary = sub.add_parser("summarize")
@@ -17,6 +18,9 @@ def main():
     if args.command == "run":
         from .runner import main as run_main
         return run_main(rest)
+    if args.command == "calibrate":
+        from .calibration import main as calibrate_main
+        return calibrate_main(rest)
     if rest:
         parser.error(f"Unexpected arguments: {rest}")
     if args.command == "worker":

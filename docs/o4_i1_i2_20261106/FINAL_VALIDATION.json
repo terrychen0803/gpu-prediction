@@ -1,0 +1,27 @@
+{
+  "utc": "2026-11-06T10:12:11.508839+00:00",
+  "delivery_engineering_status": "PASS",
+  "reference_status": "UNVERIFIED",
+  "strict_verified": 0,
+  "protected_existing_files": 3417,
+  "existing_file_changes": [],
+  "I2_GPU_cells_completed": 21,
+  "I2_initial_failed_launches_preserved": 21,
+  "tests": {
+    "O4_and_new": 41,
+    "legacy": 54,
+    "portable_native": 14,
+    "total": 109,
+    "skipped": 0
+  },
+  "independent_replay_files_byte_exact": 174,
+  "replay_GPU_executions": 0,
+  "hardware_GPU_experiments_this_run": 0,
+  "MLP_training": 0,
+  "RTX4090_RTX3090_runs": "not executed",
+  "Windows_live": "pending_platform",
+  "asset_files_sha_verified": 14,
+  "original_O4_runtime_modified": false,
+  "raw_timestamp_repairs": 0,
+  "existing_services_modified": false
+}

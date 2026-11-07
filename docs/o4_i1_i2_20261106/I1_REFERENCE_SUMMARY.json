@@ -1,0 +1,22 @@
+{
+  "op140_direct_argument_replicas": 2,
+  "observed_forwards": 6,
+  "count_bytes_all_observations": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "successful_return": true,
+  "native_64B_0B_controls": "both v1/v2 passed",
+  "observer": "standalone CUPTI13.0.1 callback, not co-subscribed with Nsight",
+  "historical_270_API_rows_relabelled": false,
+  "historical_submitted_work_coverage": "unverified",
+  "old_new_ATen_shape_dtype_signature_exact": true,
+  "NVTX_CPU_only_warning_reproduced": true,
+  "CPU_only_NVTX_scopes": 8,
+  "device_event_completion_timestamps_collected": 16,
+  "strict_verified": 0
+}

@@ -1,10 +1,12 @@
 # O4：由 operation 預測一次 GPU inference 迭代時間
 
+**2026-11-07 收集原則更新：以收集有用資料為優先，各設備可獨立選模型／配置，不要求三台跑齊相同矩陣或同步進度。** 跨設備評估時才分方向核對可比配對，缺項與環境差異照實記錄。詳見[收集優先原則](O4_COLLECTION_POLICY_20261107.md)；以下舊版完整矩陣／對齊要求應依此調整。
+
 更新：2026-11-06。狀態：**詳細設計／待節點實作與量測**。本次只整合文件，沒有新增 GPU 成績或可執行 O4 CLI。
 
 本文件依使用者最新確認，將主目標由 host request 服務時間收斂為：**固定模型、輸入與執行條件，利用來源設備的 dry-run trace，自行辨識運算片段並預測其在目標設備的時間，最後預測一次完整 forward 的 GPU 迭代時間。** 主設備為 GB10／RTX 3090／RTX 4090；任務為 ResNet-50、MobileNetV3、Swin-T、U-Net、YOLO26、Qwen3-0.6B。
 
-**使用者補充的主要部署方向：RTX 4090 → GB10、RTX 4090 → RTX 3090。** RTX 4090 是工作負載 dry run 的來源；另兩台是預測目標。其餘四方向僅作選配泛化檢查，不列本輪完成要求。三台配對收集仍必要，但 test 目標 trace／GI 僅供 evaluator。歷史 O3 六方向統計只作背景，不能冒充這兩方向的 O4 結果。
+**使用者補充的主要部署方向：RTX 4090 → GB10、RTX 4090 → RTX 3090。** RTX 4090 是工作負載 dry run 的來源；另兩台是預測目標。其餘四方向僅作選配泛化檢查，不列本輪完成要求。可依每台支援情況獨立收集，分析時分別建立 4090→GB10 或 4090→3090 的可比較子集；test 目標 trace／GI 僅供 evaluator。歷史 O3 六方向統計只作背景，不能冒充這兩方向的 O4 結果。
 
 閱讀順序：本文 → [數學與 MLP 規格](O4_GPU_ITERATION_MATH.md) → [工作負載與配置](O4_WORKLOAD_MATRIX.md) → [節點交接](O4_GPU_ITERATION_HANDOFF.md)。目前證據見 [O3 q 消融摘要](O3_Q_ABLATION_STATUS_20261106.md)。
 
@@ -79,7 +81,7 @@ P/R 沿用與 GI 相同的 iteration 級完成政策；可用已知 iteration �
 - GI 主標籤：每 process 40 次中位數，再取 3 個 process 中位數。保存全樣本、P10/P90、spread，不只保留聚合值。穩定門檻候選 `(max(run_medians)-min)/median ≤5%`；不穩定案例另列，全部嘗試分母保留。
 - 正確性在計時外檢查，FP16 對 FP32／可信實作的 tolerance 由模型 smoke 實測後凍結；不得只用輸出 finite 當完整正確性。
 - 精度 FP16、eval/inference_mode、eager、autocast/compile/CUDA Graph 關閉、無其他 GPU 作業；Conv 輸入 NCHW contiguous。原生模型內部 layout 轉換保留。TF32、cuDNN benchmark/deterministic 等明確記錄並在 development 凍結，不為匹配結果偷偷改旗標。
-- 同一配置三設備使用同權重與輸入 bytes/token IDs checksum。OOM、精度不支援、輸出不符都回報；不得自動縮 batch 或更換模型。
+- 收集不要求每台具有相同配置；要作同工作負載跨設備評估的配對才核對權重與輸入 bytes/token IDs。OOM、精度不支援或輸出不符留下原因後可繼續其他工作；另測較小 batch／其他模型時使用新 variant 與 hash，不混入原配置。
 
 暖機與穩定門檻不是正確性的保證；不同 session 的 cache／時脈／軟體差異仍需記錄。Nsight 收集以當地版本支援為準，參考 [官方指南](https://docs.nvidia.com/nsight-systems/UserGuide/index.html)。
 

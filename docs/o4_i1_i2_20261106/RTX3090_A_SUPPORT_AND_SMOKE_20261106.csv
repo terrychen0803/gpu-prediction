@@ -1,0 +1,8 @@
+workload,GI_median_us_development_only,ATen_operations_per_forward,zero_recorded_GPU_ops_per_forward,max_GPU_events_per_op,ops_over_L4_per_forward,P_measured_events,P_unmatched_work_APIs_four_windows,P_preparation_GPU_records_four_windows,R_preparation_GPU_records_four_windows,P_R_measured_signature_matches,single_process_measured_samples,strict_reference_verified
+RN-A,3093.503952026367,175,1,5,4,1032,0,0,0,3,3,0
+MV-A,3054.5918941497803,187,2,3,0,894,32,0,0,3,3,0
+SW-A,5021.696090698242,782,434,3,0,1227,84,0,0,3,3,0
+UN-A,1582.0800065994263,49,0,6,17,363,0,0,0,3,3,0
+YO-A,7776.192188262939,465,44,16,3,2439,64,0,0,3,3,0
+QP-A,21095.42465209961,2543,720,2,0,5646,0,8,8,3,3,0
+QD-A,19087.360382080078,2403,608,2,0,5394,0,7548,7548,3,3,0

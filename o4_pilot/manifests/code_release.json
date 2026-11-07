@@ -1,5 +1,5 @@
 {
-  "schema": "o4_github_source_release_v1",
+  "schema": "o4_github_source_release_v2_docs_reconciled_20261106",
   "source_local_release_commit": "fb74b6f589b83e348a98e21d0a2ebf1d96bd4528",
   "source_collected_implementation_commit": "6a997013bebe939090152b3f1ed818898cadfe0b",
   "source_legacy_collector_commit": "f1f73fe6571b5409b039bd548718f5727a23cb41",
@@ -8,7 +8,7 @@
     ".gitignore": "15c0527a13a6c6dbc2295054dbc68b9f3ecae0e4163e975f06389b8b02bab28d",
     "README.md": "4aede57af7603e9ddff267952edb3a76a00fa28899dbce54fedc59021937a932",
     "docs/DATA_SCHEMA_ZH_TW.md": "653e94af840591b0d6d0fd2dd1615639a5f9b9b205508788dac740e85a02daa9",
-    "docs/NEXT_STEPS_ZH_TW.md": "165e958426e7749dd6e60265bf11ddf77c4e892df49d0470f07ebdb36a927410",
+    "docs/NEXT_STEPS_ZH_TW.md": "480dcf1fc0f3e26e18e1175b099776e88e8742a269d605feeb52a2b3b109b029",
     "docs/NODE_RUNBOOK_ZH_TW.md": "560abdd89718d9e09aba55596e3b7212969c44843d2f8c3e0a36cec96c09ec8f",
     "manifests/assets.json": "0a078f3d8bd2ed790d71c518a3f295e81d78e841d0e990bb47d3a45d3f431ca3",
     "manifests/protocol.json": "28c25fe1af6935b517d8372d9a078b30f26237d1a1471a60c7038fd43022617d",
@@ -91,5 +91,19 @@
     "O4": 25,
     "legacy": 54,
     "note": "22 original measurement tests + 3 asset import tests; no new GPU measurements"
+  },
+  "release_reconciliation": {
+    "change_kind": "documentation_sha256_only",
+    "base_source_commit": "b204ae63ee2dff2bbc161bb5cc8f9aaecfb68c01",
+    "historical_manifest_path": "manifests/code_release_v1_historical.json",
+    "path": "docs/NEXT_STEPS_ZH_TW.md",
+    "previous_sha256": "165e958426e7749dd6e60265bf11ddf77c4e892df49d0470f07ebdb36a927410",
+    "verified_checkout_sha256": "480dcf1fc0f3e26e18e1175b099776e88e8742a269d605feeb52a2b3b109b029",
+    "source_file_count": 78,
+    "source_code_changed": false,
+    "measurement_protocol_unchanged": true,
+    "asset_manifest_unchanged": true,
+    "reason": "The README-style NEXT_STEPS document was amended after v1 release hashes were recorded. RTX3090 read-only 78-file audit confirmed it is the sole mismatch; user machine hash adopted as v2 expected value.",
+    "status": "requires_node_verify_assets_and_single_pilot"
   }
 }

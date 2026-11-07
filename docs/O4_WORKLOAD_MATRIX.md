@@ -1,8 +1,10 @@
 # O4 六任務工作負載與三配置規劃
 
+**2026-11-07 收集原則更新：以收集有用資料為優先，各設備可獨立選模型／配置，不要求三台跑齊相同矩陣或同步進度。** 跨設備評估時才分方向核對可比配對，缺項與環境差異照實記錄。詳見[收集優先原則](O4_COLLECTION_POLICY_20261107.md)；以下舊版完整矩陣／對齊要求應依此調整。
+
 更新：2026-11-06。**全部為 proposed／planned_only，未在本次執行 GPU，也未完成權重與輸入凍結。** 主目標與 GI/P/R 定義見 [主計畫](O4_GPU_ITERATION_PLAN_ZH_TW.md)。機器可讀清單在 [planned manifest](o4_gpu_iteration_pilot.plan.json)，僅為規劃輸入，不是現有 CLI 設定檔。
 
-**主要預測：RTX4090→GB10、RTX4090→RTX3090。** 每個配置只要求這兩個方向；21配置共42個配置－方向配對，重複量測不另算獨立配對。三台仍收同配置 GI/P/R：4090提供主 predictor 的工作 trace，目標兩台提供 train supervision／test evaluator。選配反方向不改主結果平均。
+**主要預測：RTX4090→GB10、RTX4090→RTX3090。** 不要求每個配置都有這兩個方向，也不要求每台收齊 GI/P/R。21配置共42個配置－方向配對是全矩陣的上限估算；實際分析分方向取可比較交集，重複量測不另算獨立配對。4090提供主 predictor 的工作 trace，目標可用資料依角色供 train supervision／test evaluator；未配對資料仍可作獨立 inventory 與探索。選配反方向不改主結果平均。
 
 ## 1. 六任務的具體範圍
 
